@@ -1,5 +1,5 @@
 {
-  "brand": "social ui",
+  "brand": "praxis",
 
   "actions": {
     "cancel": "Cancel",
@@ -21,7 +21,7 @@
     "featureInDevelopment": "This feature has not been implemented yet.",
     "permissionDenied": "Permission denied.",
     "removeItem": "Are you sure you want to remove this {{itemType}}?",
-    "welcomeToUI": "Welcome to Social UI",
+    "welcomeToUI": "Welcome to Praxis",
     "whatsHappening": "What's happening?",
     "wip": "This page is still in construction."
   },
@@ -139,7 +139,7 @@
       "alreadyLoggedIn": "You're already signed in.",
       "alreadyRegistered": "You have already created an account.",
       "authenticated": "You are authenticated.",
-      "becomeAMember": "Become a Social UI Member",
+      "becomeAMember": "Become a Praxis Member",
       "logOut": "Are you sure you want to log out?",
       "permissionDenied": "Permission denied.",
       "signInToPost": "Sign in to start posting..."
@@ -329,6 +329,6 @@
   },
 
   "search": {
-    "placeholder": "Search Social UI"
+    "placeholder": "Search Praxis"
   }
 }

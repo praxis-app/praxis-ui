@@ -1,6 +1,6 @@
 {
-  "name": "social-ui",
-  "author": "Forrest Wilkins",
+  "name": "praxis-ui",
+  "author": "Praxis Project",
   "description": "Social networking platform UI built with Next.js and TypeScript",
   "license": "GPL-3.0",
   "version": "1.0.0",

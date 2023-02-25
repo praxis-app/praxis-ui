@@ -1,8 +1,19 @@
-## Social UI
+## Praxis UI
 
-Social networking platform UI built with Next.js, Apollo Client, and Material UI
+Praxis is an open source social networking site. Proposals are the main focus and come with a wide variety of voting features, with consensus as the default. Create a group and set it to no-admin, allowing group members to create proposals and democratically decide on name, settings, roles, or planning of real world events.
 
-Social API: https://github.com/forrestwilkins/social-api
+While model of consensus is the default, group members will also be able to use regular majority vote, and have the ability to create and assign new roles with various permissions. All of this can be tailored in group settings to meet the specific needs of your community, either by a groups admin, or by proposals as a group evolves over time.
+
+The tech stack includes the following:
+
+- Apollo Client
+- Material UI
+- Next.js
+- TypeScript
+
+Praxis is free and open source software, as specified by the GNU General Public License.
+
+Praxis API: https://github.com/praxis-project/praxis-api
 
 ## WIP
 
@@ -17,7 +28,7 @@ Your feedback is highly welcome!
 $ npm install -g yarn
 
 # Install project dependencies
-$ cd social-ui && yarn
+$ cd praxis-ui && yarn
 
 # Add .env file and edit as needed
 $ cp .env.example .env
@@ -48,7 +59,7 @@ $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 
 ## GraphQL Code Generator
 
-Social UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to GraphQL documents, as well as after any changes to the schema.
+Praxis UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to GraphQL documents, as well as after any changes to the schema.
 
 ```bash
 # Keep generated types and hooks in sync with the current schema
@@ -65,4 +76,4 @@ Once the extension is installed, open up Chrome DevTools, and navigate to the **
 
 ## Contributions
 
-Social UI is open to contributions. Please read [CONTRIBUTING.md](https://github.com/forrestwilkins/social-ui/blob/main/CONTRIBUTING.md) for more details.
+Praxis UI is open to contributions. Please read [CONTRIBUTING.md](https://github.com/praxis-project/praxis-ui/blob/main/CONTRIBUTING.md) for more details.

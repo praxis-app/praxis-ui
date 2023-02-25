@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  social-ui-dev:
+  praxis-ui-dev:
     build:
       context: ../../
-      dockerfile: docker/social-ui-dev/Dockerfile
-    container_name: social-ui-dev
-    image: social-ui-dev
+      dockerfile: docker/praxis-ui-dev/Dockerfile
+    container_name: praxis-ui-dev
+    image: praxis-ui-dev
     volumes:
       - ../../:/usr/src/app
       - /usr/src/app/node_modules
