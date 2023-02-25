@@ -1,0 +1,20 @@
+mutation UpdateRole($roleData: UpdateRoleInput!) {
+  updateRole(roleData: $roleData) {
+    role {
+      ...Role
+      permissions {
+        ...PermissionsForm
+      }
+      members {
+        ...RoleMember
+      }
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+    me {
+      id
+      serverPermissions
+    }
+  }
+}

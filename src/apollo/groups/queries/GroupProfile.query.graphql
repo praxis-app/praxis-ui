@@ -1,0 +1,14 @@
+query GroupProfile($name: String!) {
+  group(name: $name) {
+    ...GroupProfileCard
+
+    feed {
+      ...FeedItem
+    }
+  }
+
+  me {
+    id
+    ...ToggleForms
+  }
+}

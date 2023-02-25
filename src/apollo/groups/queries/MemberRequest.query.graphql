@@ -1,0 +1,8 @@
+query MemberRequest($groupId: Int!) {
+  memberRequest(groupId: $groupId) {
+    id
+    user {
+      id
+    }
+  }
+}

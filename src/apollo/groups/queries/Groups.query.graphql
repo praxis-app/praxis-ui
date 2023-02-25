@@ -1,0 +1,8 @@
+query Groups {
+  groups {
+    ...GroupCard
+  }
+  me {
+    id
+  }
+}

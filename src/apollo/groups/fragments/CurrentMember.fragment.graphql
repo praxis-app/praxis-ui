@@ -1,0 +1,6 @@
+fragment CurrentMember on GroupMember {
+  id
+  user {
+    id
+  }
+}

@@ -1,0 +1,7 @@
+mutation UpdateProposal($proposalData: UpdateProposalInput!) {
+  updateProposal(proposalData: $proposalData) {
+    proposal {
+      ...ProposalCard
+    }
+  }
+}

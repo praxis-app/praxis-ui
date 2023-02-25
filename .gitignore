@@ -1,0 +1,69 @@
+# See https://git-scm.com/docs/gitignore for more about ignoring files.
+
+# Dependencies
+node_modules
+
+# Next.js
+/.next/
+/out/
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Dotenv environment variables file
+.env
+.env.test
+/src/.env
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Misc.
+.DS_Store
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore cache files
+._*
+
+# Ignore hidden files by default
+.*
+!.gitignore
+!.gitkeep
+!.env.local
+!.prettierrc
+!.prettierignore
+!.eslintrc
+!.babelrc
+!.github/
+!.env.example
+!.dockerignore

@@ -1,0 +1,14 @@
+fragment PostCard on Post {
+  id
+  body
+  images {
+    ...AttachedImage
+  }
+  user {
+    ...UserAvatar
+  }
+  group {
+    ...GroupAvatar
+  }
+  createdAt
+}

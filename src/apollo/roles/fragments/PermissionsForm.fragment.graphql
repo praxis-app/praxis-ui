@@ -1,0 +1,5 @@
+fragment PermissionsForm on Permission {
+  id
+  name
+  enabled
+}

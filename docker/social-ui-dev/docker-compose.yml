@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  social-ui-dev:
+    build:
+      context: ../../
+      dockerfile: docker/social-ui-dev/Dockerfile
+    container_name: social-ui-dev
+    image: social-ui-dev
+    volumes:
+      - ../../:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    ports:
+      - ${PORT}:${PORT}

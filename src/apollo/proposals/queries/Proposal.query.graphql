@@ -1,0 +1,5 @@
+query Proposal($id: Int!) {
+  proposal(id: $id) {
+    ...ProposalCard
+  }
+}

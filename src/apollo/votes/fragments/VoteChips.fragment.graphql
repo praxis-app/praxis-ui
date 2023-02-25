@@ -1,0 +1,9 @@
+fragment VoteChips on Proposal {
+  id
+  voteCount
+
+  votes {
+    ...Vote
+    ...VoteChip
+  }
+}

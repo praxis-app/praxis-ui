@@ -1,0 +1,5 @@
+query EditGroup($name: String!) {
+  group(name: $name) {
+    ...GroupForm
+  }
+}

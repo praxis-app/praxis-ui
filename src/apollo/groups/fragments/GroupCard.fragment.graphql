@@ -1,0 +1,8 @@
+fragment GroupCard on Group {
+  ...GroupAvatar
+  description
+  members {
+    ...CurrentMember
+  }
+  memberRequestCount
+}

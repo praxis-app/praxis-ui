@@ -1,0 +1,10 @@
+mutation ApproveMemberRequest($id: Int!) {
+  approveMemberRequest(id: $id) {
+    groupMember {
+      id
+      user {
+        ...UserAvatar
+      }
+    }
+  }
+}

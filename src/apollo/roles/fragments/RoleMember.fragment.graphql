@@ -1,0 +1,6 @@
+fragment RoleMember on RoleMember {
+  id
+  user {
+    ...UserAvatar
+  }
+}

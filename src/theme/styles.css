@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "Inter Bold";
+  src: url("/fonts/Inter-SemiBold.woff2") format("woff");
+}
+
+@font-face {
+  font-family: "Inter Extra Bold";
+  src: url("/fonts/Inter-ExtraBold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Inter Light";
+  src: url("/fonts/Inter-Light.woff2") format("woff");
+}
+
+::selection {
+  background: black;
+  color: white;
+}
+
+::-moz-selection {
+  background: black;
+  color: white;
+}

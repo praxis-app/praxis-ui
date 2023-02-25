@@ -1,0 +1,8 @@
+fragment UserProfileCard on User {
+  ...UserAvatar
+  coverPhoto {
+    id
+  }
+  bio
+  createdAt
+}

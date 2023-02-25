@@ -1,0 +1,7 @@
+fragment VoteChip on Vote {
+  id
+  voteType
+  user {
+    id
+  }
+}

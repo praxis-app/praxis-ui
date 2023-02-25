@@ -1,0 +1,9 @@
+query ServerInvites {
+  serverInvites {
+    ...ServerInviteRow
+  }
+  me {
+    id
+    serverPermissions
+  }
+}

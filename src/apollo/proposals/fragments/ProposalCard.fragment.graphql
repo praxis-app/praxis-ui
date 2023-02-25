@@ -1,0 +1,31 @@
+fragment ProposalCard on Proposal {
+  id
+  body
+  voteCount
+  createdAt
+
+  action {
+    id
+    actionType
+    groupDescription
+    groupName
+
+    groupCoverPhoto {
+      ...AttachedImage
+    }
+  }
+
+  user {
+    ...UserAvatar
+  }
+
+  group {
+    ...GroupAvatar
+  }
+
+  images {
+    ...AttachedImage
+  }
+
+  ...ProposalCardFooter
+}

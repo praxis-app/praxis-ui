@@ -1,0 +1,13 @@
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    user {
+      id
+      ...UserAvatar
+      serverPermissions
+      joinedGroups {
+        id
+        name
+      }
+    }
+  }
+}

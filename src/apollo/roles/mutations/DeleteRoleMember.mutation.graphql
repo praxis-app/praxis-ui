@@ -1,0 +1,9 @@
+mutation DeleteRoleMember($id: Int!) {
+  deleteRoleMember(id: $id) {
+    role {
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+  }
+}

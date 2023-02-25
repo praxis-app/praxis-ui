@@ -1,0 +1,9 @@
+query HomePage {
+  me {
+    id
+    homeFeed {
+      ...FeedItem
+    }
+    ...ToggleForms
+  }
+}

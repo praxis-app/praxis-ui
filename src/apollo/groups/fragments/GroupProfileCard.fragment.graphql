@@ -1,0 +1,11 @@
+fragment GroupProfileCard on Group {
+  id
+  name
+  coverPhoto {
+    id
+  }
+  members {
+    ...CurrentMember
+  }
+  memberRequestCount
+}

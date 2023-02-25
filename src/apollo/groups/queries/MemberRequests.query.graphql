@@ -1,0 +1,5 @@
+query MemberRequests($groupName: String!) {
+  memberRequests(groupName: $groupName) {
+    ...RequestToJoin
+  }
+}
