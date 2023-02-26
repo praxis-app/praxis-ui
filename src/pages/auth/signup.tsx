@@ -15,8 +15,8 @@ import {
   MeDocument,
   MeQuery,
   SignUpInput,
-  useServerInviteQuery,
   useSignUpMutation,
+  useSignUpPageQuery,
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
@@ -27,22 +27,26 @@ import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { redirectTo } from "../../utils/common.utils";
 
-const SignUp: NextPage = () => {
+const SignUpPage: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
   const [signUp] = useSignUpMutation();
 
   const { query } = useRouter();
   const token = String(query?.code || "");
-  const { loading, error } = useServerInviteQuery({
-    onCompleted({ serverInvite: { token } }) {
+  const { data, loading, error } = useSignUpPageQuery({
+    onCompleted({ serverInvite }) {
+      if (serverInvite.__typename !== "ServerInvite") {
+        return;
+      }
       inviteTokenVar(token);
     },
     variables: { token },
-    skip: !token,
   });
 
   const { t } = useTranslation();
+
+  const isFirstUser = data?.userCount === 0;
 
   const initialValues: SignUpInput = {
     email: "",
@@ -83,11 +87,11 @@ const SignUp: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (error) {
+  if (error && !isFirstUser) {
     return <Typography>{t("invites.prompts.expiredOrInvalid")}</Typography>;
   }
 
-  if (query?.code === undefined) {
+  if (query?.code === undefined && !isFirstUser) {
     return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
 
@@ -134,4 +138,4 @@ const SignUp: NextPage = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;

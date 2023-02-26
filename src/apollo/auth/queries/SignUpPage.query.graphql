@@ -1,0 +1,12 @@
+query SignUpPage($token: String!) {
+  serverInvite(token: $token) {
+    ... on ServerInvite {
+      id
+      token
+    }
+    ... on BaseError {
+      message
+    }
+  }
+  userCount
+}

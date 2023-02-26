@@ -32,6 +32,10 @@ export type ApproveMemberRequestPayload = {
   groupMember: GroupMember;
 };
 
+export type BaseError = {
+  message: Scalars["String"];
+};
+
 export type CreateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
@@ -384,10 +388,11 @@ export type Query = {
   proposal: Proposal;
   proposals: Array<Proposal>;
   role: Role;
-  serverInvite: ServerInvite;
+  serverInvite: ServerInviteResult;
   serverInvites: Array<ServerInvite>;
   serverRoles: Array<Role>;
   user: User;
+  userCount: Scalars["Int"];
   users: Array<User>;
   vote: Vote;
   votes: Array<Vote>;
@@ -461,9 +466,14 @@ export type ServerInvite = {
   uses: Scalars["Int"];
 };
 
+export type ServerInviteResult =
+  | ServerInvite
+  | UserInputError
+  | ValidationError;
+
 export type SignUpInput = {
   email: Scalars["String"];
-  inviteToken: Scalars["String"];
+  inviteToken?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   password: Scalars["String"];
 };
@@ -563,6 +573,16 @@ export type User = {
   updatedAt: Scalars["DateTime"];
 };
 
+export type UserInputError = BaseError & {
+  __typename?: "UserInputError";
+  message: Scalars["String"];
+};
+
+export type ValidationError = BaseError & {
+  __typename?: "ValidationError";
+  message: Scalars["String"];
+};
+
 export type Vote = {
   __typename?: "Vote";
   createdAt: Scalars["DateTime"];
@@ -625,6 +645,19 @@ export type SignUpMutation = {
 export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
+
+export type SignUpPageQueryVariables = Exact<{
+  token: Scalars["String"];
+}>;
+
+export type SignUpPageQuery = {
+  __typename?: "Query";
+  userCount: number;
+  serverInvite:
+    | { __typename?: "ServerInvite"; id: number; token: string }
+    | { __typename?: "UserInputError"; message: string }
+    | { __typename?: "ValidationError"; message: string };
+};
 
 export type CurrentMemberFragment = {
   __typename?: "GroupMember";
@@ -1056,15 +1089,6 @@ export type DeleteServerInviteMutationVariables = Exact<{
 export type DeleteServerInviteMutation = {
   __typename?: "Mutation";
   deleteServerInvite: boolean;
-};
-
-export type ServerInviteQueryVariables = Exact<{
-  token: Scalars["String"];
-}>;
-
-export type ServerInviteQuery = {
-  __typename?: "Query";
-  serverInvite: { __typename?: "ServerInvite"; id: number; token: string };
 };
 
 export type ServerInvitesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2724,6 +2748,69 @@ export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQuery,
   AuthCheckQueryVariables
 >;
+export const SignUpPageDocument = gql`
+  query SignUpPage($token: String!) {
+    serverInvite(token: $token) {
+      ... on ServerInvite {
+        id
+        token
+      }
+      ... on BaseError {
+        message
+      }
+    }
+    userCount
+  }
+`;
+
+/**
+ * __useSignUpPageQuery__
+ *
+ * To run a query within a React component, call `useSignUpPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSignUpPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSignUpPageQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useSignUpPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SignUpPageQuery,
+    SignUpPageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SignUpPageQuery, SignUpPageQueryVariables>(
+    SignUpPageDocument,
+    options
+  );
+}
+export function useSignUpPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SignUpPageQuery,
+    SignUpPageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SignUpPageQuery, SignUpPageQueryVariables>(
+    SignUpPageDocument,
+    options
+  );
+}
+export type SignUpPageQueryHookResult = ReturnType<typeof useSignUpPageQuery>;
+export type SignUpPageLazyQueryHookResult = ReturnType<
+  typeof useSignUpPageLazyQuery
+>;
+export type SignUpPageQueryResult = Apollo.QueryResult<
+  SignUpPageQuery,
+  SignUpPageQueryVariables
+>;
 export const ApproveMemberRequestDocument = gql`
   mutation ApproveMemberRequest($id: Int!) {
     approveMemberRequest(id: $id) {
@@ -3647,65 +3734,6 @@ export type DeleteServerInviteMutationResult =
 export type DeleteServerInviteMutationOptions = Apollo.BaseMutationOptions<
   DeleteServerInviteMutation,
   DeleteServerInviteMutationVariables
->;
-export const ServerInviteDocument = gql`
-  query ServerInvite($token: String!) {
-    serverInvite(token: $token) {
-      id
-      token
-    }
-  }
-`;
-
-/**
- * __useServerInviteQuery__
- *
- * To run a query within a React component, call `useServerInviteQuery` and pass it any options that fit your needs.
- * When your component renders, `useServerInviteQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useServerInviteQuery({
- *   variables: {
- *      token: // value for 'token'
- *   },
- * });
- */
-export function useServerInviteQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    ServerInviteQuery,
-    ServerInviteQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ServerInviteQuery, ServerInviteQueryVariables>(
-    ServerInviteDocument,
-    options
-  );
-}
-export function useServerInviteLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ServerInviteQuery,
-    ServerInviteQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ServerInviteQuery, ServerInviteQueryVariables>(
-    ServerInviteDocument,
-    options
-  );
-}
-export type ServerInviteQueryHookResult = ReturnType<
-  typeof useServerInviteQuery
->;
-export type ServerInviteLazyQueryHookResult = ReturnType<
-  typeof useServerInviteLazyQuery
->;
-export type ServerInviteQueryResult = Apollo.QueryResult<
-  ServerInviteQuery,
-  ServerInviteQueryVariables
 >;
 export const ServerInvitesDocument = gql`
   query ServerInvites {

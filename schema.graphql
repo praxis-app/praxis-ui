@@ -2,6 +2,10 @@ type ApproveMemberRequestPayload {
   groupMember: GroupMember!
 }
 
+interface BaseError {
+  message: String!
+}
+
 input CreateGroupInput {
   coverPhoto: Upload
   description: String!
@@ -228,10 +232,11 @@ type Query {
   proposal(id: Int!): Proposal!
   proposals: [Proposal!]!
   role(id: Int!): Role!
-  serverInvite(token: String!): ServerInvite!
+  serverInvite(token: String!): ServerInviteResult!
   serverInvites: [ServerInvite!]!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
+  userCount: Int!
   users: [User!]!
   vote(id: Int!): Vote!
   votes: [Vote!]!
@@ -265,9 +270,11 @@ type ServerInvite {
   uses: Int!
 }
 
+union ServerInviteResult = ServerInvite | UserInputError | ValidationError
+
 input SignUpInput {
   email: String!
-  inviteToken: String!
+  inviteToken: String
   name: String!
   password: String!
 }
@@ -360,6 +367,14 @@ type User {
   proposals: [Proposal!]!
   serverPermissions: [String!]!
   updatedAt: DateTime!
+}
+
+type UserInputError implements BaseError {
+  message: String!
+}
+
+type ValidationError implements BaseError {
+  message: String!
 }
 
 type Vote {
