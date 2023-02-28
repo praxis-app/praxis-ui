@@ -15,6 +15,8 @@ import {
   MeDocument,
   MeQuery,
   SignUpInput,
+  UserCountDocument,
+  UserCountQuery,
   useSignUpMutation,
   useSignUpPageQuery,
 } from "../../apollo/gen";
@@ -66,7 +68,14 @@ const SignUpPage: NextPage = () => {
           data: { me: data.signUp.user },
           query: MeDocument,
         });
+        cache.writeQuery<UserCountQuery>({
+          data: { userCount: data.signUp.userCount },
+          query: UserCountDocument,
+        });
+      },
+      onCompleted() {
         isLoggedInVar(true);
+        inviteTokenVar("");
       },
       onError(err) {
         toastVar({

@@ -25,7 +25,12 @@ import {
   isLoggedInVar,
   isNavDrawerOpenVar,
 } from "../../apollo/cache";
-import { MeDocument, useLogOutMutation, useMeQuery } from "../../apollo/gen";
+import {
+  MeDocument,
+  useLogOutMutation,
+  useMeQuery,
+  useUserCountQuery,
+} from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
@@ -54,7 +59,8 @@ const NavDrawer = () => {
   const inviteToken = useReactiveVar(inviteTokenVar);
   const open = useReactiveVar(isNavDrawerOpenVar);
 
-  const { data } = useMeQuery({ skip: !isLoggedIn });
+  const { data: meData } = useMeQuery({ skip: !isLoggedIn });
+  const { data: userCountData } = useUserCountQuery({ skip: isLoggedIn });
   const [logOut] = useLogOutMutation();
 
   const router = useRouter();
@@ -83,8 +89,8 @@ const NavDrawer = () => {
   }, [router.pathname]);
 
   const renderList = () => {
-    if (data?.me) {
-      const { me } = data;
+    if (meData?.me) {
+      const { me } = meData;
       const userProfilePath = getUserProfilePath(me.name);
 
       const canBanUsers = me.serverPermissions.includes(
@@ -150,6 +156,11 @@ const NavDrawer = () => {
       );
     }
 
+    const isFirstUser = userCountData?.userCount === 0;
+    const signUpPath = isFirstUser
+      ? NavigationPaths.SignUp
+      : `/i/${inviteToken}`;
+
     return (
       <>
         <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
@@ -159,8 +170,8 @@ const NavDrawer = () => {
           <ListItemText primary={t("users.actions.logIn")} />
         </ListItemButton>
 
-        {inviteToken && (
-          <ListItemButton onClick={redirectTo(`/i/${inviteToken}`)}>
+        {(inviteToken || isFirstUser) && (
+          <ListItemButton onClick={redirectTo(signUpPath)}>
             <ListItemIcon>
               <SignUpIcon />
             </ListItemIcon>

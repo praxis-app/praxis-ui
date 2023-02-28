@@ -9,7 +9,7 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import { useMeQuery } from "../../apollo/gen";
+import { useMeQuery, useUserCountQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -42,16 +42,19 @@ const TopNavDesktop = () => {
   const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
-
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
-  const { data, loading } = useMeQuery({ skip: !isLoggedIn });
+
+  const { data: meData, loading } = useMeQuery({ skip: !isLoggedIn });
+  const { data: userCountData } = useUserCountQuery({ skip: isLoggedIn });
 
   const { t } = useTranslation();
 
-  const showLoginAndSignUp =
-    !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-  const userProfilePath = getUserProfilePath(data?.me?.name);
-  const signUpPath = `/i/${inviteToken}`;
+  const me = meData?.me;
+  const userProfilePath = getUserProfilePath(me?.name);
+
+  const isFirstUser = userCountData?.userCount === 0;
+  const signUpPath = isFirstUser ? NavigationPaths.SignUp : `/i/${inviteToken}`;
+  const showAuthLinks = !isLoggedIn && !isAuthLoading && !isRefreshingToken;
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -66,15 +69,15 @@ const TopNavDesktop = () => {
     <Flex sx={TOP_NAV_STYLES}>
       {!isAuthLoading && <SearchBar />}
 
-      {data?.me && (
+      {me && (
         <Flex>
           <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
               sx={PROFILE_BUTTON_STYLES}
             >
-              <UserAvatar user={data.me} sx={USER_AVATAR_STYLES} />
-              {data.me.name}
+              <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
+              {me.name}
             </Button>
           </Link>
 
@@ -89,18 +92,18 @@ const TopNavDesktop = () => {
           <TopNavDropdown
             anchorEl={menuAnchorEl}
             handleClose={handleClose}
-            user={data.me}
+            user={me}
           />
         </Flex>
       )}
 
-      {showLoginAndSignUp && (
+      {showAuthLinks && (
         <Flex sx={{ height: 41.75 }}>
           <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
           </Button>
 
-          {inviteToken && (
+          {(inviteToken || isFirstUser) && (
             <Button onClick={() => redirectTo(signUpPath)}>
               {t("users.actions.signUp")}
             </Button>

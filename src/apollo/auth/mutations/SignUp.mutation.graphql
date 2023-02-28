@@ -9,5 +9,6 @@ mutation SignUp($input: SignUpInput!) {
         name
       }
     }
+    userCount
   }
 }
