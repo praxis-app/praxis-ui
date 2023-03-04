@@ -17,8 +17,9 @@ import {
   SignUpInput,
   UserCountDocument,
   UserCountQuery,
+  useServerInviteQuery,
   useSignUpMutation,
-  useSignUpPageQuery,
+  useUserCountQuery,
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
@@ -29,27 +30,29 @@ import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import { redirectTo } from "../../utils/common.utils";
 
-const SignUpPage: NextPage = () => {
+const SignUp: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
   const [signUp] = useSignUpMutation();
 
   const { query } = useRouter();
   const token = String(query?.code || "");
-  const { data, loading, error } = useSignUpPageQuery({
-    onCompleted({ serverInvite }) {
-      if (serverInvite.__typename !== "ServerInvite") {
-        return;
-      }
-      inviteTokenVar(token);
-    },
-    variables: { token },
-    skip: isLoggedIn,
-  });
+  const { loading: serverInviteLoading, error: serverInviteError } =
+    useServerInviteQuery({
+      onCompleted({ serverInvite }) {
+        inviteTokenVar(serverInvite.token);
+      },
+      variables: { token },
+      skip: isLoggedIn || !token,
+    });
+
+  const {
+    data: userCountData,
+    loading: userCountLoading,
+    error: userCountError,
+  } = useUserCountQuery({ skip: isLoggedIn });
 
   const { t } = useTranslation();
-
-  const isFirstUser = data?.userCount === 0;
 
   const initialValues: SignUpInput = {
     email: "",
@@ -57,6 +60,7 @@ const SignUpPage: NextPage = () => {
     password: "",
     inviteToken: token,
   };
+  const isFirstUser = userCountData?.userCount === 0;
 
   const handleSubmit = async (input: SignUpInput) => {
     await signUp({
@@ -93,12 +97,14 @@ const SignUpPage: NextPage = () => {
     }
   }, [isLoggedIn]);
 
-  if (loading || isLoggedIn) {
-    return <ProgressBar />;
-  }
-
-  if (error && !isFirstUser) {
+  if (serverInviteError) {
     return <Typography>{t("invites.prompts.expiredOrInvalid")}</Typography>;
+  }
+  if (userCountError) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+  if (serverInviteLoading || userCountLoading || isLoggedIn) {
+    return <ProgressBar />;
   }
 
   if (query?.code === undefined && !isFirstUser) {
@@ -148,4 +154,4 @@ const SignUpPage: NextPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;
