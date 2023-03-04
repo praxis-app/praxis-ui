@@ -376,6 +376,7 @@ export type Query = {
   authCheck: Scalars["Boolean"];
   group: Group;
   groups: Array<Group>;
+  isFirstUser: Scalars["Boolean"];
   me: User;
   memberRequest?: Maybe<MemberRequest>;
   memberRequests: Array<MemberRequest>;
@@ -463,7 +464,7 @@ export type ServerInvite = {
 
 export type SignUpInput = {
   email: Scalars["String"];
-  inviteToken: Scalars["String"];
+  inviteToken?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   password: Scalars["String"];
 };
@@ -1921,6 +1922,10 @@ export type HomePageQuery = {
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
   };
 };
+
+export type IsFirstUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type IsFirstUserQuery = { __typename?: "Query"; isFirstUser: boolean };
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -4812,6 +4817,59 @@ export type HomePageLazyQueryHookResult = ReturnType<
 export type HomePageQueryResult = Apollo.QueryResult<
   HomePageQuery,
   HomePageQueryVariables
+>;
+export const IsFirstUserDocument = gql`
+  query IsFirstUser {
+    isFirstUser
+  }
+`;
+
+/**
+ * __useIsFirstUserQuery__
+ *
+ * To run a query within a React component, call `useIsFirstUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsFirstUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsFirstUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIsFirstUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    IsFirstUserQuery,
+    IsFirstUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<IsFirstUserQuery, IsFirstUserQueryVariables>(
+    IsFirstUserDocument,
+    options
+  );
+}
+export function useIsFirstUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    IsFirstUserQuery,
+    IsFirstUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<IsFirstUserQuery, IsFirstUserQueryVariables>(
+    IsFirstUserDocument,
+    options
+  );
+}
+export type IsFirstUserQueryHookResult = ReturnType<typeof useIsFirstUserQuery>;
+export type IsFirstUserLazyQueryHookResult = ReturnType<
+  typeof useIsFirstUserLazyQuery
+>;
+export type IsFirstUserQueryResult = Apollo.QueryResult<
+  IsFirstUserQuery,
+  IsFirstUserQueryVariables
 >;
 export const MeDocument = gql`
   query Me {

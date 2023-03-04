@@ -1,11 +1,9 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
-import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupProfileQuery } from "../../apollo/gen";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import Feed from "../../components/Shared/Feed";
@@ -14,8 +12,6 @@ import ToggleForms from "../../components/Shared/ToggleForms";
 import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupPage: NextPage = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-
   const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupProfileQuery({
@@ -42,7 +38,7 @@ const GroupPage: NextPage = () => {
   }
 
   const { group, me } = data;
-  const currentMember = isLoggedIn
+  const currentMember = me
     ? group.members.find(({ user }) => user.id === me.id)
     : undefined;
 

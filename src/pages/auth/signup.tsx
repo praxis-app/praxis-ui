@@ -12,9 +12,12 @@ import {
   toastVar,
 } from "../../apollo/cache";
 import {
+  IsFirstUserDocument,
+  IsFirstUserQuery,
   MeDocument,
   MeQuery,
   SignUpInput,
+  useIsFirstUserQuery,
   useServerInviteQuery,
   useSignUpMutation,
 } from "../../apollo/gen";
@@ -34,13 +37,20 @@ const SignUp: NextPage = () => {
 
   const { query } = useRouter();
   const token = String(query?.code || "");
-  const { loading, error } = useServerInviteQuery({
-    onCompleted({ serverInvite: { token } }) {
-      inviteTokenVar(token);
-    },
-    variables: { token },
-    skip: !token,
-  });
+  const { loading: serverInviteLoading, error: serverInviteError } =
+    useServerInviteQuery({
+      onCompleted({ serverInvite }) {
+        inviteTokenVar(serverInvite.token);
+      },
+      variables: { token },
+      skip: isLoggedIn || !token,
+    });
+
+  const {
+    data,
+    loading: userCountLoading,
+    error: userCountError,
+  } = useIsFirstUserQuery({ skip: isLoggedIn });
 
   const { t } = useTranslation();
 
@@ -62,7 +72,14 @@ const SignUp: NextPage = () => {
           data: { me: data.signUp.user },
           query: MeDocument,
         });
+        cache.writeQuery<IsFirstUserQuery>({
+          data: { isFirstUser: false },
+          query: IsFirstUserDocument,
+        });
+      },
+      onCompleted() {
         isLoggedInVar(true);
+        inviteTokenVar("");
       },
       onError(err) {
         toastVar({
@@ -79,15 +96,16 @@ const SignUp: NextPage = () => {
     }
   }, [isLoggedIn]);
 
-  if (loading || isLoggedIn) {
-    return <ProgressBar />;
-  }
-
-  if (error) {
+  if (serverInviteError) {
     return <Typography>{t("invites.prompts.expiredOrInvalid")}</Typography>;
   }
-
-  if (query?.code === undefined) {
+  if (userCountError) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+  if (serverInviteLoading || userCountLoading || isLoggedIn) {
+    return <ProgressBar />;
+  }
+  if (query?.code === undefined && !data?.isFirstUser) {
     return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
 

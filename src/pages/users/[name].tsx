@@ -31,7 +31,7 @@ const UserProfile: NextPage = () => {
   }
 
   const { me, user } = data;
-  const isMe = me.id === user.id;
+  const isMe = me?.id === user.id;
 
   return (
     <>
