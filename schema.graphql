@@ -233,7 +233,6 @@ type Query {
   serverInvites: [ServerInvite!]!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
-  userCount: Int!
   users: [User!]!
   vote(id: Int!): Vote!
   votes: [Vote!]!
@@ -276,7 +275,6 @@ input SignUpInput {
 
 type SignUpPayload {
   user: User!
-  userCount: Int!
 }
 
 input UpdateGroupInput {

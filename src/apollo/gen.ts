@@ -389,7 +389,6 @@ export type Query = {
   serverInvites: Array<ServerInvite>;
   serverRoles: Array<Role>;
   user: User;
-  userCount: Scalars["Int"];
   users: Array<User>;
   vote: Vote;
   votes: Array<Vote>;
@@ -473,7 +472,6 @@ export type SignUpInput = {
 export type SignUpPayload = {
   __typename?: "SignUpPayload";
   user: User;
-  userCount: Scalars["Int"];
 };
 
 export type UpdateGroupInput = {
