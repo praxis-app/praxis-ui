@@ -9,7 +9,7 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import { useMeQuery, useUserCountQuery } from "../../apollo/gen";
+import { useIsFirstUserQuery, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -45,14 +45,14 @@ const TopNavDesktop = () => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
 
   const { data: meData, loading } = useMeQuery({ skip: !isLoggedIn });
-  const { data: userCountData } = useUserCountQuery({ skip: isLoggedIn });
+  const { data: isFirstUserData } = useIsFirstUserQuery({ skip: isLoggedIn });
 
   const { t } = useTranslation();
 
   const me = meData?.me;
   const userProfilePath = getUserProfilePath(me?.name);
 
-  const isFirstUser = userCountData?.userCount === 0;
+  const isFirstUser = isFirstUserData?.isFirstUser;
   const signUpPath = isFirstUser ? NavigationPaths.SignUp : `/i/${inviteToken}`;
   const showAuthLinks = !isLoggedIn && !isAuthLoading && !isRefreshingToken;
 

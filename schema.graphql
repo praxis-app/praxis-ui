@@ -220,6 +220,7 @@ type Query {
   authCheck: Boolean!
   group(name: String!): Group!
   groups: [Group!]!
+  isFirstUser: Boolean!
   me: User!
   memberRequest(groupId: Int!): MemberRequest
   memberRequests(groupName: String!): [MemberRequest!]!

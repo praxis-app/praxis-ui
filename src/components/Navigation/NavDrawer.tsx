@@ -27,9 +27,9 @@ import {
 } from "../../apollo/cache";
 import {
   MeDocument,
+  useIsFirstUserQuery,
   useLogOutMutation,
   useMeQuery,
-  useUserCountQuery,
 } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
@@ -60,7 +60,7 @@ const NavDrawer = () => {
   const open = useReactiveVar(isNavDrawerOpenVar);
 
   const { data: meData } = useMeQuery({ skip: !isLoggedIn });
-  const { data: userCountData } = useUserCountQuery({ skip: isLoggedIn });
+  const { data: isFirstUserData } = useIsFirstUserQuery({ skip: isLoggedIn });
   const [logOut] = useLogOutMutation();
 
   const router = useRouter();
@@ -156,8 +156,7 @@ const NavDrawer = () => {
       );
     }
 
-    const isFirstUser = userCountData?.userCount === 0;
-    const signUpPath = isFirstUser
+    const signUpPath = isFirstUserData?.isFirstUser
       ? NavigationPaths.SignUp
       : `/i/${inviteToken}`;
 
@@ -170,7 +169,7 @@ const NavDrawer = () => {
           <ListItemText primary={t("users.actions.logIn")} />
         </ListItemButton>
 
-        {(inviteToken || isFirstUser) && (
+        {(inviteToken || isFirstUserData?.isFirstUser) && (
           <ListItemButton onClick={redirectTo(signUpPath)}>
             <ListItemIcon>
               <SignUpIcon />

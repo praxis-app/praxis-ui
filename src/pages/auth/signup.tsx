@@ -12,14 +12,14 @@ import {
   toastVar,
 } from "../../apollo/cache";
 import {
+  IsFirstUserDocument,
+  IsFirstUserQuery,
   MeDocument,
   MeQuery,
   SignUpInput,
-  UserCountDocument,
-  UserCountQuery,
+  useIsFirstUserQuery,
   useServerInviteQuery,
   useSignUpMutation,
-  useUserCountQuery,
 } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
@@ -47,10 +47,10 @@ const SignUp: NextPage = () => {
     });
 
   const {
-    data: userCountData,
+    data,
     loading: userCountLoading,
     error: userCountError,
-  } = useUserCountQuery({ skip: isLoggedIn });
+  } = useIsFirstUserQuery({ skip: isLoggedIn });
 
   const { t } = useTranslation();
 
@@ -60,7 +60,6 @@ const SignUp: NextPage = () => {
     password: "",
     inviteToken: token,
   };
-  const isFirstUser = userCountData?.userCount === 0;
 
   const handleSubmit = async (input: SignUpInput) => {
     await signUp({
@@ -73,9 +72,9 @@ const SignUp: NextPage = () => {
           data: { me: data.signUp.user },
           query: MeDocument,
         });
-        cache.writeQuery<UserCountQuery>({
-          data: { userCount: data.signUp.userCount },
-          query: UserCountDocument,
+        cache.writeQuery<IsFirstUserQuery>({
+          data: { isFirstUser: false },
+          query: IsFirstUserDocument,
         });
       },
       onCompleted() {
@@ -106,8 +105,7 @@ const SignUp: NextPage = () => {
   if (serverInviteLoading || userCountLoading || isLoggedIn) {
     return <ProgressBar />;
   }
-
-  if (query?.code === undefined && !isFirstUser) {
+  if (query?.code === undefined && !data?.isFirstUser) {
     return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
 
