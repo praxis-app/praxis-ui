@@ -44,6 +44,7 @@ const SignUpPage: NextPage = () => {
       inviteTokenVar(token);
     },
     variables: { token },
+    skip: isLoggedIn,
   });
 
   const { t } = useTranslation();
