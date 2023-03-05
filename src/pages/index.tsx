@@ -2,6 +2,7 @@ import { useReactiveVar } from "@apollo/client";
 import { NextPage } from "next";
 import { isLoggedInVar } from "../apollo/cache";
 import { useHomePageQuery } from "../apollo/gen";
+import WelcomeCard from "../components/About/WelcomeCard";
 import Feed from "../components/Shared/Feed";
 import ProgressBar from "../components/Shared/ProgressBar";
 import ToggleForms from "../components/Shared/ToggleForms";
@@ -14,6 +15,10 @@ const Home: NextPage = () => {
     return <ProgressBar />;
   }
 
+  if (!isLoggedIn) {
+    return <WelcomeCard />;
+  }
+
   if (!data?.me) {
     return null;
   }
@@ -23,7 +28,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      {isLoggedIn && <ToggleForms me={me} />}
+      <ToggleForms me={me} />
       <Feed feed={homeFeed} />
     </>
   );
