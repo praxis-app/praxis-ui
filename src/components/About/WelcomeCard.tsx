@@ -15,12 +15,14 @@ const WelcomeCard = () => {
     <Card>
       <CardHeader
         title={t("about.welcomeCard.heading")}
-        sx={{ color: theme.palette.primary.main }}
+        sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
       />
+
       <CardContent>
         <Typography sx={{ marginBottom: 3 }}>
           {t("about.welcomeCard.projectDescription")}
         </Typography>
+
         <Typography>{t("about.welcomeCard.inDev")}</Typography>
       </CardContent>
     </Card>
