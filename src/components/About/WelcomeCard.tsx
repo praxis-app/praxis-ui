@@ -14,7 +14,7 @@ const WelcomeCard = () => {
   return (
     <Card>
       <CardHeader
-        title={t("about.welcomeCard.heading")}
+        title={t("about.welcomeCard.header")}
         sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
       />
 
