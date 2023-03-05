@@ -50,11 +50,13 @@ const TopNavDesktop = () => {
   const { t } = useTranslation();
 
   const me = meData?.me;
-  const userProfilePath = getUserProfilePath(me?.name);
-
   const isFirstUser = isFirstUserData?.isFirstUser;
-  const signUpPath = isFirstUser ? NavigationPaths.SignUp : `/i/${inviteToken}`;
   const showAuthLinks = !isLoggedIn && !isAuthLoading && !isRefreshingToken;
+
+  const userProfilePath = getUserProfilePath(me?.name);
+  const signUpPath = isFirstUser
+    ? NavigationPaths.SignUp
+    : `/signup/${inviteToken}`;
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);

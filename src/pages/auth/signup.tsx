@@ -36,7 +36,7 @@ const SignUp: NextPage = () => {
   const [signUp] = useSignUpMutation();
 
   const { query } = useRouter();
-  const token = String(query?.code || "");
+  const token = String(query?.token || "");
   const { loading: serverInviteLoading, error: serverInviteError } =
     useServerInviteQuery({
       onCompleted({ serverInvite }) {
@@ -105,7 +105,7 @@ const SignUp: NextPage = () => {
   if (serverInviteLoading || userCountLoading || isLoggedIn) {
     return <ProgressBar />;
   }
-  if (query?.code === undefined && !data?.isFirstUser) {
+  if (!token && !data?.isFirstUser) {
     return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
 
