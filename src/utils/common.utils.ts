@@ -57,5 +57,26 @@ export const scrollTop = () => {
   animateScroll.scrollToTop(options);
 };
 
+export const getLocalStorageItem = (item: string) => {
+  if (typeof localStorage === "undefined") {
+    return;
+  }
+  return localStorage.getItem(item);
+};
+
+export const setLocalStorageItem = (item: string, value: string) => {
+  if (typeof localStorage === "undefined") {
+    return;
+  }
+  return localStorage.setItem(item, value);
+};
+
+export const removeLocalStorageItem = (item: string) => {
+  if (typeof localStorage === "undefined") {
+    return;
+  }
+  return localStorage.removeItem(item);
+};
+
 export const getRandomString = () => cryptoRandomString({ length: 8 });
 export const redirectTo = (path: string) => Router.push(path);

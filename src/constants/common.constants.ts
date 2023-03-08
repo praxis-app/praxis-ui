@@ -36,13 +36,6 @@ export enum MutationNames {
   RefreshToken = "RefreshToken",
 }
 
-export enum ApiRoutes {
-  Groups = "/groups",
-  Images = "/images",
-  Posts = "/posts",
-  Users = "/users",
-}
-
 export enum FieldNames {
   Body = "body",
   Description = "description",
@@ -56,13 +49,6 @@ export enum FieldNames {
 export enum Environments {
   Development = "development",
   Production = "production",
-}
-
-export enum HttpMethod {
-  Delete = "DELETE",
-  Get = "GET",
-  Patch = "PATCH",
-  Post = "POST",
 }
 
 export enum BrowserEvents {

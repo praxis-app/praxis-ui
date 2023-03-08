@@ -9,7 +9,8 @@ import { useServerInviteQuery } from "../../apollo/gen";
 import WelcomeCard from "../../components/About/WelcomeCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../constants/common.constants";
-import { redirectTo } from "../../utils/common.utils";
+import { INVITE_TOKEN } from "../../constants/server-invite.constants";
+import { redirectTo, setLocalStorageItem } from "../../utils/common.utils";
 
 const ServerInvitePage: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -20,6 +21,7 @@ const ServerInvitePage: NextPage = () => {
     useServerInviteQuery({
       onCompleted({ serverInvite }) {
         inviteTokenVar(serverInvite.token);
+        setLocalStorageItem(INVITE_TOKEN, serverInvite.token);
       },
       variables: { token },
       skip: isLoggedIn || !token,

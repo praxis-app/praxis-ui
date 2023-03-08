@@ -1,5 +1,7 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
+import { INVITE_TOKEN } from "../constants/server-invite.constants";
 import { Breadcrumb, ToastNotification } from "../types/common.types";
+import { getLocalStorageItem } from "../utils/common.utils";
 
 // App state
 export const breadcrumbsVar = makeVar<{
@@ -13,7 +15,7 @@ export const isNavDrawerOpenVar = makeVar(false);
 export const isLoggedInVar = makeVar(false);
 export const isAuthLoadingVar = makeVar(false);
 export const isRefreshingTokenVar = makeVar(false);
-export const inviteTokenVar = makeVar("");
+export const inviteTokenVar = makeVar(getLocalStorageItem(INVITE_TOKEN));
 
 /**
  * TODO: Determine whether defining custom merge functions as done below is
