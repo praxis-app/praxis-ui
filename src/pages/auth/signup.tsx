@@ -27,8 +27,13 @@ import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
+import { INVITE_TOKEN } from "../../constants/server-invite.constants";
 import { UserFieldNames } from "../../constants/user.constants";
-import { redirectTo } from "../../utils/common.utils";
+import {
+  redirectTo,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from "../../utils/common.utils";
 
 const SignUp: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -36,11 +41,12 @@ const SignUp: NextPage = () => {
   const [signUp] = useSignUpMutation();
 
   const { query } = useRouter();
-  const token = String(query?.code || "");
+  const token = String(query?.token || "");
   const { loading: serverInviteLoading, error: serverInviteError } =
     useServerInviteQuery({
       onCompleted({ serverInvite }) {
         inviteTokenVar(serverInvite.token);
+        setLocalStorageItem(INVITE_TOKEN, serverInvite.token);
       },
       variables: { token },
       skip: isLoggedIn || !token,
@@ -80,6 +86,7 @@ const SignUp: NextPage = () => {
       onCompleted() {
         isLoggedInVar(true);
         inviteTokenVar("");
+        removeLocalStorageItem(INVITE_TOKEN);
       },
       onError(err) {
         toastVar({
@@ -105,7 +112,7 @@ const SignUp: NextPage = () => {
   if (serverInviteLoading || userCountLoading || isLoggedIn) {
     return <ProgressBar />;
   }
-  if (query?.code === undefined && !data?.isFirstUser) {
+  if (!token && !data?.isFirstUser) {
     return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
 

@@ -20,7 +20,11 @@ module.exports = {
       },
       {
         source: "/i/:token",
-        destination: "/auth/signup?code=:token",
+        destination: "/invites/:token",
+      },
+      {
+        source: "/signup/:token",
+        destination: "/auth/signup?token=:token",
       },
     ];
   },

@@ -1,15 +1,30 @@
+import { useReactiveVar } from "@apollo/client";
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Typography,
   useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
+import { useIsFirstUserQuery } from "../../apollo/gen";
+import { NavigationPaths } from "../../constants/common.constants";
+import Link from "../Shared/Link";
 
 const WelcomeCard = () => {
+  const inviteToken = useReactiveVar(inviteTokenVar);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { data } = useIsFirstUserQuery({ skip: isLoggedIn });
+
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const signUpPath = data?.isFirstUser
+    ? NavigationPaths.SignUp
+    : `/signup/${inviteToken}`;
 
   return (
     <Card>
@@ -25,6 +40,14 @@ const WelcomeCard = () => {
 
         <Typography>{t("about.welcomeCard.inDev")}</Typography>
       </CardContent>
+
+      {inviteToken && (
+        <CardActions>
+          <Link href={signUpPath}>
+            <Button>{t("users.actions.signUp")}</Button>
+          </Link>
+        </CardActions>
+      )}
     </Card>
   );
 };
