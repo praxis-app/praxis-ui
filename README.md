@@ -1,4 +1,4 @@
-## Praxis UI
+## Praxis
 
 Praxis is an open source social networking site. Proposals are the main focus and come with a wide variety of voting features, with consensus as the default. Create a group and set it to no-admin, allowing group members to create proposals and democratically decide on name, settings, roles, or planning of real world events.
 
@@ -59,7 +59,7 @@ $ npx husky install && npx husky add .husky/pre-commit "yarn lint-staged"
 
 ## GraphQL Code Generator
 
-Praxis UI takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to GraphQL documents, as well as after any changes to the schema.
+Praxis takes advantage of code generation based on the current GraphQL schema. The generator should be run after any changes to GraphQL documents, as well as after any changes to the schema.
 
 ```bash
 # Keep generated types and hooks in sync with the current schema
@@ -76,4 +76,4 @@ Once the extension is installed, open up Chrome DevTools, and navigate to the **
 
 ## Contributions
 
-Praxis UI is open to contributions. Please read [CONTRIBUTING.md](https://github.com/praxis-project/praxis-ui/blob/main/CONTRIBUTING.md) for more details.
+Praxis is open to contributions. Please read [CONTRIBUTING.md](https://github.com/praxis-project/praxis-ui/blob/main/CONTRIBUTING.md) for more details.
