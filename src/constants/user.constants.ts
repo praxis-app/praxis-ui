@@ -3,4 +3,5 @@ export enum UserFieldNames {
   Email = "email",
   Name = "name",
   Password = "password",
+  ConfirmPassword = "confirmPassword",
 }

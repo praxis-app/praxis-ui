@@ -135,10 +135,14 @@ const SignUp: NextPage = () => {
                   label={t("users.form.name")}
                   name={UserFieldNames.Name}
                 />
-
                 <TextField
                   label={t("users.form.password")}
                   name={UserFieldNames.Password}
+                  type="password"
+                />
+                <TextField
+                  label={t("users.form.confirmPassword")}
+                  name={UserFieldNames.ConfirmPassword}
                   type="password"
                 />
               </FormGroup>

@@ -136,7 +136,8 @@
       "email": "Email",
       "name": "Name",
       "password": "Password",
-      "profilePicture": "Profile Picture"
+      "profilePicture": "Profile Picture",
+      "confirmPassword": "Confirm Password"
     },
     "profile": {
       "joinDate": "Joined {{joinDate}}",
