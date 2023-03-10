@@ -267,6 +267,7 @@ type ServerInvite {
 }
 
 input SignUpInput {
+  confirmPassword: String!
   email: String!
   inviteToken: String
   name: String!

@@ -327,6 +327,15 @@
     }
   },
 
+  "signUp": {
+    "errors": {
+      "confirmPassword": "Passwords do not match",
+      "missingEmail": "Email cannot be empty",
+      "missingName": "Name cannot be empty",
+      "missingPassword": "Password cannot be empty"
+    }
+  },
+
   "time": {
     "days": "{{days}}d",
     "hours": "{{hours}}h",
