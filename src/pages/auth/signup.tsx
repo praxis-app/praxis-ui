@@ -206,6 +206,7 @@ const SignUp: NextPage = () => {
 
                 <PrimaryActionButton
                   disabled={isSubmitting || !dirty}
+                  isLoading={isSubmitting}
                   sx={{ marginTop: 1.85 }}
                   type="submit"
                 >

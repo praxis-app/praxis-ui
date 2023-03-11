@@ -156,6 +156,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
               <Flex justifyContent="end">
                 <PrimaryActionButton
                   disabled={isSubmitButtonDisabled(formik)}
+                  isLoading={formik.isSubmitting}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
                 >

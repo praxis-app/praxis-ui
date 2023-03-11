@@ -115,7 +115,7 @@ const ServerInviteForm = () => {
     <Card>
       <CardContent>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ handleChange, values }) => (
+          {({ handleChange, values, isSubmitting }) => (
             <Form>
               <FormGroup sx={{ marginBottom: 1.5 }}>
                 <FormControl variant="standard" sx={{ marginBottom: 1 }}>
@@ -155,7 +155,12 @@ const ServerInviteForm = () => {
               </FormGroup>
 
               <Flex justifyContent="end">
-                <PrimaryActionButton sx={{ marginTop: 1.5 }} type="submit">
+                <PrimaryActionButton
+                  disabled={isSubmitting}
+                  isLoading={isSubmitting}
+                  sx={{ marginTop: 1.5 }}
+                  type="submit"
+                >
                   {t("invites.actions.generateLink")}
                 </PrimaryActionButton>
               </Flex>

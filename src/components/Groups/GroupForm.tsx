@@ -143,7 +143,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     <Card {...cardProps}>
       <CardContent>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {(formik) => (
+          {({ isSubmitting, dirty }) => (
             <Form>
               <FormGroup>
                 <TextField
@@ -170,9 +170,8 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                   setImage={setCoverPhoto}
                 />
                 <PrimaryActionButton
-                  disabled={
-                    formik.isSubmitting || (!formik.dirty && !coverPhoto)
-                  }
+                  disabled={isSubmitting || (!dirty && !coverPhoto)}
+                  isLoading={isSubmitting}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
                 >

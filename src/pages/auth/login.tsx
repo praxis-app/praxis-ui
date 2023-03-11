@@ -76,7 +76,7 @@ const Login: NextPage = () => {
         </LevelOneHeading>
 
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {(formik) => (
+          {({ dirty, isSubmitting }) => (
             <Form hidden={isNavDrawerOpen}>
               <FormGroup>
                 <TextField
@@ -93,7 +93,8 @@ const Login: NextPage = () => {
 
               <Flex flexEnd>
                 <PrimaryActionButton
-                  disabled={formik.isSubmitting || !formik.dirty}
+                  disabled={isSubmitting || !dirty}
+                  isLoading={isSubmitting}
                   type="submit"
                 >
                   {t("users.actions.logIn")}

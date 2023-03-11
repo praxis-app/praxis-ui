@@ -58,7 +58,7 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {(formik) => (
+      {({ isSubmitting, dirty }) => (
         <Form>
           <Flex sx={{ justifyContent: "space-between", marginBottom: 2 }}>
             <Typography color="primary">
@@ -117,9 +117,9 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
           <Flex flexEnd>
             <PrimaryActionButton
               disabled={
-                formik.isSubmitting ||
-                (!formik.dirty && !profilePicture && !coverPhoto)
+                isSubmitting || (!dirty && !profilePicture && !coverPhoto)
               }
+              isLoading={isSubmitting}
               type="submit"
             >
               {submitButtonText}

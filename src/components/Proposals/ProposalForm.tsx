@@ -358,6 +358,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
             <PrimaryActionButton
               disabled={isSubmitting || !dirty}
+              isLoading={isSubmitting}
               sx={{ marginTop: 1.5 }}
               type="submit"
             >
