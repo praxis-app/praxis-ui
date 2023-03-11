@@ -136,7 +136,8 @@
       "email": "Email",
       "name": "Name",
       "password": "Password",
-      "profilePicture": "Profile Picture"
+      "profilePicture": "Profile Picture",
+      "confirmPassword": "Confirm Password"
     },
     "profile": {
       "joinDate": "Joined {{joinDate}}",
@@ -323,6 +324,15 @@
       "expires": "EXPIRES",
       "inviter": "INVITER",
       "uses": "USES"
+    }
+  },
+
+  "signUp": {
+    "errors": {
+      "confirmPassword": "Passwords do not match",
+      "missingEmail": "Email cannot be empty",
+      "missingName": "Name cannot be empty",
+      "missingPassword": "Password cannot be empty"
     }
   },
 

@@ -463,6 +463,7 @@ export type ServerInvite = {
 };
 
 export type SignUpInput = {
+  confirmPassword: Scalars["String"];
   email: Scalars["String"];
   inviteToken?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
