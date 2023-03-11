@@ -26,6 +26,7 @@ import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import Spinner from "../Shared/Spinner";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 
 interface Props extends FormikFormProps {
@@ -190,6 +191,9 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
               sx={{ marginTop: 1.5 }}
               type="submit"
             >
+              {isSubmitting && (
+                <Spinner size={10} color="inherit" sx={{ marginRight: 0.75 }} />
+              )}
               {t(editPost ? "actions.save" : "actions.post")}
             </PrimaryActionButton>
           </Flex>
