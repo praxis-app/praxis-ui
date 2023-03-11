@@ -21,6 +21,7 @@ import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { UserFieldNames } from "../../constants/user.constants";
@@ -76,7 +77,7 @@ const Login: NextPage = () => {
         </LevelOneHeading>
 
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {(formik) => (
+          {({ dirty, isSubmitting }) => (
             <Form hidden={isNavDrawerOpen}>
               <FormGroup>
                 <TextField
@@ -93,9 +94,16 @@ const Login: NextPage = () => {
 
               <Flex flexEnd>
                 <PrimaryActionButton
-                  disabled={formik.isSubmitting || !formik.dirty}
+                  disabled={isSubmitting || !dirty}
                   type="submit"
                 >
+                  {isSubmitting && (
+                    <Spinner
+                      size={10}
+                      color="inherit"
+                      sx={{ marginRight: 0.75 }}
+                    />
+                  )}
                   {t("users.actions.logIn")}
                 </PrimaryActionButton>
               </Flex>

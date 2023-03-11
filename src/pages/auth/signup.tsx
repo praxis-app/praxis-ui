@@ -27,6 +27,7 @@ import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import Spinner from "../../components/Shared/Spinner";
 import { TextField } from "../../components/Shared/TextField";
 import { NavigationPaths } from "../../constants/common.constants";
 import { INVITE_TOKEN } from "../../constants/server-invite.constants";
@@ -209,6 +210,13 @@ const SignUp: NextPage = () => {
                   sx={{ marginTop: 1.85 }}
                   type="submit"
                 >
+                  {isSubmitting && (
+                    <Spinner
+                      size={10}
+                      color="inherit"
+                      sx={{ marginRight: 0.75 }}
+                    />
+                  )}
                   {t("users.actions.signUp")}
                 </PrimaryActionButton>
               </Flex>
