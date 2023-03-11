@@ -272,6 +272,7 @@ input SignUpInput {
   inviteToken: String
   name: String!
   password: String!
+  profilePicture: Upload
 }
 
 type SignUpPayload {

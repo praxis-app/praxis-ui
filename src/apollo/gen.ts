@@ -468,6 +468,7 @@ export type SignUpInput = {
   inviteToken?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   password: Scalars["String"];
+  profilePicture?: InputMaybe<Scalars["Upload"]>;
 };
 
 export type SignUpPayload = {
