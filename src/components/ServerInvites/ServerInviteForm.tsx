@@ -24,6 +24,7 @@ import {
 } from "../../constants/server-invite.constants";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import Spinner from "../Shared/Spinner";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -115,7 +116,7 @@ const ServerInviteForm = () => {
     <Card>
       <CardContent>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ handleChange, values }) => (
+          {({ handleChange, values, isSubmitting }) => (
             <Form>
               <FormGroup sx={{ marginBottom: 1.5 }}>
                 <FormControl variant="standard" sx={{ marginBottom: 1 }}>
@@ -155,7 +156,18 @@ const ServerInviteForm = () => {
               </FormGroup>
 
               <Flex justifyContent="end">
-                <PrimaryActionButton sx={{ marginTop: 1.5 }} type="submit">
+                <PrimaryActionButton
+                  sx={{ marginTop: 1.5 }}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting && (
+                    <Spinner
+                      size={10}
+                      color="inherit"
+                      sx={{ marginRight: 0.75 }}
+                    />
+                  )}
                   {t("invites.actions.generateLink")}
                 </PrimaryActionButton>
               </Flex>
