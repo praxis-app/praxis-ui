@@ -25,7 +25,6 @@ import { getRandomString } from "../../utils/common.utils";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import Spinner from "../Shared/Spinner";
 import { TextField } from "../Shared/TextField";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -157,16 +156,10 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
               <Flex justifyContent="end">
                 <PrimaryActionButton
                   disabled={isSubmitButtonDisabled(formik)}
+                  isLoading={formik.isSubmitting}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
                 >
-                  {formik.isSubmitting && (
-                    <Spinner
-                      size={10}
-                      color="inherit"
-                      sx={{ marginRight: 0.75 }}
-                    />
-                  )}
                   {editRole ? t("actions.save") : t("actions.create")}
                 </PrimaryActionButton>
               </Flex>

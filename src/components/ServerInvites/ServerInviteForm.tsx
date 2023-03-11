@@ -24,7 +24,6 @@ import {
 } from "../../constants/server-invite.constants";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import Spinner from "../Shared/Spinner";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -157,17 +156,11 @@ const ServerInviteForm = () => {
 
               <Flex justifyContent="end">
                 <PrimaryActionButton
+                  disabled={isSubmitting}
+                  isLoading={isSubmitting}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
-                  disabled={isSubmitting}
                 >
-                  {isSubmitting && (
-                    <Spinner
-                      size={10}
-                      color="inherit"
-                      sx={{ marginRight: 0.75 }}
-                    />
-                  )}
                   {t("invites.actions.generateLink")}
                 </PrimaryActionButton>
               </Flex>

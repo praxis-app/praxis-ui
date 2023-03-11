@@ -17,7 +17,6 @@ import Center from "../Shared/Center";
 import CompactButton from "../Shared/CompactButton";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import Spinner from "../Shared/Spinner";
 import { TextField } from "../Shared/TextField";
 import UserAvatar from "./UserAvatar";
 
@@ -120,11 +119,9 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
               disabled={
                 isSubmitting || (!dirty && !profilePicture && !coverPhoto)
               }
+              isLoading={isSubmitting}
               type="submit"
             >
-              {isSubmitting && (
-                <Spinner size={10} color="inherit" sx={{ marginRight: 0.75 }} />
-              )}
               {submitButtonText}
             </PrimaryActionButton>
           </Flex>
