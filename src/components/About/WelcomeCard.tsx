@@ -29,7 +29,7 @@ const WelcomeCard = () => {
   return (
     <Card>
       <CardHeader
-        title={t("about.welcomeCard.header")}
+        title={t("prompts.welcomeToPraxis")}
         sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
       />
 

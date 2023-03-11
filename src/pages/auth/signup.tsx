@@ -161,7 +161,7 @@ const SignUp: NextPage = () => {
     <Card>
       <CardContent>
         <LevelOneHeading sx={{ marginBottom: 2 }}>
-          {t("users.prompts.becomeAMember")}
+          {t("prompts.welcomeToPraxis")}
         </LevelOneHeading>
 
         <Formik
