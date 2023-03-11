@@ -26,6 +26,7 @@ import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import Spinner from "../Shared/Spinner";
 import { TextField } from "../Shared/TextField";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -143,7 +144,7 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
     <Card {...cardProps}>
       <CardContent>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {(formik) => (
+          {({ isSubmitting, dirty }) => (
             <Form>
               <FormGroup>
                 <TextField
@@ -170,12 +171,17 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
                   setImage={setCoverPhoto}
                 />
                 <PrimaryActionButton
-                  disabled={
-                    formik.isSubmitting || (!formik.dirty && !coverPhoto)
-                  }
+                  disabled={isSubmitting || (!dirty && !coverPhoto)}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
                 >
+                  {isSubmitting && (
+                    <Spinner
+                      size={10}
+                      color="inherit"
+                      sx={{ marginRight: 0.75 }}
+                    />
+                  )}
                   {editGroup ? t("actions.save") : t("actions.create")}
                 </PrimaryActionButton>
               </Flex>
