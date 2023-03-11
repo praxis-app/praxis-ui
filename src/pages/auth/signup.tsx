@@ -3,7 +3,7 @@ import { Card, CardContent, FormGroup, Typography } from "@mui/material";
 import { Form, Formik, FormikErrors } from "formik";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   inviteTokenVar,
@@ -21,6 +21,8 @@ import {
   useServerInviteQuery,
   useSignUpMutation,
 } from "../../apollo/gen";
+import AttachedImagePreview from "../../components/Images/AttachedImagePreview";
+import ImageInput from "../../components/Images/ImageInput";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
@@ -30,6 +32,7 @@ import { NavigationPaths } from "../../constants/common.constants";
 import { INVITE_TOKEN } from "../../constants/server-invite.constants";
 import { UserFieldNames } from "../../constants/user.constants";
 import {
+  getRandomString,
   redirectTo,
   removeLocalStorageItem,
   setLocalStorageItem,
@@ -38,6 +41,10 @@ import {
 const SignUp: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const isNavDrawerOpen = useReactiveVar(isNavDrawerOpenVar);
+
+  const [profilePicture, setProfilePicture] = useState<File>();
+  const [imageInputKey, setImageInputKey] = useState("");
+
   const [signUp] = useSignUpMutation();
 
   const { query } = useRouter();
@@ -90,9 +97,14 @@ const SignUp: NextPage = () => {
     return errors;
   };
 
-  const handleSubmit = async (input: SignUpInput) => {
+  const handleSubmit = async (formValues: SignUpInput) => {
     await signUp({
-      variables: { input },
+      variables: {
+        input: {
+          ...formValues,
+          profilePicture,
+        },
+      },
       update(cache, { data }) {
         if (!data?.signUp.user) {
           return;
@@ -107,8 +119,9 @@ const SignUp: NextPage = () => {
         });
       },
       onCompleted() {
-        isLoggedInVar(true);
         inviteTokenVar("");
+        isLoggedInVar(true);
+        setImageInputKey(getRandomString());
         removeLocalStorageItem(INVITE_TOKEN);
       },
       onError(err) {
@@ -118,6 +131,11 @@ const SignUp: NextPage = () => {
         });
       },
     });
+  };
+
+  const handleRemoveSelectedImage = () => {
+    setProfilePicture(undefined);
+    setImageInputKey(getRandomString());
   };
 
   useEffect(() => {
@@ -172,11 +190,23 @@ const SignUp: NextPage = () => {
                   name={UserFieldNames.ConfirmPassword}
                   type="password"
                 />
+                {profilePicture && (
+                  <AttachedImagePreview
+                    handleRemove={handleRemoveSelectedImage}
+                    selectedImages={[profilePicture]}
+                  />
+                )}
               </FormGroup>
 
-              <Flex flexEnd>
+              <Flex sx={{ justifyContent: "space-between" }}>
+                <ImageInput
+                  refreshKey={imageInputKey}
+                  setImage={setProfilePicture}
+                />
+
                 <PrimaryActionButton
                   disabled={isSubmitting || !dirty}
+                  sx={{ marginTop: 1.85 }}
                   type="submit"
                 >
                   {t("users.actions.signUp")}
