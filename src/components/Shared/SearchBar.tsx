@@ -29,7 +29,7 @@ const SEARCH_BAR_STYLES: SxProps = {
   backgroundColor: "rgba(255, 255, 255, 0.15)",
   borderRadius: "8px",
   marginTop: 0.5,
-  maxHeight: 35,
+  height: 35,
 };
 
 const SEARCH_ICON_STYLES: SxProps = {
