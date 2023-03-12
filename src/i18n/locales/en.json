@@ -188,7 +188,8 @@
       "description": "Description"
     },
     "headers": {
-      "discoverGroups": "Discover Groups"
+      "discoverGroups": "Discover Groups",
+      "organizeWithGroups": "Organize Your Community with Groups"
     },
     "errors": {
       "couldNotCreate": "Group could not be created",
@@ -211,6 +212,9 @@
     },
     "prompts": {
       "confirmLeave": "Are you sure you want to leave the group?"
+    },
+    "tips": {
+      "organizeWithGroups": "Groups are a great way to organize your community and connect with like-minded people. Whether you want to share your interests, plan events, or collaborate on projects, groups are the perfect place to do it. Start a group today and see how it can help you organize your community."
     }
   },
 
