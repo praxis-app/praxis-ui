@@ -21,7 +21,10 @@ import { isDeniedAccess } from "../../utils/error.utils";
 const GroupsIndex: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const inviteToken = useReactiveVar(inviteTokenVar);
-  const { data, loading, error } = useGroupsQuery();
+
+  const { data, loading, error } = useGroupsQuery({
+    skip: !isLoggedIn,
+  });
 
   const { t } = useTranslation();
   const theme = useTheme();
