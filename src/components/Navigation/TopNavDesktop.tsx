@@ -26,8 +26,9 @@ const PROFILE_BUTTON_STYLES: SxProps = {
 };
 
 const TOP_NAV_STYLES: SxProps = {
-  justifyContent: "space-between",
   flexGrow: 1,
+  justifyContent: "space-between",
+  height: 41.75,
   marginLeft: 3,
 };
 
@@ -44,8 +45,8 @@ const TopNavDesktop = () => {
   const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
 
-  const { data: meData, loading } = useMeQuery({ skip: !isLoggedIn });
   const { data: isFirstUserData } = useIsFirstUserQuery({ skip: isLoggedIn });
+  const { data: meData, loading } = useMeQuery({ skip: !isLoggedIn });
 
   const { t } = useTranslation();
 
@@ -100,7 +101,7 @@ const TopNavDesktop = () => {
       )}
 
       {showAuthLinks && (
-        <Flex sx={{ height: 41.75 }}>
+        <Flex>
           <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
           </Button>
