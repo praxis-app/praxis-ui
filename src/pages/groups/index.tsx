@@ -1,8 +1,9 @@
 import { useReactiveVar } from "@apollo/client";
 import {
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardHeader,
+  styled,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -17,6 +18,12 @@ import Link from "../../components/Shared/Link";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../constants/common.constants";
 import { isDeniedAccess } from "../../utils/error.utils";
+
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 18,
+  },
+}));
 
 const GroupsIndex: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
