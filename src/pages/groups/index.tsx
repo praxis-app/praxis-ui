@@ -23,7 +23,7 @@ const GroupsIndex: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const { data, loading, error } = useGroupsQuery({
-    skip: typeof window !== "undefined",
+    skip: typeof window === "undefined",
   });
 
   const { t } = useTranslation();
