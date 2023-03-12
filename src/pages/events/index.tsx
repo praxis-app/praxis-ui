@@ -1,22 +1,41 @@
 // TODO: Add basic functionality for events - below is a WIP
 
-import { Typography, useTheme } from "@mui/material";
+import {
+  Card,
+  CardContent as MuiCardContent,
+  CardHeader,
+  styled,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
-import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 12,
+  },
+}));
 
 const EventsIndex: NextPage = () => {
   const { t } = useTranslation();
   const theme = useTheme();
 
   return (
-    <>
-      <LevelOneHeading header>{t("navigation.events")}</LevelOneHeading>
+    <Card>
+      <CardHeader
+        title={t("events.headers.planEvents")}
+        sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
+      />
 
-      <Typography sx={{ color: theme.palette.text.secondary }} gutterBottom>
-        {t("prompts.wip")}
-      </Typography>
-    </>
+      <CardContent>
+        <Typography gutterBottom>{t("events.tips.planEvents")}</Typography>
+
+        <Typography sx={{ color: theme.palette.text.secondary }} gutterBottom>
+          {t("prompts.inDev")}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 

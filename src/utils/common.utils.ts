@@ -48,7 +48,7 @@ export const waitFor = (conditionFn: () => boolean, ms = 250) => {
 export const inDevToast = () => {
   toastVar({
     status: "info",
-    title: t("prompts.featureInDevelopment"),
+    title: t("prompts.inDev"),
   });
 };
 

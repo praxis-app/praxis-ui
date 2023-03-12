@@ -18,7 +18,7 @@
 
   "prompts": {
     "deleteItem": "Are you sure you want to delete this {{itemType}}?",
-    "featureInDevelopment": "This feature has not been implemented yet.",
+    "inDev": "This feature is still in development.",
     "permissionDenied": "Permission denied.",
     "removeItem": "Are you sure you want to remove this {{itemType}}?",
     "welcomeToPraxis": "Welcome to Praxis",
@@ -215,6 +215,15 @@
     },
     "tips": {
       "organizeWithGroups": "Groups are a great way to organize your community and connect with like-minded people. Whether you want to share your interests, plan events, or collaborate on projects, groups are the perfect place to do it. Start a group today and see how it can help you organize your community."
+    }
+  },
+
+  "events": {
+    "headers": {
+      "planEvents": "Plan Events"
+    },
+    "tips": {
+      "planEvents": "Events are a powerful tool for bringing people together and building momentum for a cause. Whether you're organizing a fundraiser or a simple a meet and greet, events can help you connect with like-minded individuals in your community and make a positive impact."
     }
   },
 
