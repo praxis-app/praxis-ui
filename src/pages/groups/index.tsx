@@ -8,11 +8,7 @@ import {
 } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
-import {
-  inviteTokenVar,
-  isClientSideVar,
-  isLoggedInVar,
-} from "../../apollo/cache";
+import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
 import { useGroupsQuery } from "../../apollo/gen";
 import GroupCard from "../../components/Groups/GroupCard";
 import GroupForm from "../../components/Groups/GroupForm";
@@ -24,11 +20,10 @@ import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupsIndex: NextPage = () => {
   const inviteToken = useReactiveVar(inviteTokenVar);
-  const isClientSide = useReactiveVar(isClientSideVar);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const { data, loading, error } = useGroupsQuery({
-    skip: !isClientSide,
+    skip: typeof window !== "undefined",
   });
 
   const { t } = useTranslation();
