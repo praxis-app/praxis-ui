@@ -10,6 +10,7 @@ export const breadcrumbsVar = makeVar<{
 }>({ path: null, breadcrumbs: [] });
 export const toastVar = makeVar<ToastNotification | null>(null);
 export const isNavDrawerOpenVar = makeVar(false);
+export const isClientSideVar = makeVar(false);
 
 // Authentication state
 export const isLoggedInVar = makeVar(false);

@@ -1,7 +1,8 @@
 import { Container } from "@mui/material";
 import Head from "next/head";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { isClientSideVar } from "../../apollo/cache";
 import { useAboveBreakpoint, useIsDesktop } from "../../hooks/common.hooks";
 import BottomNav from "../Navigation/BottomNav";
 import LeftNav from "../Navigation/LeftNav";
@@ -20,6 +21,10 @@ const Layout = ({ children }: Props) => {
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
   const isLarge = useAboveBreakpoint("lg");
+
+  useEffect(() => {
+    isClientSideVar(true);
+  }, []);
 
   return (
     <>
