@@ -10,7 +10,7 @@ import { Blurple } from "../../theme";
 import Flex from "../Shared/Flex";
 import VotesPopover from "./VotesPopover";
 
-export const SHARED_CHIP_STYLES: SxProps = {
+export const BASE_CHIP_STYLES: SxProps = {
   backgroundColor: Blurple.Primary,
   borderRadius: "50%",
   display: "inline-flex",
@@ -30,7 +30,7 @@ const VoteChip = ({ Icon, voteType, sx, votes }: Props) => {
   const theme = useTheme();
 
   const chipStyles: SxProps = {
-    ...SHARED_CHIP_STYLES,
+    ...BASE_CHIP_STYLES,
     border: `2px solid ${theme.palette.background.paper}`,
     height: 25,
     width: 25,

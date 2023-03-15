@@ -12,7 +12,7 @@ import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
-import { SHARED_CHIP_STYLES } from "./VoteChip";
+import { BASE_CHIP_STYLES } from "./VoteChip";
 
 interface Props {
   vote: VoteFragment;
@@ -24,7 +24,7 @@ const Vote = ({ vote: { user, voteType } }: Props) => {
   const userProfilePath = getUserProfilePath(user.name);
 
   const voteBadgeStyles: SxProps = {
-    ...SHARED_CHIP_STYLES,
+    ...BASE_CHIP_STYLES,
     border: `2px solid ${theme.palette.background.paper}`,
     height: 20,
     width: 20,

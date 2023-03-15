@@ -12,6 +12,14 @@ type CreateGroupPayload {
   group: Group!
 }
 
+input CreateLikeInput {
+  postId: Int
+}
+
+type CreateLikePayload {
+  like: Like!
+}
+
 type CreateMemberRequestPayload {
   memberRequest: MemberRequest!
 }
@@ -112,6 +120,14 @@ type Image {
   user: User!
 }
 
+type Like {
+  createdAt: DateTime!
+  id: Int!
+  post: Post!
+  updatedAt: DateTime!
+  user: User!
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -133,6 +149,7 @@ type Mutation {
   approveMemberRequest(id: Int!): ApproveMemberRequestPayload!
   cancelMemberRequest(id: Int!): Boolean!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
+  createLike(likeData: CreateLikeInput!): CreateLikePayload!
   createMemberRequest(groupId: Int!): CreateMemberRequestPayload!
   createPost(postData: CreatePostInput!): CreatePostPayload!
   createProposal(proposalData: CreateProposalInput!): CreateProposalPayload!
@@ -141,6 +158,7 @@ type Mutation {
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteImage(id: Int!): Boolean!
+  deleteLike(id: Int!): Boolean!
   deletePost(id: Int!): Boolean!
   deleteProposal(id: Int!): Boolean!
   deleteRole(id: Int!): Boolean!
@@ -180,6 +198,8 @@ type Post {
   group: Group
   id: Int!
   images: [Image!]!
+  likes: [Like!]!
+  likesCount: Int!
   updatedAt: DateTime!
   user: User!
 }
@@ -356,6 +376,7 @@ type User {
   homeFeed: [FeedItem!]!
   id: Int!
   joinedGroups: [Group!]!
+  likes: [Like!]!
   name: String!
   posts: [Post!]!
   profileFeed: [FeedItem!]!

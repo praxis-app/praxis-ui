@@ -1,6 +1,7 @@
 fragment PostCard on Post {
   id
   body
+  likesCount
   images {
     ...AttachedImage
   }

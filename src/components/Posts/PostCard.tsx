@@ -5,7 +5,6 @@ import {
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
-  Divider,
   styled,
   SxProps,
   Typography,
@@ -66,7 +65,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const { id, body, images, user, group, createdAt } = post;
+  const { id, body, images, likesCount, user, group, createdAt } = post;
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const formattedDate = timeAgo(createdAt);
@@ -82,9 +81,6 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 2.5 : 3,
-  };
-  const imageListStyles: SxProps = {
-    marginBottom: isLoggedIn ? 1.9 : 0,
   };
 
   const handleDelete = async (id: number) => {
@@ -167,14 +163,12 @@ const PostCard = ({ post, ...cardProps }: Props) => {
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            <AttachedImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} />
           </Link>
         )}
-
-        {isLoggedIn && <Divider />}
       </CardContent>
 
-      {isLoggedIn && <PostCardFooter />}
+      {isLoggedIn && <PostCardFooter likesCount={likesCount} />}
     </Card>
   );
 };
