@@ -25,6 +25,7 @@ export enum TypeNames {
   Group = "Group",
   GroupMember = "GroupMember",
   Image = "Image",
+  Like = "Like",
   MemberRequest = "MemberRequest",
   Post = "Post",
   Proposal = "Proposal",

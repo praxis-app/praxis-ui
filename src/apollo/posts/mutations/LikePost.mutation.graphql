@@ -1,0 +1,10 @@
+mutation LikePost($likeData: CreateLikeInput!) {
+  createLike(likeData: $likeData) {
+    like {
+      id
+      post {
+        ...PostCardFooter
+      }
+    }
+  }
+}

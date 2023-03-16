@@ -110,6 +110,10 @@ export type CreateVotePayload = {
   vote: Vote;
 };
 
+export type DeleteLikeInput = {
+  postId?: InputMaybe<Scalars["Int"]>;
+};
+
 export type DeleteRoleMemberPayload = {
   __typename?: "DeleteRoleMemberPayload";
   role: Role;
@@ -270,7 +274,7 @@ export type MutationDeleteImageArgs = {
 };
 
 export type MutationDeleteLikeArgs = {
-  id: Scalars["Int"];
+  likeData: DeleteLikeInput;
 };
 
 export type MutationDeletePostArgs = {
@@ -902,8 +906,8 @@ export type GroupProfileQuery = {
           __typename?: "Post";
           id: number;
           body?: string | null;
-          likesCount: number;
           createdAt: any;
+          likesCount: number;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -917,6 +921,11 @@ export type GroupProfileQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          likes: Array<{
+            __typename?: "Like";
+            id: number;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
       | {
           __typename?: "Proposal";
@@ -1123,20 +1132,8 @@ export type ServerInvitesQuery = {
   me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
-export type CreateLikeMutationVariables = Exact<{
-  likeData: CreateLikeInput;
-}>;
-
-export type CreateLikeMutation = {
-  __typename?: "Mutation";
-  createLike: {
-    __typename?: "CreateLikePayload";
-    like: { __typename?: "Like"; id: number };
-  };
-};
-
 export type DeleteLikeMutationVariables = Exact<{
-  id: Scalars["Int"];
+  likeData: DeleteLikeInput;
 }>;
 
 export type DeleteLikeMutation = {
@@ -1148,8 +1145,8 @@ type FeedItem_Post_Fragment = {
   __typename?: "Post";
   id: number;
   body?: string | null;
-  likesCount: number;
   createdAt: any;
+  likesCount: number;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1163,6 +1160,11 @@ type FeedItem_Post_Fragment = {
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  likes: Array<{
+    __typename?: "Like";
+    id: number;
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 type FeedItem_Proposal_Fragment = {
@@ -1218,8 +1220,8 @@ export type PostCardFragment = {
   __typename?: "Post";
   id: number;
   body?: string | null;
-  likesCount: number;
   createdAt: any;
+  likesCount: number;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1233,6 +1235,22 @@ export type PostCardFragment = {
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  likes: Array<{
+    __typename?: "Like";
+    id: number;
+    user: { __typename?: "User"; id: number };
+  }>;
+};
+
+export type PostCardFooterFragment = {
+  __typename?: "Post";
+  id: number;
+  likesCount: number;
+  likes: Array<{
+    __typename?: "Like";
+    id: number;
+    user: { __typename?: "User"; id: number };
+  }>;
 };
 
 export type PostFormFragment = {
@@ -1254,8 +1272,8 @@ export type CreatePostMutation = {
       __typename?: "Post";
       id: number;
       body?: string | null;
-      likesCount: number;
       createdAt: any;
+      likesCount: number;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1269,6 +1287,11 @@ export type CreatePostMutation = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
+      likes: Array<{
+        __typename?: "Like";
+        id: number;
+        user: { __typename?: "User"; id: number };
+      }>;
     };
   };
 };
@@ -1280,6 +1303,31 @@ export type DeletePostMutationVariables = Exact<{
 export type DeletePostMutation = {
   __typename?: "Mutation";
   deletePost: boolean;
+};
+
+export type LikePostMutationVariables = Exact<{
+  likeData: CreateLikeInput;
+}>;
+
+export type LikePostMutation = {
+  __typename?: "Mutation";
+  createLike: {
+    __typename?: "CreateLikePayload";
+    like: {
+      __typename?: "Like";
+      id: number;
+      post: {
+        __typename?: "Post";
+        id: number;
+        likesCount: number;
+        likes: Array<{
+          __typename?: "Like";
+          id: number;
+          user: { __typename?: "User"; id: number };
+        }>;
+      };
+    };
+  };
 };
 
 export type UpdatePostMutationVariables = Exact<{
@@ -1294,8 +1342,8 @@ export type UpdatePostMutation = {
       __typename?: "Post";
       id: number;
       body?: string | null;
-      likesCount: number;
       createdAt: any;
+      likesCount: number;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1309,6 +1357,11 @@ export type UpdatePostMutation = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
+      likes: Array<{
+        __typename?: "Like";
+        id: number;
+        user: { __typename?: "User"; id: number };
+      }>;
     };
   };
 };
@@ -1337,8 +1390,8 @@ export type PostQuery = {
     __typename?: "Post";
     id: number;
     body?: string | null;
-    likesCount: number;
     createdAt: any;
+    likesCount: number;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
@@ -1352,6 +1405,11 @@ export type PostQuery = {
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
+    likes: Array<{
+      __typename?: "Like";
+      id: number;
+      user: { __typename?: "User"; id: number };
+    }>;
   };
 };
 
@@ -1887,8 +1945,8 @@ export type EditUserQuery = {
       __typename?: "Post";
       id: number;
       body?: string | null;
-      likesCount: number;
       createdAt: any;
+      likesCount: number;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1902,6 +1960,11 @@ export type EditUserQuery = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
+      likes: Array<{
+        __typename?: "Like";
+        id: number;
+        user: { __typename?: "User"; id: number };
+      }>;
     }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
@@ -1920,8 +1983,8 @@ export type HomePageQuery = {
           __typename?: "Post";
           id: number;
           body?: string | null;
-          likesCount: number;
           createdAt: any;
+          likesCount: number;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -1935,6 +1998,11 @@ export type HomePageQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          likes: Array<{
+            __typename?: "Like";
+            id: number;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
       | {
           __typename?: "Proposal";
@@ -2020,8 +2088,8 @@ export type UserProfileQuery = {
           __typename?: "Post";
           id: number;
           body?: string | null;
-          likesCount: number;
           createdAt: any;
+          likesCount: number;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -2035,6 +2103,11 @@ export type UserProfileQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          likes: Array<{
+            __typename?: "Like";
+            id: number;
+            user: { __typename?: "User"; id: number };
+          }>;
         }
       | {
           __typename?: "Proposal";
@@ -2317,11 +2390,23 @@ export const AttachedImageFragmentDoc = gql`
     filename
   }
 `;
+export const PostCardFooterFragmentDoc = gql`
+  fragment PostCardFooter on Post {
+    id
+    likesCount
+    likes {
+      id
+      user {
+        id
+      }
+    }
+  }
+`;
 export const PostCardFragmentDoc = gql`
   fragment PostCard on Post {
     id
     body
-    likesCount
+    createdAt
     images {
       ...AttachedImage
     }
@@ -2331,11 +2416,12 @@ export const PostCardFragmentDoc = gql`
     group {
       ...GroupAvatar
     }
-    createdAt
+    ...PostCardFooter
   }
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+  ${PostCardFooterFragmentDoc}
 `;
 export const VoteMenuFragmentDoc = gql`
   fragment VoteMenu on Proposal {
@@ -3838,61 +3924,9 @@ export type ServerInvitesQueryResult = Apollo.QueryResult<
   ServerInvitesQuery,
   ServerInvitesQueryVariables
 >;
-export const CreateLikeDocument = gql`
-  mutation CreateLike($likeData: CreateLikeInput!) {
-    createLike(likeData: $likeData) {
-      like {
-        id
-      }
-    }
-  }
-`;
-export type CreateLikeMutationFn = Apollo.MutationFunction<
-  CreateLikeMutation,
-  CreateLikeMutationVariables
->;
-
-/**
- * __useCreateLikeMutation__
- *
- * To run a mutation, you first call `useCreateLikeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateLikeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createLikeMutation, { data, loading, error }] = useCreateLikeMutation({
- *   variables: {
- *      likeData: // value for 'likeData'
- *   },
- * });
- */
-export function useCreateLikeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateLikeMutation,
-    CreateLikeMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(
-    CreateLikeDocument,
-    options
-  );
-}
-export type CreateLikeMutationHookResult = ReturnType<
-  typeof useCreateLikeMutation
->;
-export type CreateLikeMutationResult =
-  Apollo.MutationResult<CreateLikeMutation>;
-export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<
-  CreateLikeMutation,
-  CreateLikeMutationVariables
->;
 export const DeleteLikeDocument = gql`
-  mutation DeleteLike($id: Int!) {
-    deleteLike(id: $id)
+  mutation DeleteLike($likeData: DeleteLikeInput!) {
+    deleteLike(likeData: $likeData)
   }
 `;
 export type DeleteLikeMutationFn = Apollo.MutationFunction<
@@ -3913,7 +3947,7 @@ export type DeleteLikeMutationFn = Apollo.MutationFunction<
  * @example
  * const [deleteLikeMutation, { data, loading, error }] = useDeleteLikeMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      likeData: // value for 'likeData'
  *   },
  * });
  */
@@ -4038,6 +4072,59 @@ export type DeletePostMutationResult =
 export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
   DeletePostMutation,
   DeletePostMutationVariables
+>;
+export const LikePostDocument = gql`
+  mutation LikePost($likeData: CreateLikeInput!) {
+    createLike(likeData: $likeData) {
+      like {
+        id
+        post {
+          ...PostCardFooter
+        }
+      }
+    }
+  }
+  ${PostCardFooterFragmentDoc}
+`;
+export type LikePostMutationFn = Apollo.MutationFunction<
+  LikePostMutation,
+  LikePostMutationVariables
+>;
+
+/**
+ * __useLikePostMutation__
+ *
+ * To run a mutation, you first call `useLikePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likePostMutation, { data, loading, error }] = useLikePostMutation({
+ *   variables: {
+ *      likeData: // value for 'likeData'
+ *   },
+ * });
+ */
+export function useLikePostMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LikePostMutation,
+    LikePostMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LikePostMutation, LikePostMutationVariables>(
+    LikePostDocument,
+    options
+  );
+}
+export type LikePostMutationHookResult = ReturnType<typeof useLikePostMutation>;
+export type LikePostMutationResult = Apollo.MutationResult<LikePostMutation>;
+export type LikePostMutationOptions = Apollo.BaseMutationOptions<
+  LikePostMutation,
+  LikePostMutationVariables
 >;
 export const UpdatePostDocument = gql`
   mutation UpdatePost($postData: UpdatePostInput!) {

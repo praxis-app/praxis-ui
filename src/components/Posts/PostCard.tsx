@@ -1,4 +1,3 @@
-import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -12,7 +11,6 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isLoggedInVar } from "../../apollo/cache";
 import {
   PostCardFragment,
   useDeletePostMutation,
@@ -59,13 +57,12 @@ interface Props extends CardProps {
 const PostCard = ({ post, ...cardProps }: Props) => {
   const { data } = useMeQuery();
   const [deletePost] = useDeletePostMutation();
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const { id, body, images, likesCount, user, group, createdAt } = post;
+  const { id, body, images, user, group, createdAt } = post;
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const formattedDate = timeAgo(createdAt);
@@ -168,7 +165,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         )}
       </CardContent>
 
-      {isLoggedIn && <PostCardFooter likesCount={likesCount} />}
+      {me && <PostCardFooter post={post} me={me} />}
     </Card>
   );
 };

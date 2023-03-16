@@ -1,8 +1,16 @@
 // TODO: Add basic functionality for likes, comments, and sharing. Below is a WIP
 
+import { Reference } from "@apollo/client";
 import { Comment, Favorite, Reply } from "@mui/icons-material";
 import { Box, CardActions, Divider, SxProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import {
+  MeQuery,
+  PostCardFooterFragment,
+  useDeleteLikeMutation,
+  useLikePostMutation,
+} from "../../apollo/gen";
+import { TypeNames } from "../../constants/common.constants";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
@@ -18,17 +26,55 @@ const ROTATED_ICON_STYLES = {
 };
 
 interface Props {
-  likesCount: number;
+  post: PostCardFooterFragment;
+  me: MeQuery["me"];
 }
 
-const PostCardFooter = ({ likesCount }: Props) => {
+const PostCardFooter = ({ post: { id, likes, likesCount }, me }: Props) => {
+  const [likePost, { loading: likePostLoading }] = useLikePostMutation();
+  const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
   const { t } = useTranslation();
+
+  // TODO: This should be handled by the BE
+  const likedByMe = likes.find((like) => like.user.id === me.id);
 
   const chipStyles: SxProps = {
     ...BASE_CHIP_STYLES,
     width: 22.5,
     height: 22.5,
     marginRight: 0.9,
+  };
+
+  const handleLikeButtonClick = async () => {
+    const variables = { likeData: { postId: id } };
+    if (likedByMe) {
+      unlikePost({
+        variables,
+        update(cache) {
+          cache.modify({
+            id: cache.identify({ __typename: TypeNames.Post, id }),
+            fields: {
+              likes(existingLikeRefs: Reference[], { readField }) {
+                return existingLikeRefs.filter(
+                  (ref) => readField("id", ref) !== id
+                );
+              },
+              likesCount(existingCount: number) {
+                return existingCount - 1;
+              },
+            },
+          });
+          const likeCacheId = cache.identify({
+            __typename: TypeNames.Like,
+            id: likedByMe.id,
+          });
+          cache.evict({ id: likeCacheId });
+          cache.gc();
+        },
+      });
+      return;
+    }
+    await likePost({ variables });
   };
 
   return (
@@ -48,16 +94,19 @@ const PostCardFooter = ({ likesCount }: Props) => {
         <Divider />
       </Box>
 
-      <CardActions sx={{ justifyContent: "space-around" }} onClick={inDevToast}>
-        <CardFooterButton>
+      <CardActions sx={{ justifyContent: "space-around" }}>
+        <CardFooterButton
+          disabled={likePostLoading || unlikePostLoading}
+          onClick={handleLikeButtonClick}
+        >
           <Favorite sx={ICON_STYLES} />
           {t("actions.like")}
         </CardFooterButton>
-        <CardFooterButton>
+        <CardFooterButton onClick={inDevToast}>
           <Comment sx={ROTATED_ICON_STYLES} />
           {t("actions.comment")}
         </CardFooterButton>
-        <CardFooterButton>
+        <CardFooterButton onClick={inDevToast}>
           <Reply sx={ROTATED_ICON_STYLES} />
           {t("actions.share")}
         </CardFooterButton>

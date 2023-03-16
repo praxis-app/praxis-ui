@@ -1,7 +1,0 @@
-mutation CreateLike($likeData: CreateLikeInput!) {
-  createLike(likeData: $likeData) {
-    like {
-      id
-    }
-  }
-}

@@ -77,6 +77,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeleteLikeInput {
+  postId: Int
+}
+
 type DeleteRoleMemberPayload {
   role: Role!
 }
@@ -158,7 +162,7 @@ type Mutation {
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteImage(id: Int!): Boolean!
-  deleteLike(id: Int!): Boolean!
+  deleteLike(likeData: DeleteLikeInput!): Boolean!
   deletePost(id: Int!): Boolean!
   deleteProposal(id: Int!): Boolean!
   deleteRole(id: Int!): Boolean!

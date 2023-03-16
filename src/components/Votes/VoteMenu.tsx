@@ -138,8 +138,8 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
         cache.modify({
           id: cache.identify(proposal),
           fields: {
-            votes(existingPostRefs: Reference[], { readField }) {
-              return existingPostRefs.filter(
+            votes(existingVoteRefs: Reference[], { readField }) {
+              return existingVoteRefs.filter(
                 (ref) => readField("id", ref) !== id
               );
             },

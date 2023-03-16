@@ -1,0 +1,10 @@
+fragment PostCardFooter on Post {
+  id
+  likesCount
+  likes {
+    id
+    user {
+      id
+    }
+  }
+}
