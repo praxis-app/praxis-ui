@@ -1,4 +1,4 @@
-// TODO: Add basic functionality for likes, comments, and sharing. Below is a WIP
+// TODO: Add basic functionality for comments and sharing. Below is a WIP
 
 import { Reference } from "@apollo/client";
 import { Comment, Favorite, Reply } from "@mui/icons-material";
@@ -11,6 +11,7 @@ import {
   useLikePostMutation,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
+import { Blurple } from "../../theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
@@ -44,6 +45,12 @@ const PostCardFooter = ({ post: { id, likes, likesCount }, me }: Props) => {
     height: 22.5,
     marginRight: 0.9,
   };
+  const likeButtonIconStyles = likedByMe
+    ? {
+        ...ICON_STYLES,
+        color: Blurple.Primary,
+      }
+    : ICON_STYLES;
 
   const handleLikeButtonClick = async () => {
     const variables = { likeData: { postId: id } };
@@ -96,10 +103,11 @@ const PostCardFooter = ({ post: { id, likes, likesCount }, me }: Props) => {
 
       <CardActions sx={{ justifyContent: "space-around" }}>
         <CardFooterButton
+          sx={likedByMe ? { color: Blurple.Primary } : {}}
           disabled={likePostLoading || unlikePostLoading}
           onClick={handleLikeButtonClick}
         >
-          <Favorite sx={ICON_STYLES} />
+          <Favorite sx={likeButtonIconStyles} />
           {t("actions.like")}
         </CardFooterButton>
         <CardFooterButton onClick={inDevToast}>
