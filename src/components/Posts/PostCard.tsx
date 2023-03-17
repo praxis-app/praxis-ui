@@ -165,7 +165,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         )}
       </CardContent>
 
-      {me && <PostCardFooter post={post} me={me} />}
+      {me && <PostCardFooter post={post} />}
     </Card>
   );
 };

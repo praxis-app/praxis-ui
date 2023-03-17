@@ -365,6 +365,7 @@ export type Post = {
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
+  isLikedByMe: Scalars["Boolean"];
   likes: Array<Like>;
   likesCount: Scalars["Int"];
   updatedAt: Scalars["DateTime"];
@@ -908,6 +909,7 @@ export type GroupProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
+          isLikedByMe: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -921,11 +923,6 @@ export type GroupProfileQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
-          likes: Array<{
-            __typename?: "Like";
-            id: number;
-            user: { __typename?: "User"; id: number };
-          }>;
         }
       | {
           __typename?: "Proposal";
@@ -1147,6 +1144,7 @@ type FeedItem_Post_Fragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
+  isLikedByMe: boolean;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1160,11 +1158,6 @@ type FeedItem_Post_Fragment = {
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
-  likes: Array<{
-    __typename?: "Like";
-    id: number;
-    user: { __typename?: "User"; id: number };
-  }>;
 };
 
 type FeedItem_Proposal_Fragment = {
@@ -1222,6 +1215,7 @@ export type PostCardFragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
+  isLikedByMe: boolean;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1235,22 +1229,13 @@ export type PostCardFragment = {
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
-  likes: Array<{
-    __typename?: "Like";
-    id: number;
-    user: { __typename?: "User"; id: number };
-  }>;
 };
 
 export type PostCardFooterFragment = {
   __typename?: "Post";
   id: number;
   likesCount: number;
-  likes: Array<{
-    __typename?: "Like";
-    id: number;
-    user: { __typename?: "User"; id: number };
-  }>;
+  isLikedByMe: boolean;
 };
 
 export type PostFormFragment = {
@@ -1274,6 +1259,7 @@ export type CreatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
+      isLikedByMe: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1287,11 +1273,6 @@ export type CreatePostMutation = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
-      likes: Array<{
-        __typename?: "Like";
-        id: number;
-        user: { __typename?: "User"; id: number };
-      }>;
     };
   };
 };
@@ -1320,11 +1301,7 @@ export type LikePostMutation = {
         __typename?: "Post";
         id: number;
         likesCount: number;
-        likes: Array<{
-          __typename?: "Like";
-          id: number;
-          user: { __typename?: "User"; id: number };
-        }>;
+        isLikedByMe: boolean;
       };
     };
   };
@@ -1344,6 +1321,7 @@ export type UpdatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
+      isLikedByMe: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1357,11 +1335,6 @@ export type UpdatePostMutation = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
-      likes: Array<{
-        __typename?: "Like";
-        id: number;
-        user: { __typename?: "User"; id: number };
-      }>;
     };
   };
 };
@@ -1392,6 +1365,7 @@ export type PostQuery = {
     body?: string | null;
     createdAt: any;
     likesCount: number;
+    isLikedByMe: boolean;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
@@ -1405,11 +1379,6 @@ export type PostQuery = {
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
-    likes: Array<{
-      __typename?: "Like";
-      id: number;
-      user: { __typename?: "User"; id: number };
-    }>;
   };
 };
 
@@ -1947,6 +1916,7 @@ export type EditUserQuery = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
+      isLikedByMe: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1960,11 +1930,6 @@ export type EditUserQuery = {
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
-      likes: Array<{
-        __typename?: "Like";
-        id: number;
-        user: { __typename?: "User"; id: number };
-      }>;
     }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
@@ -1985,6 +1950,7 @@ export type HomePageQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
+          isLikedByMe: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -1998,11 +1964,6 @@ export type HomePageQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
-          likes: Array<{
-            __typename?: "Like";
-            id: number;
-            user: { __typename?: "User"; id: number };
-          }>;
         }
       | {
           __typename?: "Proposal";
@@ -2090,6 +2051,7 @@ export type UserProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
+          isLikedByMe: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -2103,11 +2065,6 @@ export type UserProfileQuery = {
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
-          likes: Array<{
-            __typename?: "Like";
-            id: number;
-            user: { __typename?: "User"; id: number };
-          }>;
         }
       | {
           __typename?: "Proposal";
@@ -2394,12 +2351,7 @@ export const PostCardFooterFragmentDoc = gql`
   fragment PostCardFooter on Post {
     id
     likesCount
-    likes {
-      id
-      user {
-        id
-      }
-    }
+    isLikedByMe
   }
 `;
 export const PostCardFragmentDoc = gql`
