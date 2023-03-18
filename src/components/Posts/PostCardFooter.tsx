@@ -1,6 +1,6 @@
 // TODO: Add basic functionality for comments and sharing. Below is a WIP
 
-import { Comment, Favorite, Reply } from "@mui/icons-material";
+import { Comment, Favorite as LikeIcon, Reply } from "@mui/icons-material";
 import { Box, CardActions, Divider, SxProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
@@ -33,18 +33,21 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
   const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
   const { t } = useTranslation();
 
+  const isLoading = likePostLoading || unlikePostLoading;
+
   const badgeStyles: SxProps = {
     ...BASE_BADGE_STYLES,
     width: 22.5,
     height: 22.5,
     marginRight: 0.9,
   };
-  const likeButtonIconStyles = isLikedByMe
-    ? {
-        ...ICON_STYLES,
-        color: Blurple.Primary,
-      }
-    : ICON_STYLES;
+  const likeButtonIconStyles =
+    isLikedByMe && !isLoading
+      ? {
+          ...ICON_STYLES,
+          color: Blurple.Primary,
+        }
+      : ICON_STYLES;
 
   const handleLikeButtonClick = async () => {
     const variables = { likeData: { postId: id } };
@@ -72,7 +75,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
         {!!likesCount && (
           <Flex marginBottom={0.8}>
             <Box sx={badgeStyles}>
-              <Favorite
+              <LikeIcon
                 color="primary"
                 sx={{ fontSize: 13, marginTop: 0.65 }}
               />
@@ -86,10 +89,10 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
       <CardActions sx={{ justifyContent: "space-around" }}>
         <CardFooterButton
           sx={isLikedByMe ? { color: Blurple.Primary } : {}}
-          disabled={likePostLoading || unlikePostLoading}
+          disabled={isLoading}
           onClick={handleLikeButtonClick}
         >
-          <Favorite sx={likeButtonIconStyles} />
+          <LikeIcon sx={likeButtonIconStyles} />
           {t("actions.like")}
         </CardFooterButton>
         <CardFooterButton onClick={inDevToast}>
