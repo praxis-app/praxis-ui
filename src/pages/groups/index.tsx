@@ -48,6 +48,9 @@ const GroupsIndex: NextPage = () => {
           <Typography gutterBottom>
             {t("groups.tips.organizeWithGroups")}
           </Typography>
+          <Typography gutterBottom>
+            {t("groups.tips.groupProposals")}
+          </Typography>
 
           <Typography>
             {inviteToken && (
@@ -61,7 +64,10 @@ const GroupsIndex: NextPage = () => {
                 or
               </>
             )}
-            <Link href={NavigationPaths.LogIn} sx={{ marginLeft: "0.5ch" }}>
+            <Link
+              href={NavigationPaths.LogIn}
+              sx={{ marginLeft: inviteToken ? "0.5ch" : 0 }}
+            >
               {t("users.actions.logIn")}
             </Link>{" "}
             to explore groups
