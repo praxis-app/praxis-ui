@@ -1,6 +1,8 @@
 fragment PostCard on Post {
   id
   body
+  createdAt
+
   images {
     ...AttachedImage
   }
@@ -10,5 +12,6 @@ fragment PostCard on Post {
   group {
     ...GroupAvatar
   }
-  createdAt
+
+  ...PostCardFooter
 }

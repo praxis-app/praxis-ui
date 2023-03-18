@@ -1,5 +1,3 @@
-// TODO: Find a better name, or determine if "chip" is the right choice here
-
 import { SvgIconComponent } from "@mui/icons-material";
 import { SxProps, useTheme } from "@mui/material";
 import { useState } from "react";
@@ -10,7 +8,7 @@ import { Blurple } from "../../theme";
 import Flex from "../Shared/Flex";
 import VotesPopover from "./VotesPopover";
 
-export const SHARED_CHIP_STYLES: SxProps = {
+export const BASE_BADGE_STYLES: SxProps = {
   backgroundColor: Blurple.Primary,
   borderRadius: "50%",
   display: "inline-flex",
@@ -24,13 +22,13 @@ interface Props {
   voteType: string;
 }
 
-const VoteChip = ({ Icon, voteType, sx, votes }: Props) => {
+const VoteBadge = ({ Icon, voteType, sx, votes }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const isDesktop = useIsDesktop();
   const theme = useTheme();
 
-  const chipStyles: SxProps = {
-    ...SHARED_CHIP_STYLES,
+  const badgeStyles: SxProps = {
+    ...BASE_BADGE_STYLES,
     border: `2px solid ${theme.palette.background.paper}`,
     height: 25,
     width: 25,
@@ -57,7 +55,7 @@ const VoteChip = ({ Icon, voteType, sx, votes }: Props) => {
       <Flex
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
-        sx={chipStyles}
+        sx={badgeStyles}
         aria-haspopup
       >
         <Icon color="primary" sx={iconStyles} />
@@ -75,4 +73,4 @@ const VoteChip = ({ Icon, voteType, sx, votes }: Props) => {
   );
 };
 
-export default VoteChip;
+export default VoteBadge;

@@ -1,11 +1,9 @@
-import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
-  Divider,
   styled,
   SxProps,
   Typography,
@@ -13,7 +11,6 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isLoggedInVar } from "../../apollo/cache";
 import {
   PostCardFragment,
   useDeletePostMutation,
@@ -60,7 +57,6 @@ interface Props extends CardProps {
 const PostCard = ({ post, ...cardProps }: Props) => {
   const { data } = useMeQuery();
   const [deletePost] = useDeletePostMutation();
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
   const { asPath } = useRouter();
@@ -82,9 +78,6 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 2.5 : 3,
-  };
-  const imageListStyles: SxProps = {
-    marginBottom: isLoggedIn ? 1.9 : 0,
   };
 
   const handleDelete = async (id: number) => {
@@ -167,14 +160,12 @@ const PostCard = ({ post, ...cardProps }: Props) => {
 
         {!!images.length && (
           <Link aria-label={t("images.labels.attachedImages")} href={postPath}>
-            <AttachedImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} />
           </Link>
         )}
-
-        {isLoggedIn && <Divider />}
       </CardContent>
 
-      {isLoggedIn && <PostCardFooter />}
+      {me && <PostCardFooter post={post} />}
     </Card>
   );
 };
