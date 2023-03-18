@@ -13,7 +13,7 @@ import { Blurple } from "../../theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
-import { BASE_CHIP_STYLES } from "../Votes/VoteChip";
+import { BASE_BADGE_STYLES } from "../Votes/VoteBadge";
 
 const ICON_STYLES: SxProps = {
   marginRight: "0.4ch",
@@ -33,8 +33,8 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
   const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
   const { t } = useTranslation();
 
-  const chipStyles: SxProps = {
-    ...BASE_CHIP_STYLES,
+  const badgeStyles: SxProps = {
+    ...BASE_BADGE_STYLES,
     width: 22.5,
     height: 22.5,
     marginRight: 0.9,
@@ -71,7 +71,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
       <Box paddingX="16px">
         {!!likesCount && (
           <Flex marginBottom={0.8}>
-            <Box sx={chipStyles}>
+            <Box sx={badgeStyles}>
               <Favorite
                 color="primary"
                 sx={{ fontSize: 13, marginTop: 0.65 }}

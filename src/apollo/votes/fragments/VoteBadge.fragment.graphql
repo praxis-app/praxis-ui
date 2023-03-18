@@ -1,4 +1,4 @@
-fragment VoteChip on Vote {
+fragment VoteBadge on Vote {
   id
   voteType
   user {

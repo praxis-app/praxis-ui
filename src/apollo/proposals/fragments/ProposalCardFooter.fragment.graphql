@@ -9,5 +9,5 @@ fragment ProposalCardFooter on Proposal {
   }
 
   ...VoteMenu
-  ...VoteChips
+  ...VoteBadges
 }

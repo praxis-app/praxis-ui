@@ -10,7 +10,7 @@ import { ProposalStages } from "../../constants/proposal.constants";
 import { Blurple } from "../../theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
-import VoteChips from "../Votes/VoteChips";
+import VoteBadges from "../Votes/VoteBadges";
 import VoteMenu from "../Votes/VoteMenu";
 
 const ICON_STYLES: SxProps = {
@@ -58,7 +58,7 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
 
   return (
     <>
-      {!!voteCount && <VoteChips proposal={proposal} />}
+      {!!voteCount && <VoteBadges proposal={proposal} />}
 
       <Divider sx={{ margin: "0 16px" }} />
 

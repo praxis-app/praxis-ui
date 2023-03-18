@@ -1,7 +1,3 @@
-/**
- * TODO: Find a better name, or determine if "chip" is the right choice here
- */
-
 import {
   PanTool as BlockIcon,
   ThumbDown as StandAsideIcon,
@@ -10,24 +6,24 @@ import {
 } from "@mui/icons-material";
 import { SxProps, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
-import { VoteChipsFragment } from "../../apollo/gen";
+import { VoteBadgesFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
 import { filterVotesByType } from "../../utils/vote.utils";
 import Flex from "../Shared/Flex";
-import VoteChip from "./VoteChip";
+import VoteBadge from "./VoteBadge";
 import VotesModal from "./VotesModal";
 
-const CHIPS_CONTAINER_STYLES: SxProps = {
+const BADGES_CONTAINER_STYLES: SxProps = {
   cursor: "pointer",
   paddingBottom: 1,
   paddingLeft: "16px",
 };
 
 interface Props {
-  proposal: VoteChipsFragment;
+  proposal: VoteBadgesFragment;
 }
 
-const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
+const VoteBadges = ({ proposal: { votes, voteCount } }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { agreements, reservations, standAsides, blocks } = useMemo(
@@ -35,29 +31,34 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
     [votes]
   );
 
-  const agreementsChip = {
+  const agreementsBadge = {
     Icon: AgreementIcon,
     votes: agreements,
     voteType: VoteTypes.Agreement,
   };
-  const reservationsChip = {
+  const reservationsBadge = {
     Icon: ReservationsIcon,
     votes: reservations,
     voteType: VoteTypes.Reservations,
   };
-  const standAsidesChip = {
+  const standAsidesBadge = {
     Icon: StandAsideIcon,
     votes: standAsides,
     voteType: VoteTypes.StandAside,
   };
-  const blocksChip = {
+  const blocksBadge = {
     Icon: BlockIcon,
     votes: blocks,
     voteType: VoteTypes.Block,
   };
 
-  const chips = [agreementsChip, standAsidesChip, reservationsChip, blocksChip]
-    .filter((chip) => chip.votes.length)
+  const badges = [
+    agreementsBadge,
+    standAsidesBadge,
+    reservationsBadge,
+    blocksBadge,
+  ]
+    .filter((badge) => badge.votes.length)
     .sort((a, b) => b.votes.length - a.votes.length);
 
   const handleClick = () => setIsModalOpen(true);
@@ -65,13 +66,13 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
 
   return (
     <>
-      <Flex sx={CHIPS_CONTAINER_STYLES} onClick={handleClick}>
+      <Flex sx={BADGES_CONTAINER_STYLES} onClick={handleClick}>
         <Flex paddingRight={1}>
-          {chips.map((chip, index) => (
-            <VoteChip
-              {...chip}
-              key={chip.voteType}
-              sx={{ zIndex: chips.length - index }}
+          {badges.map((badge, index) => (
+            <VoteBadge
+              {...badge}
+              key={badge.voteType}
+              sx={{ zIndex: badges.length - index }}
             />
           ))}
         </Flex>
@@ -92,4 +93,4 @@ const VoteChips = ({ proposal: { votes, voteCount } }: Props) => {
   );
 };
 
-export default VoteChips;
+export default VoteBadges;

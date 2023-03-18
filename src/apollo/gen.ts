@@ -2140,14 +2140,14 @@ export type VoteFragment = {
   };
 };
 
-export type VoteChipFragment = {
+export type VoteBadgeFragment = {
   __typename?: "Vote";
   id: number;
   voteType: string;
   user: { __typename?: "User"; id: number };
 };
 
-export type VoteChipsFragment = {
+export type VoteBadgesFragment = {
   __typename?: "Proposal";
   id: number;
   voteCount: number;
@@ -2397,8 +2397,8 @@ export const VoteFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const VoteChipFragmentDoc = gql`
-  fragment VoteChip on Vote {
+export const VoteBadgeFragmentDoc = gql`
+  fragment VoteBadge on Vote {
     id
     voteType
     user {
@@ -2406,17 +2406,17 @@ export const VoteChipFragmentDoc = gql`
     }
   }
 `;
-export const VoteChipsFragmentDoc = gql`
-  fragment VoteChips on Proposal {
+export const VoteBadgesFragmentDoc = gql`
+  fragment VoteBadges on Proposal {
     id
     voteCount
     votes {
       ...Vote
-      ...VoteChip
+      ...VoteBadge
     }
   }
   ${VoteFragmentDoc}
-  ${VoteChipFragmentDoc}
+  ${VoteBadgeFragmentDoc}
 `;
 export const ProposalCardFooterFragmentDoc = gql`
   fragment ProposalCardFooter on Proposal {
@@ -2428,10 +2428,10 @@ export const ProposalCardFooterFragmentDoc = gql`
       }
     }
     ...VoteMenu
-    ...VoteChips
+    ...VoteBadges
   }
   ${VoteMenuFragmentDoc}
-  ${VoteChipsFragmentDoc}
+  ${VoteBadgesFragmentDoc}
 `;
 export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
