@@ -27,10 +27,9 @@ const EventsIndex: NextPage = () => {
         title={t("events.headers.planEvents")}
         sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
       />
-
       <CardContent>
         <Typography gutterBottom>{t("events.tips.planEvents")}</Typography>
-
+        <Typography gutterBottom>{t("events.tips.proposedEvents")}</Typography>
         <Typography sx={{ color: theme.palette.text.secondary }} gutterBottom>
           {t("prompts.inDev")}
         </Typography>
