@@ -120,10 +120,12 @@
   "users": {
     "actions": {
       "editProfile": "Edit Profile",
+      "follow": "Follow",
       "logIn": "Log In",
       "logOut": "Log Out",
       "passwordConfirm": "Confirm password",
-      "signUp": "Sign Up"
+      "signUp": "Sign Up",
+      "unfollow": "Unfollow"
     },
     "errors": {
       "signUp": "There was an error creating your account.",
@@ -139,6 +141,7 @@
       "confirmPassword": "Confirm Password"
     },
     "profile": {
+      "following": "Following",
       "joinDate": "Joined {{joinDate}}",
       "followersX": "{{count}} Followers",
       "followingX": "{{count}} Following"

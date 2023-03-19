@@ -25,6 +25,7 @@ import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import FollowButton from "./FollowButton";
 import UserAvatar from "./UserAvatar";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -80,16 +81,20 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
       <CardHeader
         action={
-          isMe && (
-            <ItemMenu
-              anchorEl={menuAnchorEl}
-              deletePrompt={deleteUserPrompt}
-              editPath={editUserPath}
-              itemId={user.id}
-              setAnchorEl={setMenuAnchorEl}
-              canEdit
-            />
-          )
+          <>
+            <FollowButton />
+
+            {isMe && (
+              <ItemMenu
+                anchorEl={menuAnchorEl}
+                deletePrompt={deleteUserPrompt}
+                editPath={editUserPath}
+                itemId={user.id}
+                setAnchorEl={setMenuAnchorEl}
+                canEdit
+              />
+            )}
+          </>
         }
         avatar={
           <UserAvatar

@@ -32,6 +32,15 @@ export type ApproveMemberRequestPayload = {
   groupMember: GroupMember;
 };
 
+export type CreateFollowInput = {
+  userId: Scalars["Int"];
+};
+
+export type CreateFollowPayload = {
+  __typename?: "CreateFollowPayload";
+  follow: Follow;
+};
+
 export type CreateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
@@ -110,6 +119,10 @@ export type CreateVotePayload = {
   vote: Vote;
 };
 
+export type DeleteFollowInput = {
+  userId: Scalars["Int"];
+};
+
 export type DeleteLikeInput = {
   postId?: InputMaybe<Scalars["Int"]>;
 };
@@ -120,6 +133,15 @@ export type DeleteRoleMemberPayload = {
 };
 
 export type FeedItem = Post | Proposal;
+
+export type Follow = {
+  __typename?: "Follow";
+  createdAt: Scalars["DateTime"];
+  followedUser: User;
+  id: Scalars["Int"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
 
 export type Group = {
   __typename?: "Group";
@@ -193,6 +215,7 @@ export type Mutation = {
   __typename?: "Mutation";
   approveMemberRequest: ApproveMemberRequestPayload;
   cancelMemberRequest: Scalars["Boolean"];
+  createFollow: CreateFollowPayload;
   createGroup: CreateGroupPayload;
   createLike: CreateLikePayload;
   createMemberRequest: CreateMemberRequestPayload;
@@ -201,6 +224,7 @@ export type Mutation = {
   createRole: CreateRolePayload;
   createServerInvite: CreateServerInvitePayload;
   createVote: CreateVotePayload;
+  deleteFollow: Scalars["Boolean"];
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deleteLike: Scalars["Boolean"];
@@ -233,6 +257,10 @@ export type MutationCancelMemberRequestArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationCreateFollowArgs = {
+  followData: CreateFollowInput;
+};
+
 export type MutationCreateGroupArgs = {
   groupData: CreateGroupInput;
 };
@@ -263,6 +291,10 @@ export type MutationCreateServerInviteArgs = {
 
 export type MutationCreateVoteArgs = {
   voteData: CreateVoteInput;
+};
+
+export type MutationDeleteFollowArgs = {
+  followData: DeleteFollowInput;
 };
 
 export type MutationDeleteGroupArgs = {
@@ -589,6 +621,8 @@ export type User = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
+  followers: Array<Follow>;
+  following: Array<Follow>;
   homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
   joinedGroups: Array<Group>;
