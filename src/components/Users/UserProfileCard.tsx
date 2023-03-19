@@ -62,14 +62,23 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const isDesktop = useIsDesktop();
   const theme = useTheme();
 
+  const {
+    id,
+    bio,
+    coverPhoto,
+    createdAt,
+    followerCount,
+    followingCount,
+    name,
+  } = user;
   const me = data && data.me;
-  const isMe = me?.id === user.id;
-  const joinDate = formatDate(user.createdAt);
+  const isMe = me?.id === id;
 
   const deleteUserPrompt = t("prompts.deleteItem", { itemType: "user" });
   const editUserPath = `${asPath}${NavigationPaths.Edit}`;
   const followersPath = `${asPath}${NavigationPaths.Followers}`;
   const followingPath = `${asPath}${NavigationPaths.Following}`;
+  const joinDate = formatDate(createdAt);
 
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
@@ -80,7 +89,7 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
   return (
     <Card {...cardProps}>
-      <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
+      <CoverPhoto imageId={coverPhoto?.id} topRounded />
 
       <CardHeader
         action={
@@ -92,7 +101,7 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
                 anchorEl={menuAnchorEl}
                 deletePrompt={deleteUserPrompt}
                 editPath={editUserPath}
-                itemId={user.id}
+                itemId={id}
                 setAnchorEl={setMenuAnchorEl}
                 canEdit
               />
@@ -111,12 +120,10 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
       <CardContent>
         <Typography color="primary" sx={USER_NAME_STYLES}>
-          {user.name}
+          {name}
         </Typography>
 
-        {user.bio && (
-          <Typography sx={{ marginBottom: 1.4 }}>{user.bio}</Typography>
-        )}
+        {bio && <Typography sx={{ marginBottom: 1.4 }}>{bio}</Typography>}
 
         <Typography sx={JOIN_DATE_STYLES}>
           <JoinDateIcon fontSize="small" sx={JOIN_DATE_ICON_STYLES} />
@@ -125,11 +132,11 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
         <Box>
           <Link href={followersPath}>
-            {t("users.profile.followersX", { count: 0 })}
+            {t("users.profile.followersX", { count: followerCount })}
           </Link>
           {MIDDOT_WITH_SPACES}
           <Link href={followingPath}>
-            {t("users.profile.followingX", { count: 0 })}
+            {t("users.profile.followingX", { count: followingCount })}
           </Link>
         </Box>
       </CardContent>

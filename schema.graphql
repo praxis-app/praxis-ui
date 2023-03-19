@@ -392,8 +392,10 @@ type User {
   coverPhoto: Image
   createdAt: DateTime!
   email: String!
+  followerCount: Int!
   followers: [Follow!]!
   following: [Follow!]!
+  followingCount: Int!
   homeFeed: [FeedItem!]!
   id: Int!
   isFollowedByMe: Boolean!

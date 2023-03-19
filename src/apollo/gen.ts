@@ -613,8 +613,10 @@ export type User = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
+  followerCount: Scalars["Int"];
   followers: Array<Follow>;
   following: Array<Follow>;
+  followingCount: Scalars["Int"];
   homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
   isFollowedByMe: Scalars["Boolean"];
@@ -1948,9 +1950,11 @@ export type UserAvatarFragment = {
 
 export type UserProfileCardFragment = {
   __typename?: "User";
+  id: number;
   bio?: string | null;
   createdAt: any;
-  id: number;
+  followerCount: number;
+  followingCount: number;
   name: string;
   isFollowedByMe: boolean;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2015,9 +2019,11 @@ export type EditUserQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
+    id: number;
     bio?: string | null;
     createdAt: any;
-    id: number;
+    followerCount: number;
+    followingCount: number;
     name: string;
     isFollowedByMe: boolean;
     posts: Array<{
@@ -2150,9 +2156,11 @@ export type UserProfileQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
+    id: number;
     bio?: string | null;
     createdAt: any;
-    id: number;
+    followerCount: number;
+    followingCount: number;
     name: string;
     isFollowedByMe: boolean;
     profileFeed: Array<
@@ -2686,13 +2694,16 @@ export const FollowButtonFragmentDoc = gql`
 `;
 export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
-    ...UserAvatar
-    ...FollowButton
+    id
+    bio
+    createdAt
+    followerCount
+    followingCount
     coverPhoto {
       id
     }
-    bio
-    createdAt
+    ...UserAvatar
+    ...FollowButton
   }
   ${UserAvatarFragmentDoc}
   ${FollowButtonFragmentDoc}
