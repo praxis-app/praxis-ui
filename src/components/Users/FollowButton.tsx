@@ -1,5 +1,6 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FollowButtonFragment,
@@ -18,7 +19,19 @@ interface Props {
 const FollowButton = ({ user: { id, isFollowedByMe }, me }: Props) => {
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();
+  const [isHovering, setIsHovering] = useState(false);
+
   const { t } = useTranslation();
+
+  const getButtonText = () => {
+    if (isFollowedByMe) {
+      if (isHovering) {
+        return t("users.actions.unfollow");
+      }
+      return t("users.profile.following");
+    }
+    return t("users.actions.follow");
+  };
 
   const handleClick = async () => {
     const variables = { followedUserId: id };
@@ -53,8 +66,13 @@ const FollowButton = ({ user: { id, isFollowedByMe }, me }: Props) => {
   };
 
   return (
-    <GhostButton sx={{ marginRight: 0.5 }} onClick={handleClick}>
-      {isFollowedByMe ? t("users.actions.unfollow") : t("users.actions.follow")}
+    <GhostButton
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      sx={{ marginRight: 0.5 }}
+    >
+      {getButtonText()}
     </GhostButton>
   );
 };
