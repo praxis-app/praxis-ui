@@ -207,7 +207,6 @@ export type Mutation = {
   __typename?: "Mutation";
   approveMemberRequest: ApproveMemberRequestPayload;
   cancelMemberRequest: Scalars["Boolean"];
-  createFollow: CreateFollowPayload;
   createGroup: CreateGroupPayload;
   createLike: CreateLikePayload;
   createMemberRequest: CreateMemberRequestPayload;
@@ -216,7 +215,6 @@ export type Mutation = {
   createRole: CreateRolePayload;
   createServerInvite: CreateServerInvitePayload;
   createVote: CreateVotePayload;
-  deleteFollow: Scalars["Boolean"];
   deleteGroup: Scalars["Boolean"];
   deleteImage: Scalars["Boolean"];
   deleteLike: Scalars["Boolean"];
@@ -228,11 +226,13 @@ export type Mutation = {
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
+  followUser: CreateFollowPayload;
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
   login: LoginPayload;
   refreshToken: Scalars["Boolean"];
   signUp: SignUpPayload;
+  unfollowUser: Scalars["Boolean"];
   updateGroup: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
   updateProposal: UpdateProposalPayload;
@@ -247,10 +247,6 @@ export type MutationApproveMemberRequestArgs = {
 
 export type MutationCancelMemberRequestArgs = {
   id: Scalars["Int"];
-};
-
-export type MutationCreateFollowArgs = {
-  followedUserId: Scalars["Int"];
 };
 
 export type MutationCreateGroupArgs = {
@@ -283,10 +279,6 @@ export type MutationCreateServerInviteArgs = {
 
 export type MutationCreateVoteArgs = {
   voteData: CreateVoteInput;
-};
-
-export type MutationDeleteFollowArgs = {
-  followedUserId: Scalars["Int"];
 };
 
 export type MutationDeleteGroupArgs = {
@@ -333,6 +325,10 @@ export type MutationDenyMemberRequestArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationFollowUserArgs = {
+  followedUserId: Scalars["Int"];
+};
+
 export type MutationLeaveGroupArgs = {
   id: Scalars["Int"];
 };
@@ -343,6 +339,10 @@ export type MutationLoginArgs = {
 
 export type MutationSignUpArgs = {
   input: SignUpInput;
+};
+
+export type MutationUnfollowUserArgs = {
+  followedUserId: Scalars["Int"];
 };
 
 export type MutationUpdateGroupArgs = {
@@ -1967,7 +1967,7 @@ export type FollowUserMutationVariables = Exact<{
 
 export type FollowUserMutation = {
   __typename?: "Mutation";
-  createFollow: {
+  followUser: {
     __typename?: "CreateFollowPayload";
     follow: {
       __typename?: "Follow";
@@ -1994,7 +1994,7 @@ export type UnfollowUserMutationVariables = Exact<{
 
 export type UnfollowUserMutation = {
   __typename?: "Mutation";
-  deleteFollow: boolean;
+  unfollowUser: boolean;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -5102,7 +5102,7 @@ export type ServerRolesQueryResult = Apollo.QueryResult<
 >;
 export const FollowUserDocument = gql`
   mutation FollowUser($followedUserId: Int!) {
-    createFollow(followedUserId: $followedUserId) {
+    followUser(followedUserId: $followedUserId) {
       follow {
         id
         followedUser {
@@ -5159,7 +5159,7 @@ export type FollowUserMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const UnfollowUserDocument = gql`
   mutation UnfollowUser($followedUserId: Int!) {
-    deleteFollow(followedUserId: $followedUserId)
+    unfollowUser(followedUserId: $followedUserId)
   }
 `;
 export type UnfollowUserMutationFn = Apollo.MutationFunction<

@@ -1,5 +1,5 @@
 mutation FollowUser($followedUserId: Int!) {
-  createFollow(followedUserId: $followedUserId) {
+  followUser(followedUserId: $followedUserId) {
     follow {
       id
       followedUser {

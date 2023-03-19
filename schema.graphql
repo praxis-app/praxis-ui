@@ -164,7 +164,6 @@ type MemberRequest {
 type Mutation {
   approveMemberRequest(id: Int!): ApproveMemberRequestPayload!
   cancelMemberRequest(id: Int!): Boolean!
-  createFollow(followedUserId: Int!): CreateFollowPayload!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
   createLike(likeData: CreateLikeInput!): CreateLikePayload!
   createMemberRequest(groupId: Int!): CreateMemberRequestPayload!
@@ -173,7 +172,6 @@ type Mutation {
   createRole(roleData: CreateRoleInput!): CreateRolePayload!
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
-  deleteFollow(followedUserId: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
   deleteImage(id: Int!): Boolean!
   deleteLike(likeData: DeleteLikeInput!): Boolean!
@@ -185,11 +183,13 @@ type Mutation {
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!
+  followUser(followedUserId: Int!): CreateFollowPayload!
   leaveGroup(id: Int!): Boolean!
   logOut: Boolean!
   login(input: LoginInput!): LoginPayload!
   refreshToken: Boolean!
   signUp(input: SignUpInput!): SignUpPayload!
+  unfollowUser(followedUserId: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
