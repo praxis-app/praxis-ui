@@ -94,7 +94,7 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
       <CardHeader
         action={
           <>
-            {!isMe && <FollowButton user={user} />}
+            {me && !isMe && <FollowButton user={user} me={me} />}
 
             {isMe && (
               <ItemMenu
