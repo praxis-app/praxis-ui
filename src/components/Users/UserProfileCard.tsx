@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
@@ -20,7 +21,6 @@ import {
   NavigationPaths,
 } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
@@ -57,6 +57,7 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const { data } = useMeQuery();
 
+  const { asPath } = useRouter();
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
   const theme = useTheme();
@@ -66,7 +67,9 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const joinDate = formatDate(user.createdAt);
 
   const deleteUserPrompt = t("prompts.deleteItem", { itemType: "user" });
-  const editUserPath = `${NavigationPaths.Users}/${user.name}${NavigationPaths.Edit}`;
+  const editUserPath = `${asPath}${NavigationPaths.Edit}`;
+  const followersPath = `${asPath}${NavigationPaths.Followers}`;
+  const followingPath = `${asPath}${NavigationPaths.Following}`;
 
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
@@ -120,12 +123,12 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
           {t("users.profile.joinDate", { joinDate })}
         </Typography>
 
-        <Box onClick={inDevToast}>
-          <Link href={"/"} disabled>
+        <Box>
+          <Link href={followersPath}>
             {t("users.profile.followersX", { count: 0 })}
           </Link>
           {MIDDOT_WITH_SPACES}
-          <Link href={"/"} disabled>
+          <Link href={followingPath}>
             {t("users.profile.followingX", { count: 0 })}
           </Link>
         </Box>

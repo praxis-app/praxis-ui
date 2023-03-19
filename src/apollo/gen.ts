@@ -1387,6 +1387,50 @@ export type EditPostQuery = {
   };
 };
 
+export type FollowersQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type FollowersQuery = {
+  __typename?: "Query";
+  user: {
+    __typename?: "User";
+    id: number;
+    followers: Array<{
+      __typename?: "Follow";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+};
+
+export type FollowingQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type FollowingQuery = {
+  __typename?: "Query";
+  user: {
+    __typename?: "User";
+    id: number;
+    following: Array<{
+      __typename?: "Follow";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+};
+
 export type PostQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -4218,6 +4262,126 @@ export type EditPostLazyQueryHookResult = ReturnType<
 export type EditPostQueryResult = Apollo.QueryResult<
   EditPostQuery,
   EditPostQueryVariables
+>;
+export const FollowersDocument = gql`
+  query Followers($name: String!) {
+    user(name: $name) {
+      id
+      followers {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useFollowersQuery__
+ *
+ * To run a query within a React component, call `useFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowersQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useFollowersQuery(
+  baseOptions: Apollo.QueryHookOptions<FollowersQuery, FollowersQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FollowersQuery, FollowersQueryVariables>(
+    FollowersDocument,
+    options
+  );
+}
+export function useFollowersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FollowersQuery,
+    FollowersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FollowersQuery, FollowersQueryVariables>(
+    FollowersDocument,
+    options
+  );
+}
+export type FollowersQueryHookResult = ReturnType<typeof useFollowersQuery>;
+export type FollowersLazyQueryHookResult = ReturnType<
+  typeof useFollowersLazyQuery
+>;
+export type FollowersQueryResult = Apollo.QueryResult<
+  FollowersQuery,
+  FollowersQueryVariables
+>;
+export const FollowingDocument = gql`
+  query Following($name: String!) {
+    user(name: $name) {
+      id
+      following {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useFollowingQuery__
+ *
+ * To run a query within a React component, call `useFollowingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowingQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useFollowingQuery(
+  baseOptions: Apollo.QueryHookOptions<FollowingQuery, FollowingQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FollowingQuery, FollowingQueryVariables>(
+    FollowingDocument,
+    options
+  );
+}
+export function useFollowingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FollowingQuery,
+    FollowingQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FollowingQuery, FollowingQueryVariables>(
+    FollowingDocument,
+    options
+  );
+}
+export type FollowingQueryHookResult = ReturnType<typeof useFollowingQuery>;
+export type FollowingLazyQueryHookResult = ReturnType<
+  typeof useFollowingLazyQuery
+>;
+export type FollowingQueryResult = Apollo.QueryResult<
+  FollowingQuery,
+  FollowingQueryVariables
 >;
 export const PostDocument = gql`
   query Post($id: Int!) {

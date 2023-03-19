@@ -1,0 +1,11 @@
+query Following($name: String!) {
+  user(name: $name) {
+    id
+    following {
+      id
+      user {
+        ...UserAvatar
+      }
+    }
+  }
+}
