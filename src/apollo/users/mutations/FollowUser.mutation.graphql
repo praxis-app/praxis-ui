@@ -1,0 +1,12 @@
+mutation FollowUser($followedUserId: Int!) {
+  createFollow(followedUserId: $followedUserId) {
+    follow {
+      id
+      followedUser {
+        id
+        ...UserAvatar
+        ...FollowButton
+      }
+    }
+  }
+}

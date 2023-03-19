@@ -2,10 +2,6 @@ type ApproveMemberRequestPayload {
   groupMember: GroupMember!
 }
 
-input CreateFollowInput {
-  userId: Int!
-}
-
 type CreateFollowPayload {
   follow: Follow!
 }
@@ -84,10 +80,6 @@ type CreateVotePayload {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-input DeleteFollowInput {
-  userId: Int!
-}
 
 input DeleteLikeInput {
   postId: Int
@@ -172,7 +164,7 @@ type MemberRequest {
 type Mutation {
   approveMemberRequest(id: Int!): ApproveMemberRequestPayload!
   cancelMemberRequest(id: Int!): Boolean!
-  createFollow(followData: CreateFollowInput!): CreateFollowPayload!
+  createFollow(followedUserId: Int!): CreateFollowPayload!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
   createLike(likeData: CreateLikeInput!): CreateLikePayload!
   createMemberRequest(groupId: Int!): CreateMemberRequestPayload!
@@ -181,7 +173,7 @@ type Mutation {
   createRole(roleData: CreateRoleInput!): CreateRolePayload!
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
-  deleteFollow(followData: DeleteFollowInput!): Boolean!
+  deleteFollow(followedUserId: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
   deleteImage(id: Int!): Boolean!
   deleteLike(likeData: DeleteLikeInput!): Boolean!
@@ -404,6 +396,7 @@ type User {
   following: [Follow!]!
   homeFeed: [FeedItem!]!
   id: Int!
+  isFollowedByMe: Boolean!
   joinedGroups: [Group!]!
   likes: [Like!]!
   name: String!

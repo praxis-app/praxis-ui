@@ -1,0 +1,3 @@
+mutation UnfollowUser($followedUserId: Int!) {
+  deleteFollow(followedUserId: $followedUserId)
+}

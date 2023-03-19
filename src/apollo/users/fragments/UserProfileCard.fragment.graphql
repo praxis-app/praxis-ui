@@ -1,5 +1,6 @@
 fragment UserProfileCard on User {
   ...UserAvatar
+  ...FollowButton
   coverPhoto {
     id
   }
