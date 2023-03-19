@@ -5,8 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useUsersQuery } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import Link from "../../components/Shared/Link";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 
 const UsersIndex: NextPage = () => {
   const { data, error, loading } = useUsersQuery();
@@ -34,7 +36,7 @@ const UsersIndex: NextPage = () => {
             fontSize="small"
             sx={{ marginTop: 0.25, marginRight: 0.5 }}
           />
-          <Typography>{user.name}</Typography>
+          <Link href={getUserProfilePath(user.name)}>{user.name}</Link>
         </Flex>
       ))}
     </>
