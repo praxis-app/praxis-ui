@@ -1398,10 +1398,12 @@ export type FollowersQuery = {
         __typename?: "User";
         id: number;
         name: string;
+        isFollowedByMe: boolean;
         profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
   };
+  me: { __typename?: "User"; id: number };
 };
 
 export type FollowingQueryVariables = Exact<{
@@ -1926,6 +1928,18 @@ export type EditProfileFormFragment = {
   name: string;
   profilePicture: { __typename?: "Image"; id: number };
   coverPhoto?: { __typename?: "Image"; id: number } | null;
+};
+
+export type FollowFragment = {
+  __typename?: "Follow";
+  id: number;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    isFollowedByMe: boolean;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
 };
 
 export type FollowButtonFragment = {
@@ -2684,17 +2698,28 @@ export const EditProfileFormFragmentDoc = gql`
     }
   }
 `;
+export const FollowButtonFragmentDoc = gql`
+  fragment FollowButton on User {
+    id
+    isFollowedByMe
+  }
+`;
+export const FollowFragmentDoc = gql`
+  fragment Follow on Follow {
+    id
+    user {
+      ...UserAvatar
+      ...FollowButton
+    }
+  }
+  ${UserAvatarFragmentDoc}
+  ${FollowButtonFragmentDoc}
+`;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
     id
     name
     serverPermissions
-  }
-`;
-export const FollowButtonFragmentDoc = gql`
-  fragment FollowButton on User {
-    id
-    isFollowedByMe
   }
 `;
 export const UserProfileCardFragmentDoc = gql`
@@ -4325,14 +4350,14 @@ export const FollowersDocument = gql`
     user(name: $name) {
       id
       followers {
-        id
-        user {
-          ...UserAvatar
-        }
+        ...Follow
       }
     }
+    me {
+      id
+    }
   }
-  ${UserAvatarFragmentDoc}
+  ${FollowFragmentDoc}
 `;
 
 /**

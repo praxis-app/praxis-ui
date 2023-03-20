@@ -94,7 +94,7 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
       <CardHeader
         action={
           <>
-            {me && !isMe && <FollowButton user={user} me={me} />}
+            {me && !isMe && <FollowButton user={user} currentUserId={me.id} />}
 
             {isMe && (
               <ItemMenu
@@ -132,11 +132,11 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
         <Box>
           <Link href={followersPath}>
-            {t("users.profile.followersX", { count: followerCount })}
+            {t("users.labels.followers", { count: followerCount })}
           </Link>
           {MIDDOT_WITH_SPACES}
           <Link href={followingPath}>
-            {t("users.profile.followingX", { count: followingCount })}
+            {t("users.labels.following", { count: followingCount })}
           </Link>
         </Box>
       </CardContent>

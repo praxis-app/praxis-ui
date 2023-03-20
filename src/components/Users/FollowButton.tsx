@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FollowButtonFragment,
-  MeQuery,
   useFollowUserMutation,
   useUnfollowUserMutation,
 } from "../../apollo/gen";
@@ -12,11 +11,14 @@ import { TypeNames } from "../../constants/common.constants";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {
-  me: MeQuery["me"];
+  currentUserId: number;
   user: FollowButtonFragment;
 }
 
-const FollowButton = ({ user: { id, isFollowedByMe }, me }: Props) => {
+const FollowButton = ({
+  user: { id, isFollowedByMe },
+  currentUserId,
+}: Props) => {
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();
   const [isHovering, setIsHovering] = useState(false);
@@ -51,7 +53,7 @@ const FollowButton = ({ user: { id, isFollowedByMe }, me }: Props) => {
             },
           });
           cache.modify({
-            id: cache.identify({ ...typename, id: me.id }),
+            id: cache.identify({ ...typename, id: currentUserId }),
             fields: {
               followingCount(existingCount: number) {
                 return existingCount - 1;

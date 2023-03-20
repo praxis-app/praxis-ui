@@ -2,10 +2,10 @@ query Followers($name: String!) {
   user(name: $name) {
     id
     followers {
-      id
-      user {
-        ...UserAvatar
-      }
+      ...Follow
     }
+  }
+  me {
+    id
   }
 }

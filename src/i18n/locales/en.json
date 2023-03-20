@@ -142,9 +142,7 @@
     },
     "profile": {
       "following": "Following",
-      "joinDate": "Joined {{joinDate}}",
-      "followersX": "{{count}} Followers",
-      "followingX": "{{count}} Following"
+      "joinDate": "Joined {{joinDate}}"
     },
     "prompts": {
       "alreadyLoggedIn": "You're already signed in.",
@@ -154,6 +152,11 @@
       "logOut": "Are you sure you want to log out?",
       "permissionDenied": "Permission denied.",
       "signInToPost": "Sign in to start posting..."
+    },
+    "labels": {
+      "followers_one": "{{count}} Follower",
+      "followers_other": "{{count}} Followers",
+      "following": "{{count}} Following"
     },
     "validation": {
       "emailExists": "Email already exists.",
