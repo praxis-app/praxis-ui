@@ -1,4 +1,4 @@
-fragment Follow on Follow {
+fragment Follower on Follow {
   id
   user {
     ...UserAvatar

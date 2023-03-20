@@ -13,12 +13,11 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { breadcrumbsVar } from "../../../apollo/cache";
 import { useFollowersQuery } from "../../../apollo/gen";
-import Flex from "../../../components/Shared/Flex";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import Follow from "../../../components/Users/Follow";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
-import { getGroupPath } from "../../../utils/group.utils";
+import { getUserProfilePath } from "../../../utils/user.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -50,7 +49,7 @@ const Followers: NextPage = () => {
                 ? TruncationSizes.Small
                 : TruncationSizes.ExtraSmall,
             }),
-            href: getGroupPath(name),
+            href: getUserProfilePath(name),
           },
           {
             label: t("users.labels.followers", {
@@ -79,9 +78,7 @@ const Followers: NextPage = () => {
       <Card>
         <CardContent>
           {user.followers.map((follower) => (
-            <Flex justifyContent="space-between" key={follower.id}>
-              <Follow follow={follower} currentUserId={me.id} />
-            </Flex>
+            <Follow follow={follower} currentUserId={me.id} key={follower.id} />
           ))}
         </CardContent>
       </Card>
