@@ -67,9 +67,12 @@ const FollowButton = ({
     await followUser({ variables });
   };
 
+  const handleClickWithPrompt = () =>
+    window.confirm(t("users.prompts.unfollow")) && handleClick();
+
   return (
     <GhostButton
-      onClick={handleClick}
+      onClick={isFollowedByMe ? handleClickWithPrompt : handleClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       sx={{ marginRight: 0.5 }}

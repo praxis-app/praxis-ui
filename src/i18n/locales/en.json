@@ -151,7 +151,8 @@
       "becomeAMember": "Become a Praxis Member",
       "logOut": "Are you sure you want to log out?",
       "permissionDenied": "Permission denied.",
-      "signInToPost": "Sign in to start posting..."
+      "signInToPost": "Sign in to start posting...",
+      "unfollow": "Are you sure you want to unfollow this person?"
     },
     "labels": {
       "followers_one": "{{count}} Follower",
