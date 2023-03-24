@@ -15,12 +15,11 @@ const StyledFlex = styled(Flex)(() => ({
 }));
 
 interface Props {
-  follow: FollowerFragment | FollowedUserFragment;
+  user: FollowerFragment | FollowedUserFragment;
   currentUserId: number;
 }
 
-const Follow = ({ follow, currentUserId }: Props) => {
-  const user = "user" in follow ? follow.user : follow.followedUser;
+const Follow = ({ user, currentUserId }: Props) => {
   const isMe = user.id === currentUserId;
 
   return (

@@ -2,7 +2,7 @@ query Following($name: String!) {
   user(name: $name) {
     id
     following {
-      ...FollowedUser
+      ...Follow
     }
   }
   me {

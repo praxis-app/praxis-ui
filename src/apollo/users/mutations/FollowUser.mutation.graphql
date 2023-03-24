@@ -1,11 +1,8 @@
 mutation FollowUser($followedUserId: Int!) {
   followUser(followedUserId: $followedUserId) {
-    follow {
+    followedUser {
       id
-      followedUser {
-        id
-        ...UserProfileCard
-      }
+      ...UserProfileCard
     }
   }
 }

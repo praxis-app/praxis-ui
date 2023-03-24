@@ -1,7 +1,0 @@
-fragment Follower on Follow {
-  id
-  user {
-    ...UserAvatar
-    ...FollowButton
-  }
-}
