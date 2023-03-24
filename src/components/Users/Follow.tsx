@@ -1,5 +1,5 @@
 import { styled, Typography } from "@mui/material";
-import { FollowedUserFragment, FollowerFragment } from "../../apollo/gen";
+import { FollowFragment } from "../../apollo/gen";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -15,7 +15,7 @@ const StyledFlex = styled(Flex)(() => ({
 }));
 
 interface Props {
-  user: FollowerFragment | FollowedUserFragment;
+  user: FollowFragment;
   currentUserId: number;
 }
 
