@@ -2,5 +2,6 @@ fragment GroupMember on GroupMember {
   id
   user {
     ...UserAvatar
+    ...FollowButton
   }
 }

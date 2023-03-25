@@ -727,6 +727,7 @@ export type GroupMemberFragment = {
     __typename?: "User";
     id: number;
     name: string;
+    isFollowedByMe: boolean;
     profilePicture: { __typename?: "Image"; id: number };
   };
 };
@@ -906,10 +907,12 @@ export type GroupMembersQuery = {
         __typename?: "User";
         id: number;
         name: string;
+        isFollowedByMe: boolean;
         profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
   };
+  me: { __typename?: "User"; id: number };
 };
 
 export type GroupProfileQueryVariables = Exact<{
@@ -2437,14 +2440,22 @@ export const UserAvatarFragmentDoc = gql`
     }
   }
 `;
+export const FollowButtonFragmentDoc = gql`
+  fragment FollowButton on User {
+    id
+    isFollowedByMe
+  }
+`;
 export const GroupMemberFragmentDoc = gql`
   fragment GroupMember on GroupMember {
     id
     user {
       ...UserAvatar
+      ...FollowButton
     }
   }
   ${UserAvatarFragmentDoc}
+  ${FollowButtonFragmentDoc}
 `;
 export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
@@ -2702,12 +2713,6 @@ export const EditProfileFormFragmentDoc = gql`
     coverPhoto {
       id
     }
-  }
-`;
-export const FollowButtonFragmentDoc = gql`
-  fragment FollowButton on User {
-    id
-    isFollowedByMe
   }
 `;
 export const FollowFragmentDoc = gql`
@@ -3476,6 +3481,9 @@ export const GroupMembersDocument = gql`
       members {
         ...GroupMember
       }
+    }
+    me {
+      id
     }
   }
   ${GroupMemberFragmentDoc}

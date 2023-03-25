@@ -3,6 +3,7 @@ import { GroupMemberFragment } from "../../apollo/gen";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
 import Link from "../Shared/Link";
+import FollowButton from "../Users/FollowButton";
 import UserAvatar from "../Users/UserAvatar";
 
 const Flex = styled(SharedFlex)(() => ({
@@ -14,9 +15,10 @@ const Flex = styled(SharedFlex)(() => ({
 
 interface Props {
   member: GroupMemberFragment;
+  currentUserId: number;
 }
 
-const GroupMember = ({ member: { user } }: Props) => (
+const GroupMember = ({ member: { user }, currentUserId }: Props) => (
   <Flex sx={{ justifyContent: "space-between" }}>
     <Link href={getUserProfilePath(user.name)}>
       <Flex>
@@ -24,6 +26,10 @@ const GroupMember = ({ member: { user } }: Props) => (
         <Typography sx={{ marginTop: 1 }}>{user.name}</Typography>
       </Flex>
     </Link>
+
+    {currentUserId !== user.id && (
+      <FollowButton user={user} currentUserId={currentUserId} />
+    )}
   </Flex>
 );
 

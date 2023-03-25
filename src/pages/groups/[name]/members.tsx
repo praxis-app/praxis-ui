@@ -33,6 +33,7 @@ const GroupMembers: NextPage = () => {
     skip: !name,
   });
   const group = data?.group;
+  const me = data?.me;
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
@@ -69,7 +70,7 @@ const GroupMembers: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!group || !group.members.length) {
+  if (!group || !me || !group.members.length) {
     return null;
   }
 
@@ -77,7 +78,7 @@ const GroupMembers: NextPage = () => {
     <Card>
       <CardContent>
         {group.members.map((member) => (
-          <GroupMember key={member.id} member={member} />
+          <GroupMember key={member.id} member={member} currentUserId={me.id} />
         ))}
       </CardContent>
     </Card>
