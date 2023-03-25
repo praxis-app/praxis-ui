@@ -75,8 +75,12 @@ const Following: NextPage = () => {
     <>
       <Card>
         <CardContent>
-          {user.following.map((follow) => (
-            <Follow user={follow} currentUserId={me.id} key={follow.id} />
+          {user.following.map((followedUser) => (
+            <Follow
+              key={followedUser.id}
+              currentUserId={me.id}
+              user={followedUser}
+            />
           ))}
         </CardContent>
       </Card>
