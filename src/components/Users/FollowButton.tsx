@@ -36,8 +36,8 @@ const FollowButton = ({
   };
 
   const handleClick = async () => {
-    const variables = { followedUserId: id };
     const typename = { __typename: TypeNames.User };
+    const variables = { id };
 
     if (isFollowedByMe) {
       await unfollowUser({

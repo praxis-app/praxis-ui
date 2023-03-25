@@ -318,7 +318,7 @@ export type MutationDenyMemberRequestArgs = {
 };
 
 export type MutationFollowUserArgs = {
-  followedUserId: Scalars["Int"];
+  id: Scalars["Int"];
 };
 
 export type MutationLeaveGroupArgs = {
@@ -334,7 +334,7 @@ export type MutationSignUpArgs = {
 };
 
 export type MutationUnfollowUserArgs = {
-  followedUserId: Scalars["Int"];
+  id: Scalars["Int"];
 };
 
 export type MutationUpdateGroupArgs = {
@@ -1918,7 +1918,7 @@ export type UserProfileCardFragment = {
 };
 
 export type FollowUserMutationVariables = Exact<{
-  followedUserId: Scalars["Int"];
+  id: Scalars["Int"];
 }>;
 
 export type FollowUserMutation = {
@@ -1967,7 +1967,7 @@ export type FollowUserMutation = {
 };
 
 export type UnfollowUserMutationVariables = Exact<{
-  followedUserId: Scalars["Int"];
+  id: Scalars["Int"];
 }>;
 
 export type UnfollowUserMutation = {
@@ -5010,8 +5010,8 @@ export type ServerRolesQueryResult = Apollo.QueryResult<
   ServerRolesQueryVariables
 >;
 export const FollowUserDocument = gql`
-  mutation FollowUser($followedUserId: Int!) {
-    followUser(followedUserId: $followedUserId) {
+  mutation FollowUser($id: Int!) {
+    followUser(id: $id) {
       followedUser {
         id
         followers {
@@ -5049,7 +5049,7 @@ export type FollowUserMutationFn = Apollo.MutationFunction<
  * @example
  * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
  *   variables: {
- *      followedUserId: // value for 'followedUserId'
+ *      id: // value for 'id'
  *   },
  * });
  */
@@ -5075,8 +5075,8 @@ export type FollowUserMutationOptions = Apollo.BaseMutationOptions<
   FollowUserMutationVariables
 >;
 export const UnfollowUserDocument = gql`
-  mutation UnfollowUser($followedUserId: Int!) {
-    unfollowUser(followedUserId: $followedUserId)
+  mutation UnfollowUser($id: Int!) {
+    unfollowUser(id: $id)
   }
 `;
 export type UnfollowUserMutationFn = Apollo.MutationFunction<
@@ -5097,7 +5097,7 @@ export type UnfollowUserMutationFn = Apollo.MutationFunction<
  * @example
  * const [unfollowUserMutation, { data, loading, error }] = useUnfollowUserMutation({
  *   variables: {
- *      followedUserId: // value for 'followedUserId'
+ *      id: // value for 'id'
  *   },
  * });
  */

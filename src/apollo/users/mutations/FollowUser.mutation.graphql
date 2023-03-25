@@ -1,5 +1,5 @@
-mutation FollowUser($followedUserId: Int!) {
-  followUser(followedUserId: $followedUserId) {
+mutation FollowUser($id: Int!) {
+  followUser(id: $id) {
     followedUser {
       id
       followers {

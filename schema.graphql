@@ -176,13 +176,13 @@ type Mutation {
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!
-  followUser(followedUserId: Int!): FollowUserPayload!
+  followUser(id: Int!): FollowUserPayload!
   leaveGroup(id: Int!): Boolean!
   logOut: Boolean!
   login(input: LoginInput!): LoginPayload!
   refreshToken: Boolean!
   signUp(input: SignUpInput!): SignUpPayload!
-  unfollowUser(followedUserId: Int!): Boolean!
+  unfollowUser(id: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
