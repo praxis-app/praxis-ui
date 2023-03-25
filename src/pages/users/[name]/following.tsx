@@ -69,7 +69,7 @@ const Following: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!user?.following || !me) {
+  if (!user?.following.length || !me) {
     return null;
   }
 
