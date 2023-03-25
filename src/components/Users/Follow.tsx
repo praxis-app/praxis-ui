@@ -21,10 +21,11 @@ interface Props {
 
 const Follow = ({ user, currentUserId }: Props) => {
   const isMe = user.id === currentUserId;
+  const userProfilePath = getUserProfilePath(user.name);
 
   return (
     <StyledFlex>
-      <Link href={getUserProfilePath(user.name)}>
+      <Link href={userProfilePath}>
         <Flex>
           <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
           <Typography sx={{ marginTop: 1 }}>{user.name}</Typography>
