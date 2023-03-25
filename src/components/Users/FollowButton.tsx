@@ -1,5 +1,3 @@
-// TODO: Add remaining layout and functionality - below is a WIP
-
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
