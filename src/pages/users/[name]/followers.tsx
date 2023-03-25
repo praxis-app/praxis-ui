@@ -53,7 +53,7 @@ const Followers: NextPage = () => {
           },
           {
             label: t("users.labels.followers", {
-              count: user.followers.length || 0,
+              count: user.followerCount,
             }),
           },
         ],
@@ -78,7 +78,7 @@ const Followers: NextPage = () => {
       <Card>
         <CardContent>
           {user.followers.map((follower) => (
-            <Follow follow={follower} currentUserId={me.id} key={follower.id} />
+            <Follow user={follower} currentUserId={me.id} key={follower.id} />
           ))}
         </CardContent>
       </Card>

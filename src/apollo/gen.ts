@@ -32,11 +32,6 @@ export type ApproveMemberRequestPayload = {
   groupMember: GroupMember;
 };
 
-export type CreateFollowPayload = {
-  __typename?: "CreateFollowPayload";
-  follow: Follow;
-};
-
 export type CreateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
@@ -126,13 +121,10 @@ export type DeleteRoleMemberPayload = {
 
 export type FeedItem = Post | Proposal;
 
-export type Follow = {
-  __typename?: "Follow";
-  createdAt: Scalars["DateTime"];
+export type FollowUserPayload = {
+  __typename?: "FollowUserPayload";
   followedUser: User;
-  id: Scalars["Int"];
-  updatedAt: Scalars["DateTime"];
-  user: User;
+  follower: User;
 };
 
 export type Group = {
@@ -226,7 +218,7 @@ export type Mutation = {
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
-  followUser: CreateFollowPayload;
+  followUser: FollowUserPayload;
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
   login: LoginPayload;
@@ -614,8 +606,8 @@ export type User = {
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
   followerCount: Scalars["Int"];
-  followers: Array<Follow>;
-  following: Array<Follow>;
+  followers: Array<User>;
+  following: Array<User>;
   followingCount: Scalars["Int"];
   homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
@@ -1884,34 +1876,18 @@ export type EditProfileFormFragment = {
   coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
+export type FollowFragment = {
+  __typename?: "User";
+  id: number;
+  name: string;
+  isFollowedByMe: boolean;
+  profilePicture: { __typename?: "Image"; id: number };
+};
+
 export type FollowButtonFragment = {
   __typename?: "User";
   id: number;
   isFollowedByMe: boolean;
-};
-
-export type FollowedUserFragment = {
-  __typename?: "Follow";
-  id: number;
-  followedUser: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    isFollowedByMe: boolean;
-    profilePicture: { __typename?: "Image"; id: number };
-  };
-};
-
-export type FollowerFragment = {
-  __typename?: "Follow";
-  id: number;
-  user: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    isFollowedByMe: boolean;
-    profilePicture: { __typename?: "Image"; id: number };
-  };
 };
 
 export type TopNavDropdownFragment = {
@@ -1948,22 +1924,30 @@ export type FollowUserMutationVariables = Exact<{
 export type FollowUserMutation = {
   __typename?: "Mutation";
   followUser: {
-    __typename?: "CreateFollowPayload";
-    follow: {
-      __typename?: "Follow";
+    __typename?: "FollowUserPayload";
+    followedUser: {
+      __typename?: "User";
       id: number;
-      followedUser: {
-        __typename?: "User";
-        id: number;
-        bio?: string | null;
-        createdAt: any;
-        followerCount: number;
-        followingCount: number;
-        name: string;
-        isFollowedByMe: boolean;
-        coverPhoto?: { __typename?: "Image"; id: number } | null;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      bio?: string | null;
+      createdAt: any;
+      followerCount: number;
+      followingCount: number;
+      name: string;
+      isFollowedByMe: boolean;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+    follower: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      createdAt: any;
+      followerCount: number;
+      followingCount: number;
+      name: string;
+      isFollowedByMe: boolean;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      profilePicture: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -2046,16 +2030,13 @@ export type FollowersQuery = {
   user: {
     __typename?: "User";
     id: number;
+    followerCount: number;
     followers: Array<{
-      __typename?: "Follow";
+      __typename?: "User";
       id: number;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        isFollowedByMe: boolean;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      isFollowedByMe: boolean;
+      profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
   me: { __typename?: "User"; id: number };
@@ -2070,16 +2051,13 @@ export type FollowingQuery = {
   user: {
     __typename?: "User";
     id: number;
+    followingCount: number;
     following: Array<{
-      __typename?: "Follow";
+      __typename?: "User";
       id: number;
-      followedUser: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        isFollowedByMe: boolean;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      isFollowedByMe: boolean;
+      profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
   me: { __typename?: "User"; id: number };
@@ -2718,24 +2696,11 @@ export const FollowButtonFragmentDoc = gql`
     isFollowedByMe
   }
 `;
-export const FollowedUserFragmentDoc = gql`
-  fragment FollowedUser on Follow {
+export const FollowFragmentDoc = gql`
+  fragment Follow on User {
     id
-    followedUser {
-      ...UserAvatar
-      ...FollowButton
-    }
-  }
-  ${UserAvatarFragmentDoc}
-  ${FollowButtonFragmentDoc}
-`;
-export const FollowerFragmentDoc = gql`
-  fragment Follower on Follow {
-    id
-    user {
-      ...UserAvatar
-      ...FollowButton
-    }
+    ...UserAvatar
+    ...FollowButton
   }
   ${UserAvatarFragmentDoc}
   ${FollowButtonFragmentDoc}
@@ -5033,12 +4998,13 @@ export type ServerRolesQueryResult = Apollo.QueryResult<
 export const FollowUserDocument = gql`
   mutation FollowUser($followedUserId: Int!) {
     followUser(followedUserId: $followedUserId) {
-      follow {
+      followedUser {
         id
-        followedUser {
-          id
-          ...UserProfileCard
-        }
+        ...UserProfileCard
+      }
+      follower {
+        id
+        ...UserProfileCard
       }
     }
   }
@@ -5257,15 +5223,16 @@ export const FollowersDocument = gql`
   query Followers($name: String!) {
     user(name: $name) {
       id
+      followerCount
       followers {
-        ...Follower
+        ...Follow
       }
     }
     me {
       id
     }
   }
-  ${FollowerFragmentDoc}
+  ${FollowFragmentDoc}
 `;
 
 /**
@@ -5317,15 +5284,16 @@ export const FollowingDocument = gql`
   query Following($name: String!) {
     user(name: $name) {
       id
+      followingCount
       following {
-        ...FollowedUser
+        ...Follow
       }
     }
     me {
       id
     }
   }
-  ${FollowedUserFragmentDoc}
+  ${FollowFragmentDoc}
 `;
 
 /**

@@ -1,8 +1,9 @@
 query Followers($name: String!) {
   user(name: $name) {
     id
+    followerCount
     followers {
-      ...Follower
+      ...Follow
     }
   }
   me {

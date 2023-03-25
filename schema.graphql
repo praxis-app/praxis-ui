@@ -2,10 +2,6 @@ type ApproveMemberRequestPayload {
   groupMember: GroupMember!
 }
 
-type CreateFollowPayload {
-  follow: Follow!
-}
-
 input CreateGroupInput {
   coverPhoto: Upload
   description: String!
@@ -91,12 +87,9 @@ type DeleteRoleMemberPayload {
 
 union FeedItem = Post | Proposal
 
-type Follow {
-  createdAt: DateTime!
+type FollowUserPayload {
   followedUser: User!
-  id: Int!
-  updatedAt: DateTime!
-  user: User!
+  follower: User!
 }
 
 type Group {
@@ -183,7 +176,7 @@ type Mutation {
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!
-  followUser(followedUserId: Int!): CreateFollowPayload!
+  followUser(followedUserId: Int!): FollowUserPayload!
   leaveGroup(id: Int!): Boolean!
   logOut: Boolean!
   login(input: LoginInput!): LoginPayload!
@@ -393,8 +386,8 @@ type User {
   createdAt: DateTime!
   email: String!
   followerCount: Int!
-  followers: [Follow!]!
-  following: [Follow!]!
+  followers: [User!]!
+  following: [User!]!
   followingCount: Int!
   homeFeed: [FeedItem!]!
   id: Int!
