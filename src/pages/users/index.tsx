@@ -1,3 +1,5 @@
+// TODO: Remove this page when no longer needed for testing
+
 import { Person as UserIcon } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
