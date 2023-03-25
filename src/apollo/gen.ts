@@ -124,6 +124,7 @@ export type FeedItem = Post | Proposal;
 export type FollowUserPayload = {
   __typename?: "FollowUserPayload";
   followedUser: User;
+  follower: User;
 };
 
 export type Group = {
@@ -1936,6 +1937,18 @@ export type FollowUserMutation = {
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       profilePicture: { __typename?: "Image"; id: number };
     };
+    follower: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      createdAt: any;
+      followerCount: number;
+      followingCount: number;
+      name: string;
+      isFollowedByMe: boolean;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
   };
 };
 
@@ -2017,6 +2030,7 @@ export type FollowersQuery = {
   user: {
     __typename?: "User";
     id: number;
+    followerCount: number;
     followers: Array<{
       __typename?: "User";
       id: number;
@@ -2037,6 +2051,7 @@ export type FollowingQuery = {
   user: {
     __typename?: "User";
     id: number;
+    followingCount: number;
     following: Array<{
       __typename?: "User";
       id: number;
@@ -4987,6 +5002,10 @@ export const FollowUserDocument = gql`
         id
         ...UserProfileCard
       }
+      follower {
+        id
+        ...UserProfileCard
+      }
     }
   }
   ${UserProfileCardFragmentDoc}
@@ -5204,6 +5223,7 @@ export const FollowersDocument = gql`
   query Followers($name: String!) {
     user(name: $name) {
       id
+      followerCount
       followers {
         ...Follow
       }
@@ -5264,6 +5284,7 @@ export const FollowingDocument = gql`
   query Following($name: String!) {
     user(name: $name) {
       id
+      followingCount
       following {
         ...Follow
       }

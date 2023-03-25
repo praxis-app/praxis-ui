@@ -4,5 +4,9 @@ mutation FollowUser($followedUserId: Int!) {
       id
       ...UserProfileCard
     }
+    follower {
+      id
+      ...UserProfileCard
+    }
   }
 }

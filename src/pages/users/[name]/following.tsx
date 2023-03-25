@@ -53,7 +53,7 @@ const Following: NextPage = () => {
           },
           {
             label: t("users.labels.following", {
-              count: user.following.length || 0,
+              count: user.followingCount,
             }),
           },
         ],

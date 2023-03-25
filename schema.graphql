@@ -89,6 +89,7 @@ union FeedItem = Post | Proposal
 
 type FollowUserPayload {
   followedUser: User!
+  follower: User!
 }
 
 type Group {
