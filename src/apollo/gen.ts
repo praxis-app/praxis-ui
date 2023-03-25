@@ -1934,6 +1934,13 @@ export type FollowUserMutation = {
       followingCount: number;
       name: string;
       isFollowedByMe: boolean;
+      followers: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        isFollowedByMe: boolean;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       profilePicture: { __typename?: "Image"; id: number };
     };
@@ -1946,6 +1953,13 @@ export type FollowUserMutation = {
       followingCount: number;
       name: string;
       isFollowedByMe: boolean;
+      following: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        isFollowedByMe: boolean;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       profilePicture: { __typename?: "Image"; id: number };
     };
@@ -5000,14 +5014,21 @@ export const FollowUserDocument = gql`
     followUser(followedUserId: $followedUserId) {
       followedUser {
         id
+        followers {
+          ...Follow
+        }
         ...UserProfileCard
       }
       follower {
         id
+        following {
+          ...Follow
+        }
         ...UserProfileCard
       }
     }
   }
+  ${FollowFragmentDoc}
   ${UserProfileCardFragmentDoc}
 `;
 export type FollowUserMutationFn = Apollo.MutationFunction<
