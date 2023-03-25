@@ -1,3 +1,4 @@
+import { Reference } from "@apollo/client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -44,10 +45,15 @@ const FollowButton = ({
           cache.modify({
             id: cache.identify({ ...typename, id }),
             fields: {
-              isFollowedByMe: () => false,
+              followers(existingRefs: Reference[], { readField }) {
+                return existingRefs.filter(
+                  (ref) => readField("id", ref) !== currentUserId
+                );
+              },
               followerCount(existingCount: number) {
                 return existingCount - 1;
               },
+              isFollowedByMe: () => false,
             },
           });
           cache.modify({
