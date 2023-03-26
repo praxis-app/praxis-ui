@@ -50,7 +50,9 @@ const ServerInviteCard = ({
   const { t } = useTranslation();
 
   const expiresAtText = expiresAt ? timeFromNow(expiresAt) : t("time.never");
-  const usesText = uses + (maxUses ? `/${maxUses}` : "");
+  const usesText = `${t("invites.labels.usesWithColon")} ${
+    uses + (maxUses ? `/${maxUses}` : "")
+  }`;
 
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
@@ -132,7 +134,7 @@ const ServerInviteCard = ({
           <Box>{user.name}</Box>
         </Link>
 
-        <Typography>Uses: {usesText}</Typography>
+        <Typography>{usesText}</Typography>
       </CardContent>
     </Card>
   );

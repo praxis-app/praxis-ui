@@ -345,6 +345,9 @@
       "expires": "EXPIRES",
       "inviter": "INVITER",
       "uses": "USES"
+    },
+    "labels": {
+      "usesWithColon": "Uses:"
     }
   },
 
