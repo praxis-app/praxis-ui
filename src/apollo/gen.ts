@@ -1956,6 +1956,81 @@ export type FollowUserMutation = {
       followingCount: number;
       name: string;
       isFollowedByMe: boolean;
+      homeFeed: Array<
+        | {
+            __typename?: "Post";
+            id: number;
+            body?: string | null;
+            createdAt: any;
+            likesCount: number;
+            isLikedByMe: boolean;
+            images: Array<{
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            }>;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+            group?: {
+              __typename?: "Group";
+              id: number;
+              name: string;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+            } | null;
+          }
+        | {
+            __typename?: "Proposal";
+            id: number;
+            body?: string | null;
+            voteCount: number;
+            createdAt: any;
+            stage: string;
+            action: {
+              __typename?: "ProposalAction";
+              id: number;
+              actionType: string;
+              groupDescription?: string | null;
+              groupName?: string | null;
+              groupCoverPhoto?: {
+                __typename?: "Image";
+                id: number;
+                filename: string;
+              } | null;
+            };
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+            group?: {
+              __typename?: "Group";
+              id: number;
+              name: string;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+            } | null;
+            images: Array<{
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            }>;
+            votes: Array<{
+              __typename?: "Vote";
+              id: number;
+              voteType: string;
+              user: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+            }>;
+          }
+      >;
       following: Array<{
         __typename?: "User";
         id: number;
@@ -5029,6 +5104,9 @@ export const FollowUserDocument = gql`
       }
       follower {
         id
+        homeFeed {
+          ...FeedItem
+        }
         following {
           ...Follow
         }
@@ -5038,6 +5116,7 @@ export const FollowUserDocument = gql`
   }
   ${FollowFragmentDoc}
   ${UserProfileCardFragmentDoc}
+  ${FeedItemFragmentDoc}
 `;
 export type FollowUserMutationFn = Apollo.MutationFunction<
   FollowUserMutation,

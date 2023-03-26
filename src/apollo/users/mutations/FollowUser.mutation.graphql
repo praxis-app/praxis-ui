@@ -9,6 +9,9 @@ mutation FollowUser($id: Int!) {
     }
     follower {
       id
+      homeFeed {
+        ...FeedItem
+      }
       following {
         ...Follow
       }
