@@ -74,6 +74,11 @@ Install the following Chrome extension provided by Deque Systems: [axe DevTools 
 
 Once the extension is installed, open up Chrome DevTools, and navigate to the **axe DevTools** tab. Here you can click the **Scan ALL of my page** button to check for any accessibility issues.
 
+## Tools to get Involved and Collaborate
+
+- Discord: https://discord.gg/s5MxNBehxS, or message **forrest#2807** for more information.
+- Notion: A link to the Notion page can be obtained upon request.
+
 ## Contributions
 
 Praxis is open to contributions. Please read [CONTRIBUTING.md](https://github.com/praxis-project/praxis-ui/blob/main/CONTRIBUTING.md) for more details.
