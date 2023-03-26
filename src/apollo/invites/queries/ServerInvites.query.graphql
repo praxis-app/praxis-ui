@@ -1,6 +1,6 @@
 query ServerInvites {
   serverInvites {
-    ...ServerInviteRow
+    ...ServerInviteCard
   }
   me {
     id

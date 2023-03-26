@@ -1074,7 +1074,7 @@ export type DeleteImageMutation = {
   deleteImage: boolean;
 };
 
-export type ServerInviteRowFragment = {
+export type ServerInviteCardFragment = {
   __typename?: "ServerInvite";
   id: number;
   maxUses?: number | null;
@@ -2558,8 +2558,8 @@ export const RequestToJoinFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const ServerInviteRowFragmentDoc = gql`
-  fragment ServerInviteRow on ServerInvite {
+export const ServerInviteCardFragmentDoc = gql`
+  fragment ServerInviteCard on ServerInvite {
     id
     maxUses
     token
@@ -3905,11 +3905,11 @@ export const CreateServerInviteDocument = gql`
   mutation CreateServerInvite($serverInviteData: CreateServerInviteInput!) {
     createServerInvite(serverInviteData: $serverInviteData) {
       serverInvite {
-        ...ServerInviteRow
+        ...ServerInviteCard
       }
     }
   }
-  ${ServerInviteRowFragmentDoc}
+  ${ServerInviteCardFragmentDoc}
 `;
 export type CreateServerInviteMutationFn = Apollo.MutationFunction<
   CreateServerInviteMutation,
@@ -4064,14 +4064,14 @@ export type ServerInviteQueryResult = Apollo.QueryResult<
 export const ServerInvitesDocument = gql`
   query ServerInvites {
     serverInvites {
-      ...ServerInviteRow
+      ...ServerInviteCard
     }
     me {
       id
       serverPermissions
     }
   }
-  ${ServerInviteRowFragmentDoc}
+  ${ServerInviteCardFragmentDoc}
 `;
 
 /**

@@ -1,22 +1,22 @@
 import { Assignment } from "@mui/icons-material";
 import { Box, MenuItem, styled, TableRow } from "@mui/material";
-import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  ServerInviteRowFragment,
-  ServerInvitesDocument,
+  ServerInviteCardFragment,
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
 import { ServerPermissions } from "../../constants/role.constants";
+import { copyInviteLink } from "../../utils/server-invite.utils";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import SharedTableCell from "../Shared/TableCell";
 import UserAvatar from "../Users/UserAvatar";
+import { removeServerInvite } from "./ServerInviteCard";
 
 const TableCell = styled(SharedTableCell)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -25,13 +25,13 @@ const TableCell = styled(SharedTableCell)(({ theme }) => ({
 interface Props {
   isLast: boolean;
   me: ServerInvitesQuery["me"];
-  serverInvite: ServerInviteRowFragment;
+  serverInvite: ServerInviteCardFragment;
 }
 
 const ServerInviteRow = ({
   isLast,
   me: { serverPermissions },
-  serverInvite: { id, user, token, uses, maxUses, expiresAt, __typename },
+  serverInvite: { id, user, token, uses, maxUses, expiresAt },
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteInvite] = useDeleteServerInviteMutation();
@@ -48,22 +48,7 @@ const ServerInviteRow = ({
   const handleDelete = async () =>
     await deleteInvite({
       variables: { id },
-      update(cache) {
-        cache.updateQuery<ServerInvitesQuery>(
-          { query: ServerInvitesDocument },
-          (invitesData) =>
-            produce(invitesData, (draft) => {
-              if (!draft) {
-                return;
-              }
-              const index = draft.serverInvites.findIndex((p) => p.id === id);
-              draft.serverInvites.splice(index, 1);
-            })
-        );
-        const cacheId = cache.identify({ id, __typename });
-        cache.evict({ id: cacheId });
-        cache.gc();
-      },
+      update: removeServerInvite(id),
       onError(err) {
         toastVar({
           status: "error",
@@ -73,9 +58,7 @@ const ServerInviteRow = ({
     });
 
   const handleCopyLink = async () => {
-    const inviteLink = `${window.location.origin}/i/${token}`;
-    await navigator.clipboard.writeText(inviteLink);
-
+    await copyInviteLink(token);
     toastVar({
       title: t("invites.prompts.copiedToClipboard"),
       status: "success",

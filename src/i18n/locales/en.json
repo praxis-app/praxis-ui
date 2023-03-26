@@ -345,6 +345,9 @@
       "expires": "EXPIRES",
       "inviter": "INVITER",
       "uses": "USES"
+    },
+    "labels": {
+      "usesWithColon": "Uses:"
     }
   },
 
@@ -364,6 +367,7 @@
     "infinity": "∞",
     "min": "min",
     "minutes": "{{minutes}}m",
+    "never": "Never",
     "now": "now"
   },
 

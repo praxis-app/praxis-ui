@@ -1,29 +1,20 @@
-import {
-  Card,
-  styled,
-  Table,
-  TableBody,
-  TableCell as MuiTableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { useServerInvitesQuery } from "../../apollo/gen";
-import ServerInviteRow from "../../components/ServerInvites/ServerInviteRow";
+import ServerInviteCard from "../../components/ServerInvites/ServerInviteCard";
 import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
+import ServerInviteTable from "../../components/ServerInvites/ServerInviteTable";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { isDeniedAccess } from "../../utils/error.utils";
 
-const TableCell = styled(MuiTableCell)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-}));
-
-const ServerRoles: NextPage = () => {
+const ServerInvites: NextPage = () => {
   const { data, loading, error } = useServerInvitesQuery();
+
   const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
 
   if (isDeniedAccess(error)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
@@ -37,36 +28,18 @@ const ServerRoles: NextPage = () => {
     return <ProgressBar />;
   }
 
-  const renderTable = () => {
+  const renderInvites = () => {
     if (!data || !data.me || !data.serverInvites.length) {
       return null;
     }
     const { me, serverInvites } = data;
-    return (
-      <Card>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t("invites.columnNames.inviter")}</TableCell>
-              <TableCell>{t("invites.columnNames.code")}</TableCell>
-              <TableCell>{t("invites.columnNames.uses")}</TableCell>
-              <TableCell>{t("invites.columnNames.expires")}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {serverInvites.map((serverInvite, index) => (
-              <ServerInviteRow
-                isLast={index + 1 === serverInvites.length}
-                key={serverInvite.id}
-                me={me}
-                serverInvite={serverInvite}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </Card>
-    );
+
+    if (isDesktop) {
+      return <ServerInviteTable serverInvites={serverInvites} me={me} />;
+    }
+    return serverInvites.map((invite) => (
+      <ServerInviteCard key={invite.id} serverInvite={invite} me={me} />
+    ));
   };
 
   return (
@@ -76,9 +49,9 @@ const ServerRoles: NextPage = () => {
       </LevelOneHeading>
 
       <ServerInviteForm />
-      {renderTable()}
+      {renderInvites()}
     </>
   );
 };
 
-export default ServerRoles;
+export default ServerInvites;
