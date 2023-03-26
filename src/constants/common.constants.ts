@@ -32,6 +32,7 @@ export enum TypeNames {
   Post = "Post",
   Proposal = "Proposal",
   Role = "Role",
+  ServerInvite = "ServerInvite",
   User = "User",
 }
 
