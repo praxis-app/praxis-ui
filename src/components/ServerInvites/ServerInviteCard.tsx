@@ -1,3 +1,4 @@
+import { ApolloCache } from "@apollo/client";
 import { Assignment } from "@mui/icons-material";
 import {
   Box,
@@ -9,22 +10,42 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   ServerInviteCardFragment,
+  ServerInvitesDocument,
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
+import { TypeNames } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
+import { copyInviteLink } from "../../utils/server-invite.utils";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import CompactButton from "../Shared/CompactButton";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import UserAvatar from "../Users/UserAvatar";
-import { removeServerInvite } from "./ServerInviteRow";
+
+export const removeServerInvite = (id: number) => (cache: ApolloCache<any>) => {
+  cache.updateQuery<ServerInvitesQuery>(
+    { query: ServerInvitesDocument },
+    (invitesData) =>
+      produce(invitesData, (draft) => {
+        if (!draft) {
+          return;
+        }
+        const index = draft.serverInvites.findIndex((p) => p.id === id);
+        draft.serverInvites.splice(index, 1);
+      })
+  );
+  const cacheId = cache.identify({ id, __typename: TypeNames.ServerInvite });
+  cache.evict({ id: cacheId });
+  cache.gc();
+};
 
 const CardContent = styled(MuiCardContent)(() => ({
   display: "flex",
@@ -74,9 +95,7 @@ const ServerInviteCard = ({
     });
 
   const handleCopyLink = async () => {
-    const inviteLink = `${window.location.origin}/i/${token}`;
-    await navigator.clipboard.writeText(inviteLink);
-
+    await copyInviteLink(token);
     toastVar({
       title: t("invites.prompts.copiedToClipboard"),
       status: "success",
