@@ -6,7 +6,6 @@ import {
   useFollowUserMutation,
   useUnfollowUserMutation,
 } from "../../apollo/gen";
-import { TypeNames } from "../../constants/common.constants";
 import GhostButton from "../Shared/GhostButton";
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const FollowButton = ({
-  user: { id, isFollowedByMe },
+  user: { id, isFollowedByMe, __typename },
   currentUserId,
 }: Props) => {
   const [followUser] = useFollowUserMutation();
@@ -35,15 +34,12 @@ const FollowButton = ({
   };
 
   const handleClick = async () => {
-    const typename = { __typename: TypeNames.User };
-    const variables = { id };
-
     if (isFollowedByMe) {
       await unfollowUser({
-        variables,
+        variables: { id },
         update(cache) {
           cache.modify({
-            id: cache.identify({ ...typename, id }),
+            id: cache.identify({ id, __typename }),
             fields: {
               followers(existingRefs: Reference[], { readField }) {
                 return existingRefs.filter(
@@ -57,7 +53,7 @@ const FollowButton = ({
             },
           });
           cache.modify({
-            id: cache.identify({ ...typename, id: currentUserId }),
+            id: cache.identify({ id: currentUserId, __typename }),
             fields: {
               followingCount(existingCount: number) {
                 return existingCount - 1;
@@ -68,7 +64,7 @@ const FollowButton = ({
       });
       return;
     }
-    await followUser({ variables });
+    await followUser({ variables: { id } });
   };
 
   const handleClickWithPrompt = () =>
