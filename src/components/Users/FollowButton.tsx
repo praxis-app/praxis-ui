@@ -20,9 +20,10 @@ const FollowButton = ({
   user: { id, isFollowedByMe, __typename },
   currentUserId,
 }: Props) => {
-  const [followUser] = useFollowUserMutation();
-  const [unfollowUser] = useUnfollowUserMutation();
   const [isHovering, setIsHovering] = useState(false);
+  const [followUser, { loading: followLoading }] = useFollowUserMutation();
+  const [unfollowUser, { loading: unfollowLoading }] =
+    useUnfollowUserMutation();
 
   const { t } = useTranslation();
 
@@ -87,6 +88,7 @@ const FollowButton = ({
 
   return (
     <GhostButton
+      disabled={followLoading || unfollowLoading}
       onClick={isFollowedByMe ? handleClickWithPrompt : handleClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
