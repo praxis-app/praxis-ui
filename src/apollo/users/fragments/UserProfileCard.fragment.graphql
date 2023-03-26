@@ -1,8 +1,13 @@
 fragment UserProfileCard on User {
-  ...UserAvatar
+  id
+  bio
+  createdAt
+  followerCount
+  followingCount
   coverPhoto {
     id
   }
-  bio
-  createdAt
+
+  ...UserAvatar
+  ...FollowButton
 }

@@ -1,5 +1,3 @@
-// TODO: Add remaining functionality - below is a WIP
-
 import {
   Card,
   CardContent as MuiCardContent,
@@ -12,35 +10,34 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { breadcrumbsVar } from "../../../apollo/cache";
-import { useGroupMembersQuery } from "../../../apollo/gen";
-import GroupMember from "../../../components/Groups/GroupMember";
+import { useFollowingQuery } from "../../../apollo/gen";
 import ProgressBar from "../../../components/Shared/ProgressBar";
+import Follow from "../../../components/Users/Follow";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
-import { getGroupPath } from "../../../utils/group.utils";
+import { getUserProfilePath } from "../../../utils/user.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
-    paddingBottom: 15,
+    paddingBottom: 16,
   },
 }));
 
-const GroupMembers: NextPage = () => {
-  const { query } = useRouter();
+const Following: NextPage = () => {
+  const { query, asPath } = useRouter();
   const name = String(query?.name || "");
-  const { data, loading, error } = useGroupMembersQuery({
+  const { data, loading, error } = useFollowingQuery({
     variables: { name },
     skip: !name,
   });
-  const group = data?.group;
+  const user = data?.user;
   const me = data?.me;
 
-  const { asPath } = useRouter();
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
-    if (group) {
+    if (user) {
       breadcrumbsVar({
         path: asPath,
         breadcrumbs: [
@@ -50,17 +47,17 @@ const GroupMembers: NextPage = () => {
                 ? TruncationSizes.Small
                 : TruncationSizes.ExtraSmall,
             }),
-            href: getGroupPath(name),
+            href: getUserProfilePath(name),
           },
           {
-            label: t("groups.labels.groupMembers", {
-              count: group.members.length || 0,
+            label: t("users.labels.following", {
+              count: user.followingCount,
             }),
           },
         ],
       });
     }
-  }, [group, t, isDesktop, asPath, name]);
+  }, [user, t, isDesktop, asPath, name]);
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
@@ -70,19 +67,25 @@ const GroupMembers: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!group || !me || !group.members.length) {
+  if (!user?.following.length || !me) {
     return null;
   }
 
   return (
-    <Card>
-      <CardContent>
-        {group.members.map((member) => (
-          <GroupMember key={member.id} member={member} currentUserId={me.id} />
-        ))}
-      </CardContent>
-    </Card>
+    <>
+      <Card>
+        <CardContent>
+          {user.following.map((followedUser) => (
+            <Follow
+              key={followedUser.id}
+              currentUserId={me.id}
+              user={followedUser}
+            />
+          ))}
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
-export default GroupMembers;
+export default Following;

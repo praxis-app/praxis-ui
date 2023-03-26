@@ -121,6 +121,12 @@ export type DeleteRoleMemberPayload = {
 
 export type FeedItem = Post | Proposal;
 
+export type FollowUserPayload = {
+  __typename?: "FollowUserPayload";
+  followedUser: User;
+  follower: User;
+};
+
 export type Group = {
   __typename?: "Group";
   coverPhoto?: Maybe<Image>;
@@ -212,11 +218,13 @@ export type Mutation = {
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
+  followUser: FollowUserPayload;
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
   login: LoginPayload;
   refreshToken: Scalars["Boolean"];
   signUp: SignUpPayload;
+  unfollowUser: Scalars["Boolean"];
   updateGroup: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
   updateProposal: UpdateProposalPayload;
@@ -309,6 +317,10 @@ export type MutationDenyMemberRequestArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationFollowUserArgs = {
+  id: Scalars["Int"];
+};
+
 export type MutationLeaveGroupArgs = {
   id: Scalars["Int"];
 };
@@ -319,6 +331,10 @@ export type MutationLoginArgs = {
 
 export type MutationSignUpArgs = {
   input: SignUpInput;
+};
+
+export type MutationUnfollowUserArgs = {
+  id: Scalars["Int"];
 };
 
 export type MutationUpdateGroupArgs = {
@@ -589,8 +605,13 @@ export type User = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
+  followerCount: Scalars["Int"];
+  followers: Array<User>;
+  following: Array<User>;
+  followingCount: Scalars["Int"];
   homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
+  isFollowedByMe: Scalars["Boolean"];
   joinedGroups: Array<Group>;
   likes: Array<Like>;
   name: Scalars["String"];
@@ -706,6 +727,7 @@ export type GroupMemberFragment = {
     __typename?: "User";
     id: number;
     name: string;
+    isFollowedByMe: boolean;
     profilePicture: { __typename?: "Image"; id: number };
   };
 };
@@ -885,10 +907,12 @@ export type GroupMembersQuery = {
         __typename?: "User";
         id: number;
         name: string;
+        isFollowedByMe: boolean;
         profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
   };
+  me: { __typename?: "User"; id: number };
 };
 
 export type GroupProfileQueryVariables = Exact<{
@@ -1855,6 +1879,20 @@ export type EditProfileFormFragment = {
   coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
+export type FollowFragment = {
+  __typename?: "User";
+  id: number;
+  name: string;
+  isFollowedByMe: boolean;
+  profilePicture: { __typename?: "Image"; id: number };
+};
+
+export type FollowButtonFragment = {
+  __typename?: "User";
+  id: number;
+  isFollowedByMe: boolean;
+};
+
 export type TopNavDropdownFragment = {
   __typename?: "User";
   id: number;
@@ -1871,12 +1909,148 @@ export type UserAvatarFragment = {
 
 export type UserProfileCardFragment = {
   __typename?: "User";
+  id: number;
   bio?: string | null;
   createdAt: any;
-  id: number;
+  followerCount: number;
+  followingCount: number;
   name: string;
+  isFollowedByMe: boolean;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   profilePicture: { __typename?: "Image"; id: number };
+};
+
+export type FollowUserMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type FollowUserMutation = {
+  __typename?: "Mutation";
+  followUser: {
+    __typename?: "FollowUserPayload";
+    followedUser: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      createdAt: any;
+      followerCount: number;
+      followingCount: number;
+      name: string;
+      isFollowedByMe: boolean;
+      followers: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        isFollowedByMe: boolean;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+    follower: {
+      __typename?: "User";
+      id: number;
+      bio?: string | null;
+      createdAt: any;
+      followerCount: number;
+      followingCount: number;
+      name: string;
+      isFollowedByMe: boolean;
+      homeFeed: Array<
+        | {
+            __typename?: "Post";
+            id: number;
+            body?: string | null;
+            createdAt: any;
+            likesCount: number;
+            isLikedByMe: boolean;
+            images: Array<{
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            }>;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+            group?: {
+              __typename?: "Group";
+              id: number;
+              name: string;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+            } | null;
+          }
+        | {
+            __typename?: "Proposal";
+            id: number;
+            body?: string | null;
+            voteCount: number;
+            createdAt: any;
+            stage: string;
+            action: {
+              __typename?: "ProposalAction";
+              id: number;
+              actionType: string;
+              groupDescription?: string | null;
+              groupName?: string | null;
+              groupCoverPhoto?: {
+                __typename?: "Image";
+                id: number;
+                filename: string;
+              } | null;
+            };
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+            group?: {
+              __typename?: "Group";
+              id: number;
+              name: string;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+            } | null;
+            images: Array<{
+              __typename?: "Image";
+              id: number;
+              filename: string;
+            }>;
+            votes: Array<{
+              __typename?: "Vote";
+              id: number;
+              voteType: string;
+              user: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+            }>;
+          }
+      >;
+      following: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        isFollowedByMe: boolean;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  };
+};
+
+export type UnfollowUserMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type UnfollowUserMutation = {
+  __typename?: "Mutation";
+  unfollowUser: boolean;
 };
 
 export type UpdateUserMutationVariables = Exact<{
@@ -1906,10 +2080,13 @@ export type EditUserQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
+    id: number;
     bio?: string | null;
     createdAt: any;
-    id: number;
+    followerCount: number;
+    followingCount: number;
     name: string;
+    isFollowedByMe: boolean;
     posts: Array<{
       __typename?: "Post";
       id: number;
@@ -1934,6 +2111,48 @@ export type EditUserQuery = {
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
+};
+
+export type FollowersQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type FollowersQuery = {
+  __typename?: "Query";
+  user: {
+    __typename?: "User";
+    id: number;
+    followerCount: number;
+    followers: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      isFollowedByMe: boolean;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
+  me: { __typename?: "User"; id: number };
+};
+
+export type FollowingQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type FollowingQuery = {
+  __typename?: "Query";
+  user: {
+    __typename?: "User";
+    id: number;
+    followingCount: number;
+    following: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      isFollowedByMe: boolean;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
+  me: { __typename?: "User"; id: number };
 };
 
 export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
@@ -2040,10 +2259,13 @@ export type UserProfileQuery = {
   __typename?: "Query";
   user: {
     __typename?: "User";
+    id: number;
     bio?: string | null;
     createdAt: any;
-    id: number;
+    followerCount: number;
+    followingCount: number;
     name: string;
+    isFollowedByMe: boolean;
     profileFeed: Array<
       | {
           __typename?: "Post";
@@ -2293,14 +2515,22 @@ export const UserAvatarFragmentDoc = gql`
     }
   }
 `;
+export const FollowButtonFragmentDoc = gql`
+  fragment FollowButton on User {
+    id
+    isFollowedByMe
+  }
+`;
 export const GroupMemberFragmentDoc = gql`
   fragment GroupMember on GroupMember {
     id
     user {
       ...UserAvatar
+      ...FollowButton
     }
   }
   ${UserAvatarFragmentDoc}
+  ${FollowButtonFragmentDoc}
 `;
 export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
@@ -2560,6 +2790,15 @@ export const EditProfileFormFragmentDoc = gql`
     }
   }
 `;
+export const FollowFragmentDoc = gql`
+  fragment Follow on User {
+    id
+    ...UserAvatar
+    ...FollowButton
+  }
+  ${UserAvatarFragmentDoc}
+  ${FollowButtonFragmentDoc}
+`;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
     id
@@ -2569,14 +2808,19 @@ export const TopNavDropdownFragmentDoc = gql`
 `;
 export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
-    ...UserAvatar
+    id
+    bio
+    createdAt
+    followerCount
+    followingCount
     coverPhoto {
       id
     }
-    bio
-    createdAt
+    ...UserAvatar
+    ...FollowButton
   }
   ${UserAvatarFragmentDoc}
+  ${FollowButtonFragmentDoc}
 `;
 export const LogOutDocument = gql`
   mutation LogOut {
@@ -3312,6 +3556,9 @@ export const GroupMembersDocument = gql`
       members {
         ...GroupMember
       }
+    }
+    me {
+      id
     }
   }
   ${GroupMemberFragmentDoc}
@@ -4845,6 +5092,123 @@ export type ServerRolesQueryResult = Apollo.QueryResult<
   ServerRolesQuery,
   ServerRolesQueryVariables
 >;
+export const FollowUserDocument = gql`
+  mutation FollowUser($id: Int!) {
+    followUser(id: $id) {
+      followedUser {
+        id
+        followers {
+          ...Follow
+        }
+        ...UserProfileCard
+      }
+      follower {
+        id
+        homeFeed {
+          ...FeedItem
+        }
+        following {
+          ...Follow
+        }
+        ...UserProfileCard
+      }
+    }
+  }
+  ${FollowFragmentDoc}
+  ${UserProfileCardFragmentDoc}
+  ${FeedItemFragmentDoc}
+`;
+export type FollowUserMutationFn = Apollo.MutationFunction<
+  FollowUserMutation,
+  FollowUserMutationVariables
+>;
+
+/**
+ * __useFollowUserMutation__
+ *
+ * To run a mutation, you first call `useFollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFollowUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    FollowUserMutation,
+    FollowUserMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<FollowUserMutation, FollowUserMutationVariables>(
+    FollowUserDocument,
+    options
+  );
+}
+export type FollowUserMutationHookResult = ReturnType<
+  typeof useFollowUserMutation
+>;
+export type FollowUserMutationResult =
+  Apollo.MutationResult<FollowUserMutation>;
+export type FollowUserMutationOptions = Apollo.BaseMutationOptions<
+  FollowUserMutation,
+  FollowUserMutationVariables
+>;
+export const UnfollowUserDocument = gql`
+  mutation UnfollowUser($id: Int!) {
+    unfollowUser(id: $id)
+  }
+`;
+export type UnfollowUserMutationFn = Apollo.MutationFunction<
+  UnfollowUserMutation,
+  UnfollowUserMutationVariables
+>;
+
+/**
+ * __useUnfollowUserMutation__
+ *
+ * To run a mutation, you first call `useUnfollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfollowUserMutation, { data, loading, error }] = useUnfollowUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUnfollowUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UnfollowUserMutation,
+    UnfollowUserMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UnfollowUserMutation,
+    UnfollowUserMutationVariables
+  >(UnfollowUserDocument, options);
+}
+export type UnfollowUserMutationHookResult = ReturnType<
+  typeof useUnfollowUserMutation
+>;
+export type UnfollowUserMutationResult =
+  Apollo.MutationResult<UnfollowUserMutation>;
+export type UnfollowUserMutationOptions = Apollo.BaseMutationOptions<
+  UnfollowUserMutation,
+  UnfollowUserMutationVariables
+>;
 export const UpdateUserDocument = gql`
   mutation UpdateUser($userData: UpdateUserInput!) {
     updateUser(userData: $userData) {
@@ -4962,6 +5326,128 @@ export type EditUserLazyQueryHookResult = ReturnType<
 export type EditUserQueryResult = Apollo.QueryResult<
   EditUserQuery,
   EditUserQueryVariables
+>;
+export const FollowersDocument = gql`
+  query Followers($name: String!) {
+    user(name: $name) {
+      id
+      followerCount
+      followers {
+        ...Follow
+      }
+    }
+    me {
+      id
+    }
+  }
+  ${FollowFragmentDoc}
+`;
+
+/**
+ * __useFollowersQuery__
+ *
+ * To run a query within a React component, call `useFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowersQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useFollowersQuery(
+  baseOptions: Apollo.QueryHookOptions<FollowersQuery, FollowersQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FollowersQuery, FollowersQueryVariables>(
+    FollowersDocument,
+    options
+  );
+}
+export function useFollowersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FollowersQuery,
+    FollowersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FollowersQuery, FollowersQueryVariables>(
+    FollowersDocument,
+    options
+  );
+}
+export type FollowersQueryHookResult = ReturnType<typeof useFollowersQuery>;
+export type FollowersLazyQueryHookResult = ReturnType<
+  typeof useFollowersLazyQuery
+>;
+export type FollowersQueryResult = Apollo.QueryResult<
+  FollowersQuery,
+  FollowersQueryVariables
+>;
+export const FollowingDocument = gql`
+  query Following($name: String!) {
+    user(name: $name) {
+      id
+      followingCount
+      following {
+        ...Follow
+      }
+    }
+    me {
+      id
+    }
+  }
+  ${FollowFragmentDoc}
+`;
+
+/**
+ * __useFollowingQuery__
+ *
+ * To run a query within a React component, call `useFollowingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowingQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useFollowingQuery(
+  baseOptions: Apollo.QueryHookOptions<FollowingQuery, FollowingQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FollowingQuery, FollowingQueryVariables>(
+    FollowingDocument,
+    options
+  );
+}
+export function useFollowingLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FollowingQuery,
+    FollowingQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FollowingQuery, FollowingQueryVariables>(
+    FollowingDocument,
+    options
+  );
+}
+export type FollowingQueryHookResult = ReturnType<typeof useFollowingQuery>;
+export type FollowingLazyQueryHookResult = ReturnType<
+  typeof useFollowingLazyQuery
+>;
+export type FollowingQueryResult = Apollo.QueryResult<
+  FollowingQuery,
+  FollowingQueryVariables
 >;
 export const HomePageDocument = gql`
   query HomePage {

@@ -120,10 +120,12 @@
   "users": {
     "actions": {
       "editProfile": "Edit Profile",
+      "follow": "Follow",
       "logIn": "Log In",
       "logOut": "Log Out",
       "passwordConfirm": "Confirm password",
-      "signUp": "Sign Up"
+      "signUp": "Sign Up",
+      "unfollow": "Unfollow"
     },
     "errors": {
       "signUp": "There was an error creating your account.",
@@ -139,9 +141,8 @@
       "confirmPassword": "Confirm Password"
     },
     "profile": {
-      "joinDate": "Joined {{joinDate}}",
-      "followersX": "{{count}} Followers",
-      "followingX": "{{count}} Following"
+      "following": "Following",
+      "joinDate": "Joined {{joinDate}}"
     },
     "prompts": {
       "alreadyLoggedIn": "You're already signed in.",
@@ -150,7 +151,13 @@
       "becomeAMember": "Become a Praxis Member",
       "logOut": "Are you sure you want to log out?",
       "permissionDenied": "Permission denied.",
-      "signInToPost": "Sign in to start posting..."
+      "signInToPost": "Sign in to start posting...",
+      "unfollow": "Are you sure you want to unfollow this person?"
+    },
+    "labels": {
+      "followers_one": "{{count}} Follower",
+      "followers_other": "{{count}} Followers",
+      "following": "{{count}} Following"
     },
     "validation": {
       "emailExists": "Email already exists.",

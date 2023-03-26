@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMeQuery, UserProfileCardFragment } from "../../apollo/gen";
@@ -20,11 +21,11 @@ import {
   NavigationPaths,
 } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { inDevToast } from "../../utils/common.utils";
 import { formatDate } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import FollowButton from "./FollowButton";
 import UserAvatar from "./UserAvatar";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -56,16 +57,28 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const { data } = useMeQuery();
 
+  const { asPath } = useRouter();
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
   const theme = useTheme();
 
+  const {
+    id,
+    bio,
+    coverPhoto,
+    createdAt,
+    followerCount,
+    followingCount,
+    name,
+  } = user;
   const me = data && data.me;
-  const isMe = me?.id === user.id;
-  const joinDate = formatDate(user.createdAt);
+  const isMe = me?.id === id;
 
   const deleteUserPrompt = t("prompts.deleteItem", { itemType: "user" });
-  const editUserPath = `${NavigationPaths.Users}/${user.name}${NavigationPaths.Edit}`;
+  const editUserPath = `${asPath}${NavigationPaths.Edit}`;
+  const followersPath = `${asPath}${NavigationPaths.Followers}`;
+  const followingPath = `${asPath}${NavigationPaths.Following}`;
+  const joinDate = formatDate(createdAt);
 
   const avatarStyles: SxProps = {
     border: `4px solid ${theme.palette.background.paper}`,
@@ -76,20 +89,24 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
   return (
     <Card {...cardProps}>
-      <CoverPhoto imageId={user.coverPhoto?.id} topRounded />
+      <CoverPhoto imageId={coverPhoto?.id} topRounded />
 
       <CardHeader
         action={
-          isMe && (
-            <ItemMenu
-              anchorEl={menuAnchorEl}
-              deletePrompt={deleteUserPrompt}
-              editPath={editUserPath}
-              itemId={user.id}
-              setAnchorEl={setMenuAnchorEl}
-              canEdit
-            />
-          )
+          <>
+            {me && !isMe && <FollowButton user={user} currentUserId={me.id} />}
+
+            {isMe && (
+              <ItemMenu
+                anchorEl={menuAnchorEl}
+                deletePrompt={deleteUserPrompt}
+                editPath={editUserPath}
+                itemId={id}
+                setAnchorEl={setMenuAnchorEl}
+                canEdit
+              />
+            )}
+          </>
         }
         avatar={
           <UserAvatar
@@ -103,25 +120,23 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
 
       <CardContent>
         <Typography color="primary" sx={USER_NAME_STYLES}>
-          {user.name}
+          {name}
         </Typography>
 
-        {user.bio && (
-          <Typography sx={{ marginBottom: 1.4 }}>{user.bio}</Typography>
-        )}
+        {bio && <Typography sx={{ marginBottom: 1.4 }}>{bio}</Typography>}
 
         <Typography sx={JOIN_DATE_STYLES}>
           <JoinDateIcon fontSize="small" sx={JOIN_DATE_ICON_STYLES} />
           {t("users.profile.joinDate", { joinDate })}
         </Typography>
 
-        <Box onClick={inDevToast}>
-          <Link href={"/"} disabled>
-            {t("users.profile.followersX", { count: 0 })}
+        <Box>
+          <Link href={followersPath}>
+            {t("users.labels.followers", { count: followerCount })}
           </Link>
           {MIDDOT_WITH_SPACES}
-          <Link href={"/"} disabled>
-            {t("users.profile.followingX", { count: 0 })}
+          <Link href={followingPath}>
+            {t("users.labels.following", { count: followingCount })}
           </Link>
         </Box>
       </CardContent>
