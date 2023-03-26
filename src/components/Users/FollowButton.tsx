@@ -50,7 +50,7 @@ const FollowButton = ({
                   return;
                 }
                 draft.me.homeFeed = draft.me.homeFeed.filter(
-                  ({ user }) => user.id !== id
+                  ({ user, group }) => user.id !== id || !!group?.id
                 );
               })
           );
