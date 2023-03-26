@@ -1,8 +1,11 @@
 import { Reference } from "@apollo/client";
+import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FollowButtonFragment,
+  HomePageDocument,
+  HomePageQuery,
   useFollowUserMutation,
   useUnfollowUserMutation,
 } from "../../apollo/gen";
@@ -38,6 +41,18 @@ const FollowButton = ({
       await unfollowUser({
         variables: { id },
         update(cache) {
+          cache.updateQuery<HomePageQuery>(
+            { query: HomePageDocument },
+            (homePageData) =>
+              produce(homePageData, (draft) => {
+                if (!draft) {
+                  return;
+                }
+                draft.me.homeFeed = draft.me.homeFeed.filter(
+                  ({ user }) => user.id !== id
+                );
+              })
+          );
           cache.modify({
             id: cache.identify({ id, __typename }),
             fields: {
