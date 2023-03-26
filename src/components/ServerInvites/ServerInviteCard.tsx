@@ -70,11 +70,9 @@ const ServerInviteCard = ({
 
   const { t } = useTranslation();
 
-  const expiresAtText = expiresAt ? timeFromNow(expiresAt) : t("time.never");
   const usesText = `${t("invites.labels.usesWithColon")} ${
     uses + (maxUses ? `/${maxUses}` : "")
   }`;
-
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
   });
@@ -120,7 +118,9 @@ const ServerInviteCard = ({
               {token}
             </CompactButton>
 
-            <Typography sx={{ color: "#62c57a" }}>{expiresAtText}</Typography>
+            <Typography sx={{ color: "#62c57a" }}>
+              {expiresAt ? timeFromNow(expiresAt) : t("time.never")}
+            </Typography>
           </Flex>
         }
         action={
