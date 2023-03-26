@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  ServerInviteRowFragment,
+  ServerInviteCardFragment,
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
@@ -37,9 +37,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props {
   me: ServerInvitesQuery["me"];
-
-  // TODO: Determine whether to rename fragment to ServerInviteCard
-  serverInvite: ServerInviteRowFragment;
+  serverInvite: ServerInviteCardFragment;
 }
 
 const ServerInviteCard = ({

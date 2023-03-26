@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  ServerInviteRowFragment,
+  ServerInviteCardFragment,
   ServerInvitesDocument,
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
@@ -44,7 +44,7 @@ const TableCell = styled(SharedTableCell)(({ theme }) => ({
 interface Props {
   isLast: boolean;
   me: ServerInvitesQuery["me"];
-  serverInvite: ServerInviteRowFragment;
+  serverInvite: ServerInviteCardFragment;
 }
 
 const ServerInviteRow = ({

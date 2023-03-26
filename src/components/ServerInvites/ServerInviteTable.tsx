@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { ServerInviteRowFragment, ServerInvitesQuery } from "../../apollo/gen";
+import { ServerInviteCardFragment, ServerInvitesQuery } from "../../apollo/gen";
 import ServerInviteRow from "../../components/ServerInvites/ServerInviteRow";
 
 const TableCell = styled(MuiTableCell)(({ theme }) => ({
@@ -16,7 +16,7 @@ const TableCell = styled(MuiTableCell)(({ theme }) => ({
 }));
 
 interface Props {
-  serverInvites: ServerInviteRowFragment[];
+  serverInvites: ServerInviteCardFragment[];
   me: ServerInvitesQuery["me"];
 }
 

@@ -1,4 +1,4 @@
-fragment ServerInviteRow on ServerInvite {
+fragment ServerInviteCard on ServerInvite {
   id
   maxUses
   token
