@@ -134,6 +134,7 @@ export type Group = {
   description: Scalars["String"];
   feed: Array<FeedItem>;
   id: Scalars["Int"];
+  isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
   memberRequestCount: Scalars["Int"];
   members: Array<GroupMember>;
@@ -975,6 +976,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe: boolean;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1211,6 +1213,7 @@ type FeedItem_Proposal_Fragment = {
   };
   group?: {
     __typename?: "Group";
+    isJoinedByMe: boolean;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1433,6 +1436,7 @@ export type ProposalCardFragment = {
   };
   group?: {
     __typename?: "Group";
+    isJoinedByMe: boolean;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1523,6 +1527,7 @@ export type CreateProposalMutation = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe: boolean;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1587,6 +1592,7 @@ export type UpdateProposalMutation = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe: boolean;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1666,6 +1672,7 @@ export type ProposalQuery = {
     };
     group?: {
       __typename?: "Group";
+      isJoinedByMe: boolean;
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2009,6 +2016,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
+              isJoinedByMe: boolean;
               id: number;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2211,6 +2219,7 @@ export type HomePageQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe: boolean;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2315,6 +2324,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe: boolean;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2682,6 +2692,7 @@ export const ProposalCardFragmentDoc = gql`
       ...UserAvatar
     }
     group {
+      isJoinedByMe
       ...GroupAvatar
     }
     images {

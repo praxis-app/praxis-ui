@@ -20,6 +20,7 @@ fragment ProposalCard on Proposal {
   }
 
   group {
+    isJoinedByMe
     ...GroupAvatar
   }
 

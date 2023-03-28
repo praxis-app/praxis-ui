@@ -65,7 +65,8 @@
 
   "proposals": {
     "prompts": {
-      "createProposal": "Create a proposal..."
+      "createProposal": "Create a proposal...",
+      "joinGroupToVote": "You need to be a group member to interact with this proposal."
     },
     "actions": {
       "attachNewCoverPhoto": "Attach new cover photo",

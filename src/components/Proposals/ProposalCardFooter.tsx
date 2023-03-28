@@ -25,9 +25,10 @@ const ROTATED_ICON_STYLES = {
 interface Props {
   currentUserId: number;
   proposal: ProposalCardFooterFragment;
+  disabled: boolean;
 }
 
-const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
+const ProposalCardFooter = ({ proposal, currentUserId, disabled }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { t } = useTranslation();
 
@@ -56,27 +57,41 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
 
   const handleVoteMenuClose = () => setMenuAnchorEl(null);
 
+  const handleCardActionsClick = () => {
+    if (!disabled) {
+      return;
+    }
+    toastVar({
+      status: "info",
+      title: t("proposals.prompts.joinGroupToVote"),
+    });
+  };
+
   return (
     <>
       {!!voteCount && <VoteBadges proposal={proposal} />}
 
       <Divider sx={{ margin: "0 16px" }} />
 
-      <CardActions sx={{ justifyContent: "space-around" }}>
+      <CardActions
+        sx={{ justifyContent: "space-around" }}
+        onClick={handleCardActionsClick}
+      >
         <CardFooterButton
           onClick={handleVoteButtonClick}
           sx={voteByCurrentUser ? { color: Blurple.Primary } : {}}
+          disabled={disabled}
         >
           <HowToVote sx={ICON_STYLES} />
           {voteButtonLabel}
         </CardFooterButton>
 
-        <CardFooterButton onClick={inDevToast}>
+        <CardFooterButton onClick={inDevToast} disabled={disabled}>
           <Comment sx={ROTATED_ICON_STYLES} />
           {t("actions.comment")}
         </CardFooterButton>
 
-        <CardFooterButton onClick={inDevToast}>
+        <CardFooterButton onClick={inDevToast} disabled={disabled}>
           <Reply sx={ROTATED_ICON_STYLES} />
           {t("actions.share")}
         </CardFooterButton>
