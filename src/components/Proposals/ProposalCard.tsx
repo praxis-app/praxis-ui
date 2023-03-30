@@ -79,7 +79,6 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const isMe = me?.id === user.id;
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const isProposalPage = asPath.includes(NavigationPaths.Proposals);
-  const disableCardFooter = !!group && !group.isJoinedByMe;
 
   const groupPath = getGroupPath(group?.name || "");
   const proposalPath = `${NavigationPaths.Proposals}/${id}`;
@@ -221,13 +220,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
         </Link>
       </CardContent>
 
-      {me && (
-        <ProposalCardFooter
-          currentUserId={me.id}
-          disabled={disableCardFooter}
-          proposal={proposal}
-        />
-      )}
+      {me && <ProposalCardFooter currentUserId={me.id} proposal={proposal} />}
     </Card>
   );
 };

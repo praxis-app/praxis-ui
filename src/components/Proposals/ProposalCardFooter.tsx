@@ -25,15 +25,16 @@ const ROTATED_ICON_STYLES = {
 interface Props {
   currentUserId: number;
   proposal: ProposalCardFooterFragment;
-  disabled: boolean;
 }
 
-const ProposalCardFooter = ({ proposal, currentUserId, disabled }: Props) => {
+const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const { t } = useTranslation();
 
-  const { stage, voteCount, votes } = proposal;
+  const { stage, voteCount, votes, group } = proposal;
+  const isDisabled = !!group && !group.isJoinedByMe;
   const isRatified = stage === ProposalStages.Ratified;
+
   const voteByCurrentUser = votes.find(
     (vote) => vote.user.id === currentUserId
   );
@@ -58,7 +59,7 @@ const ProposalCardFooter = ({ proposal, currentUserId, disabled }: Props) => {
   const handleVoteMenuClose = () => setMenuAnchorEl(null);
 
   const handleCardActionsClick = () => {
-    if (!disabled) {
+    if (!isDisabled) {
       return;
     }
     toastVar({
@@ -80,18 +81,18 @@ const ProposalCardFooter = ({ proposal, currentUserId, disabled }: Props) => {
         <CardFooterButton
           onClick={handleVoteButtonClick}
           sx={voteByCurrentUser ? { color: Blurple.Primary } : {}}
-          disabled={disabled}
+          disabled={isDisabled}
         >
           <HowToVote sx={ICON_STYLES} />
           {voteButtonLabel}
         </CardFooterButton>
 
-        <CardFooterButton onClick={inDevToast} disabled={disabled}>
+        <CardFooterButton onClick={inDevToast} disabled={isDisabled}>
           <Comment sx={ROTATED_ICON_STYLES} />
           {t("actions.comment")}
         </CardFooterButton>
 
-        <CardFooterButton onClick={inDevToast} disabled={disabled}>
+        <CardFooterButton onClick={inDevToast} disabled={isDisabled}>
           <Reply sx={ROTATED_ICON_STYLES} />
           {t("actions.share")}
         </CardFooterButton>

@@ -976,8 +976,8 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            isJoinedByMe: boolean;
             id: number;
+            isJoinedByMe: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -1213,8 +1213,8 @@ type FeedItem_Proposal_Fragment = {
   };
   group?: {
     __typename?: "Group";
-    isJoinedByMe: boolean;
     id: number;
+    isJoinedByMe: boolean;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1436,8 +1436,8 @@ export type ProposalCardFragment = {
   };
   group?: {
     __typename?: "Group";
-    isJoinedByMe: boolean;
     id: number;
+    isJoinedByMe: boolean;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1471,6 +1471,7 @@ export type ProposalCardFooterFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
+  group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
 };
 
 export type ProposalFormFragment = {
@@ -1527,8 +1528,8 @@ export type CreateProposalMutation = {
       };
       group?: {
         __typename?: "Group";
-        isJoinedByMe: boolean;
         id: number;
+        isJoinedByMe: boolean;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -1592,8 +1593,8 @@ export type UpdateProposalMutation = {
       };
       group?: {
         __typename?: "Group";
-        isJoinedByMe: boolean;
         id: number;
+        isJoinedByMe: boolean;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -1672,8 +1673,8 @@ export type ProposalQuery = {
     };
     group?: {
       __typename?: "Group";
-      isJoinedByMe: boolean;
       id: number;
+      isJoinedByMe: boolean;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
@@ -2016,8 +2017,8 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
-              isJoinedByMe: boolean;
               id: number;
+              isJoinedByMe: boolean;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
@@ -2219,8 +2220,8 @@ export type HomePageQuery = {
           };
           group?: {
             __typename?: "Group";
-            isJoinedByMe: boolean;
             id: number;
+            isJoinedByMe: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -2324,8 +2325,8 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            isJoinedByMe: boolean;
             id: number;
+            isJoinedByMe: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -2667,6 +2668,10 @@ export const ProposalCardFooterFragmentDoc = gql`
         id
       }
     }
+    group {
+      id
+      isJoinedByMe
+    }
     ...VoteMenu
     ...VoteBadges
   }
@@ -2692,7 +2697,6 @@ export const ProposalCardFragmentDoc = gql`
       ...UserAvatar
     }
     group {
-      isJoinedByMe
       ...GroupAvatar
     }
     images {
