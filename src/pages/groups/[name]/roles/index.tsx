@@ -14,7 +14,7 @@ import { isDeniedAccess } from "../../../../utils/error.utils";
 import { getGroupPath } from "../../../../utils/group.utils";
 
 const GroupRoles: NextPage = () => {
-  const { query, asPath } = useRouter();
+  const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupRolesQuery({
     variables: { name },
@@ -52,7 +52,7 @@ const GroupRoles: NextPage = () => {
 
   return (
     <>
-      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       <RoleForm />
       {roles && <RoleList roles={roles} />}

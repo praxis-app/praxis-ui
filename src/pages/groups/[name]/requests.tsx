@@ -32,7 +32,6 @@ const MemberRequests: NextPage = () => {
     skip: !groupName,
   });
 
-  const { asPath } = useRouter();
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
@@ -44,7 +43,7 @@ const MemberRequests: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data || !data.memberRequests.length) {
+  if (!data) {
     return null;
   }
 
@@ -64,19 +63,21 @@ const MemberRequests: NextPage = () => {
 
   return (
     <>
-      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <Card>
-        <CardContent>
-          {data.memberRequests.map((memberRequest) => (
-            <RequestToJoin
-              key={memberRequest.id}
-              groupName={groupName}
-              memberRequest={memberRequest}
-            />
-          ))}
-        </CardContent>
-      </Card>
+      {!!data.memberRequests.length && (
+        <Card>
+          <CardContent>
+            {data.memberRequests.map((memberRequest) => (
+              <RequestToJoin
+                key={memberRequest.id}
+                groupName={groupName}
+                memberRequest={memberRequest}
+              />
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };

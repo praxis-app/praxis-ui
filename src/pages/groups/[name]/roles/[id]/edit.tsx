@@ -25,7 +25,7 @@ import { getGroupPath } from "../../../../../utils/group.utils";
 
 const EditGroupRole: NextPage = () => {
   const [tab, setTab] = useState(0);
-  const { query, asPath, replace } = useRouter();
+  const { query, replace } = useRouter();
 
   const name = String(query?.name);
   const id = parseInt(String(query?.id));
@@ -108,7 +108,7 @@ const EditGroupRole: NextPage = () => {
 
   return (
     <>
-      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       <Card sx={{ marginBottom: 6 }}>
         <Tabs

@@ -34,7 +34,6 @@ const GroupMembers: NextPage = () => {
   const group = data?.group;
   const me = data?.me;
 
-  const { asPath } = useRouter();
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
@@ -46,7 +45,7 @@ const GroupMembers: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!group || !me || !group.members.length) {
+  if (!group || !me) {
     return null;
   }
 
@@ -66,19 +65,21 @@ const GroupMembers: NextPage = () => {
 
   return (
     <>
-      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <Card>
-        <CardContent>
-          {group.members.map((member) => (
-            <GroupMember
-              key={member.id}
-              member={member}
-              currentUserId={me.id}
-            />
-          ))}
-        </CardContent>
-      </Card>
+      {!!group.members.length && (
+        <Card>
+          <CardContent>
+            {group.members.map((member) => (
+              <GroupMember
+                key={member.id}
+                member={member}
+                currentUserId={me.id}
+              />
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };

@@ -23,7 +23,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 const Followers: NextPage = () => {
-  const { query, asPath } = useRouter();
+  const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useFollowersQuery({
     variables: { name },
@@ -63,7 +63,7 @@ const Followers: NextPage = () => {
 
   return (
     <>
-      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       {!!user.followerCount && (
         <Card>

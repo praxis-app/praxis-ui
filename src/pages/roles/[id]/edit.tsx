@@ -19,7 +19,7 @@ import { isDeniedAccess } from "../../../utils/error.utils";
 
 const EditServerRole: NextPage = () => {
   const [tab, setTab] = useState(0);
-  const { query, asPath, replace } = useRouter();
+  const { query, replace } = useRouter();
 
   const id = parseInt(String(query?.id));
   const { data, loading, error } = useEditServerRoleQuery({
@@ -82,7 +82,6 @@ const EditServerRole: NextPage = () => {
   return (
     <>
       <Breadcrumbs
-        path={asPath}
         breadcrumbs={[
           {
             label: t("roles.headers.serverRoles"),

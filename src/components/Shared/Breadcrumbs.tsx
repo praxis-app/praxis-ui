@@ -3,7 +3,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import Link from "./Link";
 
 interface Breadcrumb {
@@ -12,20 +11,11 @@ interface Breadcrumb {
 }
 
 interface Props {
-  path: string | null;
   breadcrumbs: Breadcrumb[];
 }
 
-const Breadcrumbs = ({ path, breadcrumbs }: Props) => {
-  const { asPath } = useRouter();
+const Breadcrumbs = ({ breadcrumbs }: Props) => {
   const theme = useTheme();
-
-  const pathBeforeQuery = path?.split("?")[0];
-  const asPathBeforeQuery = asPath.split("?")[0];
-
-  if (pathBeforeQuery !== asPathBeforeQuery || !breadcrumbs.length) {
-    return null;
-  }
 
   return (
     <MuiBreadcrumbs sx={{ marginBottom: 1.25 }}>
