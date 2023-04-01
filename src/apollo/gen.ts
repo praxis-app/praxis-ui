@@ -82,6 +82,7 @@ export type CreateProposalPayload = {
 
 export type CreateRoleInput = {
   color: Scalars["String"];
+  groupId?: InputMaybe<Scalars["Int"]>;
   name: Scalars["String"];
 };
 
@@ -138,6 +139,7 @@ export type Group = {
   memberCount: Scalars["Int"];
   memberRequestCount: Scalars["Int"];
   members: Array<GroupMember>;
+  myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
@@ -1006,6 +1008,25 @@ export type GroupProfileQuery = {
     __typename?: "User";
     id: number;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
+  };
+};
+
+export type GroupRolesQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type GroupRolesQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    roles: Array<{
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+    }>;
   };
 };
 
@@ -3696,6 +3717,66 @@ export type GroupProfileLazyQueryHookResult = ReturnType<
 export type GroupProfileQueryResult = Apollo.QueryResult<
   GroupProfileQuery,
   GroupProfileQueryVariables
+>;
+export const GroupRolesDocument = gql`
+  query GroupRoles($name: String!) {
+    group(name: $name) {
+      id
+      roles {
+        ...Role
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+
+/**
+ * __useGroupRolesQuery__
+ *
+ * To run a query within a React component, call `useGroupRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupRolesQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGroupRolesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupRolesQuery,
+    GroupRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupRolesQuery, GroupRolesQueryVariables>(
+    GroupRolesDocument,
+    options
+  );
+}
+export function useGroupRolesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupRolesQuery,
+    GroupRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupRolesQuery, GroupRolesQueryVariables>(
+    GroupRolesDocument,
+    options
+  );
+}
+export type GroupRolesQueryHookResult = ReturnType<typeof useGroupRolesQuery>;
+export type GroupRolesLazyQueryHookResult = ReturnType<
+  typeof useGroupRolesLazyQuery
+>;
+export type GroupRolesQueryResult = Apollo.QueryResult<
+  GroupRolesQuery,
+  GroupRolesQueryVariables
 >;
 export const GroupsDocument = gql`
   query Groups {
