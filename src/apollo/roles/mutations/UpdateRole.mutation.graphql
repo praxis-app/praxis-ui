@@ -2,6 +2,7 @@ mutation UpdateRole($roleData: UpdateRoleInput!) {
   updateRole(roleData: $roleData) {
     role {
       ...Role
+
       permissions {
         ...PermissionsForm
       }
@@ -11,7 +12,12 @@ mutation UpdateRole($roleData: UpdateRoleInput!) {
       availableUsersToAdd {
         ...UserAvatar
       }
+      group {
+        id
+        myPermissions
+      }
     }
+
     me {
       id
       serverPermissions

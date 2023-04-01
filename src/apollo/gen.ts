@@ -1899,7 +1899,12 @@ export type UpdateRoleMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group?: { __typename?: "Group"; id: number; name: string } | null;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: Array<string>;
+        name: string;
+      } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
@@ -5162,6 +5167,10 @@ export const UpdateRoleDocument = gql`
         }
         availableUsersToAdd {
           ...UserAvatar
+        }
+        group {
+          id
+          myPermissions
         }
       }
       me {
