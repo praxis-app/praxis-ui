@@ -2,12 +2,11 @@ import { Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { breadcrumbsVar } from "../../../../apollo/cache";
 import { useGroupRolesQuery } from "../../../../apollo/gen";
 import RoleForm from "../../../../components/Roles/RoleForm";
 import RoleList from "../../../../components/Roles/RoleList";
+import Breadcrumbs from "../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../../constants/common.constants";
 import { useIsDesktop } from "../../../../hooks/common.hooks";
@@ -27,26 +26,17 @@ const GroupRoles: NextPage = () => {
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  useEffect(() => {
-    if (group) {
-      breadcrumbsVar({
-        path: asPath,
-        breadcrumbs: [
-          {
-            label: truncate(name, {
-              length: isDesktop
-                ? TruncationSizes.Small
-                : TruncationSizes.ExtraSmall,
-            }),
-            href: getGroupPath(name),
-          },
-          {
-            label: t("groups.labels.groupRoles"),
-          },
-        ],
-      });
-    }
-  }, [group, t, isDesktop, asPath, name]);
+  const breadcrumbs = [
+    {
+      label: truncate(name, {
+        length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
+      }),
+      href: getGroupPath(name),
+    },
+    {
+      label: t("groups.labels.groupRoles"),
+    },
+  ];
 
   if (isDeniedAccess(error)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
@@ -62,6 +52,8 @@ const GroupRoles: NextPage = () => {
 
   return (
     <>
+      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+
       <RoleForm />
       {roles && <RoleList roles={roles} />}
     </>

@@ -4,12 +4,12 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { breadcrumbsVar } from "../../../../../apollo/cache";
 import { useEditServerRoleQuery } from "../../../../../apollo/gen";
 import AddMemberTab from "../../../../../components/Roles/AddMemberTab";
 import DeleteRoleButton from "../../../../../components/Roles/DeleteRoleButton";
 import PermissionsForm from "../../../../../components/Roles/PermissionsForm";
 import RoleForm from "../../../../../components/Roles/RoleForm";
+import Breadcrumbs from "../../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../../components/Shared/ProgressBar";
 import {
   NavigationPaths,
@@ -41,31 +41,6 @@ const EditGroupRole: NextPage = () => {
 
   const groupPath = getGroupPath(name);
   const groupRolesPath = `${groupPath}${NavigationPaths.Roles}`;
-
-  useEffect(() => {
-    if (role) {
-      breadcrumbsVar({
-        path: asPath,
-        breadcrumbs: [
-          {
-            label: truncate(name, {
-              length: isDesktop
-                ? TruncationSizes.Small
-                : TruncationSizes.ExtraSmall,
-            }),
-            href: getGroupPath(name),
-          },
-          {
-            label: t("groups.labels.groupRoles"),
-            href: groupRolesPath,
-          },
-          {
-            label: role.name,
-          },
-        ],
-      });
-    }
-  }, [t, asPath, role, name, groupRolesPath, isDesktop]);
 
   useEffect(() => {
     if (query.tab === EditRoleTabs.Permissions) {
@@ -115,8 +90,26 @@ const EditGroupRole: NextPage = () => {
     return null;
   }
 
+  const breadcrumbs = [
+    {
+      label: truncate(name, {
+        length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
+      }),
+      href: getGroupPath(name),
+    },
+    {
+      label: t("groups.labels.groupRoles"),
+      href: groupRolesPath,
+    },
+    {
+      label: role.name,
+    },
+  ];
+
   return (
     <>
+      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+
       <Card sx={{ marginBottom: 6 }}>
         <Tabs
           onChange={handleTabChange}

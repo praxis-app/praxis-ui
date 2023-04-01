@@ -7,10 +7,9 @@ import {
 import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { breadcrumbsVar } from "../../../apollo/cache";
 import { useFollowersQuery } from "../../../apollo/gen";
+import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import Follow from "../../../components/Users/Follow";
 import { TruncationSizes } from "../../../constants/common.constants";
@@ -36,29 +35,6 @@ const Followers: NextPage = () => {
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  useEffect(() => {
-    if (user) {
-      breadcrumbsVar({
-        path: asPath,
-        breadcrumbs: [
-          {
-            label: truncate(name, {
-              length: isDesktop
-                ? TruncationSizes.Small
-                : TruncationSizes.ExtraSmall,
-            }),
-            href: getUserProfilePath(name),
-          },
-          {
-            label: t("users.labels.followers", {
-              count: user.followerCount,
-            }),
-          },
-        ],
-      });
-    }
-  }, [user, t, isDesktop, asPath, name]);
-
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
@@ -67,19 +43,37 @@ const Followers: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!user?.followers.length || !me) {
+  if (!me || !user) {
     return null;
   }
 
+  const breadcrumbs = [
+    {
+      label: truncate(name, {
+        length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
+      }),
+      href: getUserProfilePath(name),
+    },
+    {
+      label: t("users.labels.followers", {
+        count: user.followerCount,
+      }),
+    },
+  ];
+
   return (
     <>
-      <Card>
-        <CardContent>
-          {user.followers.map((follower) => (
-            <Follow user={follower} currentUserId={me.id} key={follower.id} />
-          ))}
-        </CardContent>
-      </Card>
+      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+
+      {!!user.followerCount && (
+        <Card>
+          <CardContent>
+            {user.followers.map((follower) => (
+              <Follow user={follower} currentUserId={me.id} key={follower.id} />
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };

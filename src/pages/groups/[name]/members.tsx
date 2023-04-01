@@ -9,11 +9,10 @@ import {
 import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { breadcrumbsVar } from "../../../apollo/cache";
 import { useGroupMembersQuery } from "../../../apollo/gen";
 import GroupMember from "../../../components/Groups/GroupMember";
+import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
@@ -39,29 +38,6 @@ const GroupMembers: NextPage = () => {
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  useEffect(() => {
-    if (group) {
-      breadcrumbsVar({
-        path: asPath,
-        breadcrumbs: [
-          {
-            label: truncate(name, {
-              length: isDesktop
-                ? TruncationSizes.Small
-                : TruncationSizes.ExtraSmall,
-            }),
-            href: getGroupPath(name),
-          },
-          {
-            label: t("groups.labels.groupMembers", {
-              count: group.members.length || 0,
-            }),
-          },
-        ],
-      });
-    }
-  }, [group, t, isDesktop, asPath, name]);
-
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
@@ -74,14 +50,36 @@ const GroupMembers: NextPage = () => {
     return null;
   }
 
+  const breadcrumbs = [
+    {
+      label: truncate(name, {
+        length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
+      }),
+      href: getGroupPath(name),
+    },
+    {
+      label: t("groups.labels.groupMembers", {
+        count: group.members.length || 0,
+      }),
+    },
+  ];
+
   return (
-    <Card>
-      <CardContent>
-        {group.members.map((member) => (
-          <GroupMember key={member.id} member={member} currentUserId={me.id} />
-        ))}
-      </CardContent>
-    </Card>
+    <>
+      <Breadcrumbs path={asPath} breadcrumbs={breadcrumbs} />
+
+      <Card>
+        <CardContent>
+          {group.members.map((member) => (
+            <GroupMember
+              key={member.id}
+              member={member}
+              currentUserId={me.id}
+            />
+          ))}
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

@@ -1,25 +1,27 @@
-import { useReactiveVar } from "@apollo/client";
 import {
   Breadcrumbs as MuiBreadcrumbs,
   Typography,
   useTheme,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { breadcrumbsVar } from "../../apollo/cache";
 import Link from "./Link";
 
-const Breadcrumbs = () => {
-  const { path, breadcrumbs } = useReactiveVar(breadcrumbsVar);
+interface Breadcrumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  path: string | null;
+  breadcrumbs: Breadcrumb[];
+}
+
+const Breadcrumbs = ({ path, breadcrumbs }: Props) => {
   const { asPath } = useRouter();
   const theme = useTheme();
 
   const pathBeforeQuery = path?.split("?")[0];
   const asPathBeforeQuery = asPath.split("?")[0];
-
-  useEffect(() => {
-    breadcrumbsVar({ path: null, breadcrumbs: [] });
-  }, [asPathBeforeQuery]);
 
   if (pathBeforeQuery !== asPathBeforeQuery || !breadcrumbs.length) {
     return null;
