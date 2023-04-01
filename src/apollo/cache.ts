@@ -3,7 +3,7 @@ import { AlertColor } from "@mui/material";
 import { INVITE_TOKEN } from "../constants/server-invite.constants";
 import { getLocalStorageItem } from "../utils/common.utils";
 
-export interface ToastNotification {
+interface ToastNotification {
   status: AlertColor;
   title: string;
 }
