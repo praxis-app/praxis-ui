@@ -41,7 +41,7 @@ const GroupRoles: NextPage = () => {
             href: getGroupPath(name),
           },
           {
-            label: t("navigation.roles"),
+            label: t("groups.labels.groupRoles"),
           },
         ],
       });
