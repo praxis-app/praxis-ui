@@ -1,10 +1,12 @@
 import { ApolloCache, useReactiveVar } from "@apollo/client";
+import { AccountBox } from "@mui/icons-material";
 import {
   Box,
   Card,
   CardContent,
   CardHeader as MuiCardHeader,
   CardProps,
+  MenuItem,
   styled,
   Typography,
 } from "@mui/material";
@@ -20,8 +22,10 @@ import {
 } from "../../apollo/gen";
 import {
   MIDDOT_WITH_SPACES,
+  NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
+import { redirectTo } from "../../utils/common.utils";
 import {
   getEditGroupPath,
   getGroupMembersPath,
@@ -82,6 +86,11 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
       update: removeGroup(id),
     });
 
+  const handleRolesButtonClick = async () => {
+    const groupRolesPath = `${NavigationPaths.Groups}/${name}/roles`;
+    await redirectTo(groupRolesPath);
+  };
+
   return (
     <Card {...cardProps}>
       <CardHeader
@@ -99,7 +108,12 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
               setAnchorEl={setMenuAnchorEl}
               canDelete
               canEdit
-            />
+            >
+              <MenuItem onClick={handleRolesButtonClick}>
+                <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
+                {t("roles.actions.manageRoles")}
+              </MenuItem>
+            </ItemMenu>
           )
         }
       />
