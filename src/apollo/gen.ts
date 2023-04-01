@@ -1773,7 +1773,19 @@ export type CreateRoleMutation = {
       name: string;
       color: string;
       memberCount: number;
-      group?: { __typename?: "Group"; id: number; name: string } | null;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        roles: Array<{
+          __typename?: "Role";
+          id: number;
+          name: string;
+          color: string;
+          memberCount: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
+        }>;
+      } | null;
     };
   };
 };
@@ -4856,6 +4868,12 @@ export const CreateRoleDocument = gql`
     createRole(roleData: $roleData) {
       role {
         ...Role
+        group {
+          id
+          roles {
+            ...Role
+          }
+        }
       }
     }
   }
