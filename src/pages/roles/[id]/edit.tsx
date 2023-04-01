@@ -109,7 +109,7 @@ const EditServerRole: NextPage = () => {
       {tab === 0 && (
         <>
           <RoleForm editRole={role} />
-          <DeleteRoleButton roleId={role.id} />
+          <DeleteRoleButton role={role} />
         </>
       )}
 
