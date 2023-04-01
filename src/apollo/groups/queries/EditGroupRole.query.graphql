@@ -1,0 +1,15 @@
+query EditGroupRole($id: Int!) {
+  role(id: $id) {
+    ...Role
+    ...AddMemberTab
+    ...DeleteRoleButton
+
+    permissions {
+      ...PermissionsForm
+    }
+
+    availableUsersToAdd {
+      ...UserAvatar
+    }
+  }
+}

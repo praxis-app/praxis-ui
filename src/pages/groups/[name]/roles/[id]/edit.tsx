@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useEditServerRoleQuery } from "../../../../../apollo/gen";
+import { useEditGroupRoleQuery } from "../../../../../apollo/gen";
 import AddMemberTab from "../../../../../components/Roles/AddMemberTab";
 import DeleteRoleButton from "../../../../../components/Roles/DeleteRoleButton";
 import PermissionsForm from "../../../../../components/Roles/PermissionsForm";
@@ -29,7 +29,7 @@ const EditGroupRole: NextPage = () => {
 
   const name = String(query?.name);
   const id = parseInt(String(query?.id));
-  const { data, loading, error } = useEditServerRoleQuery({
+  const { data, loading, error } = useEditGroupRoleQuery({
     variables: { id },
     skip: !id,
   });
@@ -126,7 +126,7 @@ const EditGroupRole: NextPage = () => {
       {tab === 0 && (
         <>
           <RoleForm editRole={role} />
-          <DeleteRoleButton roleId={role.id} />
+          <DeleteRoleButton role={role} />
         </>
       )}
 

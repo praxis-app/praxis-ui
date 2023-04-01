@@ -1,0 +1,7 @@
+fragment DeleteRoleButton on Role {
+  id
+  group {
+    id
+    name
+  }
+}

@@ -895,6 +895,44 @@ export type EditGroupQuery = {
   };
 };
 
+export type EditGroupRoleQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type EditGroupRoleQuery = {
+  __typename?: "Query";
+  role: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+    memberCount: number;
+    permissions: Array<{
+      __typename?: "Permission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }>;
+    availableUsersToAdd: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+    group?: { __typename?: "Group"; id: number; name: string } | null;
+    members: Array<{
+      __typename?: "RoleMember";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+};
+
 export type GroupMembersQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
@@ -1730,6 +1768,12 @@ export type AddMemberTabFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
+};
+
+export type DeleteRoleButtonFragment = {
+  __typename?: "Role";
+  id: number;
+  group?: { __typename?: "Group"; id: number; name: string } | null;
 };
 
 export type PermissionsFormFragment = {
@@ -2810,6 +2854,15 @@ export const AddMemberTabFragmentDoc = gql`
   }
   ${RoleMemberFragmentDoc}
 `;
+export const DeleteRoleButtonFragmentDoc = gql`
+  fragment DeleteRoleButton on Role {
+    id
+    group {
+      id
+      name
+    }
+  }
+`;
 export const PermissionsFormFragmentDoc = gql`
   fragment PermissionsForm on Permission {
     id
@@ -3609,6 +3662,77 @@ export type EditGroupLazyQueryHookResult = ReturnType<
 export type EditGroupQueryResult = Apollo.QueryResult<
   EditGroupQuery,
   EditGroupQueryVariables
+>;
+export const EditGroupRoleDocument = gql`
+  query EditGroupRole($id: Int!) {
+    role(id: $id) {
+      ...Role
+      ...AddMemberTab
+      ...DeleteRoleButton
+      permissions {
+        ...PermissionsForm
+      }
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+  ${AddMemberTabFragmentDoc}
+  ${DeleteRoleButtonFragmentDoc}
+  ${PermissionsFormFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useEditGroupRoleQuery__
+ *
+ * To run a query within a React component, call `useEditGroupRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditGroupRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditGroupRoleQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditGroupRoleQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditGroupRoleQuery,
+    EditGroupRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditGroupRoleQuery, EditGroupRoleQueryVariables>(
+    EditGroupRoleDocument,
+    options
+  );
+}
+export function useEditGroupRoleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditGroupRoleQuery,
+    EditGroupRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditGroupRoleQuery, EditGroupRoleQueryVariables>(
+    EditGroupRoleDocument,
+    options
+  );
+}
+export type EditGroupRoleQueryHookResult = ReturnType<
+  typeof useEditGroupRoleQuery
+>;
+export type EditGroupRoleLazyQueryHookResult = ReturnType<
+  typeof useEditGroupRoleLazyQuery
+>;
+export type EditGroupRoleQueryResult = Apollo.QueryResult<
+  EditGroupRoleQuery,
+  EditGroupRoleQueryVariables
 >;
 export const GroupMembersDocument = gql`
   query GroupMembers($name: String!) {
