@@ -1,13 +1,14 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { useReactiveVar } from "@apollo/client";
-import { HowToVote } from "@mui/icons-material";
+import { AccountBox, HowToVote } from "@mui/icons-material";
 import {
   Box,
   Card,
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
+  MenuItem,
   styled,
   SxProps,
   Typography,
@@ -107,6 +108,11 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
     });
   };
 
+  const handleRolesButtonClick = async () => {
+    const groupRolesPath = `${NavigationPaths.Groups}/${name}/roles`;
+    await redirectTo(groupRolesPath);
+  };
+
   const renderCardActions = () => (
     <>
       <JoinButton groupId={id} currentMember={currentMember} />
@@ -123,7 +129,12 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
           variant="ghost"
           canDelete
           canEdit
-        />
+        >
+          <MenuItem onClick={handleRolesButtonClick}>
+            <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
+            {t("roles.actions.manageRoles")}
+          </MenuItem>
+        </ItemMenu>
       )}
     </>
   );
