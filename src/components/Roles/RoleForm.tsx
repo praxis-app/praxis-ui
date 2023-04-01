@@ -35,9 +35,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   editRole?: RoleFragment;
+  groupId?: number;
 }
 
-const RoleForm = ({ editRole, ...cardProps }: Props) => {
+const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
   const [color, setColor] = useState(
     editRole ? editRole.color : DEFAULT_ROLE_COLOR
   );
@@ -57,7 +58,7 @@ const RoleForm = ({ editRole, ...cardProps }: Props) => {
   ) =>
     await createRole({
       variables: {
-        roleData: { color, ...formValues },
+        roleData: { color, groupId, ...formValues },
       },
       update(cache, { data }) {
         if (!data) {

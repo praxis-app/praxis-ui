@@ -54,7 +54,7 @@ const GroupRoles: NextPage = () => {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <RoleForm />
+      <RoleForm groupId={group?.id} />
       {roles && <RoleList roles={roles} />}
     </>
   );
