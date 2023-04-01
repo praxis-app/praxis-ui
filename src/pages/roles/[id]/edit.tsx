@@ -5,12 +5,12 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { breadcrumbsVar } from "../../../apollo/cache";
 import { useEditServerRoleQuery } from "../../../apollo/gen";
 import AddMemberTab from "../../../components/Roles/AddMemberTab";
 import DeleteRoleButton from "../../../components/Roles/DeleteRoleButton";
 import PermissionsForm from "../../../components/Roles/PermissionsForm";
 import RoleForm from "../../../components/Roles/RoleForm";
+import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
 import { EditRoleTabs } from "../../../constants/role.constants";
@@ -19,35 +19,17 @@ import { isDeniedAccess } from "../../../utils/error.utils";
 
 const EditServerRole: NextPage = () => {
   const [tab, setTab] = useState(0);
-  const { query, asPath, replace } = useRouter();
+  const { query, replace } = useRouter();
 
   const id = parseInt(String(query?.id));
   const { data, loading, error } = useEditServerRoleQuery({
     variables: { id },
     skip: !id,
   });
+  const role = data?.role;
 
   const { t } = useTranslation();
   const isAboveSmall = useAboveBreakpoint("sm");
-
-  const role = data?.role;
-
-  useEffect(() => {
-    if (role) {
-      breadcrumbsVar({
-        path: asPath,
-        breadcrumbs: [
-          {
-            label: t("roles.headers.serverRoles"),
-            href: NavigationPaths.Roles,
-          },
-          {
-            label: role.name,
-          },
-        ],
-      });
-    }
-  }, [t, asPath, role]);
 
   useEffect(() => {
     if (query.tab === EditRoleTabs.Permissions) {
@@ -99,6 +81,18 @@ const EditServerRole: NextPage = () => {
 
   return (
     <>
+      <Breadcrumbs
+        breadcrumbs={[
+          {
+            label: t("roles.headers.serverRoles"),
+            href: NavigationPaths.Roles,
+          },
+          {
+            label: role.name,
+          },
+        ]}
+      />
+
       <Card sx={{ marginBottom: 6 }}>
         <Tabs
           onChange={handleTabChange}

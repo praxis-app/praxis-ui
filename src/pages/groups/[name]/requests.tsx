@@ -9,11 +9,10 @@ import {
 import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { breadcrumbsVar } from "../../../apollo/cache";
 import { useMemberRequestsQuery } from "../../../apollo/gen";
 import RequestToJoin from "../../../components/Groups/RequestToJoin";
+import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
@@ -33,32 +32,8 @@ const MemberRequests: NextPage = () => {
     skip: !groupName,
   });
 
-  const { asPath } = useRouter();
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
-
-  useEffect(() => {
-    if (data) {
-      breadcrumbsVar({
-        path: asPath,
-        breadcrumbs: [
-          {
-            label: truncate(groupName, {
-              length: isDesktop
-                ? TruncationSizes.Small
-                : TruncationSizes.ExtraSmall,
-            }),
-            href: getGroupPath(groupName),
-          },
-          {
-            label: t("groups.labels.memberRequests", {
-              count: data.memberRequests.length || 0,
-            }),
-          },
-        ],
-      });
-    }
-  }, [t, isDesktop, data, asPath, groupName]);
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
@@ -68,22 +43,42 @@ const MemberRequests: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data || !data.memberRequests.length) {
+  if (!data) {
     return null;
   }
 
+  const breadcrumbs = [
+    {
+      label: truncate(groupName, {
+        length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
+      }),
+      href: getGroupPath(groupName),
+    },
+    {
+      label: t("groups.labels.memberRequests", {
+        count: data.memberRequests.length || 0,
+      }),
+    },
+  ];
+
   return (
-    <Card>
-      <CardContent>
-        {data.memberRequests.map((memberRequest) => (
-          <RequestToJoin
-            key={memberRequest.id}
-            groupName={groupName}
-            memberRequest={memberRequest}
-          />
-        ))}
-      </CardContent>
-    </Card>
+    <>
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
+
+      {!!data.memberRequests.length && (
+        <Card>
+          <CardContent>
+            {data.memberRequests.map((memberRequest) => (
+              <RequestToJoin
+                key={memberRequest.id}
+                groupName={groupName}
+                memberRequest={memberRequest}
+              />
+            ))}
+          </CardContent>
+        </Card>
+      )}
+    </>
   );
 };
 
