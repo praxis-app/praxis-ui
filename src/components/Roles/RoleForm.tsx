@@ -61,7 +61,7 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
         roleData: { color, groupId, ...formValues },
       },
       update(cache, { data }) {
-        if (!data) {
+        if (!data || groupId) {
           return;
         }
         const {
