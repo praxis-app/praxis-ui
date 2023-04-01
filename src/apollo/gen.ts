@@ -740,6 +740,7 @@ export type GroupProfileCardFragment = {
   id: number;
   name: string;
   memberRequestCount: number;
+  myPermissions: Array<string>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{
     __typename?: "GroupMember";
@@ -929,6 +930,7 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount: number;
+    myPermissions: Array<string>;
     feed: Array<
       | {
           __typename?: "Post";
@@ -2581,6 +2583,7 @@ export const GroupProfileCardFragmentDoc = gql`
       ...CurrentMember
     }
     memberRequestCount
+    myPermissions
   }
   ${CurrentMemberFragmentDoc}
 `;

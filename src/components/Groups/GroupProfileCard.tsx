@@ -25,6 +25,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
+import { GroupPermissions } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import {
@@ -71,7 +72,8 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const isAboveMedium = useAboveBreakpoint("md");
   const isAboveSmall = useAboveBreakpoint("sm");
 
-  const { id, name, coverPhoto, members, memberRequestCount } = group;
+  const { id, name, coverPhoto, members, memberRequestCount, myPermissions } =
+    group;
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
@@ -113,31 +115,40 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
     await redirectTo(groupRolesPath);
   };
 
-  const renderCardActions = () => (
-    <>
-      <JoinButton groupId={id} currentMember={currentMember} />
+  const renderCardActions = () => {
+    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
+    const canEditGroup = myPermissions.includes(GroupPermissions.EditGroup);
+    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const showMenuButton = canDeleteGroup || canEditGroup || canManageRoles;
 
-      {currentMember && (
-        <ItemMenu
-          anchorEl={menuAnchorEl}
-          buttonStyles={{ paddingX: 0, minWidth: 38 }}
-          deleteItem={handleDelete}
-          deletePrompt={deleteGroupPrompt}
-          editPath={editGroupPath}
-          itemId={id}
-          setAnchorEl={setMenuAnchorEl}
-          variant="ghost"
-          canDelete
-          canEdit
-        >
-          <MenuItem onClick={handleRolesButtonClick}>
-            <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
-            {t("roles.actions.manageRoles")}
-          </MenuItem>
-        </ItemMenu>
-      )}
-    </>
-  );
+    return (
+      <>
+        <JoinButton groupId={id} currentMember={currentMember} />
+
+        {showMenuButton && (
+          <ItemMenu
+            anchorEl={menuAnchorEl}
+            buttonStyles={{ paddingX: 0, minWidth: 38 }}
+            canDelete={canDeleteGroup}
+            canEdit={canEditGroup}
+            deleteItem={handleDelete}
+            deletePrompt={deleteGroupPrompt}
+            editPath={editGroupPath}
+            itemId={id}
+            setAnchorEl={setMenuAnchorEl}
+            variant="ghost"
+          >
+            {canManageRoles && (
+              <MenuItem onClick={handleRolesButtonClick}>
+                <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
+                {t("roles.actions.manageRoles")}
+              </MenuItem>
+            )}
+          </ItemMenu>
+        )}
+      </>
+    );
+  };
 
   return (
     <Card {...cardProps}>
