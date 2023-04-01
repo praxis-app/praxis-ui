@@ -706,6 +706,7 @@ export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
   memberRequestCount: number;
+  myPermissions: Array<string>;
   id: number;
   name: string;
   members: Array<{
@@ -1079,6 +1080,7 @@ export type GroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount: number;
+    myPermissions: Array<string>;
     id: number;
     name: string;
     members: Array<{
@@ -2592,10 +2594,11 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
+    memberRequestCount
+    myPermissions
     members {
       ...CurrentMember
     }
-    memberRequestCount
   }
   ${GroupAvatarFragmentDoc}
   ${CurrentMemberFragmentDoc}

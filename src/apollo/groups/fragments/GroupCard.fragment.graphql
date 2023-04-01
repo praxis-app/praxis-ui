@@ -1,8 +1,11 @@
 fragment GroupCard on Group {
   ...GroupAvatar
+
   description
+  memberRequestCount
+  myPermissions
+
   members {
     ...CurrentMember
   }
-  memberRequestCount
 }

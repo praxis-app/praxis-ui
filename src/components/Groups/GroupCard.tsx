@@ -25,6 +25,7 @@ import {
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
+import { GroupPermissions } from "../../constants/role.constants";
 import { redirectTo } from "../../utils/common.utils";
 import {
   getEditGroupPath,
@@ -68,7 +69,8 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
   const { t } = useTranslation();
 
-  const { id, name, description, members, memberRequestCount } = group;
+  const { id, name, description, members, memberRequestCount, myPermissions } =
+    group;
   const currentMember = isLoggedIn
     ? members.find(({ user }) => currentUserId === user.id)
     : undefined;
@@ -91,31 +93,42 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     await redirectTo(groupRolesPath);
   };
 
+  const renderItemMenu = () => {
+    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
+    const canEditGroup = myPermissions.includes(GroupPermissions.EditGroup);
+    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const showMenuButton = canDeleteGroup || canEditGroup || canManageRoles;
+    if (!showMenuButton) {
+      return null;
+    }
+
+    return (
+      <ItemMenu
+        itemId={id}
+        anchorEl={menuAnchorEl}
+        canDelete={canDeleteGroup}
+        canEdit={canEditGroup}
+        deleteItem={handleDelete}
+        deletePrompt={deleteGroupPrompt}
+        editPath={editGroupPath}
+        setAnchorEl={setMenuAnchorEl}
+      >
+        {canManageRoles && (
+          <MenuItem onClick={handleRolesButtonClick}>
+            <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
+            {t("roles.actions.manageRoles")}
+          </MenuItem>
+        )}
+      </ItemMenu>
+    );
+  };
+
   return (
     <Card {...cardProps}>
       <CardHeader
+        action={renderItemMenu()}
         avatar={<GroupAvatar group={group} />}
         title={<Link href={groupPath}>{name}</Link>}
-        action={
-          // TODO: Add permission logic for edit and delete
-          currentMember && (
-            <ItemMenu
-              anchorEl={menuAnchorEl}
-              deleteItem={handleDelete}
-              deletePrompt={deleteGroupPrompt}
-              editPath={editGroupPath}
-              itemId={id}
-              setAnchorEl={setMenuAnchorEl}
-              canDelete
-              canEdit
-            >
-              <MenuItem onClick={handleRolesButtonClick}>
-                <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
-                {t("roles.actions.manageRoles")}
-              </MenuItem>
-            </ItemMenu>
-          )
-        }
       />
       <CardContent>
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
