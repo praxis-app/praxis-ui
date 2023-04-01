@@ -1026,6 +1026,7 @@ export type GroupRolesQuery = {
       name: string;
       color: string;
       memberCount: number;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
     }>;
   };
 };
@@ -1742,6 +1743,7 @@ export type RoleFragment = {
   name: string;
   color: string;
   memberCount: number;
+  group?: { __typename?: "Group"; id: number; name: string } | null;
 };
 
 export type RoleMemberFragment = {
@@ -1769,6 +1771,7 @@ export type CreateRoleMutation = {
       name: string;
       color: string;
       memberCount: number;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
   };
 };
@@ -1838,6 +1841,7 @@ export type UpdateRoleMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
@@ -1867,6 +1871,7 @@ export type EditServerRoleQuery = {
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
+    group?: { __typename?: "Group"; id: number; name: string } | null;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -1890,6 +1895,7 @@ export type ServerRolesQuery = {
     name: string;
     color: string;
     memberCount: number;
+    group?: { __typename?: "Group"; id: number; name: string } | null;
   }>;
 };
 
@@ -2802,6 +2808,10 @@ export const RoleFragmentDoc = gql`
     name
     color
     memberCount
+    group {
+      id
+      name
+    }
   }
 `;
 export const ToggleFormsFragmentDoc = gql`

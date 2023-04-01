@@ -3,4 +3,9 @@ fragment Role on Role {
   name
   color
   memberCount
+
+  group {
+    id
+    name
+  }
 }

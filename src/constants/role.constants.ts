@@ -22,3 +22,8 @@ export enum GroupPermissions {
   ManageRoles = "manage-roles",
   ManageSettings = "manage-settings",
 }
+
+export enum EditRoleTabs {
+  Permissions = "permissions",
+  Members = "members",
+}
