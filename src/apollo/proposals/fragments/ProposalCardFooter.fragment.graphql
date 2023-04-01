@@ -8,6 +8,11 @@ fragment ProposalCardFooter on Proposal {
     }
   }
 
+  group {
+    id
+    isJoinedByMe
+  }
+
   ...VoteMenu
   ...VoteBadges
 }

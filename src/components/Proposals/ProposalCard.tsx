@@ -58,7 +58,6 @@ interface Props extends CardProps {
 
 const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-
   const [deleteProposal] = useDeleteProposalMutation();
   const { data } = useMeQuery();
 
@@ -78,13 +77,13 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
 
   const me = data && data.me;
   const isMe = me?.id === user.id;
-  const formattedDate = timeAgo(createdAt);
-
-  const groupPath = getGroupPath(group?.name || "");
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const isProposalPage = asPath.includes(NavigationPaths.Proposals);
+
+  const groupPath = getGroupPath(group?.name || "");
   const proposalPath = `${NavigationPaths.Proposals}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
+  const formattedDate = timeAgo(createdAt);
 
   const bodyStyles = {
     marginBottom:
@@ -221,7 +220,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
         </Link>
       </CardContent>
 
-      {me && <ProposalCardFooter proposal={proposal} currentUserId={me.id} />}
+      {me && <ProposalCardFooter currentUserId={me.id} proposal={proposal} />}
     </Card>
   );
 };
