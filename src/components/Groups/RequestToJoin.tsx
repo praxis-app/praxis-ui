@@ -88,7 +88,7 @@ const RequestToJoin = ({
     cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
       {
         query: MemberRequestsDocument,
-        variables: { name: groupName },
+        variables: { groupName },
       },
       (memberRequestsData) =>
         produce(memberRequestsData, (draft) => {

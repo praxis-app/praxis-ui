@@ -80,7 +80,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
           {
             query: MemberRequestsDocument,
             variables: {
-              name: memberRequest.group.name,
+              groupName: memberRequest.group.name,
             },
           },
           (memberRequestsData) =>

@@ -26,10 +26,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 const MemberRequests: NextPage = () => {
   const { query } = useRouter();
-  const name = String(query?.name || "");
+  const groupName = String(query?.name || "");
   const { data, loading, error } = useMemberRequestsQuery({
-    variables: { name },
-    skip: !name,
+    variables: { groupName },
+    skip: !groupName,
   });
   const memberRequests = data?.group.memberRequests;
 
@@ -50,10 +50,10 @@ const MemberRequests: NextPage = () => {
 
   const breadcrumbs = [
     {
-      label: truncate(name, {
+      label: truncate(groupName, {
         length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
       }),
-      href: getGroupPath(name),
+      href: getGroupPath(groupName),
     },
     {
       label: t("groups.labels.memberRequests", {
@@ -72,7 +72,7 @@ const MemberRequests: NextPage = () => {
             {memberRequests.map((memberRequest) => (
               <RequestToJoin
                 key={memberRequest.id}
-                groupName={name}
+                groupName={groupName}
                 memberRequest={memberRequest}
               />
             ))}

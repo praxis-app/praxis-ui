@@ -1104,7 +1104,7 @@ export type MemberRequestQuery = {
 };
 
 export type MemberRequestsQueryVariables = Exact<{
-  name: Scalars["String"];
+  groupName: Scalars["String"];
 }>;
 
 export type MemberRequestsQuery = {
@@ -4050,8 +4050,8 @@ export type MemberRequestQueryResult = Apollo.QueryResult<
   MemberRequestQueryVariables
 >;
 export const MemberRequestsDocument = gql`
-  query MemberRequests($name: String!) {
-    group(name: $name) {
+  query MemberRequests($groupName: String!) {
+    group(name: $groupName) {
       id
       memberRequests {
         ...RequestToJoin
@@ -4073,7 +4073,7 @@ export const MemberRequestsDocument = gql`
  * @example
  * const { data, loading, error } = useMemberRequestsQuery({
  *   variables: {
- *      name: // value for 'name'
+ *      groupName: // value for 'groupName'
  *   },
  * });
  */
