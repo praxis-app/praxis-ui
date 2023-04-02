@@ -103,7 +103,7 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
                 editPath={editUserPath}
                 itemId={id}
                 setAnchorEl={setMenuAnchorEl}
-                canEdit
+                canUpdate
               />
             )}
           </>

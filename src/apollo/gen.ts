@@ -887,6 +887,7 @@ export type EditGroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
+    myPermissions: Array<string>;
     id: number;
     name: string;
     description: string;
@@ -3623,6 +3624,7 @@ export const EditGroupDocument = gql`
   query EditGroup($name: String!) {
     group(name: $name) {
       ...GroupForm
+      myPermissions
     }
   }
   ${GroupFormFragmentDoc}

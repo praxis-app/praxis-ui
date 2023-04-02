@@ -120,9 +120,9 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
 
   const renderCardActions = () => {
     const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canEditGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
+    const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
     const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
-    const showMenuButton = canDeleteGroup || canEditGroup || canManageRoles;
+    const showMenuButton = canDeleteGroup || canUpdateGroup || canManageRoles;
 
     return (
       <>
@@ -133,7 +133,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
             anchorEl={menuAnchorEl}
             buttonStyles={{ paddingX: 0, minWidth: 38 }}
             canDelete={canDeleteGroup}
-            canEdit={canEditGroup}
+            canUpdate={canUpdateGroup}
             deleteItem={handleDelete}
             deletePrompt={deleteGroupPrompt}
             editPath={editGroupPath}

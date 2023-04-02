@@ -137,7 +137,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
       <ItemMenu
         anchorEl={menuAnchorEl}
         canDelete={canDelete}
-        canEdit={isMe}
+        canUpdate={isMe}
         deleteItem={handleDelete}
         deletePrompt={deletePostPrompt}
         editPath={editPostPath}

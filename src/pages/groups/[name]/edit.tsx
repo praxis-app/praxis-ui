@@ -10,6 +10,7 @@ import GroupForm from "../../../components/Groups/GroupForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
+import { GroupPermissions } from "../../../constants/role.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupPath } from "../../../utils/group.utils";
 
@@ -20,6 +21,7 @@ const EditGroup: NextPage = () => {
     variables: { name },
     skip: !name,
   });
+  const group = data?.group;
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
@@ -32,8 +34,12 @@ const EditGroup: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!group) {
     return null;
+  }
+
+  if (!group.myPermissions.includes(GroupPermissions.UpdateGroup)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 
   const breadcrumbs = [
@@ -52,7 +58,7 @@ const EditGroup: NextPage = () => {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <GroupForm editGroup={data.group} />
+      <GroupForm editGroup={group} />
     </>
   );
 };

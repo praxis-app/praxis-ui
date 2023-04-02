@@ -170,7 +170,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <ItemMenu
         anchorEl={menuAnchorEl}
         canDelete={isMe}
-        canEdit={isMe}
+        canUpdate={isMe}
         deleteItem={handleDelete}
         deletePrompt={deletePrompt}
         editPath={editPath}
