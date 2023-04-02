@@ -918,7 +918,12 @@ export type EditGroupRoleQuery = {
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
-    group?: { __typename?: "Group"; id: number; name: string } | null;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions: Array<string>;
+      name: string;
+    } | null;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -1060,6 +1065,7 @@ export type GroupRolesQuery = {
   group: {
     __typename?: "Group";
     id: number;
+    myPermissions: Array<string>;
     roles: Array<{
       __typename?: "Role";
       id: number;
@@ -3698,6 +3704,10 @@ export const EditGroupRoleDocument = gql`
       availableUsersToAdd {
         ...UserAvatar
       }
+      group {
+        id
+        myPermissions
+      }
     }
   }
   ${RoleFragmentDoc}
@@ -3894,6 +3904,7 @@ export const GroupRolesDocument = gql`
   query GroupRoles($name: String!) {
     group(name: $name) {
       id
+      myPermissions
       roles {
         ...Role
       }

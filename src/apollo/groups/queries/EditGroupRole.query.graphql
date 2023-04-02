@@ -11,5 +11,10 @@ query EditGroupRole($id: Int!) {
     availableUsersToAdd {
       ...UserAvatar
     }
+
+    group {
+      id
+      myPermissions
+    }
   }
 }

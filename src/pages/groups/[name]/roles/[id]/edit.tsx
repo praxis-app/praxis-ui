@@ -15,7 +15,10 @@ import {
   NavigationPaths,
   TruncationSizes,
 } from "../../../../../constants/common.constants";
-import { EditRoleTabs } from "../../../../../constants/role.constants";
+import {
+  EditRoleTabs,
+  GroupPermissions,
+} from "../../../../../constants/role.constants";
 import {
   useAboveBreakpoint,
   useIsDesktop,
@@ -39,6 +42,9 @@ const EditGroupRole: NextPage = () => {
   const isAboveSmall = useAboveBreakpoint("sm");
   const isDesktop = useIsDesktop();
 
+  const canManageRoles = role?.group?.myPermissions.includes(
+    GroupPermissions.ManageRoles
+  );
   const groupPath = getGroupPath(name);
   const groupRolesPath = `${groupPath}${NavigationPaths.Roles}`;
 
@@ -74,7 +80,7 @@ const EditGroupRole: NextPage = () => {
     replace({ query });
   };
 
-  if (isDeniedAccess(error)) {
+  if (isDeniedAccess(error) || (role && !canManageRoles)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 

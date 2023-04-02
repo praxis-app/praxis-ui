@@ -9,6 +9,7 @@ import RoleList from "../../../../components/Roles/RoleList";
 import Breadcrumbs from "../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../../constants/common.constants";
+import { GroupPermissions } from "../../../../constants/role.constants";
 import { useIsDesktop } from "../../../../hooks/common.hooks";
 import { isDeniedAccess } from "../../../../utils/error.utils";
 import { getGroupPath } from "../../../../utils/group.utils";
@@ -23,8 +24,24 @@ const GroupRoles: NextPage = () => {
   const group = data?.group;
   const roles = group?.roles;
 
+  const canManageRoles = group?.myPermissions.includes(
+    GroupPermissions.ManageRoles
+  );
+
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
+
+  if (isDeniedAccess(error) || (group && !canManageRoles)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
+
+  if (error) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (loading) {
+    return <ProgressBar />;
+  }
 
   const breadcrumbs = [
     {
@@ -37,18 +54,6 @@ const GroupRoles: NextPage = () => {
       label: t("groups.labels.groupRoles"),
     },
   ];
-
-  if (isDeniedAccess(error)) {
-    return <Typography>{t("prompts.permissionDenied")}</Typography>;
-  }
-
-  if (error) {
-    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
-  }
-
-  if (loading) {
-    return <ProgressBar />;
-  }
 
   return (
     <>
