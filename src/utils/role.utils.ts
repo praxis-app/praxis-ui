@@ -4,10 +4,16 @@ import {
   ServerPermissions,
 } from "../constants/role.constants";
 
+interface PermissionText {
+  name: string | null;
+  description: string | null;
+  inDev?: boolean;
+}
+
 export const getPermissionText = (
   name: string,
   t: TFunction<Namespace<"ns1">, undefined>
-) => {
+): PermissionText => {
   switch (name) {
     case GroupPermissions.ApproveMemberRequests:
       return {
@@ -28,11 +34,13 @@ export const getPermissionText = (
       return {
         name: t("permissions.names.manageSettings"),
         description: t("permissions.descriptions.manageGroupSettings"),
+        inDev: true,
       };
     case GroupPermissions.CreateEvents:
       return {
         name: t("permissions.names.createEvents"),
         description: t("permissions.descriptions.createEvents"),
+        inDev: true,
       };
     case ServerPermissions.CreateInvites:
       return {
@@ -44,12 +52,14 @@ export const getPermissionText = (
       return {
         name: t("permissions.names.manageComments"),
         description: t("permissions.descriptions.manageComments"),
+        inDev: true,
       };
     case GroupPermissions.ManageEvents:
     case ServerPermissions.ManageEvents:
       return {
         name: t("permissions.names.manageEvents"),
         description: t("permissions.descriptions.manageEvents"),
+        inDev: true,
       };
     case ServerPermissions.ManageInvites:
       return {
@@ -73,6 +83,7 @@ export const getPermissionText = (
       return {
         name: t("permissions.names.banMembers"),
         description: t("permissions.descriptions.banMembers"),
+        inDev: true,
       };
     default:
       return {
