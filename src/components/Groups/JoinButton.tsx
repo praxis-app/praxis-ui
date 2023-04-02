@@ -85,7 +85,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
           },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
-              draft?.group.memberRequests.unshift(memberRequest);
+              draft?.group.memberRequests?.unshift(memberRequest);
             })
         );
         cache.modify({

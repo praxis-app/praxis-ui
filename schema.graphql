@@ -102,7 +102,7 @@ type Group {
   isJoinedByMe: Boolean!
   memberCount: Int!
   memberRequestCount: Int
-  memberRequests: [MemberRequest!]!
+  memberRequests: [MemberRequest!]
   members: [GroupMember!]!
   myPermissions: [String!]!
   name: String!

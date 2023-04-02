@@ -138,7 +138,7 @@ export type Group = {
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
   memberRequestCount?: Maybe<Scalars["Int"]>;
-  memberRequests: Array<MemberRequest>;
+  memberRequests?: Maybe<Array<MemberRequest>>;
   members: Array<GroupMember>;
   myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
@@ -1112,7 +1112,7 @@ export type MemberRequestsQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    memberRequests: Array<{
+    memberRequests?: Array<{
       __typename?: "MemberRequest";
       id: number;
       user: {
@@ -1122,7 +1122,7 @@ export type MemberRequestsQuery = {
         profilePicture: { __typename?: "Image"; id: number };
       };
       group: { __typename?: "Group"; id: number };
-    }>;
+    }> | null;
   };
 };
 

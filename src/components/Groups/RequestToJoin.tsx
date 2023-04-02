@@ -92,7 +92,7 @@ const RequestToJoin = ({
       },
       (memberRequestsData) =>
         produce(memberRequestsData, (draft) => {
-          if (!draft) {
+          if (!draft?.group.memberRequests) {
             return;
           }
           const index = draft.group.memberRequests.findIndex(
