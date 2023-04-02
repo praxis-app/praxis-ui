@@ -76,7 +76,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     : undefined;
 
   const canApproveMemberRequests = myPermissions.includes(
-    GroupPermissions.AcceptMemberRequests
+    GroupPermissions.ApproveMemberRequests
   );
 
   const editGroupPath = getEditGroupPath(name);

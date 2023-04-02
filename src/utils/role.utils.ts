@@ -9,10 +9,10 @@ export const getPermissionText = (
   t: TFunction<Namespace<"ns1">, undefined>
 ) => {
   switch (name) {
-    case GroupPermissions.AcceptMemberRequests:
+    case GroupPermissions.ApproveMemberRequests:
       return {
-        name: t("permissions.names.acceptMemberRequests"),
-        description: t("permissions.descriptions.acceptMemberRequests"),
+        name: t("permissions.names.approveMemberRequests"),
+        description: t("permissions.descriptions.approveMemberRequests"),
       };
     case GroupPermissions.EditGroup:
       return {

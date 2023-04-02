@@ -803,6 +803,7 @@ export type CreateGroupMutation = {
     group: {
       __typename?: "Group";
       description: string;
+      myPermissions: Array<string>;
       id: number;
       name: string;
       members: Array<{
@@ -3307,6 +3308,7 @@ export const CreateGroupDocument = gql`
       group {
         ...GroupAvatar
         description
+        myPermissions
         members {
           ...CurrentMember
         }

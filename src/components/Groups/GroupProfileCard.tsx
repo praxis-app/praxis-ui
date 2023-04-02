@@ -77,7 +77,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
 
   const showCardHeader = isLoggedIn && isAboveSmall;
   const canApproveMemberRequests = myPermissions.includes(
-    GroupPermissions.AcceptMemberRequests
+    GroupPermissions.ApproveMemberRequests
   );
 
   const editGroupPath = getEditGroupPath(name);

@@ -265,7 +265,7 @@
 
   "permissions": {
     "names": {
-      "acceptMemberRequests": "Approve Member Requests",
+      "approveMemberRequests": "Approve Member Requests",
       "banMembers": "Ban Members",
       "createEvents": "Create Events",
       "createInvites": "Create Invites",
@@ -279,7 +279,7 @@
       "manageSettings": "Manage Settings"
     },
     "descriptions": {
-      "acceptMemberRequests": "Allows members to view member requests and to allow new members to join the group.",
+      "approveMemberRequests": "Allows members to view member requests and to allow new members to join the group.",
       "banGroupMembers": "Allows members to remove other members from the group.",
       "banMembers": "Allows members to permanently ban other members from the server.",
       "createEvents": "Allows members to create and plan events.",
