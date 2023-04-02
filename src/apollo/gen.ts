@@ -985,6 +985,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            myPermissions: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1246,6 +1247,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
+    myPermissions: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1318,6 +1320,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
+    myPermissions: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1362,6 +1365,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        myPermissions: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1424,6 +1428,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        myPermissions: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1468,6 +1473,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
+      myPermissions: Array<string>;
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2079,6 +2085,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
+              myPermissions: Array<string>;
               id: number;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2206,6 +2213,7 @@ export type EditUserQuery = {
       };
       group?: {
         __typename?: "Group";
+        myPermissions: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2282,6 +2290,7 @@ export type HomePageQuery = {
           };
           group?: {
             __typename?: "Group";
+            myPermissions: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2387,6 +2396,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            myPermissions: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2704,6 +2714,7 @@ export const PostCardFragmentDoc = gql`
     }
     group {
       ...GroupAvatar
+      myPermissions
     }
     ...PostCardFooter
   }
