@@ -15,7 +15,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-const defaultOptions = {} as const;
+const defaultOptions = { errorPolicy: "all" } as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -137,7 +137,7 @@ export type Group = {
   id: Scalars["Int"];
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
-  memberRequestCount: Scalars["Int"];
+  memberRequestCount?: Maybe<Scalars["Int"]>;
   members: Array<GroupMember>;
   myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
@@ -705,7 +705,7 @@ export type GroupAvatarFragment = {
 export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
-  memberRequestCount: number;
+  memberRequestCount?: number | null;
   myPermissions: Array<string>;
   id: number;
   name: string;
@@ -740,7 +740,7 @@ export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  memberRequestCount: number;
+  memberRequestCount?: number | null;
   myPermissions: Array<string>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{
@@ -969,7 +969,7 @@ export type GroupProfileQuery = {
     __typename?: "Group";
     id: number;
     name: string;
-    memberRequestCount: number;
+    memberRequestCount?: number | null;
     myPermissions: Array<string>;
     feed: Array<
       | {
@@ -1080,7 +1080,7 @@ export type GroupsQuery = {
   groups: Array<{
     __typename?: "Group";
     description: string;
-    memberRequestCount: number;
+    memberRequestCount?: number | null;
     myPermissions: Array<string>;
     id: number;
     name: string;

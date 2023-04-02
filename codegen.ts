@@ -23,6 +23,9 @@ const config: CodegenConfig = {
       ],
       config: {
         withHooks: true,
+        defaultBaseOptions: {
+          errorPolicy: "all",
+        },
       },
     },
     "./schema.graphql": {
