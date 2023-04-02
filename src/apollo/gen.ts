@@ -138,6 +138,7 @@ export type Group = {
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
   memberRequestCount?: Maybe<Scalars["Int"]>;
+  memberRequests: Array<MemberRequest>;
   members: Array<GroupMember>;
   myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
@@ -433,7 +434,6 @@ export type Query = {
   isFirstUser: Scalars["Boolean"];
   me: User;
   memberRequest?: Maybe<MemberRequest>;
-  memberRequests: Array<MemberRequest>;
   post: Post;
   posts: Array<Post>;
   proposal: Proposal;
@@ -454,10 +454,6 @@ export type QueryGroupArgs = {
 
 export type QueryMemberRequestArgs = {
   groupId: Scalars["Int"];
-};
-
-export type QueryMemberRequestsArgs = {
-  groupName: Scalars["String"];
 };
 
 export type QueryPostArgs = {
@@ -1108,22 +1104,26 @@ export type MemberRequestQuery = {
 };
 
 export type MemberRequestsQueryVariables = Exact<{
-  groupName: Scalars["String"];
+  name: Scalars["String"];
 }>;
 
 export type MemberRequestsQuery = {
   __typename?: "Query";
-  memberRequests: Array<{
-    __typename?: "MemberRequest";
+  group: {
+    __typename?: "Group";
     id: number;
-    user: {
-      __typename?: "User";
+    memberRequests: Array<{
+      __typename?: "MemberRequest";
       id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-    group: { __typename?: "Group"; id: number };
-  }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group: { __typename?: "Group"; id: number };
+    }>;
+  };
 };
 
 export type AttachedImageFragment = {
@@ -4050,9 +4050,12 @@ export type MemberRequestQueryResult = Apollo.QueryResult<
   MemberRequestQueryVariables
 >;
 export const MemberRequestsDocument = gql`
-  query MemberRequests($groupName: String!) {
-    memberRequests(groupName: $groupName) {
-      ...RequestToJoin
+  query MemberRequests($name: String!) {
+    group(name: $name) {
+      id
+      memberRequests {
+        ...RequestToJoin
+      }
     }
   }
   ${RequestToJoinFragmentDoc}
@@ -4070,7 +4073,7 @@ export const MemberRequestsDocument = gql`
  * @example
  * const { data, loading, error } = useMemberRequestsQuery({
  *   variables: {
- *      groupName: // value for 'groupName'
+ *      name: // value for 'name'
  *   },
  * });
  */

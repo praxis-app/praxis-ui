@@ -21,19 +21,18 @@ const GroupPage: NextPage = () => {
 
   const { t } = useTranslation();
 
-  if (isDeniedAccess(error)) {
-    return <Typography>{t("prompts.permissionDenied")}</Typography>;
-  }
-
-  if (error) {
-    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
-  }
-
   if (loading) {
     return <ProgressBar />;
   }
 
   if (!data) {
+    if (isDeniedAccess(error)) {
+      return <Typography>{t("prompts.permissionDenied")}</Typography>;
+    }
+
+    if (error) {
+      return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+    }
     return null;
   }
 

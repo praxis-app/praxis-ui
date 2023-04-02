@@ -80,12 +80,12 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
           {
             query: MemberRequestsDocument,
             variables: {
-              groupName: memberRequest.group.name,
+              name: memberRequest.group.name,
             },
           },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
-              draft?.memberRequests.unshift(memberRequest);
+              draft?.group.memberRequests.unshift(memberRequest);
             })
         );
         cache.modify({

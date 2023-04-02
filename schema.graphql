@@ -102,6 +102,7 @@ type Group {
   isJoinedByMe: Boolean!
   memberCount: Int!
   memberRequestCount: Int
+  memberRequests: [MemberRequest!]!
   members: [GroupMember!]!
   myPermissions: [String!]!
   name: String!
@@ -258,7 +259,6 @@ type Query {
   isFirstUser: Boolean!
   me: User!
   memberRequest(groupId: Int!): MemberRequest
-  memberRequests(groupName: String!): [MemberRequest!]!
   post(id: Int!): Post!
   posts: [Post!]!
   proposal(id: Int!): Proposal!

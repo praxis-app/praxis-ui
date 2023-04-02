@@ -26,11 +26,12 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 const MemberRequests: NextPage = () => {
   const { query } = useRouter();
-  const groupName = String(query?.name || "");
+  const name = String(query?.name || "");
   const { data, loading, error } = useMemberRequestsQuery({
-    variables: { groupName },
-    skip: !groupName,
+    variables: { name },
+    skip: !name,
   });
+  const group = data?.group;
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
@@ -43,20 +44,20 @@ const MemberRequests: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!group) {
     return null;
   }
 
   const breadcrumbs = [
     {
-      label: truncate(groupName, {
+      label: truncate(name, {
         length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
       }),
-      href: getGroupPath(groupName),
+      href: getGroupPath(name),
     },
     {
       label: t("groups.labels.memberRequests", {
-        count: data.memberRequests.length || 0,
+        count: group.memberRequests.length || 0,
       }),
     },
   ];
@@ -65,13 +66,13 @@ const MemberRequests: NextPage = () => {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      {!!data.memberRequests.length && (
+      {!!group.memberRequests.length && (
         <Card>
           <CardContent>
-            {data.memberRequests.map((memberRequest) => (
+            {group.memberRequests.map((memberRequest) => (
               <RequestToJoin
                 key={memberRequest.id}
-                groupName={groupName}
+                groupName={name}
                 memberRequest={memberRequest}
               />
             ))}
