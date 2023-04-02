@@ -14,10 +14,10 @@ export const getPermissionText = (
         name: t("permissions.names.approveMemberRequests"),
         description: t("permissions.descriptions.approveMemberRequests"),
       };
-    case GroupPermissions.EditGroup:
+    case GroupPermissions.UpdateGroup:
       return {
-        name: t("permissions.names.editGroup"),
-        description: t("permissions.descriptions.editGroup"),
+        name: t("permissions.names.updateGroup"),
+        description: t("permissions.descriptions.updateGroup"),
       };
     case GroupPermissions.DeleteGroup:
       return {

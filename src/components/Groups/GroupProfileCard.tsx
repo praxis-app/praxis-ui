@@ -120,7 +120,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
 
   const renderCardActions = () => {
     const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canEditGroup = myPermissions.includes(GroupPermissions.EditGroup);
+    const canEditGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
     const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
     const showMenuButton = canDeleteGroup || canEditGroup || canManageRoles;
 

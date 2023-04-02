@@ -106,7 +106,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
   const renderItemMenu = () => {
     const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canEditGroup = myPermissions.includes(GroupPermissions.EditGroup);
+    const canEditGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
     const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
     const showMenuButton = canDeleteGroup || canEditGroup || canManageRoles;
     if (!showMenuButton) {
