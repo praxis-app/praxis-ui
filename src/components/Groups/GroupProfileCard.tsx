@@ -172,7 +172,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
             {t("groups.labels.members", { count: members.length })}
           </Link>
 
-          {canApproveMemberRequests && (
+          {canApproveMemberRequests && typeof memberRequestCount === "number" && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>

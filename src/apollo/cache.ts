@@ -95,6 +95,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        memberRequests: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
     Role: {

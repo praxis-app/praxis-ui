@@ -31,6 +31,7 @@ const MemberRequests: NextPage = () => {
     variables: { groupName },
     skip: !groupName,
   });
+  const memberRequests = data?.group.memberRequests;
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
@@ -43,7 +44,7 @@ const MemberRequests: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!memberRequests) {
     return null;
   }
 
@@ -56,7 +57,7 @@ const MemberRequests: NextPage = () => {
     },
     {
       label: t("groups.labels.memberRequests", {
-        count: data.memberRequests.length || 0,
+        count: memberRequests.length || 0,
       }),
     },
   ];
@@ -65,10 +66,10 @@ const MemberRequests: NextPage = () => {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      {!!data.memberRequests.length && (
+      {!!memberRequests.length && (
         <Card>
           <CardContent>
-            {data.memberRequests.map((memberRequest) => (
+            {memberRequests.map((memberRequest) => (
               <RequestToJoin
                 key={memberRequest.id}
                 groupName={groupName}

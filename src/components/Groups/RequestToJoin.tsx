@@ -92,11 +92,13 @@ const RequestToJoin = ({
       },
       (memberRequestsData) =>
         produce(memberRequestsData, (draft) => {
-          if (!draft) {
+          if (!draft?.group.memberRequests) {
             return;
           }
-          const index = draft.memberRequests.findIndex((p) => p.id === id);
-          draft.memberRequests.splice(index, 1);
+          const index = draft.group.memberRequests.findIndex(
+            (p) => p.id === id
+          );
+          draft.group.memberRequests.splice(index, 1);
         })
     );
     const cacheId = cache.identify({ id, __typename: TypeNames.MemberRequest });
