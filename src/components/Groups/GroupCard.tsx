@@ -75,6 +75,10 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     ? members.find(({ user }) => currentUserId === user.id)
     : undefined;
 
+  const canApproveMemberRequests = myPermissions.includes(
+    GroupPermissions.AcceptMemberRequests
+  );
+
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const groupPath = getGroupPath(name);
@@ -137,7 +141,8 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
           <Link href={groupMembersPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
-          {currentMember && (
+
+          {canApproveMemberRequests && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>

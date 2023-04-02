@@ -74,13 +74,16 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
 
   const { id, name, coverPhoto, members, memberRequestCount, myPermissions } =
     group;
+
+  const showCardHeader = isLoggedIn && isAboveSmall;
+  const canApproveMemberRequests = myPermissions.includes(
+    GroupPermissions.AcceptMemberRequests
+  );
+
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
-
   const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
-
-  const showCardHeader = isLoggedIn && isAboveSmall;
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -169,7 +172,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
             {t("groups.labels.members", { count: members.length })}
           </Link>
 
-          {currentMember && (
+          {canApproveMemberRequests && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>
