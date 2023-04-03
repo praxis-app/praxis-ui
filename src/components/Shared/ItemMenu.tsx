@@ -4,9 +4,8 @@ import { Delete, Edit, MoreHoriz } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, SxProps } from "@mui/material";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { isRenderable } from "../../utils/common.utils";
+import { isRenderable, redirectTo } from "../../utils/common.utils";
 import GhostButton from "./GhostButton";
-import Link from "./Link";
 
 interface Props {
   anchorEl: null | HTMLElement;
@@ -44,6 +43,7 @@ const ItemMenu = ({
   }
 
   const editIconStyles = {
+    marginBottom: 0.8,
     marginRight: 1,
     transform: "rotateY(180deg) translateY(2px)",
   };
@@ -99,11 +99,9 @@ const ItemMenu = ({
         {prependChildren && children}
 
         {showEditButton && (
-          <MenuItem>
-            <Link sx={{ color: "inherit" }} href={editPath}>
-              <Edit fontSize="small" sx={editIconStyles} />
-              {t("actions.edit")}
-            </Link>
+          <MenuItem onClick={() => redirectTo(editPath)}>
+            <Edit fontSize="small" sx={editIconStyles} />
+            {t("actions.edit")}
           </MenuItem>
         )}
 
