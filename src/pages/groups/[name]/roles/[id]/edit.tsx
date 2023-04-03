@@ -1,35 +1,23 @@
-import { Card, Tab, Tabs, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEditGroupRoleQuery } from "../../../../../apollo/gen";
-import AddMemberTab from "../../../../../components/Roles/AddMemberTab";
-import DeleteRoleButton from "../../../../../components/Roles/DeleteRoleButton";
-import PermissionsForm from "../../../../../components/Roles/PermissionsForm";
-import RoleForm from "../../../../../components/Roles/RoleForm";
+import EditRoleTabs from "../../../../../components/Roles/EditRoleTabs";
 import Breadcrumbs from "../../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../../components/Shared/ProgressBar";
 import {
   NavigationPaths,
   TruncationSizes,
 } from "../../../../../constants/common.constants";
-import {
-  EditRoleTabs,
-  GroupPermissions,
-} from "../../../../../constants/role.constants";
-import {
-  useAboveBreakpoint,
-  useIsDesktop,
-} from "../../../../../hooks/common.hooks";
+import { GroupPermissions } from "../../../../../constants/role.constants";
+import { useIsDesktop } from "../../../../../hooks/common.hooks";
 import { isDeniedAccess } from "../../../../../utils/error.utils";
 import { getGroupPath } from "../../../../../utils/group.utils";
 
 const EditGroupRole: NextPage = () => {
-  const [tab, setTab] = useState(0);
-  const { query, replace } = useRouter();
-
+  const { query } = useRouter();
   const name = String(query?.name);
   const id = parseInt(String(query?.id));
   const { data, loading, error } = useEditGroupRoleQuery({
@@ -39,7 +27,6 @@ const EditGroupRole: NextPage = () => {
   const role = data?.role;
 
   const { t } = useTranslation();
-  const isAboveSmall = useAboveBreakpoint("sm");
   const isDesktop = useIsDesktop();
 
   const canManageRoles = role?.group?.myPermissions.includes(
@@ -47,38 +34,6 @@ const EditGroupRole: NextPage = () => {
   );
   const groupPath = getGroupPath(name);
   const groupRolesPath = `${groupPath}${NavigationPaths.Roles}`;
-
-  useEffect(() => {
-    if (query.tab === EditRoleTabs.Permissions) {
-      setTab(1);
-      return;
-    }
-    if (query.tab === EditRoleTabs.Members) {
-      setTab(2);
-      return;
-    }
-    setTab(0);
-  }, [query.tab]);
-
-  const handleTabChange = (
-    _: SyntheticEvent<Element, Event>,
-    value: number
-  ) => {
-    if (value === 1) {
-      replace({
-        query: { ...query, tab: EditRoleTabs.Permissions },
-      });
-      return;
-    }
-    if (value === 2) {
-      replace({
-        query: { ...query, tab: EditRoleTabs.Members },
-      });
-      return;
-    }
-    delete query.tab;
-    replace({ query });
-  };
 
   if (isDeniedAccess(error) || (role && !canManageRoles)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
@@ -115,34 +70,7 @@ const EditGroupRole: NextPage = () => {
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
-
-      <Card sx={{ marginBottom: 6 }}>
-        <Tabs
-          onChange={handleTabChange}
-          value={tab}
-          variant={isAboveSmall ? "standard" : "fullWidth"}
-          centered
-        >
-          <Tab label={t("roles.tabs.display")} />
-          <Tab label={t("roles.tabs.permissions")} />
-          <Tab label={t("roles.tabs.members")} />
-        </Tabs>
-      </Card>
-
-      {tab === 0 && (
-        <>
-          <RoleForm editRole={role} />
-          <DeleteRoleButton role={role} />
-        </>
-      )}
-
-      {tab === 1 && (
-        <PermissionsForm permissions={role.permissions} roleId={role.id} />
-      )}
-
-      {tab === 2 && (
-        <AddMemberTab role={role} users={role.availableUsersToAdd} />
-      )}
+      <EditRoleTabs role={role} />
     </>
   );
 };

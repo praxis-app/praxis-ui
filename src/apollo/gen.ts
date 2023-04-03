@@ -1792,6 +1792,42 @@ export type DeleteRoleButtonFragment = {
   group?: { __typename?: "Group"; id: number; name: string } | null;
 };
 
+export type EditRoleTabsFragment = {
+  __typename?: "Role";
+  id: number;
+  name: string;
+  color: string;
+  memberCount: number;
+  permissions: Array<{
+    __typename?: "Permission";
+    id: number;
+    name: string;
+    enabled: boolean;
+  }>;
+  availableUsersToAdd: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  }>;
+  group?: {
+    __typename?: "Group";
+    id: number;
+    myPermissions: Array<string>;
+    name: string;
+  } | null;
+  members: Array<{
+    __typename?: "RoleMember";
+    id: number;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
 export type PermissionsFormFragment = {
   __typename?: "Permission";
   id: number;
@@ -1950,7 +1986,12 @@ export type EditServerRoleQuery = {
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
-    group?: { __typename?: "Group"; id: number; name: string } | null;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions: Array<string>;
+      name: string;
+    } | null;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -2863,6 +2904,18 @@ export const ProposalFormFragmentDoc = gql`
   }
   ${AttachedImageFragmentDoc}
 `;
+export const RoleFragmentDoc = gql`
+  fragment Role on Role {
+    id
+    name
+    color
+    memberCount
+    group {
+      id
+      name
+    }
+  }
+`;
 export const RoleMemberFragmentDoc = gql`
   fragment RoleMember on RoleMember {
     id
@@ -2897,17 +2950,27 @@ export const PermissionsFormFragmentDoc = gql`
     enabled
   }
 `;
-export const RoleFragmentDoc = gql`
-  fragment Role on Role {
-    id
-    name
-    color
-    memberCount
+export const EditRoleTabsFragmentDoc = gql`
+  fragment EditRoleTabs on Role {
+    ...Role
+    ...AddMemberTab
+    ...DeleteRoleButton
+    permissions {
+      ...PermissionsForm
+    }
+    availableUsersToAdd {
+      ...UserAvatar
+    }
     group {
       id
-      name
+      myPermissions
     }
   }
+  ${RoleFragmentDoc}
+  ${AddMemberTabFragmentDoc}
+  ${DeleteRoleButtonFragmentDoc}
+  ${PermissionsFormFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
 export const ToggleFormsFragmentDoc = gql`
   fragment ToggleForms on User {
@@ -3695,26 +3758,10 @@ export type EditGroupQueryResult = Apollo.QueryResult<
 export const EditGroupRoleDocument = gql`
   query EditGroupRole($id: Int!) {
     role(id: $id) {
-      ...Role
-      ...AddMemberTab
-      ...DeleteRoleButton
-      permissions {
-        ...PermissionsForm
-      }
-      availableUsersToAdd {
-        ...UserAvatar
-      }
-      group {
-        id
-        myPermissions
-      }
+      ...EditRoleTabs
     }
   }
-  ${RoleFragmentDoc}
-  ${AddMemberTabFragmentDoc}
-  ${DeleteRoleButtonFragmentDoc}
-  ${PermissionsFormFragmentDoc}
-  ${UserAvatarFragmentDoc}
+  ${EditRoleTabsFragmentDoc}
 `;
 
 /**
@@ -5262,20 +5309,10 @@ export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
 export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {
     role(id: $id) {
-      ...Role
-      ...AddMemberTab
-      permissions {
-        ...PermissionsForm
-      }
-      availableUsersToAdd {
-        ...UserAvatar
-      }
+      ...EditRoleTabs
     }
   }
-  ${RoleFragmentDoc}
-  ${AddMemberTabFragmentDoc}
-  ${PermissionsFormFragmentDoc}
-  ${UserAvatarFragmentDoc}
+  ${EditRoleTabsFragmentDoc}
 `;
 
 /**
