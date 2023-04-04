@@ -906,6 +906,12 @@ export type EditGroupRoleQuery = {
     name: string;
     color: string;
     memberCount: number;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions: Array<string>;
+      name: string;
+    } | null;
     permissions: Array<{
       __typename?: "Permission";
       id: number;
@@ -918,12 +924,6 @@ export type EditGroupRoleQuery = {
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
-    group?: {
-      __typename?: "Group";
-      id: number;
-      myPermissions: Array<string>;
-      name: string;
-    } | null;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -1810,12 +1810,7 @@ export type EditRoleTabsFragment = {
     name: string;
     profilePicture: { __typename?: "Image"; id: number };
   }>;
-  group?: {
-    __typename?: "Group";
-    id: number;
-    myPermissions: Array<string>;
-    name: string;
-  } | null;
+  group?: { __typename?: "Group"; id: number; name: string } | null;
   members: Array<{
     __typename?: "RoleMember";
     id: number;
@@ -1986,12 +1981,7 @@ export type EditServerRoleQuery = {
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
-    group?: {
-      __typename?: "Group";
-      id: number;
-      myPermissions: Array<string>;
-      name: string;
-    } | null;
+    group?: { __typename?: "Group"; id: number; name: string } | null;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -2961,10 +2951,6 @@ export const EditRoleTabsFragmentDoc = gql`
     availableUsersToAdd {
       ...UserAvatar
     }
-    group {
-      id
-      myPermissions
-    }
   }
   ${RoleFragmentDoc}
   ${AddMemberTabFragmentDoc}
@@ -3759,6 +3745,10 @@ export const EditGroupRoleDocument = gql`
   query EditGroupRole($id: Int!) {
     role(id: $id) {
       ...EditRoleTabs
+      group {
+        id
+        myPermissions
+      }
     }
   }
   ${EditRoleTabsFragmentDoc}

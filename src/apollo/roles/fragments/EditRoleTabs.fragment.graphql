@@ -10,9 +10,4 @@ fragment EditRoleTabs on Role {
   availableUsersToAdd {
     ...UserAvatar
   }
-
-  group {
-    id
-    myPermissions
-  }
 }
