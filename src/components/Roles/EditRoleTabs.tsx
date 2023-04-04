@@ -1,5 +1,3 @@
-// TODO: Determine whether RoleForm and PermissionsForm should be combined
-
 import { Card, Tab, Tabs } from "@mui/material";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
