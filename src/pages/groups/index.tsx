@@ -77,19 +77,19 @@ const GroupsIndex: NextPage = () => {
     );
   }
 
-  if (isDeniedAccess(error)) {
-    return <Typography>{t("prompts.permissionDenied")}</Typography>;
-  }
-
-  if (error) {
-    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
-  }
-
   if (loading) {
     return <ProgressBar />;
   }
 
+  // TODO: See if there's a better way to handle partial data with errors
   if (!data) {
+    if (isDeniedAccess(error)) {
+      return <Typography>{t("prompts.permissionDenied")}</Typography>;
+    }
+
+    if (error) {
+      return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+    }
     return null;
   }
 

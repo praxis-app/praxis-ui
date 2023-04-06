@@ -1,13 +1,14 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { useReactiveVar } from "@apollo/client";
-import { HowToVote } from "@mui/icons-material";
+import { AccountBox, HowToVote } from "@mui/icons-material";
 import {
   Box,
   Card,
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
+  MenuItem,
   styled,
   SxProps,
   Typography,
@@ -24,6 +25,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
+import { GroupPermissions } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import {
@@ -70,14 +72,18 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
   const isAboveMedium = useAboveBreakpoint("md");
   const isAboveSmall = useAboveBreakpoint("sm");
 
-  const { id, name, coverPhoto, members, memberRequestCount } = group;
+  const { id, name, coverPhoto, members, memberRequestCount, myPermissions } =
+    group;
+
+  const canApproveMemberRequests = myPermissions.includes(
+    GroupPermissions.ApproveMemberRequests
+  );
+  const showCardHeader = isLoggedIn && isAboveSmall;
+
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
-
   const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
-
-  const showCardHeader = isLoggedIn && isAboveSmall;
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -107,26 +113,45 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
     });
   };
 
-  const renderCardActions = () => (
-    <>
-      <JoinButton groupId={id} currentMember={currentMember} />
+  const handleRolesButtonClick = async () => {
+    const groupRolesPath = `${NavigationPaths.Groups}/${name}/roles`;
+    await redirectTo(groupRolesPath);
+  };
 
-      {currentMember && (
-        <ItemMenu
-          anchorEl={menuAnchorEl}
-          buttonStyles={{ paddingX: 0, minWidth: 38 }}
-          deleteItem={handleDelete}
-          deletePrompt={deleteGroupPrompt}
-          editPath={editGroupPath}
-          itemId={id}
-          setAnchorEl={setMenuAnchorEl}
-          variant="ghost"
-          canDelete
-          canEdit
-        />
-      )}
-    </>
-  );
+  const renderCardActions = () => {
+    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
+    const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
+    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const showMenuButton = canDeleteGroup || canUpdateGroup || canManageRoles;
+
+    return (
+      <>
+        <JoinButton groupId={id} currentMember={currentMember} />
+
+        {showMenuButton && (
+          <ItemMenu
+            anchorEl={menuAnchorEl}
+            buttonStyles={{ paddingX: 0, minWidth: 38 }}
+            canDelete={canDeleteGroup}
+            canUpdate={canUpdateGroup}
+            deleteItem={handleDelete}
+            deletePrompt={deleteGroupPrompt}
+            editPath={editGroupPath}
+            itemId={id}
+            setAnchorEl={setMenuAnchorEl}
+            variant="ghost"
+          >
+            {canManageRoles && (
+              <MenuItem onClick={handleRolesButtonClick}>
+                <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
+                {t("roles.actions.manageRoles")}
+              </MenuItem>
+            )}
+          </ItemMenu>
+        )}
+      </>
+    );
+  };
 
   return (
     <Card {...cardProps}>
@@ -147,7 +172,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
             {t("groups.labels.members", { count: members.length })}
           </Link>
 
-          {currentMember && (
+          {canApproveMemberRequests && typeof memberRequestCount === "number" && (
             <>
               {MIDDOT_WITH_SPACES}
               <Link href={memberRequestsPath}>

@@ -1,12 +1,7 @@
+# TODO: Add me query with permissions - check in page after updates
+
 query EditServerRole($id: Int!) {
   role(id: $id) {
-    ...Role
-    ...AddMemberTab
-    permissions {
-      ...PermissionsForm
-    }
-    availableUsersToAdd {
-      ...UserAvatar
-    }
+    ...EditRoleTabs
   }
 }

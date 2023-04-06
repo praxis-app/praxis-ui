@@ -15,7 +15,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-const defaultOptions = {} as const;
+const defaultOptions = { errorPolicy: "all" } as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -82,6 +82,7 @@ export type CreateProposalPayload = {
 
 export type CreateRoleInput = {
   color: Scalars["String"];
+  groupId?: InputMaybe<Scalars["Int"]>;
   name: Scalars["String"];
 };
 
@@ -136,8 +137,10 @@ export type Group = {
   id: Scalars["Int"];
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
-  memberRequestCount: Scalars["Int"];
+  memberRequestCount?: Maybe<Scalars["Int"]>;
+  memberRequests?: Maybe<Array<MemberRequest>>;
   members: Array<GroupMember>;
+  myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
@@ -431,7 +434,6 @@ export type Query = {
   isFirstUser: Scalars["Boolean"];
   me: User;
   memberRequest?: Maybe<MemberRequest>;
-  memberRequests: Array<MemberRequest>;
   post: Post;
   posts: Array<Post>;
   proposal: Proposal;
@@ -452,10 +454,6 @@ export type QueryGroupArgs = {
 
 export type QueryMemberRequestArgs = {
   groupId: Scalars["Int"];
-};
-
-export type QueryMemberRequestsArgs = {
-  groupName: Scalars["String"];
 };
 
 export type QueryPostArgs = {
@@ -703,7 +701,8 @@ export type GroupAvatarFragment = {
 export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
-  memberRequestCount: number;
+  memberRequestCount?: number | null;
+  myPermissions: Array<string>;
   id: number;
   name: string;
   members: Array<{
@@ -737,7 +736,8 @@ export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  memberRequestCount: number;
+  memberRequestCount?: number | null;
+  myPermissions: Array<string>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{
     __typename?: "GroupMember";
@@ -799,6 +799,7 @@ export type CreateGroupMutation = {
     group: {
       __typename?: "Group";
       description: string;
+      myPermissions: Array<string>;
       id: number;
       name: string;
       members: Array<{
@@ -886,9 +887,53 @@ export type EditGroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
+    myPermissions: Array<string>;
     id: number;
     name: string;
     description: string;
+  };
+};
+
+export type EditGroupRoleQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type EditGroupRoleQuery = {
+  __typename?: "Query";
+  role: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+    memberCount: number;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions: Array<string>;
+      name: string;
+    } | null;
+    permissions: Array<{
+      __typename?: "Permission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }>;
+    availableUsersToAdd: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+    members: Array<{
+      __typename?: "RoleMember";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
   };
 };
 
@@ -926,7 +971,8 @@ export type GroupProfileQuery = {
     __typename?: "Group";
     id: number;
     name: string;
-    memberRequestCount: number;
+    memberRequestCount?: number | null;
+    myPermissions: Array<string>;
     feed: Array<
       | {
           __typename?: "Post";
@@ -944,6 +990,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            myPermissions: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1009,6 +1056,27 @@ export type GroupProfileQuery = {
   };
 };
 
+export type GroupRolesQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type GroupRolesQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    myPermissions: Array<string>;
+    roles: Array<{
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
+    }>;
+  };
+};
+
 export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GroupsQuery = {
@@ -1016,7 +1084,8 @@ export type GroupsQuery = {
   groups: Array<{
     __typename?: "Group";
     description: string;
-    memberRequestCount: number;
+    memberRequestCount?: number | null;
+    myPermissions: Array<string>;
     id: number;
     name: string;
     members: Array<{
@@ -1048,17 +1117,21 @@ export type MemberRequestsQueryVariables = Exact<{
 
 export type MemberRequestsQuery = {
   __typename?: "Query";
-  memberRequests: Array<{
-    __typename?: "MemberRequest";
+  group: {
+    __typename?: "Group";
     id: number;
-    user: {
-      __typename?: "User";
+    memberRequests?: Array<{
+      __typename?: "MemberRequest";
       id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-    group: { __typename?: "Group"; id: number };
-  }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group: { __typename?: "Group"; id: number };
+    }> | null;
+  };
 };
 
 export type AttachedImageFragment = {
@@ -1180,6 +1253,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
+    myPermissions: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1252,6 +1326,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
+    myPermissions: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1296,6 +1371,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        myPermissions: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1358,6 +1434,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        myPermissions: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1402,6 +1479,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
+      myPermissions: Array<string>;
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1708,6 +1786,43 @@ export type AddMemberTabFragment = {
   }>;
 };
 
+export type DeleteRoleButtonFragment = {
+  __typename?: "Role";
+  id: number;
+  group?: { __typename?: "Group"; id: number; name: string } | null;
+};
+
+export type EditRoleTabsFragment = {
+  __typename?: "Role";
+  id: number;
+  name: string;
+  color: string;
+  memberCount: number;
+  permissions: Array<{
+    __typename?: "Permission";
+    id: number;
+    name: string;
+    enabled: boolean;
+  }>;
+  availableUsersToAdd: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  }>;
+  group?: { __typename?: "Group"; id: number; name: string } | null;
+  members: Array<{
+    __typename?: "RoleMember";
+    id: number;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }>;
+};
+
 export type PermissionsFormFragment = {
   __typename?: "Permission";
   id: number;
@@ -1721,6 +1836,7 @@ export type RoleFragment = {
   name: string;
   color: string;
   memberCount: number;
+  group?: { __typename?: "Group"; id: number; name: string } | null;
 };
 
 export type RoleMemberFragment = {
@@ -1748,6 +1864,19 @@ export type CreateRoleMutation = {
       name: string;
       color: string;
       memberCount: number;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        roles: Array<{
+          __typename?: "Role";
+          id: number;
+          name: string;
+          color: string;
+          memberCount: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
+        }>;
+      } | null;
     };
   };
 };
@@ -1817,6 +1946,12 @@ export type UpdateRoleMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: Array<string>;
+        name: string;
+      } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
@@ -1846,6 +1981,7 @@ export type EditServerRoleQuery = {
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
+    group?: { __typename?: "Group"; id: number; name: string } | null;
     members: Array<{
       __typename?: "RoleMember";
       id: number;
@@ -1869,6 +2005,7 @@ export type ServerRolesQuery = {
     name: string;
     color: string;
     memberCount: number;
+    group?: { __typename?: "Group"; id: number; name: string } | null;
   }>;
 };
 
@@ -1985,6 +2122,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
+              myPermissions: Array<string>;
               id: number;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2112,6 +2250,7 @@ export type EditUserQuery = {
       };
       group?: {
         __typename?: "Group";
+        myPermissions: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2188,6 +2327,7 @@ export type HomePageQuery = {
           };
           group?: {
             __typename?: "Group";
+            myPermissions: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2293,6 +2433,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            myPermissions: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2502,10 +2643,11 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
+    memberRequestCount
+    myPermissions
     members {
       ...CurrentMember
     }
-    memberRequestCount
   }
   ${GroupAvatarFragmentDoc}
   ${CurrentMemberFragmentDoc}
@@ -2554,6 +2696,7 @@ export const GroupProfileCardFragmentDoc = gql`
       ...CurrentMember
     }
     memberRequestCount
+    myPermissions
   }
   ${CurrentMemberFragmentDoc}
 `;
@@ -2608,6 +2751,7 @@ export const PostCardFragmentDoc = gql`
     }
     group {
       ...GroupAvatar
+      myPermissions
     }
     ...PostCardFooter
   }
@@ -2750,6 +2894,18 @@ export const ProposalFormFragmentDoc = gql`
   }
   ${AttachedImageFragmentDoc}
 `;
+export const RoleFragmentDoc = gql`
+  fragment Role on Role {
+    id
+    name
+    color
+    memberCount
+    group {
+      id
+      name
+    }
+  }
+`;
 export const RoleMemberFragmentDoc = gql`
   fragment RoleMember on RoleMember {
     id
@@ -2768,6 +2924,15 @@ export const AddMemberTabFragmentDoc = gql`
   }
   ${RoleMemberFragmentDoc}
 `;
+export const DeleteRoleButtonFragmentDoc = gql`
+  fragment DeleteRoleButton on Role {
+    id
+    group {
+      id
+      name
+    }
+  }
+`;
 export const PermissionsFormFragmentDoc = gql`
   fragment PermissionsForm on Permission {
     id
@@ -2775,13 +2940,23 @@ export const PermissionsFormFragmentDoc = gql`
     enabled
   }
 `;
-export const RoleFragmentDoc = gql`
-  fragment Role on Role {
-    id
-    name
-    color
-    memberCount
+export const EditRoleTabsFragmentDoc = gql`
+  fragment EditRoleTabs on Role {
+    ...Role
+    ...AddMemberTab
+    ...DeleteRoleButton
+    permissions {
+      ...PermissionsForm
+    }
+    availableUsersToAdd {
+      ...UserAvatar
+    }
   }
+  ${RoleFragmentDoc}
+  ${AddMemberTabFragmentDoc}
+  ${DeleteRoleButtonFragmentDoc}
+  ${PermissionsFormFragmentDoc}
+  ${UserAvatarFragmentDoc}
 `;
 export const ToggleFormsFragmentDoc = gql`
   fragment ToggleForms on User {
@@ -3200,6 +3375,7 @@ export const CreateGroupDocument = gql`
       group {
         ...GroupAvatar
         description
+        myPermissions
         members {
           ...CurrentMember
         }
@@ -3514,6 +3690,7 @@ export const EditGroupDocument = gql`
   query EditGroup($name: String!) {
     group(name: $name) {
       ...GroupForm
+      myPermissions
     }
   }
   ${GroupFormFragmentDoc}
@@ -3563,6 +3740,69 @@ export type EditGroupLazyQueryHookResult = ReturnType<
 export type EditGroupQueryResult = Apollo.QueryResult<
   EditGroupQuery,
   EditGroupQueryVariables
+>;
+export const EditGroupRoleDocument = gql`
+  query EditGroupRole($id: Int!) {
+    role(id: $id) {
+      ...EditRoleTabs
+      group {
+        id
+        myPermissions
+      }
+    }
+  }
+  ${EditRoleTabsFragmentDoc}
+`;
+
+/**
+ * __useEditGroupRoleQuery__
+ *
+ * To run a query within a React component, call `useEditGroupRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditGroupRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditGroupRoleQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditGroupRoleQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EditGroupRoleQuery,
+    EditGroupRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditGroupRoleQuery, EditGroupRoleQueryVariables>(
+    EditGroupRoleDocument,
+    options
+  );
+}
+export function useEditGroupRoleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditGroupRoleQuery,
+    EditGroupRoleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditGroupRoleQuery, EditGroupRoleQueryVariables>(
+    EditGroupRoleDocument,
+    options
+  );
+}
+export type EditGroupRoleQueryHookResult = ReturnType<
+  typeof useEditGroupRoleQuery
+>;
+export type EditGroupRoleLazyQueryHookResult = ReturnType<
+  typeof useEditGroupRoleLazyQuery
+>;
+export type EditGroupRoleQueryResult = Apollo.QueryResult<
+  EditGroupRoleQuery,
+  EditGroupRoleQueryVariables
 >;
 export const GroupMembersDocument = gql`
   query GroupMembers($name: String!) {
@@ -3697,6 +3937,67 @@ export type GroupProfileQueryResult = Apollo.QueryResult<
   GroupProfileQuery,
   GroupProfileQueryVariables
 >;
+export const GroupRolesDocument = gql`
+  query GroupRoles($name: String!) {
+    group(name: $name) {
+      id
+      myPermissions
+      roles {
+        ...Role
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+
+/**
+ * __useGroupRolesQuery__
+ *
+ * To run a query within a React component, call `useGroupRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupRolesQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGroupRolesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupRolesQuery,
+    GroupRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupRolesQuery, GroupRolesQueryVariables>(
+    GroupRolesDocument,
+    options
+  );
+}
+export function useGroupRolesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupRolesQuery,
+    GroupRolesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupRolesQuery, GroupRolesQueryVariables>(
+    GroupRolesDocument,
+    options
+  );
+}
+export type GroupRolesQueryHookResult = ReturnType<typeof useGroupRolesQuery>;
+export type GroupRolesLazyQueryHookResult = ReturnType<
+  typeof useGroupRolesLazyQuery
+>;
+export type GroupRolesQueryResult = Apollo.QueryResult<
+  GroupRolesQuery,
+  GroupRolesQueryVariables
+>;
 export const GroupsDocument = gql`
   query Groups {
     groups {
@@ -3811,8 +4112,11 @@ export type MemberRequestQueryResult = Apollo.QueryResult<
 >;
 export const MemberRequestsDocument = gql`
   query MemberRequests($groupName: String!) {
-    memberRequests(groupName: $groupName) {
-      ...RequestToJoin
+    group(name: $groupName) {
+      id
+      memberRequests {
+        ...RequestToJoin
+      }
     }
   }
   ${RequestToJoinFragmentDoc}
@@ -4762,6 +5066,12 @@ export const CreateRoleDocument = gql`
     createRole(roleData: $roleData) {
       role {
         ...Role
+        group {
+          id
+          roles {
+            ...Role
+          }
+        }
       }
     }
   }
@@ -4927,6 +5237,10 @@ export const UpdateRoleDocument = gql`
         availableUsersToAdd {
           ...UserAvatar
         }
+        group {
+          id
+          myPermissions
+        }
       }
       me {
         id
@@ -4985,20 +5299,10 @@ export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
 export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {
     role(id: $id) {
-      ...Role
-      ...AddMemberTab
-      permissions {
-        ...PermissionsForm
-      }
-      availableUsersToAdd {
-        ...UserAvatar
-      }
+      ...EditRoleTabs
     }
   }
-  ${RoleFragmentDoc}
-  ${AddMemberTabFragmentDoc}
-  ${PermissionsFormFragmentDoc}
-  ${UserAvatarFragmentDoc}
+  ${EditRoleTabsFragmentDoc}
 `;
 
 /**

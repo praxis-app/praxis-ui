@@ -1,13 +1,14 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
+import { AlertColor } from "@mui/material";
 import { INVITE_TOKEN } from "../constants/server-invite.constants";
-import { Breadcrumb, ToastNotification } from "../types/common.types";
 import { getLocalStorageItem } from "../utils/common.utils";
 
+interface ToastNotification {
+  status: AlertColor;
+  title: string;
+}
+
 // App state
-export const breadcrumbsVar = makeVar<{
-  path: string | null;
-  breadcrumbs: Breadcrumb[];
-}>({ path: null, breadcrumbs: [] });
 export const toastVar = makeVar<ToastNotification | null>(null);
 export const isNavDrawerOpenVar = makeVar(false);
 
@@ -90,6 +91,11 @@ const cache = new InMemoryCache({
           },
         },
         members: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
+        memberRequests: {
           merge(_, incoming) {
             return incoming;
           },

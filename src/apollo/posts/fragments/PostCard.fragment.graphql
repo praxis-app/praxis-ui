@@ -11,6 +11,7 @@ fragment PostCard on Post {
   }
   group {
     ...GroupAvatar
+    myPermissions
   }
 
   ...PostCardFooter

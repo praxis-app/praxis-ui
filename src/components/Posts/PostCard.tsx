@@ -20,7 +20,10 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { ServerPermissions } from "../../constants/role.constants";
+import {
+  GroupPermissions,
+  ServerPermissions,
+} from "../../constants/role.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -128,16 +131,16 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     const editPostPath = `${NavigationPaths.Posts}/${id}${NavigationPaths.Edit}`;
     const deletePostPrompt = t("prompts.deleteItem", { itemType: "post" });
 
-    const hasPermission = me?.serverPermissions.includes(
-      ServerPermissions.ManagePosts
-    );
-    const canDelete = hasPermission || isMe;
+    const canManagePosts =
+      me?.serverPermissions.includes(ServerPermissions.ManagePosts) ||
+      group?.myPermissions.includes(GroupPermissions.ManagePosts);
+    const canDelete = canManagePosts || isMe;
 
     return (
       <ItemMenu
         anchorEl={menuAnchorEl}
         canDelete={canDelete}
-        canEdit={isMe}
+        canUpdate={isMe}
         deleteItem={handleDelete}
         deletePrompt={deletePostPrompt}
         editPath={editPostPath}

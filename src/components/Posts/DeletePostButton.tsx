@@ -1,19 +1,25 @@
-import { ApolloCache } from "@apollo/client";
+import { ApolloCache, FetchResult } from "@apollo/client";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import { useDeletePostMutation } from "../../apollo/gen";
+import { DeletePostMutation, useDeletePostMutation } from "../../apollo/gen";
 import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 
-export const removePost = (postId: number) => (cache: ApolloCache<any>) => {
-  const postCacheId = cache.identify({
-    __typename: TypeNames.Post,
-    id: postId,
-  });
-  cache.evict({ id: postCacheId });
-  cache.gc();
-};
+export const removePost =
+  (postId: number) =>
+  (cache: ApolloCache<any>, { errors }: FetchResult<DeletePostMutation>) => {
+    if (errors) {
+      toastVar({ status: "error", title: errors[0].message });
+      return;
+    }
+    const postCacheId = cache.identify({
+      __typename: TypeNames.Post,
+      id: postId,
+    });
+    cache.evict({ id: postCacheId });
+    cache.gc();
+  };
 
 interface Props {
   postId: number;

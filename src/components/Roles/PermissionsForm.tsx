@@ -101,7 +101,10 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
         ? permissionInput.enabled
         : permission.enabled;
 
-    const { name, description } = getPermissionText(permission.name, t);
+    const { name, description, inDev } = getPermissionText(permission.name, t);
+    if (inDev) {
+      return null;
+    }
 
     return (
       <Flex justifyContent="space-between" key={permission.id}>

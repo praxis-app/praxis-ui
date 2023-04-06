@@ -11,7 +11,7 @@ interface Props {
   anchorEl: null | HTMLElement;
   buttonStyles?: SxProps;
   canDelete?: boolean;
-  canEdit?: boolean;
+  canUpdate?: boolean;
   children?: ReactNode;
   deleteItem?: (id: number) => void;
   deletePrompt?: string;
@@ -26,7 +26,7 @@ const ItemMenu = ({
   anchorEl,
   buttonStyles,
   canDelete,
-  canEdit,
+  canUpdate,
   children,
   deleteItem,
   deletePrompt,
@@ -38,7 +38,7 @@ const ItemMenu = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  if (!canEdit && !canDelete && !isRenderable(children)) {
+  if (!canUpdate && !canDelete && !isRenderable(children)) {
     return null;
   }
 
@@ -52,7 +52,7 @@ const ItemMenu = ({
   };
   const Button = variant === "ghost" ? GhostButton : IconButton;
 
-  const showEditButton = canEdit && editPath;
+  const showEditButton = canUpdate && editPath;
   const showDeleteButton = canDelete && deleteItem && deletePrompt;
 
   const handleMenuButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>

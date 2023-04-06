@@ -188,6 +188,7 @@
       "approve": "Approve",
       "cancelRequest": "Cancel Request",
       "deny": "Deny",
+      "edit": "Edit Group",
       "join": "Join",
       "leave": "Leave"
     },
@@ -208,6 +209,7 @@
       "group": "Group",
       "groupMembers_one": "{{count}} Group Member",
       "groupMembers_other": "{{count}} Group Members",
+      "groupRoles": "Group Roles",
       "joined": "Joined",
       "majority": "Majority Vote",
       "memberRequests_one": "{{count}} Member Request",
@@ -264,12 +266,12 @@
 
   "permissions": {
     "names": {
-      "acceptMemberRequests": "Approve Member Requests",
+      "approveMemberRequests": "Approve Member Requests",
       "banMembers": "Ban Members",
       "createEvents": "Create Events",
       "createInvites": "Create Invites",
       "deleteGroup": "Delete Group",
-      "editGroup": "Edit Group",
+      "updateGroup": "Edit Group",
       "manageComments": "Manage Comments",
       "manageEvents": "Manage Events",
       "manageInvites": "Manage Invites",
@@ -278,13 +280,13 @@
       "manageSettings": "Manage Settings"
     },
     "descriptions": {
-      "acceptMemberRequests": "Allows members to view member requests and to allow new members to join the group.",
+      "approveMemberRequests": "Allows members to view member requests and to allow new members to join the group.",
       "banGroupMembers": "Allows members to remove other members from the group.",
       "banMembers": "Allows members to permanently ban other members from the server.",
       "createEvents": "Allows members to create and plan events.",
       "createInvites": "Allows members to invite new people to this server.",
       "deleteGroup": "Allows members to permanently delete this group.",
-      "editGroup": "Allows members to edit the group's name, description, and cover photo.",
+      "updateGroup": "Allows members to edit the group's name, description, and cover photo.",
       "manageComments": "Allows members to remove or hide comments by other members.",
       "manageEvents": "Allows members to remove or hide events created by other members.",
       "manageGroupSettings": "Allows members to make changes to this group's settings.",

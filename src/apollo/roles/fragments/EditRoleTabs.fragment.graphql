@@ -1,0 +1,13 @@
+fragment EditRoleTabs on Role {
+  ...Role
+  ...AddMemberTab
+  ...DeleteRoleButton
+
+  permissions {
+    ...PermissionsForm
+  }
+
+  availableUsersToAdd {
+    ...UserAvatar
+  }
+}

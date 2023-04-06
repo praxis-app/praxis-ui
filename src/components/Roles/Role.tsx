@@ -9,6 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { RoleFragment } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
+import { getGroupPath } from "../../utils/group.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 
@@ -18,13 +19,14 @@ interface Props {
 }
 
 const Role = ({
-  role: { id, name, color, memberCount },
+  role: { id, name, color, memberCount, group },
   gutterBottom,
 }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const editRolePath = `${NavigationPaths.Roles}/${id}/edit`;
+  const groupPath = group ? getGroupPath(group.name) : "";
+  const editRolePath = `${groupPath}${NavigationPaths.Roles}/${id}/edit`;
 
   const actionAreaStyles = {
     borderRadius: 2,

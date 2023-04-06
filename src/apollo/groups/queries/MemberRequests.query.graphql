@@ -1,5 +1,8 @@
 query MemberRequests($groupName: String!) {
-  memberRequests(groupName: $groupName) {
-    ...RequestToJoin
+  group(name: $groupName) {
+    id
+    memberRequests {
+      ...RequestToJoin
+    }
   }
 }
