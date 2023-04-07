@@ -6,6 +6,6 @@ fragment GroupCard on Group {
   myPermissions
 
   members {
-    ...CurrentMember
+    id
   }
 }

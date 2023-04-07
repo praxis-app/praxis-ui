@@ -79,7 +79,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   const { id, name, description, members, memberRequestCount, myPermissions } =
     group;
   const currentMember = isLoggedIn
-    ? members.find(({ user }) => currentUserId === user.id)
+    ? members.find((member) => currentUserId === member.id)
     : undefined;
 
   const canApproveMemberRequests = myPermissions.includes(
@@ -159,7 +159,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         </Box>
 
         {isLoggedIn && (
-          <JoinButton groupId={id} currentMember={currentMember} />
+          <JoinButton groupId={id} currentMemberId={currentMember?.id} />
         )}
       </CardContent>
     </Card>

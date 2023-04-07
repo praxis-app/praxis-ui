@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  CurrentMemberFragment,
   MemberRequestDocument,
   MemberRequestQuery,
   MemberRequestQueryVariables,
@@ -26,10 +25,10 @@ const Button = styled(GhostButton)(() => ({
 
 interface Props {
   groupId: number;
-  currentMember?: CurrentMemberFragment;
+  currentMemberId?: number;
 }
 
-const JoinButton = ({ groupId, currentMember }: Props) => {
+const JoinButton = ({ groupId, currentMemberId }: Props) => {
   const { data, loading } = useMemberRequestQuery({
     variables: { groupId },
   });
@@ -49,7 +48,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
   const { memberRequest } = data;
 
   const getButtonText = () => {
-    if (currentMember) {
+    if (currentMemberId) {
       if (isHovering) {
         return t("groups.actions.leave");
       }
@@ -115,7 +114,7 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
       },
     });
 
-  const handleLeave = async (member: CurrentMemberFragment) =>
+  const handleLeave = async () =>
     await leaveGroup({
       variables: { id: groupId },
       update(cache) {
@@ -132,16 +131,13 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
             },
           },
         });
-        const cacheId = cache.identify(member);
-        cache.evict({ id: cacheId });
-        cache.gc();
       },
     });
 
   const handleButtonClick = async () => {
     try {
-      if (currentMember) {
-        await handleLeave(currentMember);
+      if (currentMemberId) {
+        await handleLeave();
         return;
       }
       if (!memberRequest) {
@@ -163,7 +159,9 @@ const JoinButton = ({ groupId, currentMember }: Props) => {
   return (
     <Button
       disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
-      onClick={currentMember ? handleButtonClickWithConfirm : handleButtonClick}
+      onClick={
+        currentMemberId ? handleButtonClickWithConfirm : handleButtonClick
+      }
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

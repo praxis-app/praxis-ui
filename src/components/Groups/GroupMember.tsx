@@ -18,17 +18,17 @@ interface Props {
   currentUserId: number;
 }
 
-const GroupMember = ({ member: { user }, currentUserId }: Props) => (
+const GroupMember = ({ member, currentUserId }: Props) => (
   <Flex sx={{ justifyContent: "space-between" }}>
-    <Link href={getUserProfilePath(user.name)}>
+    <Link href={getUserProfilePath(member.name)}>
       <Flex>
-        <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
-        <Typography sx={{ marginTop: 1 }}>{user.name}</Typography>
+        <UserAvatar user={member} sx={{ marginRight: 1.5 }} />
+        <Typography sx={{ marginTop: 1 }}>{member.name}</Typography>
       </Flex>
     </Link>
 
-    {currentUserId !== user.id && (
-      <FollowButton user={user} currentUserId={currentUserId} />
+    {currentUserId !== member.id && (
+      <FollowButton user={member} currentUserId={currentUserId} />
     )}
   </Flex>
 );
