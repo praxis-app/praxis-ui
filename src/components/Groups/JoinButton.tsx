@@ -1,3 +1,4 @@
+import { Reference } from "@apollo/client";
 import { styled } from "@mui/material";
 import produce from "immer";
 import { useState } from "react";
@@ -126,6 +127,11 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
         cache.modify({
           id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
           fields: {
+            members(existingRefs: Reference[], { readField }) {
+              return existingRefs.filter(
+                (ref) => readField("id", ref) !== currentMemberId
+              );
+            },
             memberCount(existingCount: number) {
               return existingCount - 1;
             },
