@@ -30,6 +30,7 @@ const GroupsIndex: NextPage = () => {
   const inviteToken = useReactiveVar(inviteTokenVar);
 
   const { data, loading, error } = useGroupsQuery({
+    errorPolicy: "all",
     skip: !isLoggedIn,
   });
 
