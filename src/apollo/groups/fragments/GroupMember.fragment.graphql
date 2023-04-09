@@ -1,7 +1,5 @@
-fragment GroupMember on GroupMember {
+fragment GroupMember on User {
   id
-  user {
-    ...UserAvatar
-    ...FollowButton
-  }
+  ...UserAvatar
+  ...FollowButton
 }

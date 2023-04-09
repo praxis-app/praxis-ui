@@ -29,7 +29,7 @@ export type Scalars = {
 
 export type ApproveMemberRequestPayload = {
   __typename?: "ApproveMemberRequestPayload";
-  groupMember: GroupMember;
+  groupMember: User;
 };
 
 export type CreateGroupInput = {
@@ -139,22 +139,13 @@ export type Group = {
   memberCount: Scalars["Int"];
   memberRequestCount?: Maybe<Scalars["Int"]>;
   memberRequests?: Maybe<Array<MemberRequest>>;
-  members: Array<GroupMember>;
+  members: Array<User>;
   myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
   roles: Array<Role>;
   updatedAt: Scalars["DateTime"];
-};
-
-export type GroupMember = {
-  __typename?: "GroupMember";
-  createdAt: Scalars["DateTime"];
-  group: Group;
-  id: Scalars["Int"];
-  updatedAt: Scalars["DateTime"];
-  user: User;
 };
 
 export type Image = {
@@ -685,12 +676,6 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
-export type CurrentMemberFragment = {
-  __typename?: "GroupMember";
-  id: number;
-  user: { __typename?: "User"; id: number };
-};
-
 export type GroupAvatarFragment = {
   __typename?: "Group";
   id: number;
@@ -705,11 +690,7 @@ export type GroupCardFragment = {
   myPermissions: Array<string>;
   id: number;
   name: string;
-  members: Array<{
-    __typename?: "GroupMember";
-    id: number;
-    user: { __typename?: "User"; id: number };
-  }>;
+  members: Array<{ __typename?: "User"; id: number }>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
@@ -721,15 +702,11 @@ export type GroupFormFragment = {
 };
 
 export type GroupMemberFragment = {
-  __typename?: "GroupMember";
+  __typename?: "User";
   id: number;
-  user: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    isFollowedByMe: boolean;
-    profilePicture: { __typename?: "Image"; id: number };
-  };
+  name: string;
+  isFollowedByMe: boolean;
+  profilePicture: { __typename?: "Image"; id: number };
 };
 
 export type GroupProfileCardFragment = {
@@ -739,11 +716,7 @@ export type GroupProfileCardFragment = {
   memberRequestCount?: number | null;
   myPermissions: Array<string>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
-  members: Array<{
-    __typename?: "GroupMember";
-    id: number;
-    user: { __typename?: "User"; id: number };
-  }>;
+  members: Array<{ __typename?: "User"; id: number }>;
 };
 
 export type RequestToJoinFragment = {
@@ -767,14 +740,10 @@ export type ApproveMemberRequestMutation = {
   approveMemberRequest: {
     __typename?: "ApproveMemberRequestPayload";
     groupMember: {
-      __typename?: "GroupMember";
+      __typename?: "User";
       id: number;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -802,11 +771,7 @@ export type CreateGroupMutation = {
       myPermissions: Array<string>;
       id: number;
       name: string;
-      members: Array<{
-        __typename?: "GroupMember";
-        id: number;
-        user: { __typename?: "User"; id: number };
-      }>;
+      members: Array<{ __typename?: "User"; id: number }>;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
   };
@@ -947,15 +912,11 @@ export type GroupMembersQuery = {
     __typename?: "Group";
     id: number;
     members: Array<{
-      __typename?: "GroupMember";
+      __typename?: "User";
       id: number;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        isFollowedByMe: boolean;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      isFollowedByMe: boolean;
+      profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
   me: { __typename?: "User"; id: number };
@@ -1043,11 +1004,7 @@ export type GroupProfileQuery = {
         }
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
-    members: Array<{
-      __typename?: "GroupMember";
-      id: number;
-      user: { __typename?: "User"; id: number };
-    }>;
+    members: Array<{ __typename?: "User"; id: number }>;
   };
   me: {
     __typename?: "User";
@@ -1088,11 +1045,7 @@ export type GroupsQuery = {
     myPermissions: Array<string>;
     id: number;
     name: string;
-    members: Array<{
-      __typename?: "GroupMember";
-      id: number;
-      user: { __typename?: "User"; id: number };
-    }>;
+    members: Array<{ __typename?: "User"; id: number }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
   me: { __typename?: "User"; id: number };
@@ -2631,14 +2584,6 @@ export const GroupAvatarFragmentDoc = gql`
     }
   }
 `;
-export const CurrentMemberFragmentDoc = gql`
-  fragment CurrentMember on GroupMember {
-    id
-    user {
-      id
-    }
-  }
-`;
 export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
@@ -2646,11 +2591,10 @@ export const GroupCardFragmentDoc = gql`
     memberRequestCount
     myPermissions
     members {
-      ...CurrentMember
+      id
     }
   }
   ${GroupAvatarFragmentDoc}
-  ${CurrentMemberFragmentDoc}
 `;
 export const GroupFormFragmentDoc = gql`
   fragment GroupForm on Group {
@@ -2675,12 +2619,10 @@ export const FollowButtonFragmentDoc = gql`
   }
 `;
 export const GroupMemberFragmentDoc = gql`
-  fragment GroupMember on GroupMember {
+  fragment GroupMember on User {
     id
-    user {
-      ...UserAvatar
-      ...FollowButton
-    }
+    ...UserAvatar
+    ...FollowButton
   }
   ${UserAvatarFragmentDoc}
   ${FollowButtonFragmentDoc}
@@ -2693,12 +2635,11 @@ export const GroupProfileCardFragmentDoc = gql`
       id
     }
     members {
-      ...CurrentMember
+      id
     }
     memberRequestCount
     myPermissions
   }
-  ${CurrentMemberFragmentDoc}
 `;
 export const RequestToJoinFragmentDoc = gql`
   fragment RequestToJoin on MemberRequest {
@@ -3270,9 +3211,7 @@ export const ApproveMemberRequestDocument = gql`
     approveMemberRequest(id: $id) {
       groupMember {
         id
-        user {
-          ...UserAvatar
-        }
+        ...UserAvatar
       }
     }
   }
@@ -3377,13 +3316,12 @@ export const CreateGroupDocument = gql`
         description
         myPermissions
         members {
-          ...CurrentMember
+          id
         }
       }
     }
   }
   ${GroupAvatarFragmentDoc}
-  ${CurrentMemberFragmentDoc}
 `;
 export type CreateGroupMutationFn = Apollo.MutationFunction<
   CreateGroupMutation,

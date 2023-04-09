@@ -17,7 +17,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import {
-  CurrentMemberFragment,
   GroupProfileCardFragment,
   useDeleteGroupMutation,
 } from "../../apollo/gen";
@@ -60,10 +59,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   group: GroupProfileCardFragment;
-  currentMember?: CurrentMemberFragment;
+  currentMemberId?: number;
 }
 
-const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
+const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
@@ -126,7 +125,7 @@ const GroupProfileCard = ({ group, currentMember, ...cardProps }: Props) => {
 
     return (
       <>
-        <JoinButton groupId={id} currentMember={currentMember} />
+        <JoinButton groupId={id} currentMemberId={currentMemberId} />
 
         {showMenuButton && (
           <ItemMenu

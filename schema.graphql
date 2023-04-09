@@ -1,5 +1,5 @@
 type ApproveMemberRequestPayload {
-  groupMember: GroupMember!
+  groupMember: User!
 }
 
 input CreateGroupInput {
@@ -103,21 +103,13 @@ type Group {
   memberCount: Int!
   memberRequestCount: Int
   memberRequests: [MemberRequest!]
-  members: [GroupMember!]!
+  members: [User!]!
   myPermissions: [String!]!
   name: String!
   posts: [Post!]!
   proposals: [Proposal!]!
   roles: [Role!]!
   updatedAt: DateTime!
-}
-
-type GroupMember {
-  createdAt: DateTime!
-  group: Group!
-  id: Int!
-  updatedAt: DateTime!
-  user: User!
 }
 
 type Image {

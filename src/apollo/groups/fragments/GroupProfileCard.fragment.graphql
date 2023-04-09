@@ -5,7 +5,7 @@ fragment GroupProfileCard on Group {
     id
   }
   members {
-    ...CurrentMember
+    id
   }
   memberRequestCount
   myPermissions

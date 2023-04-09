@@ -7,7 +7,7 @@ mutation CreateGroup($groupData: CreateGroupInput!) {
       myPermissions
 
       members {
-        ...CurrentMember
+        id
       }
     }
   }
