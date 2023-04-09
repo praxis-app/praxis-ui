@@ -599,7 +599,6 @@ export type User = {
   followers: Array<User>;
   following: Array<User>;
   followingCount: Scalars["Int"];
-  groups: Array<Group>;
   homeFeed: Array<FeedItem>;
   id: Scalars["Int"];
   isFollowedByMe: Scalars["Boolean"];

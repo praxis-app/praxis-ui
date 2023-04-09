@@ -384,7 +384,6 @@ type User {
   followers: [User!]!
   following: [User!]!
   followingCount: Int!
-  groups: [Group!]!
   homeFeed: [FeedItem!]!
   id: Int!
   isFollowedByMe: Boolean!
