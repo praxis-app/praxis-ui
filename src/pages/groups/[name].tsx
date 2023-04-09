@@ -16,6 +16,7 @@ const GroupPage: NextPage = () => {
   const name = String(query?.name || "");
   const { data, loading, error } = useGroupProfileQuery({
     variables: { name },
+    errorPolicy: "all",
     skip: !name,
   });
 
