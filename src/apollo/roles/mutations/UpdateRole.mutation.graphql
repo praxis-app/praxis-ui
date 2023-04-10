@@ -7,7 +7,7 @@ mutation UpdateRole($roleData: UpdateRoleInput!) {
         ...PermissionsForm
       }
       members {
-        ...RoleMember
+        ...UserAvatar
       }
       availableUsersToAdd {
         ...UserAvatar

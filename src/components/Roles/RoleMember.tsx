@@ -24,18 +24,15 @@ interface Props {
   roleId: number;
 }
 
-const RoleMember = ({
-  roleMember: { id, user, __typename },
-  roleId,
-}: Props) => {
+const RoleMember = ({ roleMember, roleId }: Props) => {
   const [deleteRoleMember] = useDeleteRoleMemberMutation();
   const { t } = useTranslation();
 
-  const userProfilePath = getUserProfilePath(user.name);
+  const userProfilePath = getUserProfilePath(roleMember.name);
 
   const handleDelete = async () =>
     await deleteRoleMember({
-      variables: { id },
+      variables: { roleMemberData: { roleId, userId: roleMember.id } },
       update(cache, { data }) {
         if (!data) {
           return;
@@ -56,9 +53,6 @@ const RoleMember = ({
             },
           },
         });
-        const cacheId = cache.identify({ id, __typename });
-        cache.evict({ id: cacheId });
-        cache.gc();
       },
       onError(error) {
         toastVar({
@@ -79,9 +73,9 @@ const RoleMember = ({
     <OuterFlex justifyContent="space-between">
       <Link href={userProfilePath}>
         <Flex>
-          <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
+          <UserAvatar user={roleMember} sx={{ marginRight: 1.5 }} />
           <Typography color="primary" sx={{ marginTop: 1 }}>
-            {user.name}
+            {roleMember.name}
           </Typography>
         </Flex>
       </Link>
