@@ -9,5 +9,9 @@ mutation DeleteRoleMember($roleMemberData: DeleteRoleMemberInput!) {
         myPermissions
       }
     }
+    me {
+      id
+      serverPermissions
+    }
   }
 }

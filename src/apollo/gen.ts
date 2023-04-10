@@ -122,6 +122,7 @@ export type DeleteRoleMemberInput = {
 
 export type DeleteRoleMemberPayload = {
   __typename?: "DeleteRoleMemberPayload";
+  me: User;
   role: Role;
 };
 
@@ -1847,6 +1848,7 @@ export type DeleteRoleMemberMutation = {
         myPermissions: Array<string>;
       } | null;
     };
+    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
 };
 
@@ -1925,6 +1927,7 @@ export type EditServerRoleQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
+  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
@@ -5095,6 +5098,10 @@ export const DeleteRoleMemberDocument = gql`
           myPermissions
         }
       }
+      me {
+        id
+        serverPermissions
+      }
     }
   }
   ${UserAvatarFragmentDoc}
@@ -5218,6 +5225,10 @@ export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {
     role(id: $id) {
       ...EditRoleTabs
+    }
+    me {
+      id
+      serverPermissions
     }
   }
   ${EditRoleTabsFragmentDoc}
