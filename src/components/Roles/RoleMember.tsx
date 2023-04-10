@@ -1,3 +1,4 @@
+import { Reference } from "@apollo/client";
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -45,6 +46,11 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
         cache.modify({
           id: cache.identify({ id: roleId, __typename: TypeNames.Role }),
           fields: {
+            members(existingRefs: Reference[], { readField }) {
+              return existingRefs.filter(
+                (ref) => readField("id", ref) !== roleMember.id
+              );
+            },
             availableUsersToAdd(_, { toReference }) {
               return availableUsersToAdd.map((user) => toReference(user));
             },
