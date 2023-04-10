@@ -4,6 +4,10 @@ mutation DeleteRoleMember($roleMemberData: DeleteRoleMemberInput!) {
       availableUsersToAdd {
         ...UserAvatar
       }
+      group {
+        id
+        myPermissions
+      }
     }
   }
 }

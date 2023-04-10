@@ -1841,6 +1841,11 @@ export type DeleteRoleMemberMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: Array<string>;
+      } | null;
     };
   };
 };
@@ -5084,6 +5089,10 @@ export const DeleteRoleMemberDocument = gql`
       role {
         availableUsersToAdd {
           ...UserAvatar
+        }
+        group {
+          id
+          myPermissions
         }
       }
     }
