@@ -1,6 +1,6 @@
 fragment AddMemberTab on Role {
   id
   members {
-    ...UserAvatar
+    ...RoleMember
   }
 }

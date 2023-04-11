@@ -2829,14 +2829,21 @@ export const RoleFragmentDoc = gql`
     }
   }
 `;
+export const RoleMemberFragmentDoc = gql`
+  fragment RoleMember on User {
+    id
+    ...UserAvatar
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const AddMemberTabFragmentDoc = gql`
   fragment AddMemberTab on Role {
     id
     members {
-      ...UserAvatar
+      ...RoleMember
     }
   }
-  ${UserAvatarFragmentDoc}
+  ${RoleMemberFragmentDoc}
 `;
 export const DeleteRoleButtonFragmentDoc = gql`
   fragment DeleteRoleButton on Role {
@@ -2870,13 +2877,6 @@ export const EditRoleTabsFragmentDoc = gql`
   ${AddMemberTabFragmentDoc}
   ${DeleteRoleButtonFragmentDoc}
   ${PermissionsFormFragmentDoc}
-  ${UserAvatarFragmentDoc}
-`;
-export const RoleMemberFragmentDoc = gql`
-  fragment RoleMember on User {
-    id
-    ...UserAvatar
-  }
   ${UserAvatarFragmentDoc}
 `;
 export const ToggleFormsFragmentDoc = gql`
@@ -5158,7 +5158,7 @@ export const UpdateRoleDocument = gql`
           ...PermissionsForm
         }
         members {
-          ...UserAvatar
+          ...RoleMember
         }
         availableUsersToAdd {
           ...UserAvatar
@@ -5176,6 +5176,7 @@ export const UpdateRoleDocument = gql`
   }
   ${RoleFragmentDoc}
   ${PermissionsFormFragmentDoc}
+  ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export type UpdateRoleMutationFn = Apollo.MutationFunction<
