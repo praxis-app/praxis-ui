@@ -1,6 +1,4 @@
-fragment RoleMember on RoleMember {
+fragment RoleMember on User {
   id
-  user {
-    ...UserAvatar
-  }
+  ...UserAvatar
 }

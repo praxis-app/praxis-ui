@@ -82,7 +82,13 @@ input DeleteLikeInput {
   postId: Int
 }
 
+input DeleteRoleMemberInput {
+  roleId: Int!
+  userId: Int!
+}
+
 type DeleteRoleMemberPayload {
+  me: User!
   role: Role!
 }
 
@@ -167,7 +173,7 @@ type Mutation {
   deletePost(id: Int!): Boolean!
   deleteProposal(id: Int!): Boolean!
   deleteRole(id: Int!): Boolean!
-  deleteRoleMember(id: Int!): DeleteRoleMemberPayload!
+  deleteRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteServerInvite(id: Int!): Boolean!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
@@ -271,15 +277,9 @@ type Role {
   group: Group
   id: Int!
   memberCount: Int!
-  members: [RoleMember!]!
+  members: [User!]!
   name: String!
   permissions: [Permission!]!
-}
-
-type RoleMember {
-  id: Int!
-  role: Role!
-  user: User!
 }
 
 type ServerInvite {

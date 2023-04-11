@@ -115,8 +115,14 @@ export type DeleteLikeInput = {
   postId?: InputMaybe<Scalars["Int"]>;
 };
 
+export type DeleteRoleMemberInput = {
+  roleId: Scalars["Int"];
+  userId: Scalars["Int"];
+};
+
 export type DeleteRoleMemberPayload = {
   __typename?: "DeleteRoleMemberPayload";
+  me: User;
   role: Role;
 };
 
@@ -293,7 +299,7 @@ export type MutationDeleteRoleArgs = {
 };
 
 export type MutationDeleteRoleMemberArgs = {
-  id: Scalars["Int"];
+  roleMemberData: DeleteRoleMemberInput;
 };
 
 export type MutationDeleteServerInviteArgs = {
@@ -479,16 +485,9 @@ export type Role = {
   group?: Maybe<Group>;
   id: Scalars["Int"];
   memberCount: Scalars["Int"];
-  members: Array<RoleMember>;
+  members: Array<User>;
   name: Scalars["String"];
   permissions: Array<Permission>;
-};
-
-export type RoleMember = {
-  __typename?: "RoleMember";
-  id: Scalars["Int"];
-  role: Role;
-  user: User;
 };
 
 export type ServerInvite = {
@@ -890,14 +889,10 @@ export type EditGroupRoleQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
     members: Array<{
-      __typename?: "RoleMember";
+      __typename?: "User";
       id: number;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
 };
@@ -1728,14 +1723,10 @@ export type AddMemberTabFragment = {
   __typename?: "Role";
   id: number;
   members: Array<{
-    __typename?: "RoleMember";
+    __typename?: "User";
     id: number;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
   }>;
 };
 
@@ -1765,14 +1756,10 @@ export type EditRoleTabsFragment = {
   }>;
   group?: { __typename?: "Group"; id: number; name: string } | null;
   members: Array<{
-    __typename?: "RoleMember";
+    __typename?: "User";
     id: number;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
   }>;
 };
 
@@ -1793,14 +1780,10 @@ export type RoleFragment = {
 };
 
 export type RoleMemberFragment = {
-  __typename?: "RoleMember";
+  __typename?: "User";
   id: number;
-  user: {
-    __typename?: "User";
-    id: number;
-    name: string;
-    profilePicture: { __typename?: "Image"; id: number };
-  };
+  name: string;
+  profilePicture: { __typename?: "Image"; id: number };
 };
 
 export type CreateRoleMutationVariables = Exact<{
@@ -1844,7 +1827,7 @@ export type DeleteRoleMutation = {
 };
 
 export type DeleteRoleMemberMutationVariables = Exact<{
-  id: Scalars["Int"];
+  roleMemberData: DeleteRoleMemberInput;
 }>;
 
 export type DeleteRoleMemberMutation = {
@@ -1859,7 +1842,13 @@ export type DeleteRoleMemberMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: Array<string>;
+      } | null;
     };
+    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
 };
 
@@ -1884,14 +1873,10 @@ export type UpdateRoleMutation = {
         enabled: boolean;
       }>;
       members: Array<{
-        __typename?: "RoleMember";
+        __typename?: "User";
         id: number;
-        user: {
-          __typename?: "User";
-          id: number;
-          name: string;
-          profilePicture: { __typename?: "Image"; id: number };
-        };
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
       }>;
       availableUsersToAdd: Array<{
         __typename?: "User";
@@ -1936,16 +1921,13 @@ export type EditServerRoleQuery = {
     }>;
     group?: { __typename?: "Group"; id: number; name: string } | null;
     members: Array<{
-      __typename?: "RoleMember";
+      __typename?: "User";
       id: number;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
+  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2848,11 +2830,9 @@ export const RoleFragmentDoc = gql`
   }
 `;
 export const RoleMemberFragmentDoc = gql`
-  fragment RoleMember on RoleMember {
+  fragment RoleMember on User {
     id
-    user {
-      ...UserAvatar
-    }
+    ...UserAvatar
   }
   ${UserAvatarFragmentDoc}
 `;
@@ -5107,12 +5087,20 @@ export type DeleteRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteRoleMutationVariables
 >;
 export const DeleteRoleMemberDocument = gql`
-  mutation DeleteRoleMember($id: Int!) {
-    deleteRoleMember(id: $id) {
+  mutation DeleteRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+    deleteRoleMember(roleMemberData: $roleMemberData) {
       role {
         availableUsersToAdd {
           ...UserAvatar
         }
+        group {
+          id
+          myPermissions
+        }
+      }
+      me {
+        id
+        serverPermissions
       }
     }
   }
@@ -5136,7 +5124,7 @@ export type DeleteRoleMemberMutationFn = Apollo.MutationFunction<
  * @example
  * const [deleteRoleMemberMutation, { data, loading, error }] = useDeleteRoleMemberMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      roleMemberData: // value for 'roleMemberData'
  *   },
  * });
  */
@@ -5238,6 +5226,10 @@ export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {
     role(id: $id) {
       ...EditRoleTabs
+    }
+    me {
+      id
+      serverPermissions
     }
   }
   ${EditRoleTabsFragmentDoc}
