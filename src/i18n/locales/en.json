@@ -74,7 +74,6 @@
       "vote": "Vote"
     },
     "actionTypes": {
-      "assignRole": "Assign Group Role",
       "changeDescription": "Change Group Description",
       "changeCoverPhoto": "Change Cover Photo",
       "changeName": "Change Group Name",

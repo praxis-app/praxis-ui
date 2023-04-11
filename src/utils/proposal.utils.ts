@@ -23,10 +23,6 @@ export const getProposalActionTypeOptions = (
 
   // TODO: Uncomment after adding support for remaining action types
   // {
-  //   message: t("proposals.actionTypes.assignRole"),
-  //   value: ProposalActionTypes.AssignRole,
-  // },
-  // {
   //   message: t("proposals.actionTypes.changeRole"),
   //   value: ProposalActionTypes.ChangeRole,
   // },
@@ -63,8 +59,6 @@ export const getProposalActionLabel = (
       return t("proposals.actionTypes.createRole");
     case ProposalActionTypes.ChangeRole:
       return t("proposals.actionTypes.changeRole");
-    case ProposalActionTypes.AssignRole:
-      return t("proposals.actionTypes.assignRole");
     case ProposalActionTypes.Test:
       return t("proposals.actionTypes.test");
     default:
