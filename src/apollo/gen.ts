@@ -413,6 +413,7 @@ export type ProposalAction = {
   groupName?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   proposal: Proposal;
+  role?: Maybe<Array<ProposalActionRole>>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -421,6 +422,49 @@ export type ProposalActionInput = {
   groupCoverPhoto?: InputMaybe<Scalars["Upload"]>;
   groupDescription?: InputMaybe<Scalars["String"]>;
   groupName?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<ProposalActionRoleInput>;
+};
+
+export type ProposalActionPermission = {
+  __typename?: "ProposalActionPermission";
+  enabled: Scalars["Boolean"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+  role: ProposalActionRole;
+};
+
+export type ProposalActionPermissionInput = {
+  enabled: Scalars["Boolean"];
+  name: Scalars["String"];
+};
+
+export type ProposalActionRole = {
+  __typename?: "ProposalActionRole";
+  color?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  members?: Maybe<Array<ProposalActionRoleMember>>;
+  name?: Maybe<Scalars["String"]>;
+  permissions?: Maybe<Array<ProposalActionPermission>>;
+  proposalAction: ProposalAction;
+  role: Role;
+};
+
+export type ProposalActionRoleInput = {
+  color?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["Int"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  permissions?: InputMaybe<Array<ProposalActionPermissionInput>>;
+  selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
+};
+
+export type ProposalActionRoleMember = {
+  __typename?: "ProposalActionRoleMember";
+  changeType: Scalars["String"];
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  role: ProposalActionRole;
+  updatedAt: Scalars["DateTime"];
+  user: User;
 };
 
 export type Query = {
@@ -488,6 +532,7 @@ export type Role = {
   members: Array<User>;
   name: Scalars["String"];
   permissions: Array<Permission>;
+  proposalActionRoles: Array<ProposalActionRole>;
 };
 
 export type ServerInvite = {

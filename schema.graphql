@@ -240,6 +240,7 @@ type ProposalAction {
   groupName: String
   id: Int!
   proposal: Proposal!
+  role: [ProposalActionRole!]
   updatedAt: DateTime!
 }
 
@@ -248,6 +249,46 @@ input ProposalActionInput {
   groupCoverPhoto: Upload
   groupDescription: String
   groupName: String
+  role: ProposalActionRoleInput
+}
+
+type ProposalActionPermission {
+  enabled: Boolean!
+  id: Int!
+  name: String!
+  role: ProposalActionRole!
+}
+
+input ProposalActionPermissionInput {
+  enabled: Boolean!
+  name: String!
+}
+
+type ProposalActionRole {
+  color: String
+  id: Int!
+  members: [ProposalActionRoleMember!]
+  name: String
+  permissions: [ProposalActionPermission!]
+  proposalAction: ProposalAction!
+  role: Role!
+}
+
+input ProposalActionRoleInput {
+  color: String
+  id: Int
+  name: String
+  permissions: [ProposalActionPermissionInput!]
+  selectedUserIds: [Int!]
+}
+
+type ProposalActionRoleMember {
+  changeType: String!
+  createdAt: DateTime!
+  id: Int!
+  role: ProposalActionRole!
+  updatedAt: DateTime!
+  user: User!
 }
 
 type Query {
@@ -280,6 +321,7 @@ type Role {
   members: [User!]!
   name: String!
   permissions: [Permission!]!
+  proposalActionRoles: [ProposalActionRole!]!
 }
 
 type ServerInvite {
