@@ -1,4 +1,4 @@
-fragment AddMemberTab on Role {
+fragment AddRoleMemberTab on Role {
   id
   members {
     ...RoleMember

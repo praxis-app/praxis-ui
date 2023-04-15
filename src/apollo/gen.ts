@@ -1764,7 +1764,7 @@ export type ProposalQuery = {
   };
 };
 
-export type AddMemberTabFragment = {
+export type AddRoleMemberTabFragment = {
   __typename?: "Role";
   id: number;
   members: Array<{
@@ -2881,8 +2881,8 @@ export const RoleMemberFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const AddMemberTabFragmentDoc = gql`
-  fragment AddMemberTab on Role {
+export const AddRoleMemberTabFragmentDoc = gql`
+  fragment AddRoleMemberTab on Role {
     id
     members {
       ...RoleMember
@@ -2909,7 +2909,7 @@ export const PermissionsFormFragmentDoc = gql`
 export const EditRoleTabsFragmentDoc = gql`
   fragment EditRoleTabs on Role {
     ...Role
-    ...AddMemberTab
+    ...AddRoleMemberTab
     ...DeleteRoleButton
     permissions {
       ...PermissionsForm
@@ -2919,7 +2919,7 @@ export const EditRoleTabsFragmentDoc = gql`
     }
   }
   ${RoleFragmentDoc}
-  ${AddMemberTabFragmentDoc}
+  ${AddRoleMemberTabFragmentDoc}
   ${DeleteRoleButtonFragmentDoc}
   ${PermissionsFormFragmentDoc}
   ${UserAvatarFragmentDoc}

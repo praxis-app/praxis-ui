@@ -9,13 +9,13 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  AddMemberTabFragment,
+  AddRoleMemberTabFragment,
   UserAvatarFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
 import Modal from "../Shared/Modal";
 import Flex from "../Shared/Flex";
-import AddMemberOption from "./AddMemberOption";
+import AddRoleMemberOption from "./AddRoleMemberOption";
 import RoleMember from "./RoleMember";
 
 const FlexCardContent = styled(MuiCardContent)(() => ({
@@ -32,11 +32,11 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props {
-  role: AddMemberTabFragment;
+  role: AddRoleMemberTabFragment;
   users: UserAvatarFragment[];
 }
 
-const AddMemberTab = ({ role: { id, members }, users }: Props) => {
+const AddRoleMemberTab = ({ role: { id, members }, users }: Props) => {
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateRole] = useUpdateRoleMutation();
@@ -90,7 +90,7 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
         open={isModalOpen}
       >
         {users.map((user) => (
-          <AddMemberOption
+          <AddRoleMemberOption
             key={user.id}
             selectedUserIds={selectedUserIds}
             setSelectedUserIds={setSelectedUserIds}
@@ -112,4 +112,4 @@ const AddMemberTab = ({ role: { id, members }, users }: Props) => {
   );
 };
 
-export default AddMemberTab;
+export default AddRoleMemberTab;

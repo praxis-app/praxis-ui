@@ -1,8 +1,8 @@
 import {
-  CardActionArea as MuiCardActionArea,
   Checkbox,
-  styled,
+  CardActionArea as MuiCardActionArea,
   Typography,
+  styled,
 } from "@mui/material";
 import { UserAvatarFragment } from "../../apollo/gen";
 import Flex from "../Shared/Flex";
@@ -21,7 +21,7 @@ interface Props {
   user: UserAvatarFragment;
 }
 
-const AddMemberOption = ({
+const AddRoleMemberOption = ({
   selectedUserIds,
   setSelectedUserIds,
   user,
@@ -61,4 +61,4 @@ const AddMemberOption = ({
   );
 };
 
-export default AddMemberOption;
+export default AddRoleMemberOption;
