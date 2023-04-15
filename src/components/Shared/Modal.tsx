@@ -96,7 +96,7 @@ const Modal = ({
       // Required for mobile
       BackdropProps={{ onClick: onClose }}
       // Required for desktop
-      onBackdropClick={onClose}
+      onClose={onClose}
     >
       <AppBar sx={{ position: "relative" }}>{renderAppBarContent()}</AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>
