@@ -148,7 +148,7 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
                 <ColorPicker
                   color={color}
                   key={colorPickerKey}
-                  label={"Role Color"}
+                  label={t("roles.form.colorPickerLabel")}
                   onChange={handleChangeComplete}
                   sx={{ marginBottom: 1.25 }}
                 />

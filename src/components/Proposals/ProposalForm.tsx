@@ -334,6 +334,14 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   touched={touched}
                   values={values}
                 />
+                <ProposeRoleModal
+                  actionType={values.action.actionType}
+                  groupId={values.groupId}
+                  setFieldValue={setFieldValue}
+                />
+
+                {/* TODO: Remove when no longer needed for testing */}
+                <Typography marginTop={3}>{JSON.stringify(values)}</Typography>
               </>
             )}
 
@@ -347,11 +355,6 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
               )}
             />
           </FormGroup>
-
-          <ProposeRoleModal
-            groupId={values.groupId}
-            actionType={values.action.actionType}
-          />
 
           {!clicked && !editProposal && <Divider sx={{ marginBottom: 1.3 }} />}
 
