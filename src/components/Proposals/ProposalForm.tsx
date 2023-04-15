@@ -47,6 +47,7 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 import ProposalActionFields from "./ProposalActionFields";
+import ProposeRoleModal from "./ProposeRoleModal";
 
 type ProposalFormErrors = {
   action: FormikErrors<ProposalActionInput>;
@@ -346,6 +347,11 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
               )}
             />
           </FormGroup>
+
+          <ProposeRoleModal
+            groupId={values.groupId}
+            actionType={values.action.actionType}
+          />
 
           {!clicked && !editProposal && <Divider sx={{ marginBottom: 1.3 }} />}
 

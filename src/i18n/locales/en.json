@@ -4,6 +4,7 @@
   "actions": {
     "cancel": "Cancel",
     "comment": "Comment",
+    "confirm": "Confirm",
     "copy": "Copy",
     "create": "Create",
     "delete": "Delete",
@@ -70,6 +71,8 @@
     },
     "actions": {
       "attachNewCoverPhoto": "Attach new cover photo",
+      "changeGroupRole": "Change a group role",
+      "createGroupRole": "Create a group role",
       "createProposal": "Create Proposal",
       "vote": "Vote"
     },

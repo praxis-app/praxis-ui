@@ -80,9 +80,11 @@ const Modal = ({
         >
           {title}
         </Typography>
-        <Button color="primary" onClick={closingAction}>
-          {actionLabel}
-        </Button>
+        {actionLabel && (
+          <Button color="primary" onClick={closingAction}>
+            {actionLabel}
+          </Button>
+        )}
       </Toolbar>
     );
   };
