@@ -71,8 +71,8 @@
     },
     "actions": {
       "attachNewCoverPhoto": "Attach new cover photo",
-      "changeGroupRole": "Change a group role",
-      "createGroupRole": "Create a group role",
+      "changeGroupRole": "Propose a role change",
+      "createGroupRole": "Propose a new group role",
       "createProposal": "Create Proposal",
       "vote": "Vote"
     },
@@ -256,8 +256,9 @@
       "pickColor": "Pick a Color"
     },
     "labels": {
-      "members_one": "{{count}} Member",
-      "members_other": "{{count}} Members"
+      "members": "Members",
+      "membersCount_one": "{{count}} Member",
+      "membersCount_other": "{{count}} Members"
     },
     "tabs": {
       "display": "Display",
@@ -299,6 +300,9 @@
     "states": {
       "enabled": "Enabled",
       "disabled": "Disabled"
+    },
+    "labels": {
+      "permissions": "Permissions"
     }
   },
 

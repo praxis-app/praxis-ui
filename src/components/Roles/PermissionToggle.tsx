@@ -41,8 +41,8 @@ const PermissionToggle = ({
   };
 
   return (
-    <Flex justifyContent="space-between">
-      <Box marginBottom={2.8}>
+    <Flex justifyContent="space-between" marginBottom={2.8}>
+      <Box>
         <Typography>{displayName}</Typography>
 
         <Typography fontSize={12} sx={{ color: theme.palette.text.secondary }}>

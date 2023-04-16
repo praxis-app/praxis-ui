@@ -85,10 +85,9 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
               )}
             />
 
-            <Flex justifyContent="end">
+            <Flex justifyContent="end" sx={{ marginTop: 6 }}>
               <PrimaryActionButton
                 disabled={isSubmitting || !values.permissions.length}
-                sx={{ marginTop: 1.5 }}
                 type="submit"
               >
                 {t("actions.save")}
