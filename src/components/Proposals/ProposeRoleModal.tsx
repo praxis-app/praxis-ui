@@ -1,11 +1,11 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
-import { FormGroup } from "@mui/material";
-import { Form, Formik, FormikProps } from "formik";
+import { Box, FormGroup } from "@mui/material";
+import { FieldArray, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import { CreateRoleInput, PermissionInput } from "../../apollo/gen";
+import { PermissionInput, ProposalActionRoleInput } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
   ProposalActionFieldNames,
@@ -16,6 +16,7 @@ import {
   GroupPermissions,
 } from "../../constants/role.constants";
 import { initPermissions } from "../../utils/role.utils";
+import PermissionToggle from "../Roles/PermissionToggle";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";
@@ -32,7 +33,7 @@ interface Props {
   groupId?: number | null;
   setFieldValue: (
     field: ProposalActionFieldNames,
-    value: CreateRoleInput
+    value: ProposalActionRoleInput
   ) => void;
 }
 
@@ -60,7 +61,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const initialValues: ProposeRoleModalValues = {
     name: "",
-    permissions,
+    permissions: [],
   };
 
   const title =
@@ -68,18 +69,15 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       ? t("proposals.actions.createGroupRole")
       : t("proposals.actions.changeGroupRole");
 
-  const handleSubmit = async (formValues: Omit<CreateRoleInput, "color">) => {
+  const handleSubmit = async (formValues: ProposeRoleModalValues) => {
     setFieldValue(ProposalActionFieldNames.Role, { ...formValues, color });
     setOpen(false);
   };
 
-  const handleChangeComplete = (color: ColorResult) => setColor(color.hex);
+  const handleColorChange = (color: ColorResult) => setColor(color.hex);
   const handleClose = () => setOpen(false);
 
-  const isSubmitButtonDisabled = ({
-    dirty,
-    isSubmitting,
-  }: FormikProps<Omit<CreateRoleInput, "color">>) => {
+  const isSubmitButtonDisabled = (dirty: boolean, isSubmitting: boolean) => {
     if (isSubmitting) {
       return true;
     }
@@ -89,7 +87,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   return (
     <Modal open={open} onClose={handleClose} title={title}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {(formik) => (
+        {({ dirty, isSubmitting, values }) => (
           <Form>
             <FormGroup>
               <TextField
@@ -101,15 +99,31 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
               <ColorPicker
                 color={color}
                 label={t("roles.form.colorPickerLabel")}
-                onChange={handleChangeComplete}
-                sx={{ marginBottom: 1.25 }}
+                onChange={handleColorChange}
+                sx={{ marginBottom: 5 }}
+              />
+
+              <FieldArray
+                name="permissions"
+                render={(arrayHelpers) => (
+                  <Box marginBottom={2}>
+                    {permissions.map((permission) => (
+                      <PermissionToggle
+                        key={permission.name}
+                        arrayHelpers={arrayHelpers}
+                        permission={permission}
+                        values={values}
+                      />
+                    ))}
+                  </Box>
+                )}
               />
             </FormGroup>
 
             <Flex justifyContent="end">
               <PrimaryActionButton
-                disabled={isSubmitButtonDisabled(formik)}
-                isLoading={formik.isSubmitting}
+                disabled={isSubmitButtonDisabled(dirty, isSubmitting)}
+                isLoading={isSubmitting}
                 sx={{ marginTop: 1.5 }}
                 type="submit"
               >

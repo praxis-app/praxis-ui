@@ -2,16 +2,17 @@ import { Box, Switch, Typography } from "@mui/material";
 import { FieldArrayRenderProps } from "formik";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
-import { PermissionToggleFragment } from "../../apollo/gen";
+import { PermissionInput, PermissionToggleFragment } from "../../apollo/gen";
 import theme from "../../theme";
 import { getPermissionText } from "../../utils/role.utils";
+import { ProposeRoleModalValues } from "../Proposals/ProposeRoleModal";
 import Flex from "../Shared/Flex";
 import { PermissionsFormValues } from "./PermissionsForm";
 
 interface Props {
   arrayHelpers: FieldArrayRenderProps;
-  permission: PermissionToggleFragment;
-  values: PermissionsFormValues;
+  permission: PermissionToggleFragment | PermissionInput;
+  values: PermissionsFormValues | ProposeRoleModalValues;
 }
 
 const PermissionToggle = ({
