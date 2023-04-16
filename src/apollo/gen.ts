@@ -433,11 +433,6 @@ export type ProposalActionPermission = {
   role: ProposalActionRole;
 };
 
-export type ProposalActionPermissionInput = {
-  enabled: Scalars["Boolean"];
-  name: Scalars["String"];
-};
-
 export type ProposalActionRole = {
   __typename?: "ProposalActionRole";
   color?: Maybe<Scalars["String"]>;
@@ -453,7 +448,7 @@ export type ProposalActionRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
-  permissions?: InputMaybe<Array<ProposalActionPermissionInput>>;
+  permissions?: InputMaybe<Array<PermissionInput>>;
   selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 

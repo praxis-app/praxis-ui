@@ -5,10 +5,7 @@ import { Form, Formik, FormikProps } from "formik";
 import { useEffect, useState } from "react";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import {
-  CreateRoleInput,
-  ProposalActionPermissionInput,
-} from "../../apollo/gen";
+import { CreateRoleInput, PermissionInput } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
   ProposalActionFieldNames,
@@ -27,7 +24,7 @@ import { TextField } from "../Shared/TextField";
 
 export interface ProposeRoleModalValues {
   name: string;
-  permissions: ProposalActionPermissionInput[];
+  permissions: PermissionInput[];
 }
 
 interface Props {

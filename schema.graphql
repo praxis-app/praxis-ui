@@ -259,11 +259,6 @@ type ProposalActionPermission {
   role: ProposalActionRole!
 }
 
-input ProposalActionPermissionInput {
-  enabled: Boolean!
-  name: String!
-}
-
 type ProposalActionRole {
   color: String
   id: Int!
@@ -278,7 +273,7 @@ input ProposalActionRoleInput {
   color: String
   id: Int
   name: String
-  permissions: [ProposalActionPermissionInput!]
+  permissions: [PermissionInput!]
   selectedUserIds: [Int!]
 }
 
