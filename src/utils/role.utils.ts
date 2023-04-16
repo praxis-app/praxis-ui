@@ -7,6 +7,8 @@ import {
 interface PermissionText {
   displayName: string | null;
   description: string | null;
+
+  // TODO: Remove once all permissions are implemented
   inDev?: boolean;
 }
 
