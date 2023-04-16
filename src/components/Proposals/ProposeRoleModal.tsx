@@ -47,6 +47,11 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const initialValues = { name: "" };
 
+  const title =
+    actionType === ProposalActionTypes.CreateRole
+      ? t("proposals.actions.createGroupRole")
+      : t("proposals.actions.changeGroupRole");
+
   const handleSubmit = async (formValues: Omit<CreateRoleInput, "color">) => {
     setFieldValue(ProposalActionFieldNames.Role, { ...formValues, color });
     setOpen(false);
@@ -66,11 +71,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   };
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      title={t("proposals.actions.createGroupRole")}
-    >
+    <Modal open={open} onClose={handleClose} title={title}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {(formik) => (
           <Form>
