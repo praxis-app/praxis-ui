@@ -1808,7 +1808,7 @@ export type EditRoleTabsFragment = {
   }>;
 };
 
-export type PermissionsFormFragment = {
+export type PermissionToggleFragment = {
   __typename?: "Permission";
   id: number;
   name: string;
@@ -2899,8 +2899,8 @@ export const DeleteRoleButtonFragmentDoc = gql`
     }
   }
 `;
-export const PermissionsFormFragmentDoc = gql`
-  fragment PermissionsForm on Permission {
+export const PermissionToggleFragmentDoc = gql`
+  fragment PermissionToggle on Permission {
     id
     name
     enabled
@@ -2912,7 +2912,7 @@ export const EditRoleTabsFragmentDoc = gql`
     ...AddRoleMemberTab
     ...DeleteRoleButton
     permissions {
-      ...PermissionsForm
+      ...PermissionToggle
     }
     availableUsersToAdd {
       ...UserAvatar
@@ -2921,7 +2921,7 @@ export const EditRoleTabsFragmentDoc = gql`
   ${RoleFragmentDoc}
   ${AddRoleMemberTabFragmentDoc}
   ${DeleteRoleButtonFragmentDoc}
-  ${PermissionsFormFragmentDoc}
+  ${PermissionToggleFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const ToggleFormsFragmentDoc = gql`
@@ -5200,7 +5200,7 @@ export const UpdateRoleDocument = gql`
       role {
         ...Role
         permissions {
-          ...PermissionsForm
+          ...PermissionToggle
         }
         members {
           ...RoleMember
@@ -5220,7 +5220,7 @@ export const UpdateRoleDocument = gql`
     }
   }
   ${RoleFragmentDoc}
-  ${PermissionsFormFragmentDoc}
+  ${PermissionToggleFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;

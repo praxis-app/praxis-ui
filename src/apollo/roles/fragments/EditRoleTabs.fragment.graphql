@@ -4,7 +4,7 @@ fragment EditRoleTabs on Role {
   ...DeleteRoleButton
 
   permissions {
-    ...PermissionsForm
+    ...PermissionToggle
   }
 
   availableUsersToAdd {

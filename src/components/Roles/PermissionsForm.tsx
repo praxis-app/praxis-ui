@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   PermissionInput,
-  PermissionsFormFragment,
+  PermissionToggleFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
 import Flex from "../Shared/Flex";
@@ -27,7 +27,7 @@ export interface PermissionsFormValues {
 }
 
 interface Props extends BoxProps {
-  permissions: PermissionsFormFragment[];
+  permissions: PermissionToggleFragment[];
   roleId: number;
 }
 
