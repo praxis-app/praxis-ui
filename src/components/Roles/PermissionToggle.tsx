@@ -14,40 +14,35 @@ interface Props {
   values: PermissionsFormValues;
 }
 
-const PermissionToggle = ({ values, permission, arrayHelpers }: Props) => {
-  const { name, description, inDev } = getPermissionText(permission.name, t);
+const PermissionToggle = ({
+  permission: { id, enabled, name },
+  arrayHelpers,
+  values,
+}: Props) => {
+  const { displayName, description, inDev } = getPermissionText(name, t);
   if (inDev) {
     return null;
   }
 
-  const permissionInput = values.permissions.find(
-    (p) => p.id === permission.id
-  );
-
+  const permissionInput = values.permissions.find((p) => p.id === id);
   const checked =
-    permissionInput !== undefined
-      ? permissionInput.enabled
-      : permission.enabled;
+    permissionInput !== undefined ? permissionInput.enabled : enabled;
 
-  const handleChange =
-    (
-      { id, enabled }: PermissionToggleFragment,
-      arrayHelpers: FieldArrayRenderProps,
-      values: PermissionsFormValues
-    ) =>
-    ({ target: { checked } }: ChangeEvent<HTMLInputElement>) => {
-      if (checked === enabled) {
-        const index = values.permissions.findIndex((p) => p.id === id);
-        arrayHelpers.remove(index);
-        return;
-      }
-      arrayHelpers.push({ id, enabled: checked });
-    };
+  const handleChange = ({
+    target: { checked },
+  }: ChangeEvent<HTMLInputElement>) => {
+    if (checked === enabled) {
+      const index = values.permissions.findIndex((p) => p.id === id);
+      arrayHelpers.remove(index);
+      return;
+    }
+    arrayHelpers.push({ id, enabled: checked });
+  };
 
   return (
-    <Flex justifyContent="space-between" key={permission.id}>
+    <Flex justifyContent="space-between">
       <Box marginBottom={2.8}>
-        <Typography>{name}</Typography>
+        <Typography>{displayName}</Typography>
 
         <Typography fontSize={12} sx={{ color: theme.palette.text.secondary }}>
           {description}
@@ -56,8 +51,8 @@ const PermissionToggle = ({ values, permission, arrayHelpers }: Props) => {
 
       <Switch
         checked={checked}
-        inputProps={{ "aria-label": name || t("labels.switch") }}
-        onChange={handleChange(permission, arrayHelpers, values)}
+        inputProps={{ "aria-label": displayName || t("labels.switch") }}
+        onChange={handleChange}
       />
     </Flex>
   );
