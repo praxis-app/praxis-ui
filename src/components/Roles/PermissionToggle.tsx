@@ -15,7 +15,7 @@ interface Props {
 }
 
 const PermissionToggle = ({
-  permission: { id, enabled, name },
+  permission: { enabled, name },
   arrayHelpers,
   values,
 }: Props) => {
@@ -24,7 +24,7 @@ const PermissionToggle = ({
     return null;
   }
 
-  const permissionInput = values.permissions.find((p) => p.id === id);
+  const permissionInput = values.permissions.find((p) => p.name === name);
   const checked =
     permissionInput !== undefined ? permissionInput.enabled : enabled;
 
@@ -32,11 +32,11 @@ const PermissionToggle = ({
     target: { checked },
   }: ChangeEvent<HTMLInputElement>) => {
     if (checked === enabled) {
-      const index = values.permissions.findIndex((p) => p.id === id);
+      const index = values.permissions.findIndex((p) => p.name === name);
       arrayHelpers.remove(index);
       return;
     }
-    arrayHelpers.push({ id, enabled: checked });
+    arrayHelpers.push({ name, enabled: checked });
   };
 
   return (

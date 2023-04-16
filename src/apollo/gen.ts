@@ -372,7 +372,7 @@ export type Permission = {
 
 export type PermissionInput = {
   enabled: Scalars["Boolean"];
-  id: Scalars["Int"];
+  name: Scalars["String"];
 };
 
 export type Post = {
