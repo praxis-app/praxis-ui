@@ -5,18 +5,30 @@ import { Form, Formik, FormikProps } from "formik";
 import { useEffect, useState } from "react";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import { CreateRoleInput } from "../../apollo/gen";
+import {
+  CreateRoleInput,
+  ProposalActionPermissionInput,
+} from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
   ProposalActionFieldNames,
   ProposalActionTypes,
 } from "../../constants/proposal.constants";
-import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
+import {
+  DEFAULT_ROLE_COLOR,
+  GroupPermissions,
+} from "../../constants/role.constants";
+import { initPermissions } from "../../utils/role.utils";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import { TextField } from "../Shared/TextField";
+
+export interface ProposeRoleModalValues {
+  name: string;
+  permissions: ProposalActionPermissionInput[];
+}
 
 interface Props {
   actionType?: string;
@@ -44,7 +56,15 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     }
   }, [groupId, actionType]);
 
-  const initialValues = { name: "" };
+  const permissions =
+    actionType === ProposalActionTypes.CreateRole && groupId
+      ? initPermissions(GroupPermissions)
+      : [];
+
+  const initialValues: ProposeRoleModalValues = {
+    name: "",
+    permissions,
+  };
 
   const title =
     actionType === ProposalActionTypes.CreateRole
