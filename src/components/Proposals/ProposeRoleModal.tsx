@@ -30,7 +30,6 @@ interface Props {
 const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
   const [open, setOpen] = useState(false);
-
   const { t } = useTranslation();
 
   useEffect(() => {
