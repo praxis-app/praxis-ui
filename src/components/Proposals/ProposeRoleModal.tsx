@@ -100,7 +100,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                 color={color}
                 label={t("roles.form.colorPickerLabel")}
                 onChange={handleColorChange}
-                sx={{ marginBottom: 5 }}
+                sx={{ marginBottom: 4 }}
               />
 
               <FieldArray
