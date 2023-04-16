@@ -50,6 +50,7 @@ interface Props {
 const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
   const [open, setOpen] = useState(false);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
 
@@ -88,11 +89,15 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       : t("proposals.actions.changeGroupRole");
 
   const handleSubmit = async (formValues: ProposeRoleModalValues) => {
-    setFieldValue(ProposalActionFieldNames.Role, { ...formValues, color });
+    setFieldValue(ProposalActionFieldNames.Role, {
+      ...formValues,
+      selectedUserIds,
+      color,
+    });
     setOpen(false);
   };
 
-  const handleChange =
+  const handleAccordionChange =
     (panel: "permissions" | "members") =>
     (_: SyntheticEvent, newExpanded: boolean) => {
       if (panel === "permissions") {
@@ -102,8 +107,14 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       setShowMembers(newExpanded);
     };
 
+  const handleClose = () => {
+    setOpen(false);
+    setColor(DEFAULT_ROLE_COLOR);
+    setSelectedUserIds([]);
+    setShowMembers(false);
+  };
+
   const handleColorChange = (color: ColorResult) => setColor(color.hex);
-  const handleClose = () => setOpen(false);
 
   // TODO: Factor in whether role color has been changed
   const isSubmitButtonDisabled = (dirty: boolean, isSubmitting: boolean) => {
@@ -134,7 +145,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
               <Accordion
                 expanded={showPermissions}
-                onChange={handleChange("permissions")}
+                onChange={handleAccordionChange("permissions")}
               >
                 <AccordionSummary>
                   <Typography>{t("permissions.labels.permissions")}</Typography>
@@ -158,7 +169,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
               <Accordion
                 expanded={showMembers}
-                onChange={handleChange("members")}
+                onChange={handleAccordionChange("members")}
               >
                 <AccordionSummary>
                   <Typography>{t("roles.labels.members")}</Typography>
@@ -166,23 +177,21 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                 <AccordionDetails>
                   {loading && <ProgressBar />}
 
-                  {groupMembers &&
-                    groupMembers.map((member) => (
-                      <AddRoleMemberOption
-                        key={member.id}
-                        selectedUserIds={[]}
-                        setSelectedUserIds={() =>
-                          console.log("TODO: Pass setSelectedUserIds here")
-                        }
-                        user={member}
-                      />
-                    ))}
-
                   {error && (
                     <Typography marginTop={1}>
                       {t("errors.somethingWentWrong")}
                     </Typography>
                   )}
+
+                  {groupMembers &&
+                    groupMembers.map((member) => (
+                      <AddRoleMemberOption
+                        key={member.id}
+                        selectedUserIds={selectedUserIds}
+                        setSelectedUserIds={setSelectedUserIds}
+                        user={member}
+                      />
+                    ))}
                 </AccordionDetails>
               </Accordion>
             </FormGroup>
