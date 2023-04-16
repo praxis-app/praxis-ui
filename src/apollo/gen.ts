@@ -485,7 +485,8 @@ export type Query = {
 };
 
 export type QueryGroupArgs = {
-  name: Scalars["String"];
+  id?: InputMaybe<Scalars["Int"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryMemberRequestArgs = {
@@ -955,6 +956,24 @@ export type GroupMembersQuery = {
     }>;
   };
   me: { __typename?: "User"; id: number };
+};
+
+export type GroupMembersByGroupIdQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type GroupMembersByGroupIdQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    members: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
 };
 
 export type GroupProfileQueryVariables = Exact<{
@@ -3826,6 +3845,69 @@ export type GroupMembersLazyQueryHookResult = ReturnType<
 export type GroupMembersQueryResult = Apollo.QueryResult<
   GroupMembersQuery,
   GroupMembersQueryVariables
+>;
+export const GroupMembersByGroupIdDocument = gql`
+  query GroupMembersByGroupId($groupId: Int!) {
+    group(id: $groupId) {
+      id
+      members {
+        id
+        ...UserAvatar
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useGroupMembersByGroupIdQuery__
+ *
+ * To run a query within a React component, call `useGroupMembersByGroupIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupMembersByGroupIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupMembersByGroupIdQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useGroupMembersByGroupIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >(GroupMembersByGroupIdDocument, options);
+}
+export function useGroupMembersByGroupIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >(GroupMembersByGroupIdDocument, options);
+}
+export type GroupMembersByGroupIdQueryHookResult = ReturnType<
+  typeof useGroupMembersByGroupIdQuery
+>;
+export type GroupMembersByGroupIdLazyQueryHookResult = ReturnType<
+  typeof useGroupMembersByGroupIdLazyQuery
+>;
+export type GroupMembersByGroupIdQueryResult = Apollo.QueryResult<
+  GroupMembersByGroupIdQuery,
+  GroupMembersByGroupIdQueryVariables
 >;
 export const GroupProfileDocument = gql`
   query GroupProfile($name: String!) {

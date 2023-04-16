@@ -288,7 +288,7 @@ type ProposalActionRoleMember {
 
 type Query {
   authCheck: Boolean!
-  group(name: String!): Group!
+  group(id: Int, name: String): Group!
   groups: [Group!]!
   isFirstUser: Boolean!
   me: User!

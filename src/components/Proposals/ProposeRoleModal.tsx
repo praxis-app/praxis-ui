@@ -5,7 +5,11 @@ import { FieldArray, Form, Formik } from "formik";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import { PermissionInput, ProposalActionRoleInput } from "../../apollo/gen";
+import {
+  PermissionInput,
+  ProposalActionRoleInput,
+  useGroupMembersByGroupIdLazyQuery,
+} from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
   ProposalActionFieldNames,
@@ -16,6 +20,7 @@ import {
   GroupPermissions,
 } from "../../constants/role.constants";
 import { initPermissions } from "../../utils/role.utils";
+import AddRoleMemberOption from "../Roles/AddRoleMemberOption";
 import PermissionToggle from "../Roles/PermissionToggle";
 import Accordion, {
   AccordionDetails,
@@ -25,6 +30,7 @@ import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import ProgressBar from "../Shared/ProgressBar";
 import { TextField } from "../Shared/TextField";
 
 export interface ProposeRoleModalValues {
@@ -47,6 +53,9 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
 
+  const [getGroupMembers, { data, loading, error }] =
+    useGroupMembersByGroupIdLazyQuery();
+
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -57,14 +66,16 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       actionType === ProposalActionTypes.CreateRole ||
       actionType === ProposalActionTypes.ChangeRole
     ) {
+      getGroupMembers({ variables: { groupId } });
       setOpen(true);
     }
-  }, [groupId, actionType]);
+  }, [groupId, actionType, getGroupMembers]);
 
   const permissions =
     actionType === ProposalActionTypes.CreateRole && groupId
       ? initPermissions(GroupPermissions)
       : [];
+  const groupMembers = data?.group.members;
 
   const initialValues: ProposeRoleModalValues = {
     name: "",
@@ -94,6 +105,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const handleColorChange = (color: ColorResult) => setColor(color.hex);
   const handleClose = () => setOpen(false);
 
+  // TODO: Factor in whether role color has been changed
   const isSubmitButtonDisabled = (dirty: boolean, isSubmitting: boolean) => {
     if (isSubmitting) {
       return true;
@@ -152,9 +164,25 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                   <Typography>{t("roles.labels.members")}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography sx={{ color: "yellow" }}>
-                    TODO: Show role members input here
-                  </Typography>
+                  {loading && <ProgressBar />}
+
+                  {groupMembers &&
+                    groupMembers.map((member) => (
+                      <AddRoleMemberOption
+                        key={member.id}
+                        selectedUserIds={[]}
+                        setSelectedUserIds={() =>
+                          console.log("TODO: Pass setSelectedUserIds here")
+                        }
+                        user={member}
+                      />
+                    ))}
+
+                  {error && (
+                    <Typography marginTop={1}>
+                      {t("errors.somethingWentWrong")}
+                    </Typography>
+                  )}
                 </AccordionDetails>
               </Accordion>
             </FormGroup>
