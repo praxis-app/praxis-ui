@@ -1,12 +1,42 @@
 export default {
-  testPathIgnorePatterns: ['<rootDir>/.next', '<rootDir>/node_modules'],
-  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  collectCoverage: false,
+  // on node 14.x coverage provider v8 offers good speed and more or less good report
+  coverageProvider: 'v8',
+  collectCoverageFrom: [
+    '**/*.{js,jsx,ts,tsx}',
+    '!**/*.d.ts',
+    '!**/node_modules/**',
+    '!<rootDir>/out/**',
+    '!<rootDir>/.next/**',
+    '!<rootDir>/*.config.js',
+    '!<rootDir>/coverage/**',
+  ],
   moduleNameMapper: {
-    '\\.(scss|sass|css)$': 'identity-obj-proxy',
-    '^@/pages/(.*)$': '<rootDir>/pages/$1'
+    // Handle CSS imports (with CSS modules)
+    // https://jestjs.io/docs/webpack#mocking-css-modules
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+
+    // Handle CSS imports (without CSS modules)
+    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+
+    // Handle image imports
+    // https://jestjs.io/docs/webpack#handling-static-assets
+    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.js`,
+
+    // Handle module aliases
+    '^@/components/(.*)$': '<rootDir>/components/$1',
   },
+  // Add more setup options before each test is run
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+  testEnvironment: 'jsdom',
+  preset: 'ts-jest',
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel']}]
+    // Use babel-jest to transpile tests with the next/babel preset
+    '^.+\\.(js|jsx)$': ['babel-jest', { presets: ['next/babel'] }],
+    '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  transformIgnorePatterns: ['/node_modules/crypto-random-string']
+  transformIgnorePatterns: [
+    '^.+\\.module\\.(css|sass|scss)$',
+  ]
 }
