@@ -413,7 +413,7 @@ export type ProposalAction = {
   groupName?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   proposal: Proposal;
-  role?: Maybe<Array<ProposalActionRole>>;
+  role?: Maybe<ProposalActionRole>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -441,7 +441,7 @@ export type ProposalActionRole = {
   name?: Maybe<Scalars["String"]>;
   permissions?: Maybe<Array<ProposalActionPermission>>;
   proposalAction: ProposalAction;
-  role: Role;
+  role?: Maybe<Role>;
 };
 
 export type ProposalActionRoleInput = {

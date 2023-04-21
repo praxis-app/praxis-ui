@@ -240,7 +240,7 @@ type ProposalAction {
   groupName: String
   id: Int!
   proposal: Proposal!
-  role: [ProposalActionRole!]
+  role: ProposalActionRole
   updatedAt: DateTime!
 }
 
@@ -266,7 +266,7 @@ type ProposalActionRole {
   name: String
   permissions: [ProposalActionPermission!]
   proposalAction: ProposalAction!
-  role: Role!
+  role: Role
 }
 
 input ProposalActionRoleInput {
