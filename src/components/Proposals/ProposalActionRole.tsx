@@ -16,27 +16,25 @@ const ProposalActionRole = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  const containerStyles = {
+    backgroundColor: "rgb(0, 0, 0, 0.1)",
+    borderRadius: 2,
+    padding: 1.5,
+  };
+  const circleIconStyles = {
+    color,
+    fontSize: 16,
+    marginRight: "0.5ch",
+    marginTop: 0.5,
+  };
+
   return (
-    <Box
-      marginBottom={3.5}
-      sx={{
-        backgroundColor: "rgb(0, 0, 0, 0.1)",
-        borderRadius: 2,
-        padding: 1.5,
-      }}
-    >
+    <Box marginBottom={3.5} sx={containerStyles}>
       <Flex marginBottom={1.5}>
         <Typography marginRight="0.5ch">
           {t("proposals.labels.proposedRole")}:
         </Typography>
-        <Circle
-          sx={{
-            color,
-            fontSize: 16,
-            marginRight: "0.5ch",
-            marginTop: 0.5,
-          }}
-        />
+        <Circle sx={circleIconStyles} />
         {name}
       </Flex>
 
