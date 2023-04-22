@@ -39,37 +39,43 @@ const ProposalActionRole = ({
       </Flex>
 
       <Flex justifyContent="space-between">
-        <Box width="50%">
-          <Typography gutterBottom>
-            {t("permissions.labels.permissions")}
-          </Typography>
+        {permissions && (
+          <Box width="50%">
+            <Typography gutterBottom>
+              {t("permissions.labels.permissions")}
+            </Typography>
 
-          {permissions?.map((permission) => (
-            <Typography key={permission.id}>{permission.name}</Typography>
-          ))}
-        </Box>
+            {permissions.map(({ id, name }) => (
+              <Typography key={id}>{name}</Typography>
+            ))}
+          </Box>
+        )}
 
-        <Divider orientation="vertical" flexItem sx={{ marginX: 3 }} />
+        {permissions && members && (
+          <Divider orientation="vertical" flexItem sx={{ marginX: 3 }} />
+        )}
 
-        <Box width="50%">
-          <Typography gutterBottom>{t("roles.labels.members")}</Typography>
+        {members && (
+          <Box width="50%">
+            <Typography gutterBottom>{t("roles.labels.members")}</Typography>
 
-          {members?.map(({ user }) => (
-            <Link href={getUserProfilePath(user.name)} key={user.id}>
-              <Flex>
-                <UserAvatar
-                  size={16}
-                  user={user}
-                  sx={{
-                    marginRight: 1,
-                    marginTop: 0.5,
-                  }}
-                />
-                <Typography color="primary">{user.name}</Typography>
-              </Flex>
-            </Link>
-          ))}
-        </Box>
+            {members.map(({ user }) => (
+              <Link href={getUserProfilePath(user.name)} key={user.id}>
+                <Flex>
+                  <UserAvatar
+                    size={16}
+                    user={user}
+                    sx={{
+                      marginRight: 1,
+                      marginTop: 0.5,
+                    }}
+                  />
+                  <Typography color="primary">{user.name}</Typography>
+                </Flex>
+              </Link>
+            ))}
+          </Box>
+        )}
       </Flex>
     </Box>
   );
