@@ -1,14 +1,14 @@
 import { CheckBox } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { t } from "i18next";
-import { ProposalActionPermissionFragment } from "../../apollo/gen";
+import { ProposedPermissionFragment } from "../../apollo/gen";
 import { getPermissionText } from "../../utils/role.utils";
 
 interface Props {
-  permission: ProposalActionPermissionFragment;
+  permission: ProposedPermissionFragment;
 }
 
-const ProposalActionPermission = ({ permission: { name } }: Props) => {
+const ProposedPermission = ({ permission: { name } }: Props) => {
   const { displayName } = getPermissionText(name, t);
 
   return (
@@ -19,4 +19,4 @@ const ProposalActionPermission = ({ permission: { name } }: Props) => {
   );
 };
 
-export default ProposalActionPermission;
+export default ProposedPermission;

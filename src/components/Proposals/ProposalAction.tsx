@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ProposalActionFragment } from "../../apollo/gen";
 import { ProposalActionTypes } from "../../constants/proposal.constants";
 import AttachedImage from "../Images/AttachedImage";
-import ProposalActionRole from "./ProposalActionRole";
+import ProposedRole from "./ProposedRole";
 
 interface Props {
   action: ProposalActionFragment;
@@ -48,7 +48,7 @@ const ProposalAction = ({
     if (!role) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;
     }
-    return <ProposalActionRole role={role} />;
+    return <ProposedRole role={role} />;
   }
 
   return null;

@@ -1570,34 +1570,6 @@ export type ProposalActionFragment = {
   } | null;
 };
 
-export type ProposalActionPermissionFragment = {
-  __typename?: "ProposalActionPermission";
-  id: number;
-  name: string;
-};
-
-export type ProposalActionRoleFragment = {
-  __typename?: "ProposalActionRole";
-  id: number;
-  name?: string | null;
-  color?: string | null;
-  permissions?: Array<{
-    __typename?: "ProposalActionPermission";
-    id: number;
-    name: string;
-  }> | null;
-  members?: Array<{
-    __typename?: "ProposalActionRoleMember";
-    id: number;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-  }> | null;
-};
-
 export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
@@ -1701,6 +1673,34 @@ export type ProposalFormFragment = {
     } | null;
   };
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+};
+
+export type ProposedPermissionFragment = {
+  __typename?: "ProposalActionPermission";
+  id: number;
+  name: string;
+};
+
+export type ProposedRoleFragment = {
+  __typename?: "ProposalActionRole";
+  id: number;
+  name?: string | null;
+  color?: string | null;
+  permissions?: Array<{
+    __typename?: "ProposalActionPermission";
+    id: number;
+    name: string;
+  }> | null;
+  members?: Array<{
+    __typename?: "ProposalActionRoleMember";
+    id: number;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }> | null;
 };
 
 export type CreateProposalMutationVariables = Exact<{
@@ -2993,19 +2993,19 @@ export const PostCardFragmentDoc = gql`
   ${GroupAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
-export const ProposalActionPermissionFragmentDoc = gql`
-  fragment ProposalActionPermission on ProposalActionPermission {
+export const ProposedPermissionFragmentDoc = gql`
+  fragment ProposedPermission on ProposalActionPermission {
     id
     name
   }
 `;
-export const ProposalActionRoleFragmentDoc = gql`
-  fragment ProposalActionRole on ProposalActionRole {
+export const ProposedRoleFragmentDoc = gql`
+  fragment ProposedRole on ProposalActionRole {
     id
     name
     color
     permissions {
-      ...ProposalActionPermission
+      ...ProposedPermission
     }
     members {
       id
@@ -3014,7 +3014,7 @@ export const ProposalActionRoleFragmentDoc = gql`
       }
     }
   }
-  ${ProposalActionPermissionFragmentDoc}
+  ${ProposedPermissionFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const ProposalActionFragmentDoc = gql`
@@ -3027,11 +3027,11 @@ export const ProposalActionFragmentDoc = gql`
       ...AttachedImage
     }
     role {
-      ...ProposalActionRole
+      ...ProposedRole
     }
   }
   ${AttachedImageFragmentDoc}
-  ${ProposalActionRoleFragmentDoc}
+  ${ProposedRoleFragmentDoc}
 `;
 export const VoteMenuFragmentDoc = gql`
   fragment VoteMenu on Proposal {

@@ -9,6 +9,6 @@ fragment ProposalAction on ProposalAction {
   }
 
   role {
-    ...ProposalActionRole
+    ...ProposedRole
   }
 }

@@ -1,9 +1,9 @@
-fragment ProposalActionRole on ProposalActionRole {
+fragment ProposedRole on ProposalActionRole {
   id
   name
   color
   permissions {
-    ...ProposalActionPermission
+    ...ProposedPermission
   }
   members {
     id
