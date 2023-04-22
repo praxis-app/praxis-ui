@@ -1,0 +1,16 @@
+fragment ProposalActionRole on ProposalActionRole {
+  id
+  name
+  color
+  permissions {
+    id
+    name
+    enabled
+  }
+  members {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+}

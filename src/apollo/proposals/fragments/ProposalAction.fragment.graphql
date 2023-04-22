@@ -9,19 +9,6 @@ fragment ProposalAction on ProposalAction {
   }
 
   role {
-    id
-    name
-    color
-    permissions {
-      id
-      name
-      enabled
-    }
-    members {
-      id
-      user {
-        ...UserAvatar
-      }
-    }
+    ...ProposalActionRole
   }
 }

@@ -1573,6 +1573,29 @@ export type ProposalActionFragment = {
   } | null;
 };
 
+export type ProposalActionRoleFragment = {
+  __typename?: "ProposalActionRole";
+  id: number;
+  name?: string | null;
+  color?: string | null;
+  permissions?: Array<{
+    __typename?: "ProposalActionPermission";
+    id: number;
+    name: string;
+    enabled: boolean;
+  }> | null;
+  members?: Array<{
+    __typename?: "ProposalActionRoleMember";
+    id: number;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }> | null;
+};
+
 export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
@@ -2975,6 +2998,25 @@ export const PostCardFragmentDoc = gql`
   ${GroupAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
+export const ProposalActionRoleFragmentDoc = gql`
+  fragment ProposalActionRole on ProposalActionRole {
+    id
+    name
+    color
+    permissions {
+      id
+      name
+      enabled
+    }
+    members {
+      id
+      user {
+        ...UserAvatar
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const ProposalActionFragmentDoc = gql`
   fragment ProposalAction on ProposalAction {
     id
@@ -2985,24 +3027,11 @@ export const ProposalActionFragmentDoc = gql`
       ...AttachedImage
     }
     role {
-      id
-      name
-      color
-      permissions {
-        id
-        name
-        enabled
-      }
-      members {
-        id
-        user {
-          ...UserAvatar
-        }
-      }
+      ...ProposalActionRole
     }
   }
   ${AttachedImageFragmentDoc}
-  ${UserAvatarFragmentDoc}
+  ${ProposalActionRoleFragmentDoc}
 `;
 export const VoteMenuFragmentDoc = gql`
   fragment VoteMenu on Proposal {

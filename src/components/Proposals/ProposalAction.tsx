@@ -1,13 +1,9 @@
-import { Circle } from "@mui/icons-material";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ProposalActionFragment } from "../../apollo/gen";
 import { ProposalActionTypes } from "../../constants/proposal.constants";
-import { getUserProfilePath } from "../../utils/user.utils";
 import AttachedImage from "../Images/AttachedImage";
-import Flex from "../Shared/Flex";
-import Link from "../Shared/Link";
-import UserAvatar from "../Users/UserAvatar";
+import ProposalActionRole from "./ProposalActionRole";
 
 interface Props {
   action: ProposalActionFragment;
@@ -52,68 +48,7 @@ const ProposalAction = ({
     if (!role) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;
     }
-
-    const { name, color, permissions, members } = role;
-
-    return (
-      <Box
-        marginBottom={3.5}
-        sx={{
-          backgroundColor: "rgb(0, 0, 0, 0.1)",
-          borderRadius: 2,
-          padding: 1.5,
-        }}
-      >
-        <Flex marginBottom={1.5}>
-          <Typography marginRight="0.5ch">
-            {t("proposals.labels.proposedRole")}:
-          </Typography>
-          <Circle
-            sx={{
-              color,
-              fontSize: 16,
-              marginRight: "0.5ch",
-              marginTop: 0.5,
-            }}
-          />
-          {name}
-        </Flex>
-
-        <Flex justifyContent="space-between">
-          <Box width="50%">
-            <Typography gutterBottom>
-              {t("permissions.labels.permissions")}
-            </Typography>
-
-            {permissions?.map((permission) => (
-              <Typography key={permission.id}>{permission.name}</Typography>
-            ))}
-          </Box>
-
-          <Divider orientation="vertical" flexItem sx={{ marginX: 3 }} />
-
-          <Box width="50%">
-            <Typography gutterBottom>{t("roles.labels.members")}</Typography>
-
-            {members?.map(({ user }) => (
-              <Link href={getUserProfilePath(user.name)} key={user.id}>
-                <Flex>
-                  <UserAvatar
-                    size={16}
-                    user={user}
-                    sx={{
-                      marginRight: 1,
-                      marginTop: 0.5,
-                    }}
-                  />
-                  <Typography color="primary">{user.name}</Typography>
-                </Flex>
-              </Link>
-            ))}
-          </Box>
-        </Flex>
-      </Box>
-    );
+    return <ProposalActionRole role={role} />;
   }
 
   return null;
