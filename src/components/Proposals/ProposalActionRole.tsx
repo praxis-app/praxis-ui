@@ -32,7 +32,7 @@ const ProposalActionRole = ({
   return (
     <Box marginBottom={3.5} sx={containerStyles}>
       <Flex marginBottom={1.5}>
-        <Typography marginRight="0.5ch">
+        <Typography marginRight="0.5ch" fontFamily="Inter Bold">
           {t("proposals.labels.proposedRole")}:
         </Typography>
         <Circle sx={circleIconStyles} />
@@ -42,7 +42,7 @@ const ProposalActionRole = ({
       <Flex justifyContent="space-between">
         {permissions && (
           <Box width="50%">
-            <Typography gutterBottom>
+            <Typography fontFamily="Inter Bold" gutterBottom>
               {t("permissions.labels.permissions")}
             </Typography>
 
@@ -61,7 +61,9 @@ const ProposalActionRole = ({
 
         {members && (
           <Box width="50%">
-            <Typography gutterBottom>{t("roles.labels.members")}</Typography>
+            <Typography fontFamily="Inter Bold" gutterBottom>
+              {t("roles.labels.members")}
+            </Typography>
 
             {members.map(({ user }) => (
               <Link href={getUserProfilePath(user.name)} key={user.id}>
