@@ -1,4 +1,0 @@
-fragment ProposedPermission on ProposalActionPermission {
-  id
-  name
-}

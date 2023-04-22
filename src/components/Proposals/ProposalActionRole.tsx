@@ -2,7 +2,7 @@ import { Circle } from "@mui/icons-material";
 import { Box, Divider, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProposedRoleFragment } from "../../apollo/gen";
+import { ProposalActionRoleFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Accordion, {
@@ -12,13 +12,13 @@ import Accordion, {
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
-import ProposedPermission from "./ProposedPermission";
+import ProposalActionPermission from "./ProposalActionPermission";
 
 interface Props {
-  role: ProposedRoleFragment;
+  role: ProposalActionRoleFragment;
 }
 
-const ProposedRole = ({
+const ProposalActionRole = ({
   role: { name, color, permissions, members },
 }: Props) => {
   const [showRole, setShowRole] = useState(false);
@@ -72,7 +72,7 @@ const ProposedRole = ({
               </Typography>
 
               {permissions.map((permission) => (
-                <ProposedPermission
+                <ProposalActionPermission
                   permission={permission}
                   key={permission.id}
                 />
@@ -113,4 +113,4 @@ const ProposedRole = ({
   );
 };
 
-export default ProposedRole;
+export default ProposalActionRole;
