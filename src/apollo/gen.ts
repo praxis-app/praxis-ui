@@ -1038,7 +1038,6 @@ export type GroupProfileQuery = {
                 __typename?: "ProposalActionPermission";
                 id: number;
                 name: string;
-                enabled: boolean;
               }> | null;
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
@@ -1316,7 +1315,6 @@ type FeedItem_Proposal_Fragment = {
         __typename?: "ProposalActionPermission";
         id: number;
         name: string;
-        enabled: boolean;
       }> | null;
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
@@ -1558,7 +1556,6 @@ export type ProposalActionFragment = {
       __typename?: "ProposalActionPermission";
       id: number;
       name: string;
-      enabled: boolean;
     }> | null;
     members?: Array<{
       __typename?: "ProposalActionRoleMember";
@@ -1573,6 +1570,12 @@ export type ProposalActionFragment = {
   } | null;
 };
 
+export type ProposalActionPermissionFragment = {
+  __typename?: "ProposalActionPermission";
+  id: number;
+  name: string;
+};
+
 export type ProposalActionRoleFragment = {
   __typename?: "ProposalActionRole";
   id: number;
@@ -1582,7 +1585,6 @@ export type ProposalActionRoleFragment = {
     __typename?: "ProposalActionPermission";
     id: number;
     name: string;
-    enabled: boolean;
   }> | null;
   members?: Array<{
     __typename?: "ProposalActionRoleMember";
@@ -1623,7 +1625,6 @@ export type ProposalCardFragment = {
         __typename?: "ProposalActionPermission";
         id: number;
         name: string;
-        enabled: boolean;
       }> | null;
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
@@ -1737,7 +1738,6 @@ export type CreateProposalMutation = {
             __typename?: "ProposalActionPermission";
             id: number;
             name: string;
-            enabled: boolean;
           }> | null;
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
@@ -1824,7 +1824,6 @@ export type UpdateProposalMutation = {
             __typename?: "ProposalActionPermission";
             id: number;
             name: string;
-            enabled: boolean;
           }> | null;
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
@@ -1926,7 +1925,6 @@ export type ProposalQuery = {
           __typename?: "ProposalActionPermission";
           id: number;
           name: string;
-          enabled: boolean;
         }> | null;
         members?: Array<{
           __typename?: "ProposalActionRoleMember";
@@ -2339,7 +2337,6 @@ export type FollowUserMutation = {
                   __typename?: "ProposalActionPermission";
                   id: number;
                   name: string;
-                  enabled: boolean;
                 }> | null;
                 members?: Array<{
                   __typename?: "ProposalActionRoleMember";
@@ -2566,7 +2563,6 @@ export type HomePageQuery = {
                 __typename?: "ProposalActionPermission";
                 id: number;
                 name: string;
-                enabled: boolean;
               }> | null;
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
@@ -2694,7 +2690,6 @@ export type UserProfileQuery = {
                 __typename?: "ProposalActionPermission";
                 id: number;
                 name: string;
-                enabled: boolean;
               }> | null;
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
@@ -2998,15 +2993,19 @@ export const PostCardFragmentDoc = gql`
   ${GroupAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
+export const ProposalActionPermissionFragmentDoc = gql`
+  fragment ProposalActionPermission on ProposalActionPermission {
+    id
+    name
+  }
+`;
 export const ProposalActionRoleFragmentDoc = gql`
   fragment ProposalActionRole on ProposalActionRole {
     id
     name
     color
     permissions {
-      id
-      name
-      enabled
+      ...ProposalActionPermission
     }
     members {
       id
@@ -3015,6 +3014,7 @@ export const ProposalActionRoleFragmentDoc = gql`
       }
     }
   }
+  ${ProposalActionPermissionFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const ProposalActionFragmentDoc = gql`

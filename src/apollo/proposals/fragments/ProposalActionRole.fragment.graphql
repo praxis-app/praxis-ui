@@ -3,9 +3,7 @@ fragment ProposalActionRole on ProposalActionRole {
   name
   color
   permissions {
-    id
-    name
-    enabled
+    ...ProposalActionPermission
   }
   members {
     id

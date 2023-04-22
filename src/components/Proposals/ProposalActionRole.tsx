@@ -6,6 +6,7 @@ import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
+import ProposalActionPermission from "./ProposalActionPermission";
 
 interface Props {
   role: ProposalActionRoleFragment;
@@ -45,8 +46,11 @@ const ProposalActionRole = ({
               {t("permissions.labels.permissions")}
             </Typography>
 
-            {permissions.map(({ id, name }) => (
-              <Typography key={id}>{name}</Typography>
+            {permissions.map((permission) => (
+              <ProposalActionPermission
+                permission={permission}
+                key={permission.id}
+              />
             ))}
           </Box>
         )}
