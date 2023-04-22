@@ -1494,6 +1494,19 @@ export type PostQuery = {
   };
 };
 
+export type ProposalActionFragment = {
+  __typename?: "ProposalAction";
+  id: number;
+  actionType: string;
+  groupDescription?: string | null;
+  groupName?: string | null;
+  groupCoverPhoto?: {
+    __typename?: "Image";
+    id: number;
+    filename: string;
+  } | null;
+};
+
 export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
@@ -2852,6 +2865,18 @@ export const PostFormFragmentDoc = gql`
     id
     body
     images {
+      ...AttachedImage
+    }
+  }
+  ${AttachedImageFragmentDoc}
+`;
+export const ProposalActionFragmentDoc = gql`
+  fragment ProposalAction on ProposalAction {
+    id
+    actionType
+    groupDescription
+    groupName
+    groupCoverPhoto {
       ...AttachedImage
     }
   }

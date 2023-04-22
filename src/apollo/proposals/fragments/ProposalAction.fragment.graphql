@@ -1,0 +1,10 @@
+fragment ProposalAction on ProposalAction {
+  id
+  actionType
+  groupDescription
+  groupName
+
+  groupCoverPhoto {
+    ...AttachedImage
+  }
+}

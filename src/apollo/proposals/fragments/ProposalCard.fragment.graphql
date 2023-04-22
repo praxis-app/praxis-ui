@@ -5,24 +5,14 @@ fragment ProposalCard on Proposal {
   createdAt
 
   action {
-    id
-    actionType
-    groupDescription
-    groupName
-
-    groupCoverPhoto {
-      ...AttachedImage
-    }
+    ...ProposalAction
   }
-
   user {
     ...UserAvatar
   }
-
   group {
     ...GroupAvatar
   }
-
   images {
     ...AttachedImage
   }
