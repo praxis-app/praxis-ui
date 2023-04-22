@@ -3,6 +3,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalActionRoleFragment } from "../../apollo/gen";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Accordion, {
   AccordionDetails,
@@ -21,18 +22,27 @@ const ProposalActionRole = ({
   role: { name, color, permissions, members },
 }: Props) => {
   const [showRole, setShowRole] = useState(false);
+
   const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
+
+  const showDivider = permissions && members && isDesktop;
 
   const accordionStyles = {
     backgroundColor: "rgb(0, 0, 0, 0.1)",
     borderRadius: 2,
     paddingX: 2,
   };
+  const accordionDetailsStyles = {
+    display: isDesktop ? "flex" : "initial",
+    justifyContent: "space-between",
+    marginBottom: 2,
+  };
   const circleIconStyles = {
-    color,
     fontSize: 16,
     marginRight: "0.5ch",
     marginTop: 0.5,
+    color,
   };
 
   return (
@@ -50,51 +60,53 @@ const ProposalActionRole = ({
           {name}
         </AccordionSummary>
 
-        <AccordionDetails sx={{ marginBottom: 2 }}>
-          <Flex justifyContent="space-between">
-            {permissions && (
-              <Box width="50%">
-                <Typography fontFamily="Inter Bold" gutterBottom>
-                  {t("permissions.labels.permissions")}
-                </Typography>
+        <AccordionDetails sx={accordionDetailsStyles}>
+          {permissions && (
+            <Box
+              width={isDesktop ? "50%" : undefined}
+              marginBottom={isDesktop ? 0 : 2}
+              marginTop={isDesktop ? 0 : -2}
+            >
+              <Typography fontFamily="Inter Bold" gutterBottom>
+                {t("permissions.labels.permissions")}
+              </Typography>
 
-                {permissions.map((permission) => (
-                  <ProposalActionPermission
-                    permission={permission}
-                    key={permission.id}
-                  />
-                ))}
-              </Box>
-            )}
+              {permissions.map((permission) => (
+                <ProposalActionPermission
+                  permission={permission}
+                  key={permission.id}
+                />
+              ))}
+            </Box>
+          )}
 
-            {permissions && members && (
-              <Divider orientation="vertical" flexItem sx={{ marginX: 3 }} />
-            )}
+          {showDivider && (
+            <Divider orientation="vertical" sx={{ marginX: 3 }} flexItem />
+          )}
 
-            {members && (
-              <Box width="50%">
-                <Typography fontFamily="Inter Bold" gutterBottom>
-                  {t("roles.labels.members")}
-                </Typography>
+          {members && (
+            <Box width={isDesktop ? "50%" : undefined}>
+              <Typography fontFamily="Inter Bold" gutterBottom>
+                {t("roles.labels.members")}
+              </Typography>
 
-                {members.map(({ user }) => (
-                  <Link href={getUserProfilePath(user.name)} key={user.id}>
-                    <Flex>
-                      <UserAvatar
-                        size={16}
-                        user={user}
-                        sx={{
-                          marginRight: 1,
-                          marginTop: 0.5,
-                        }}
-                      />
-                      <Typography color="primary">{user.name}</Typography>
-                    </Flex>
-                  </Link>
-                ))}
-              </Box>
-            )}
-          </Flex>
+              {members.map(({ user }) => (
+                <Link href={getUserProfilePath(user.name)} key={user.id}>
+                  <Flex>
+                    <UserAvatar
+                      size={16}
+                      user={user}
+                      sx={{
+                        marginRight: 1,
+                        marginTop: 0.5,
+                      }}
+                    />
+                    <Typography color="primary">{user.name}</Typography>
+                  </Flex>
+                </Link>
+              ))}
+            </Box>
+          )}
         </AccordionDetails>
       </Accordion>
     </Box>
