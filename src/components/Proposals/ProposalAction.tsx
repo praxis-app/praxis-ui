@@ -12,37 +12,49 @@ const ProposalAction = ({
   action: { actionType, groupDescription, groupName, groupCoverPhoto, role },
 }: Props) => {
   const { t } = useTranslation();
-  return (
-    <>
-      {actionType === ProposalActionTypes.ChangeName && (
-        <Typography marginBottom={3.5}>
-          {t("proposals.labels.newGroupName")}: {groupName}
-        </Typography>
-      )}
 
-      {actionType === ProposalActionTypes.ChangeDescription && (
-        <Typography marginBottom={3.5}>
-          {t("proposals.labels.newGroupDescription")}: {groupDescription}
-        </Typography>
-      )}
+  if (actionType === ProposalActionTypes.ChangeName) {
+    return (
+      <Typography marginBottom={3.5}>
+        {t("proposals.labels.newGroupName")}: {groupName}
+      </Typography>
+    );
+  }
 
-      {actionType === ProposalActionTypes.ChangeCoverPhoto && groupCoverPhoto && (
-        <Box marginBottom="20px">
-          <Typography gutterBottom fontSize={14}>
-            {t("proposals.labels.proposedGroupCoverPhoto")}:
-          </Typography>
-          <AttachedImage image={groupCoverPhoto} width="55%" />
-        </Box>
-      )}
+  if (actionType === ProposalActionTypes.ChangeDescription) {
+    return (
+      <Typography marginBottom={3.5}>
+        {t("proposals.labels.newGroupDescription")}: {groupDescription}
+      </Typography>
+    );
+  }
 
-      {/* TODO: Add remaining layout and functionality */}
-      {actionType === ProposalActionTypes.CreateRole && role && (
-        <Typography marginBottom={3.5}>
-          {t("proposals.labels.proposedRole")}: {role.name}
+  if (actionType === ProposalActionTypes.ChangeCoverPhoto) {
+    if (!groupCoverPhoto) {
+      return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+    }
+    return (
+      <Box marginBottom="20px">
+        <Typography gutterBottom fontSize={14}>
+          {t("proposals.labels.proposedGroupCoverPhoto")}:
         </Typography>
-      )}
-    </>
-  );
+        <AttachedImage image={groupCoverPhoto} width="55%" />
+      </Box>
+    );
+  }
+
+  if (actionType === ProposalActionTypes.CreateRole) {
+    if (!role) {
+      return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+    }
+    return (
+      <Typography marginBottom={3.5}>
+        {t("proposals.labels.proposedRole")}: {role.name}
+      </Typography>
+    );
+  }
+
+  return null;
 };
 
 export default ProposalAction;
