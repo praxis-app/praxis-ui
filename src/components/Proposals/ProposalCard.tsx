@@ -185,9 +185,9 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <CardContent sx={cardContentStyles}>
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
-        <Link href={proposalPath}>
-          <ProposalAction action={action} />
+        <ProposalAction action={action} />
 
+        <Link href={proposalPath}>
           {!!images.length && (
             <AttachedImageList images={images} sx={imageListStyles} />
           )}
