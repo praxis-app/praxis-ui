@@ -9,7 +9,7 @@ interface Props {
 }
 
 const ProposalAction = ({
-  action: { actionType, groupDescription, groupName, groupCoverPhoto },
+  action: { actionType, groupDescription, groupName, groupCoverPhoto, role },
 }: Props) => {
   const { t } = useTranslation();
   return (
@@ -33,6 +33,13 @@ const ProposalAction = ({
           </Typography>
           <AttachedImage image={groupCoverPhoto} width="55%" />
         </Box>
+      )}
+
+      {/* TODO: Add remaining layout and functionality */}
+      {actionType === ProposalActionTypes.CreateRole && role && (
+        <Typography marginBottom={3.5}>
+          {t("proposals.labels.proposedRole")}: {role.name}
+        </Typography>
       )}
     </>
   );

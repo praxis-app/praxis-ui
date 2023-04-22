@@ -93,6 +93,7 @@
       "proposedGroupCoverPhoto": "Proposed group cover photo",
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
+      "proposedRole": "Proposed role",
       "ratified": "Ratified"
     },
     "toasts": {

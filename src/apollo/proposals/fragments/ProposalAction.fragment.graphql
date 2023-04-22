@@ -7,4 +7,21 @@ fragment ProposalAction on ProposalAction {
   groupCoverPhoto {
     ...AttachedImage
   }
+
+  role {
+    id
+    name
+    color
+    permissions {
+      id
+      name
+      enabled
+    }
+    members {
+      id
+      user {
+        ...UserAvatar
+      }
+    }
+  }
 }

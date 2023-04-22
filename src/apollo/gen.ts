@@ -1029,6 +1029,28 @@ export type GroupProfileQuery = {
               id: number;
               filename: string;
             } | null;
+            role?: {
+              __typename?: "ProposalActionRole";
+              id: number;
+              name?: string | null;
+              color?: string | null;
+              permissions?: Array<{
+                __typename?: "ProposalActionPermission";
+                id: number;
+                name: string;
+                enabled: boolean;
+              }> | null;
+              members?: Array<{
+                __typename?: "ProposalActionRoleMember";
+                id: number;
+                user: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+              }> | null;
+            } | null;
           };
           user: {
             __typename?: "User";
@@ -1285,6 +1307,28 @@ type FeedItem_Proposal_Fragment = {
       id: number;
       filename: string;
     } | null;
+    role?: {
+      __typename?: "ProposalActionRole";
+      id: number;
+      name?: string | null;
+      color?: string | null;
+      permissions?: Array<{
+        __typename?: "ProposalActionPermission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }> | null;
+      members?: Array<{
+        __typename?: "ProposalActionRoleMember";
+        id: number;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }> | null;
+    } | null;
   };
   user: {
     __typename?: "User";
@@ -1505,6 +1549,28 @@ export type ProposalActionFragment = {
     id: number;
     filename: string;
   } | null;
+  role?: {
+    __typename?: "ProposalActionRole";
+    id: number;
+    name?: string | null;
+    color?: string | null;
+    permissions?: Array<{
+      __typename?: "ProposalActionPermission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }> | null;
+    members?: Array<{
+      __typename?: "ProposalActionRoleMember";
+      id: number;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }> | null;
+  } | null;
 };
 
 export type ProposalCardFragment = {
@@ -1524,6 +1590,28 @@ export type ProposalCardFragment = {
       __typename?: "Image";
       id: number;
       filename: string;
+    } | null;
+    role?: {
+      __typename?: "ProposalActionRole";
+      id: number;
+      name?: string | null;
+      color?: string | null;
+      permissions?: Array<{
+        __typename?: "ProposalActionPermission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }> | null;
+      members?: Array<{
+        __typename?: "ProposalActionRoleMember";
+        id: number;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }> | null;
     } | null;
   };
   user: {
@@ -1617,6 +1705,28 @@ export type CreateProposalMutation = {
           id: number;
           filename: string;
         } | null;
+        role?: {
+          __typename?: "ProposalActionRole";
+          id: number;
+          name?: string | null;
+          color?: string | null;
+          permissions?: Array<{
+            __typename?: "ProposalActionPermission";
+            id: number;
+            name: string;
+            enabled: boolean;
+          }> | null;
+          members?: Array<{
+            __typename?: "ProposalActionRoleMember";
+            id: number;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }> | null;
+        } | null;
       };
       user: {
         __typename?: "User";
@@ -1681,6 +1791,28 @@ export type UpdateProposalMutation = {
           __typename?: "Image";
           id: number;
           filename: string;
+        } | null;
+        role?: {
+          __typename?: "ProposalActionRole";
+          id: number;
+          name?: string | null;
+          color?: string | null;
+          permissions?: Array<{
+            __typename?: "ProposalActionPermission";
+            id: number;
+            name: string;
+            enabled: boolean;
+          }> | null;
+          members?: Array<{
+            __typename?: "ProposalActionRoleMember";
+            id: number;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }> | null;
         } | null;
       };
       user: {
@@ -1761,6 +1893,28 @@ export type ProposalQuery = {
         __typename?: "Image";
         id: number;
         filename: string;
+      } | null;
+      role?: {
+        __typename?: "ProposalActionRole";
+        id: number;
+        name?: string | null;
+        color?: string | null;
+        permissions?: Array<{
+          __typename?: "ProposalActionPermission";
+          id: number;
+          name: string;
+          enabled: boolean;
+        }> | null;
+        members?: Array<{
+          __typename?: "ProposalActionRoleMember";
+          id: number;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+        }> | null;
       } | null;
     };
     user: {
@@ -2153,6 +2307,28 @@ export type FollowUserMutation = {
                 id: number;
                 filename: string;
               } | null;
+              role?: {
+                __typename?: "ProposalActionRole";
+                id: number;
+                name?: string | null;
+                color?: string | null;
+                permissions?: Array<{
+                  __typename?: "ProposalActionPermission";
+                  id: number;
+                  name: string;
+                  enabled: boolean;
+                }> | null;
+                members?: Array<{
+                  __typename?: "ProposalActionRoleMember";
+                  id: number;
+                  user: {
+                    __typename?: "User";
+                    id: number;
+                    name: string;
+                    profilePicture: { __typename?: "Image"; id: number };
+                  };
+                }> | null;
+              } | null;
             };
             user: {
               __typename?: "User";
@@ -2358,6 +2534,28 @@ export type HomePageQuery = {
               id: number;
               filename: string;
             } | null;
+            role?: {
+              __typename?: "ProposalActionRole";
+              id: number;
+              name?: string | null;
+              color?: string | null;
+              permissions?: Array<{
+                __typename?: "ProposalActionPermission";
+                id: number;
+                name: string;
+                enabled: boolean;
+              }> | null;
+              members?: Array<{
+                __typename?: "ProposalActionRoleMember";
+                id: number;
+                user: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+              }> | null;
+            } | null;
           };
           user: {
             __typename?: "User";
@@ -2463,6 +2661,28 @@ export type UserProfileQuery = {
               __typename?: "Image";
               id: number;
               filename: string;
+            } | null;
+            role?: {
+              __typename?: "ProposalActionRole";
+              id: number;
+              name?: string | null;
+              color?: string | null;
+              permissions?: Array<{
+                __typename?: "ProposalActionPermission";
+                id: number;
+                name: string;
+                enabled: boolean;
+              }> | null;
+              members?: Array<{
+                __typename?: "ProposalActionRoleMember";
+                id: number;
+                user: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+              }> | null;
             } | null;
           };
           user: {
@@ -2755,6 +2975,35 @@ export const PostCardFragmentDoc = gql`
   ${GroupAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
+export const ProposalActionFragmentDoc = gql`
+  fragment ProposalAction on ProposalAction {
+    id
+    actionType
+    groupDescription
+    groupName
+    groupCoverPhoto {
+      ...AttachedImage
+    }
+    role {
+      id
+      name
+      color
+      permissions {
+        id
+        name
+        enabled
+      }
+      members {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${AttachedImageFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
 export const VoteMenuFragmentDoc = gql`
   fragment VoteMenu on Proposal {
     id
@@ -2824,13 +3073,7 @@ export const ProposalCardFragmentDoc = gql`
     voteCount
     createdAt
     action {
-      id
-      actionType
-      groupDescription
-      groupName
-      groupCoverPhoto {
-        ...AttachedImage
-      }
+      ...ProposalAction
     }
     user {
       ...UserAvatar
@@ -2843,9 +3086,10 @@ export const ProposalCardFragmentDoc = gql`
     }
     ...ProposalCardFooter
   }
-  ${AttachedImageFragmentDoc}
+  ${ProposalActionFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+  ${AttachedImageFragmentDoc}
   ${ProposalCardFooterFragmentDoc}
 `;
 export const FeedItemFragmentDoc = gql`
@@ -2865,18 +3109,6 @@ export const PostFormFragmentDoc = gql`
     id
     body
     images {
-      ...AttachedImage
-    }
-  }
-  ${AttachedImageFragmentDoc}
-`;
-export const ProposalActionFragmentDoc = gql`
-  fragment ProposalAction on ProposalAction {
-    id
-    actionType
-    groupDescription
-    groupName
-    groupCoverPhoto {
       ...AttachedImage
     }
   }
