@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import Login from "../login";
+import Login from "../src/pages/auth/login";
 
 // Silences warning related to i18next
 jest.mock("react-i18next", () => ({
