@@ -13,7 +13,8 @@
     "prettier:base": "prettier \"**/*.{ts,tsx,js}\"",
     "prettier:check": "yarn prettier:base --check",
     "prettier": "yarn prettier:base --write",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
