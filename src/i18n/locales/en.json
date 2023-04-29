@@ -94,7 +94,8 @@
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
       "proposedRole": "Proposed role",
-      "ratified": "Ratified"
+      "ratified": "Ratified",
+      "selectRoleToChange": "Choose a role"
     },
     "toasts": {
       "noVotingAfterRatification": "This proposal has been ratified and can no longer be voted on.",

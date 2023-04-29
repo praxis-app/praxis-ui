@@ -2,17 +2,20 @@ import { Box, Switch, Typography } from "@mui/material";
 import { FieldArrayRenderProps } from "formik";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
-import { PermissionInput, PermissionToggleFragment } from "../../apollo/gen";
+import {
+  PermissionInput,
+  PermissionToggleFragment,
+  ProposalActionRoleInput,
+} from "../../apollo/gen";
 import theme from "../../theme";
 import { getPermissionText } from "../../utils/role.utils";
-import { ProposeRoleModalValues } from "../Proposals/ProposeRoleModal";
 import Flex from "../Shared/Flex";
 import { PermissionsFormValues } from "./PermissionsForm";
 
 interface Props {
   arrayHelpers: FieldArrayRenderProps;
   permission: PermissionToggleFragment | PermissionInput;
-  values: PermissionsFormValues | ProposeRoleModalValues;
+  values: PermissionsFormValues | ProposalActionRoleInput;
 }
 
 const PermissionToggle = ({
@@ -25,7 +28,7 @@ const PermissionToggle = ({
     return null;
   }
 
-  const permissionInput = values.permissions.find((p) => p.name === name);
+  const permissionInput = values.permissions?.find((p) => p.name === name);
   const checked =
     permissionInput !== undefined ? permissionInput.enabled : enabled;
 
@@ -33,8 +36,8 @@ const PermissionToggle = ({
     target: { checked },
   }: ChangeEvent<HTMLInputElement>) => {
     if (checked === enabled) {
-      const index = values.permissions.findIndex((p) => p.name === name);
-      arrayHelpers.remove(index);
+      const index = values.permissions?.findIndex((p) => p.name === name);
+      index && arrayHelpers.remove(index);
       return;
     }
     arrayHelpers.push({ name, enabled: checked });

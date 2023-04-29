@@ -341,7 +341,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                 />
 
                 {/* TODO: Remove when no longer needed for testing */}
-                <Typography marginTop={3}>{JSON.stringify(values)}</Typography>
+                {/* <Typography marginTop={3}>{JSON.stringify(values)}</Typography> */}
               </>
             )}
 

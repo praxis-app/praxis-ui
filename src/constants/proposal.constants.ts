@@ -21,4 +21,10 @@ export enum ProposalActionFieldNames {
   GroupDescription = "action.groupDescription",
   GroupName = "action.groupName",
   Role = "action.role",
+  RoleId = "action.role.id",
+}
+
+// TODO: Use in ProposeRoleModal
+export enum ProposeRoleModalFieldNames {
+  RoleId = "id",
 }

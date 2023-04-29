@@ -1,0 +1,22 @@
+query GroupRolesByGroupId($groupId: Int!) {
+  group(id: $groupId) {
+    id
+    roles {
+      id
+      name
+      color
+
+      permissions {
+        ...PermissionToggle
+      }
+
+      members {
+        ...UserAvatar
+      }
+
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+  }
+}
