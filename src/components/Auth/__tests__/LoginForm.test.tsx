@@ -1,3 +1,5 @@
+// TODO: Test LoginForm component instead of Login page once added
+
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import Login from "../../../pages/auth/login";
