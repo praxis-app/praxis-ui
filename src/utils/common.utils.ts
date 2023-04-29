@@ -1,4 +1,3 @@
-import cryptoRandomString from "crypto-random-string";
 import { t } from "i18next";
 import Router from "next/router";
 import React, { isValidElement, ReactNode } from "react";
@@ -78,5 +77,12 @@ export const removeLocalStorageItem = (item: string) => {
   return localStorage.removeItem(item);
 };
 
-export const getRandomString = () => cryptoRandomString({ length: 8 });
+export const getRandomString = () =>
+  Math.random()
+    .toString(36)
+    .slice(2, 10)
+    .split("")
+    .map((c) => (Math.random() < 0.5 ? c : c.toUpperCase()))
+    .join("");
+
 export const redirectTo = (path: string) => Router.push(path);
