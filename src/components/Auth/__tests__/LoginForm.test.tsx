@@ -5,13 +5,8 @@ import LoginForm from "../LoginForm";
 // Silences warning related to i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
+    i18n: { changeLanguage: () => new Promise(() => null) },
     t: (str: string) => str,
-    i18n: {
-      changeLanguage: () =>
-        new Promise(() => {
-          // This comment is stopping an empty-arrow-function error
-        }),
-    },
   }),
 }));
 
