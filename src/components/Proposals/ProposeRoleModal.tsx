@@ -24,6 +24,7 @@ import {
   ProposalActionRoleInput,
   useGroupMembersByGroupIdLazyQuery,
   useGroupRolesByGroupIdLazyQuery,
+  UserAvatarFragment,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
@@ -65,16 +66,24 @@ interface Props {
 
 const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const [open, setOpen] = useState(false);
-  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
-  const [permissions, setPermissions] = useState<PermissionInput[]>([]);
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
+
+  const [permissions, setPermissions] = useState<PermissionInput[]>([]);
+  const [roleMembers, setRoleMembers] = useState<UserAvatarFragment[]>([]);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
 
   // TODO: Set role color with formik
   const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
 
-  const [getGroupRoles, { data: groupRolesData }] =
-    useGroupRolesByGroupIdLazyQuery();
+  const [
+    getGroupRoles,
+    {
+      data: groupRolesData,
+      loading: groupRolesLoading,
+      error: groupRolesError,
+    },
+  ] = useGroupRolesByGroupIdLazyQuery();
 
   const [
     getGroupMembers,
@@ -102,7 +111,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     }
   }, [groupId, actionType, getGroupMembers, getGroupRoles]);
 
-  const groupMembers = groupMembersData?.group.members;
+  const members = groupMembersData?.group.members || roleMembers;
   const roles = groupRolesData?.group.roles;
 
   const initialValues: ProposalActionRoleInput = {
@@ -125,8 +134,12 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       if (!role) {
         return;
       }
+
       setColor(role.color);
       setPermissions(role.permissions);
+      setRoleMembers([...role.members, ...role.availableUsersToAdd]);
+      setSelectedUserIds(role.members.map(({ id }) => id));
+
       setFieldValue("name", role.name);
       handleChange(event as ChangeEvent);
     };
@@ -194,6 +207,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                   </Select>
                 </FormControl>
               )}
+
               {(actionType === ProposalActionTypes.CreateRole || values.id) && (
                 <>
                   <TextField
@@ -218,6 +232,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                         {t("permissions.labels.permissions")}
                       </Typography>
                     </AccordionSummary>
+
                     <AccordionDetails>
                       <FieldArray
                         name="permissions"
@@ -242,17 +257,20 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                     <AccordionSummary>
                       <Typography>{t("roles.labels.members")}</Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                      {groupMembersLoading && <ProgressBar />}
 
-                      {groupMembersError && (
+                    <AccordionDetails>
+                      {(groupMembersLoading || groupRolesLoading) && (
+                        <ProgressBar />
+                      )}
+
+                      {(groupMembersError || groupRolesError) && (
                         <Typography marginTop={1}>
                           {t("errors.somethingWentWrong")}
                         </Typography>
                       )}
 
-                      {groupMembers &&
-                        groupMembers.map((member) => (
+                      {members.length &&
+                        members.map((member) => (
                           <AddRoleMemberOption
                             key={member.id}
                             selectedUserIds={selectedUserIds}
