@@ -1,3 +1,5 @@
+// TODO: Get over 80% coverage for LoginForm component
+
 import { MockedProvider } from "@apollo/client/testing";
 import { render, screen } from "@testing-library/react";
 import LoginForm from "../LoginForm";
