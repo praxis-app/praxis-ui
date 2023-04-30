@@ -1,8 +1,6 @@
-// TODO: Test LoginForm component instead of Login page once added
-
-import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import Login from "../../../pages/auth/login";
+import { render, screen } from "@testing-library/react";
+import LoginForm from "../LoginForm";
 
 // Silences warning related to i18next
 jest.mock("react-i18next", () => ({
@@ -19,11 +17,11 @@ jest.mock("react-i18next", () => ({
 
 const formInputLabels = ["users.form.email", "users.form.password"];
 
-describe("Login Form Tests", () => {
-  it("Should render all form inputs", () => {
+describe("LoginForm Tests", () => {
+  it("Should render all LoginForm inputs", () => {
     render(
       <MockedProvider>
-        <Login />
+        <LoginForm />
       </MockedProvider>
     );
     formInputLabels.forEach((label) => {
