@@ -1,3 +1,5 @@
+// TODO: Refactor to enable setting as ProposalActionRoleMemberInput type
+
 import {
   Checkbox,
   CardActionArea as MuiCardActionArea,
@@ -21,7 +23,7 @@ interface Props {
   user: UserAvatarFragment;
 }
 
-const AddRoleMemberOption = ({
+const RoleMemberOption = ({
   selectedUserIds,
   setSelectedUserIds,
   user,
@@ -61,4 +63,4 @@ const AddRoleMemberOption = ({
   );
 };
 
-export default AddRoleMemberOption;
+export default RoleMemberOption;

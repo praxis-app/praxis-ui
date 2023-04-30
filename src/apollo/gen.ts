@@ -447,9 +447,9 @@ export type ProposalActionRole = {
 export type ProposalActionRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["Int"]>;
+  members?: InputMaybe<Array<ProposalActionRoleMemberInput>>;
   name?: InputMaybe<Scalars["String"]>;
   permissions?: InputMaybe<Array<PermissionInput>>;
-  selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 
 export type ProposalActionRoleMember = {
@@ -460,6 +460,11 @@ export type ProposalActionRoleMember = {
   role: ProposalActionRole;
   updatedAt: Scalars["DateTime"];
   user: User;
+};
+
+export type ProposalActionRoleMemberInput = {
+  changeType: Scalars["String"];
+  userId: Scalars["Int"];
 };
 
 export type Query = {
@@ -1118,30 +1123,7 @@ export type GroupRolesByGroupIdQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    roles: Array<{
-      __typename?: "Role";
-      id: number;
-      name: string;
-      color: string;
-      permissions: Array<{
-        __typename?: "Permission";
-        id: number;
-        name: string;
-        enabled: boolean;
-      }>;
-      members: Array<{
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      }>;
-      availableUsersToAdd: Array<{
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      }>;
-    }>;
+    roles: Array<{ __typename?: "Role"; id: number; name: string }>;
   };
 };
 
@@ -2211,6 +2193,38 @@ export type EditServerRoleQuery = {
     }>;
   };
   me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+};
+
+export type RoleByRoleIdQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type RoleByRoleIdQuery = {
+  __typename?: "Query";
+  role: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+    permissions: Array<{
+      __typename?: "Permission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }>;
+    members: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+    availableUsersToAdd: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
 };
 
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
@@ -4367,21 +4381,9 @@ export const GroupRolesByGroupIdDocument = gql`
       roles {
         id
         name
-        color
-        permissions {
-          ...PermissionToggle
-        }
-        members {
-          ...UserAvatar
-        }
-        availableUsersToAdd {
-          ...UserAvatar
-        }
       }
     }
   }
-  ${PermissionToggleFragmentDoc}
-  ${UserAvatarFragmentDoc}
 `;
 
 /**
@@ -5802,6 +5804,77 @@ export type EditServerRoleLazyQueryHookResult = ReturnType<
 export type EditServerRoleQueryResult = Apollo.QueryResult<
   EditServerRoleQuery,
   EditServerRoleQueryVariables
+>;
+export const RoleByRoleIdDocument = gql`
+  query RoleByRoleId($id: Int!) {
+    role(id: $id) {
+      id
+      name
+      color
+      permissions {
+        ...PermissionToggle
+      }
+      members {
+        ...UserAvatar
+      }
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+  }
+  ${PermissionToggleFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useRoleByRoleIdQuery__
+ *
+ * To run a query within a React component, call `useRoleByRoleIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoleByRoleIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoleByRoleIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRoleByRoleIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    RoleByRoleIdQuery,
+    RoleByRoleIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<RoleByRoleIdQuery, RoleByRoleIdQueryVariables>(
+    RoleByRoleIdDocument,
+    options
+  );
+}
+export function useRoleByRoleIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    RoleByRoleIdQuery,
+    RoleByRoleIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<RoleByRoleIdQuery, RoleByRoleIdQueryVariables>(
+    RoleByRoleIdDocument,
+    options
+  );
+}
+export type RoleByRoleIdQueryHookResult = ReturnType<
+  typeof useRoleByRoleIdQuery
+>;
+export type RoleByRoleIdLazyQueryHookResult = ReturnType<
+  typeof useRoleByRoleIdLazyQuery
+>;
+export type RoleByRoleIdQueryResult = Apollo.QueryResult<
+  RoleByRoleIdQuery,
+  RoleByRoleIdQueryVariables
 >;
 export const ServerRolesDocument = gql`
   query ServerRoles {

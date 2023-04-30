@@ -4,19 +4,6 @@ query GroupRolesByGroupId($groupId: Int!) {
     roles {
       id
       name
-      color
-
-      permissions {
-        ...PermissionToggle
-      }
-
-      members {
-        ...UserAvatar
-      }
-
-      availableUsersToAdd {
-        ...UserAvatar
-      }
     }
   }
 }

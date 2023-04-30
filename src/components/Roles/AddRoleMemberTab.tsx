@@ -15,7 +15,7 @@ import {
 } from "../../apollo/gen";
 import Modal from "../Shared/Modal";
 import Flex from "../Shared/Flex";
-import AddRoleMemberOption from "./AddRoleMemberOption";
+import RoleMemberOption from "./RoleMemberOption";
 import RoleMember from "./RoleMember";
 
 const FlexCardContent = styled(MuiCardContent)(() => ({
@@ -90,7 +90,7 @@ const AddRoleMemberTab = ({ role: { id, members }, users }: Props) => {
         open={isModalOpen}
       >
         {users.map((user) => (
-          <AddRoleMemberOption
+          <RoleMemberOption
             key={user.id}
             selectedUserIds={selectedUserIds}
             setSelectedUserIds={setSelectedUserIds}
