@@ -7,6 +7,11 @@ import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
+export enum ChangeTypeColors {
+  Add = "#2f5631",
+  Remove = "#723431",
+}
+
 interface Props {
   member: ProposalActionRoleMemberFragment;
   actionType: ProposalActionTypes;
@@ -24,9 +29,9 @@ const ProposalActionRoleMember = ({
       return;
     }
     if (isRemovingMember) {
-      return "#723431";
+      return ChangeTypeColors.Remove;
     }
-    return "#2f5631";
+    return ChangeTypeColors.Add;
   };
 
   return (

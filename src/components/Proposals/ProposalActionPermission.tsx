@@ -4,6 +4,7 @@ import { t } from "i18next";
 import { ProposalActionPermissionFragment } from "../../apollo/gen";
 import { ProposalActionTypes } from "../../constants/proposal.constants";
 import { getPermissionText } from "../../utils/role.utils";
+import { ChangeTypeColors } from "./ProposalActionRoleMember";
 
 interface Props {
   actionType: ProposalActionTypes;
@@ -22,9 +23,9 @@ const ProposalActionPermission = ({
       return;
     }
     if (enabled) {
-      return "#2f5631";
+      return ChangeTypeColors.Add;
     }
-    return "#723431";
+    return ChangeTypeColors.Remove;
   };
 
   const permissionStyles: SxProps = {
