@@ -36,8 +36,8 @@ import {
   TypeNames,
 } from "../../constants/common.constants";
 import {
-  ProposalActionFieldNames,
-  ProposalActionTypes,
+  ProposalActionFieldName,
+  ProposalActionType,
 } from "../../constants/proposal.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
@@ -90,13 +90,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       errors.action.actionType = t("proposals.errors.missingActionType");
     }
     if (
-      action.actionType === ProposalActionTypes.ChangeName &&
+      action.actionType === ProposalActionType.ChangeName &&
       !action.groupName
     ) {
       errors.action.groupName = t("proposals.errors.missingGroupName");
     }
     if (
-      action.actionType === ProposalActionTypes.ChangeDescription &&
+      action.actionType === ProposalActionType.ChangeDescription &&
       !action.groupDescription
     ) {
       errors.action.groupDescription = t(
@@ -104,7 +104,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       );
     }
     if (
-      action.actionType === ProposalActionTypes.ChangeCoverPhoto &&
+      action.actionType === ProposalActionType.ChangeCoverPhoto &&
       !editProposal?.action.groupCoverPhoto &&
       !action.groupCoverPhoto
     ) {
@@ -278,7 +278,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                 >
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
-                    name={ProposalActionFieldNames.ActionType}
+                    name={ProposalActionFieldName.ActionType}
                     onChange={handleChange}
                     value={values.action.actionType}
                   >

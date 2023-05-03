@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { ProposalCardFooterFragment } from "../../apollo/gen";
-import { ProposalStages } from "../../constants/proposal.constants";
+import { ProposalStage } from "../../constants/proposal.constants";
 import { Blurple } from "../../theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
@@ -33,7 +33,7 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
 
   const { stage, voteCount, votes, group } = proposal;
   const isDisabled = !!group && !group.isJoinedByMe;
-  const isRatified = stage === ProposalStages.Ratified;
+  const isRatified = stage === ProposalStage.Ratified;
 
   const voteByCurrentUser = votes.find(
     (vote) => vote.user.id === currentUserId

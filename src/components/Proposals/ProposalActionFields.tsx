@@ -4,8 +4,8 @@ import { FormikErrors, FormikTouched } from "formik";
 import { t } from "i18next";
 import { CreateProposalInput, ProposalFormFragment } from "../../apollo/gen";
 import {
-  ProposalActionFieldNames,
-  ProposalActionTypes,
+  ProposalActionFieldName,
+  ProposalActionType,
 } from "../../constants/proposal.constants";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
@@ -28,19 +28,19 @@ const ProposalActionFields = ({
   touched,
   values,
 }: Props) => {
-  if (values.action.actionType === ProposalActionTypes.ChangeName) {
+  if (values.action.actionType === ProposalActionType.ChangeName) {
     const isInvalid = !!errors.action?.groupName && touched.action?.groupName;
     return (
       <TextField
         autoComplete="off"
         error={isInvalid}
         label={t("proposals.labels.newGroupName")}
-        name={ProposalActionFieldNames.GroupName}
+        name={ProposalActionFieldName.GroupName}
       />
     );
   }
 
-  if (values.action.actionType === ProposalActionTypes.ChangeDescription) {
+  if (values.action.actionType === ProposalActionType.ChangeDescription) {
     const isInvalid =
       !!errors.action?.groupDescription && touched.action?.groupDescription;
     return (
@@ -48,12 +48,12 @@ const ProposalActionFields = ({
         autoComplete="off"
         error={isInvalid}
         label={t("proposals.labels.newGroupDescription")}
-        name={ProposalActionFieldNames.GroupDescription}
+        name={ProposalActionFieldName.GroupDescription}
       />
     );
   }
 
-  if (values.action.actionType === ProposalActionTypes.ChangeCoverPhoto) {
+  if (values.action.actionType === ProposalActionType.ChangeCoverPhoto) {
     const isInvalid = !!(errors.action?.groupCoverPhoto && submitCount);
     const savedImage =
       editProposal?.action.groupCoverPhoto && !values.action.groupCoverPhoto
@@ -61,7 +61,7 @@ const ProposalActionFields = ({
         : [];
 
     const handleChange = (images: File[]) =>
-      setFieldValue(ProposalActionFieldNames.GroupCoverPhoto, images[0]);
+      setFieldValue(ProposalActionFieldName.GroupCoverPhoto, images[0]);
 
     return (
       <Box marginTop={1.5}>
@@ -76,7 +76,7 @@ const ProposalActionFields = ({
 
         <ImageInput
           sx={{ cursor: "pointer", marginTop: 0 }}
-          name={ProposalActionFieldNames.GroupCoverPhoto}
+          name={ProposalActionFieldName.GroupCoverPhoto}
           onChange={handleChange}
         >
           <Typography

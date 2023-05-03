@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { ProposalActionRoleMemberFragment } from "../../apollo/gen";
-import { ProposalActionTypes } from "../../constants/proposal.constants";
+import { ProposalActionType } from "../../constants/proposal.constants";
 import { RoleMemberChangeType } from "../../constants/role.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -14,14 +14,14 @@ export enum ChangeTypeColors {
 
 interface Props {
   member: ProposalActionRoleMemberFragment;
-  actionType: ProposalActionTypes;
+  actionType: ProposalActionType;
 }
 
 const ProposalActionRoleMember = ({
   member: { user, changeType },
   actionType,
 }: Props) => {
-  const isChangingRole = actionType === ProposalActionTypes.ChangeRole;
+  const isChangingRole = actionType === ProposalActionType.ChangeRole;
   const isRemovingMember = changeType === RoleMemberChangeType.Remove;
 
   const getBackgroundColor = () => {

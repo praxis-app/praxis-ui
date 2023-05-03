@@ -29,8 +29,8 @@ import {
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import {
-  ProposalActionFieldNames,
-  ProposalActionTypes,
+  ProposalActionFieldName,
+  ProposalActionType,
 } from "../../constants/proposal.constants";
 import {
   DEFAULT_ROLE_COLOR,
@@ -61,7 +61,7 @@ interface Props {
   actionType?: string;
   groupId?: number | null;
   setFieldValue: (
-    field: ProposalActionFieldNames,
+    field: ProposalActionFieldName,
     value: ProposalActionRoleInput
   ) => void;
 }
@@ -109,11 +109,11 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     if (!groupId) {
       return;
     }
-    if (actionType === ProposalActionTypes.CreateRole) {
+    if (actionType === ProposalActionType.CreateRole) {
       getGroupMembers({ variables: { groupId } });
       setOpen(true);
     }
-    if (actionType === ProposalActionTypes.ChangeRole) {
+    if (actionType === ProposalActionType.ChangeRole) {
       getGroupRoles({ variables: { groupId } });
       setOpen(true);
     }
@@ -140,7 +140,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   };
 
   const title =
-    actionType === ProposalActionTypes.CreateRole
+    actionType === ProposalActionType.CreateRole
       ? t("proposals.actions.createGroupRole")
       : t("proposals.actions.changeGroupRole");
 
@@ -191,14 +191,14 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const handleSubmit = async (formValues: ProposalActionRoleInput) => {
     let memberChanges: ProposalActionRoleMemberInput[] = [];
 
-    if (actionType === ProposalActionTypes.CreateRole) {
+    if (actionType === ProposalActionType.CreateRole) {
       memberChanges = selectedUserIds.map((userId) => ({
         changeType: RoleMemberChangeType.Add,
         userId,
       }));
     }
 
-    if (actionType === ProposalActionTypes.ChangeRole && selectedRole) {
+    if (actionType === ProposalActionType.ChangeRole && selectedRole) {
       const membersAdded = selectedUserIds
         .filter(
           (userId) =>
@@ -216,7 +216,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       memberChanges = [...membersAdded, ...membersRemoved];
     }
 
-    setFieldValue(ProposalActionFieldNames.Role, {
+    setFieldValue(ProposalActionFieldName.Role, {
       ...formValues,
       members: memberChanges,
       color,
@@ -231,7 +231,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
         {({ dirty, isSubmitting, values, handleChange, setFieldValue }) => (
           <Form>
             <FormGroup>
-              {actionType === ProposalActionTypes.ChangeRole && roles && (
+              {actionType === ProposalActionType.ChangeRole && roles && (
                 <FormControl variant="standard" sx={{ marginBottom: 1 }}>
                   <InputLabel>
                     {t("proposals.labels.selectRoleToChange")}
@@ -253,7 +253,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                 </FormControl>
               )}
 
-              {(actionType === ProposalActionTypes.CreateRole || values.id) && (
+              {(actionType === ProposalActionType.CreateRole || values.id) && (
                 <>
                   <TextField
                     autoComplete="off"
@@ -327,7 +327,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
               )}
             </FormGroup>
 
-            {(actionType === ProposalActionTypes.CreateRole || values.id) && (
+            {(actionType === ProposalActionType.CreateRole || values.id) && (
               <Flex justifyContent="end">
                 <PrimaryActionButton
                   disabled={isSubmitButtonDisabled(dirty, isSubmitting)}

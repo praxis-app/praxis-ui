@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ProposalActionFragment } from "../../apollo/gen";
-import { ProposalActionTypes } from "../../constants/proposal.constants";
+import { ProposalActionType } from "../../constants/proposal.constants";
 import AttachedImage from "../Images/AttachedImage";
 import ProposalActionRole from "./ProposalActionRole";
 
@@ -14,7 +14,7 @@ const ProposalAction = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  if (actionType === ProposalActionTypes.ChangeName) {
+  if (actionType === ProposalActionType.ChangeName) {
     return (
       <Typography marginBottom={3.5}>
         {t("proposals.labels.newGroupName")}: {groupName}
@@ -22,7 +22,7 @@ const ProposalAction = ({
     );
   }
 
-  if (actionType === ProposalActionTypes.ChangeDescription) {
+  if (actionType === ProposalActionType.ChangeDescription) {
     return (
       <Typography marginBottom={3.5}>
         {t("proposals.labels.newGroupDescription")}: {groupDescription}
@@ -30,7 +30,7 @@ const ProposalAction = ({
     );
   }
 
-  if (actionType === ProposalActionTypes.ChangeCoverPhoto) {
+  if (actionType === ProposalActionType.ChangeCoverPhoto) {
     if (!groupCoverPhoto) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;
     }
@@ -45,8 +45,8 @@ const ProposalAction = ({
   }
 
   if (
-    actionType === ProposalActionTypes.CreateRole ||
-    actionType === ProposalActionTypes.ChangeRole
+    actionType === ProposalActionType.CreateRole ||
+    actionType === ProposalActionType.ChangeRole
   ) {
     if (!role) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;

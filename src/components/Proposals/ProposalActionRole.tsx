@@ -3,7 +3,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalActionRoleFragment } from "../../apollo/gen";
-import { ProposalActionTypes } from "../../constants/proposal.constants";
+import { ProposalActionType } from "../../constants/proposal.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import Accordion, {
   AccordionDetails,
@@ -14,7 +14,7 @@ import ProposalActionRoleMember from "./ProposalActionRoleMember";
 
 interface Props {
   role: ProposalActionRoleFragment;
-  actionType: ProposalActionTypes;
+  actionType: ProposalActionType;
 }
 
 const ProposalActionRole = ({
@@ -29,7 +29,7 @@ const ProposalActionRole = ({
   const showDivider = permissions && members && isDesktop;
 
   const accordionSummary =
-    actionType === ProposalActionTypes.CreateRole
+    actionType === ProposalActionType.CreateRole
       ? t("proposals.labels.proposedRole")
       : t("proposals.labels.proposedRoleChange");
 

@@ -14,8 +14,8 @@ import {
 } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import {
-  ProposalActionTypes,
-  ProposalStages,
+  ProposalActionType,
+  ProposalStage,
 } from "../../constants/proposal.constants";
 import { VoteTypes } from "../../constants/vote.constants";
 import { Blurple } from "../../theme";
@@ -64,7 +64,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
       },
     } = "createVote" in data ? data.createVote : data.updateVote;
 
-    const isRatified = stage === ProposalStages.Ratified;
+    const isRatified = stage === ProposalStage.Ratified;
     if (isRatified) {
       toastVar({
         status: "info",
@@ -74,7 +74,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
 
     if (
       asPath.includes(NavigationPaths.Groups) &&
-      actionType === ProposalActionTypes.ChangeName &&
+      actionType === ProposalActionType.ChangeName &&
       isRatified &&
       group
     ) {
