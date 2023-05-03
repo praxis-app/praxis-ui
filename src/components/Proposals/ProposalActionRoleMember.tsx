@@ -33,11 +33,16 @@ const ProposalActionRoleMember = ({
     <Link href={getUserProfilePath(user.name)}>
       <Flex
         borderRadius={2}
-        marginBottom={isChangingRole ? 1 : 0}
-        sx={{ backgroundColor: getBackgroundColor() }}
+        marginBottom={isChangingRole ? 1 : 0.5}
+        paddingY={isChangingRole ? 0.25 : 0}
+        sx={{ backgroundColor: getBackgroundColor(), fontSize: 14 }}
       >
         {isChangingRole && (
-          <Typography color="primary" sx={{ minWidth: 0.07, marginLeft: 1 }}>
+          <Typography
+            color="primary"
+            fontSize="inherit"
+            sx={{ minWidth: 0.07, marginLeft: 1 }}
+          >
             {isRemovingMember ? "-" : "+"}
           </Typography>
         )}
@@ -47,10 +52,12 @@ const ProposalActionRoleMember = ({
           user={user}
           sx={{
             marginRight: 1,
-            marginTop: 0.5,
+            marginTop: 0.3,
           }}
         />
-        <Typography color="primary">{user.name}</Typography>
+        <Typography color="primary" fontSize="inherit">
+          {user.name}
+        </Typography>
       </Flex>
     </Link>
   );

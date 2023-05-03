@@ -78,6 +78,7 @@ const ProposalActionRole = ({
 
               {permissions.map((permission) => (
                 <ProposalActionPermission
+                  actionType={actionType}
                   permission={permission}
                   key={permission.id}
                 />
