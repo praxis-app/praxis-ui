@@ -44,11 +44,14 @@ const ProposalAction = ({
     );
   }
 
-  if (actionType === ProposalActionTypes.CreateRole) {
+  if (
+    actionType === ProposalActionTypes.CreateRole ||
+    actionType === ProposalActionTypes.ChangeRole
+  ) {
     if (!role) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;
     }
-    return <ProposalActionRole role={role} />;
+    return <ProposalActionRole role={role} actionType={actionType} />;
   }
 
   return null;

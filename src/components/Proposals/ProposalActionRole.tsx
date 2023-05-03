@@ -3,23 +3,23 @@ import { Box, Divider, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalActionRoleFragment } from "../../apollo/gen";
+import { ProposalActionTypes } from "../../constants/proposal.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { getUserProfilePath } from "../../utils/user.utils";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
 } from "../Shared/Accordion";
-import Flex from "../Shared/Flex";
-import Link from "../Shared/Link";
-import UserAvatar from "../Users/UserAvatar";
 import ProposalActionPermission from "./ProposalActionPermission";
+import ProposalActionRoleMember from "./ProposalActionRoleMember";
 
 interface Props {
   role: ProposalActionRoleFragment;
+  actionType: ProposalActionTypes;
 }
 
 const ProposalActionRole = ({
   role: { name, color, permissions, members },
+  actionType,
 }: Props) => {
   const [showRole, setShowRole] = useState(false);
 
@@ -27,6 +27,11 @@ const ProposalActionRole = ({
   const isDesktop = useIsDesktop();
 
   const showDivider = permissions && members && isDesktop;
+
+  const accordionSummary =
+    actionType === ProposalActionTypes.CreateRole
+      ? t("proposals.labels.proposedRole")
+      : t("proposals.labels.proposedRoleChange");
 
   const accordionStyles = {
     backgroundColor: "rgb(0, 0, 0, 0.1)",
@@ -54,7 +59,7 @@ const ProposalActionRole = ({
       >
         <AccordionSummary>
           <Typography marginRight="0.5ch" fontFamily="Inter Bold">
-            {t("proposals.labels.proposedRole")}:
+            {accordionSummary}:
           </Typography>
           <Circle sx={circleIconStyles} />
           {name}
@@ -90,20 +95,12 @@ const ProposalActionRole = ({
                 {t("roles.labels.members")}
               </Typography>
 
-              {members.map(({ user }) => (
-                <Link href={getUserProfilePath(user.name)} key={user.id}>
-                  <Flex>
-                    <UserAvatar
-                      size={16}
-                      user={user}
-                      sx={{
-                        marginRight: 1,
-                        marginTop: 0.5,
-                      }}
-                    />
-                    <Typography color="primary">{user.name}</Typography>
-                  </Flex>
-                </Link>
+              {members.map((member) => (
+                <ProposalActionRoleMember
+                  actionType={actionType}
+                  key={member.id}
+                  member={member}
+                />
               ))}
             </Box>
           )}

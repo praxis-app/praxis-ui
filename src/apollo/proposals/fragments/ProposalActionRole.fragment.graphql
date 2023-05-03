@@ -6,9 +6,6 @@ fragment ProposalActionRole on ProposalActionRole {
     ...ProposalActionPermission
   }
   members {
-    id
-    user {
-      ...UserAvatar
-    }
+    ...ProposalActionRoleMember
   }
 }

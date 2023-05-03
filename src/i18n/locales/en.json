@@ -94,6 +94,7 @@
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
       "proposedRole": "Proposed role",
+      "proposedRoleChange": "Role change",
       "ratified": "Ratified",
       "selectRoleToChange": "Choose a role"
     },

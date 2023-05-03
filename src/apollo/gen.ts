@@ -1047,6 +1047,7 @@ export type GroupProfileQuery = {
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
                 id: number;
+                changeType: string;
                 user: {
                   __typename?: "User";
                   id: number;
@@ -1337,6 +1338,7 @@ type FeedItem_Proposal_Fragment = {
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
         id: number;
+        changeType: string;
         user: {
           __typename?: "User";
           id: number;
@@ -1578,6 +1580,7 @@ export type ProposalActionFragment = {
     members?: Array<{
       __typename?: "ProposalActionRoleMember";
       id: number;
+      changeType: string;
       user: {
         __typename?: "User";
         id: number;
@@ -1607,6 +1610,7 @@ export type ProposalActionRoleFragment = {
   members?: Array<{
     __typename?: "ProposalActionRoleMember";
     id: number;
+    changeType: string;
     user: {
       __typename?: "User";
       id: number;
@@ -1614,6 +1618,18 @@ export type ProposalActionRoleFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }> | null;
+};
+
+export type ProposalActionRoleMemberFragment = {
+  __typename?: "ProposalActionRoleMember";
+  id: number;
+  changeType: string;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
 };
 
 export type ProposalCardFragment = {
@@ -1647,6 +1663,7 @@ export type ProposalCardFragment = {
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
         id: number;
+        changeType: string;
         user: {
           __typename?: "User";
           id: number;
@@ -1760,6 +1777,7 @@ export type CreateProposalMutation = {
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
             id: number;
+            changeType: string;
             user: {
               __typename?: "User";
               id: number;
@@ -1846,6 +1864,7 @@ export type UpdateProposalMutation = {
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
             id: number;
+            changeType: string;
             user: {
               __typename?: "User";
               id: number;
@@ -1947,6 +1966,7 @@ export type ProposalQuery = {
         members?: Array<{
           __typename?: "ProposalActionRoleMember";
           id: number;
+          changeType: string;
           user: {
             __typename?: "User";
             id: number;
@@ -2391,6 +2411,7 @@ export type FollowUserMutation = {
                 members?: Array<{
                   __typename?: "ProposalActionRoleMember";
                   id: number;
+                  changeType: string;
                   user: {
                     __typename?: "User";
                     id: number;
@@ -2617,6 +2638,7 @@ export type HomePageQuery = {
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
                 id: number;
+                changeType: string;
                 user: {
                   __typename?: "User";
                   id: number;
@@ -2744,6 +2766,7 @@ export type UserProfileQuery = {
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
                 id: number;
+                changeType: string;
                 user: {
                   __typename?: "User";
                   id: number;
@@ -3049,6 +3072,16 @@ export const ProposalActionPermissionFragmentDoc = gql`
     name
   }
 `;
+export const ProposalActionRoleMemberFragmentDoc = gql`
+  fragment ProposalActionRoleMember on ProposalActionRoleMember {
+    id
+    changeType
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const ProposalActionRoleFragmentDoc = gql`
   fragment ProposalActionRole on ProposalActionRole {
     id
@@ -3058,14 +3091,11 @@ export const ProposalActionRoleFragmentDoc = gql`
       ...ProposalActionPermission
     }
     members {
-      id
-      user {
-        ...UserAvatar
-      }
+      ...ProposalActionRoleMember
     }
   }
   ${ProposalActionPermissionFragmentDoc}
-  ${UserAvatarFragmentDoc}
+  ${ProposalActionRoleMemberFragmentDoc}
 `;
 export const ProposalActionFragmentDoc = gql`
   fragment ProposalAction on ProposalAction {
