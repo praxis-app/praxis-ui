@@ -1056,6 +1056,12 @@ export type GroupProfileQuery = {
                   profilePicture: { __typename?: "Image"; id: number };
                 };
               }> | null;
+              role?: {
+                __typename?: "Role";
+                id: number;
+                name: string;
+                color: string;
+              } | null;
             } | null;
           };
           user: {
@@ -1348,6 +1354,12 @@ type FeedItem_Proposal_Fragment = {
           profilePicture: { __typename?: "Image"; id: number };
         };
       }> | null;
+      role?: {
+        __typename?: "Role";
+        id: number;
+        name: string;
+        color: string;
+      } | null;
     } | null;
   };
   user: {
@@ -1591,6 +1603,12 @@ export type ProposalActionFragment = {
         profilePicture: { __typename?: "Image"; id: number };
       };
     }> | null;
+    role?: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+    } | null;
   } | null;
 };
 
@@ -1623,6 +1641,12 @@ export type ProposalActionRoleFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }> | null;
+  role?: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+  } | null;
 };
 
 export type ProposalActionRoleMemberFragment = {
@@ -1677,6 +1701,12 @@ export type ProposalCardFragment = {
           profilePicture: { __typename?: "Image"; id: number };
         };
       }> | null;
+      role?: {
+        __typename?: "Role";
+        id: number;
+        name: string;
+        color: string;
+      } | null;
     } | null;
   };
   user: {
@@ -1792,6 +1822,12 @@ export type CreateProposalMutation = {
               profilePicture: { __typename?: "Image"; id: number };
             };
           }> | null;
+          role?: {
+            __typename?: "Role";
+            id: number;
+            name: string;
+            color: string;
+          } | null;
         } | null;
       };
       user: {
@@ -1880,6 +1916,12 @@ export type UpdateProposalMutation = {
               profilePicture: { __typename?: "Image"; id: number };
             };
           }> | null;
+          role?: {
+            __typename?: "Role";
+            id: number;
+            name: string;
+            color: string;
+          } | null;
         } | null;
       };
       user: {
@@ -1983,6 +2025,12 @@ export type ProposalQuery = {
             profilePicture: { __typename?: "Image"; id: number };
           };
         }> | null;
+        role?: {
+          __typename?: "Role";
+          id: number;
+          name: string;
+          color: string;
+        } | null;
       } | null;
     };
     user: {
@@ -2429,6 +2477,12 @@ export type FollowUserMutation = {
                     profilePicture: { __typename?: "Image"; id: number };
                   };
                 }> | null;
+                role?: {
+                  __typename?: "Role";
+                  id: number;
+                  name: string;
+                  color: string;
+                } | null;
               } | null;
             };
             user: {
@@ -2657,6 +2711,12 @@ export type HomePageQuery = {
                   profilePicture: { __typename?: "Image"; id: number };
                 };
               }> | null;
+              role?: {
+                __typename?: "Role";
+                id: number;
+                name: string;
+                color: string;
+              } | null;
             } | null;
           };
           user: {
@@ -2786,6 +2846,12 @@ export type UserProfileQuery = {
                   profilePicture: { __typename?: "Image"; id: number };
                 };
               }> | null;
+              role?: {
+                __typename?: "Role";
+                id: number;
+                name: string;
+                color: string;
+              } | null;
             } | null;
           };
           user: {
@@ -3105,6 +3171,11 @@ export const ProposalActionRoleFragmentDoc = gql`
     }
     members {
       ...ProposalActionRoleMember
+    }
+    role {
+      id
+      name
+      color
     }
   }
   ${ProposalActionPermissionFragmentDoc}

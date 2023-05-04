@@ -1,5 +1,5 @@
 import { Circle } from "@mui/icons-material";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, SxProps, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalActionRoleFragment } from "../../apollo/gen";
@@ -9,8 +9,11 @@ import Accordion, {
   AccordionDetails,
   AccordionSummary,
 } from "../Shared/Accordion";
+import Flex from "../Shared/Flex";
 import ProposalActionPermission from "./ProposalActionPermission";
-import ProposalActionRoleMember from "./ProposalActionRoleMember";
+import ProposalActionRoleMember, {
+  ChangeTypeColors,
+} from "./ProposalActionRoleMember";
 
 interface Props {
   role: ProposalActionRoleFragment;
@@ -18,7 +21,7 @@ interface Props {
 }
 
 const ProposalActionRole = ({
-  role: { name, color, permissions, members },
+  role: { name, color, permissions, members, role },
   actionType,
 }: Props) => {
   const [showRole, setShowRole] = useState(false);
@@ -26,26 +29,20 @@ const ProposalActionRole = ({
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  const showDivider = permissions && members && isDesktop;
+  const showVerticleDivider = permissions && members && isDesktop;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
       ? t("proposals.labels.proposedRole")
       : t("proposals.labels.proposedRoleChange");
 
-  const accordionStyles = {
+  const accordionStyles: SxProps = {
     backgroundColor: "rgb(0, 0, 0, 0.1)",
     borderRadius: 2,
     paddingX: 2,
   };
-  const accordionDetailsStyles = {
-    display: isDesktop ? "flex" : "initial",
-    justifyContent: "space-between",
-    marginBottom: 2,
-  };
-  const circleIconStyles = {
+  const circleIconStyles: SxProps = {
     fontSize: 16,
-    marginRight: "0.5ch",
     marginTop: 0.5,
     color,
   };
@@ -61,50 +58,101 @@ const ProposalActionRole = ({
           <Typography marginRight="0.5ch" fontFamily="Inter Bold">
             {accordionSummary}:
           </Typography>
-          <Circle sx={circleIconStyles} />
+          <Circle sx={{ ...circleIconStyles, marginRight: "0.5ch" }} />
           {name}
         </AccordionSummary>
 
-        <AccordionDetails sx={accordionDetailsStyles}>
-          {permissions && (
-            <Box
-              width={isDesktop ? "50%" : undefined}
-              marginBottom={isDesktop ? 0 : 2}
-              marginTop={isDesktop ? 0 : -2}
-            >
-              <Typography fontFamily="Inter Bold" gutterBottom>
-                {t("permissions.labels.permissions")}
-              </Typography>
+        <AccordionDetails sx={{ marginBottom: 2 }}>
+          {actionType === ProposalActionType.ChangeRole && (
+            <>
+              {name !== role?.name && <>NAME_CHANGE_HERE</>}
 
-              {permissions.map((permission) => (
-                <ProposalActionPermission
-                  actionType={actionType}
-                  permission={permission}
-                  key={permission.id}
-                />
-              ))}
-            </Box>
+              {color && color !== role?.color && (
+                <Flex marginBottom={isDesktop ? 1.5 : 3}>
+                  <Typography
+                    fontFamily="Inter Bold"
+                    fontSize={15}
+                    gutterBottom
+                  >
+                    {t("proposals.labels.color")}:
+                  </Typography>
+
+                  <Flex
+                    sx={{ backgroundColor: ChangeTypeColors.Remove }}
+                    borderRadius={2}
+                    marginLeft="0.5ch"
+                    maxHeight="24px"
+                    paddingX={0.75}
+                  >
+                    <Typography color="primary" marginRight="0.25ch">
+                      -
+                    </Typography>
+                    <Circle sx={{ ...circleIconStyles, color: role?.color }} />
+                  </Flex>
+
+                  <Flex
+                    sx={{ backgroundColor: ChangeTypeColors.Add }}
+                    borderRadius={2}
+                    marginLeft="0.5ch"
+                    maxHeight="24px"
+                    paddingX={0.75}
+                  >
+                    <Typography color="primary" marginRight="0.25ch">
+                      +
+                    </Typography>
+                    <Circle sx={circleIconStyles} />
+                  </Flex>
+                </Flex>
+              )}
+            </>
           )}
 
-          {showDivider && (
-            <Divider orientation="vertical" sx={{ marginX: 3 }} flexItem />
-          )}
+          <Box
+            sx={{
+              display: isDesktop ? "flex" : "initial",
+              justifyContent: "space-between",
+            }}
+          >
+            {permissions && (
+              <Box
+                width={isDesktop ? "50%" : undefined}
+                marginBottom={isDesktop ? 0 : 2}
+                marginTop={isDesktop ? 0 : -2}
+              >
+                <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
+                  {t("permissions.labels.permissions")}
+                </Typography>
 
-          {members && (
-            <Box width={isDesktop ? "50%" : undefined}>
-              <Typography fontFamily="Inter Bold" gutterBottom>
-                {t("roles.labels.members")}
-              </Typography>
+                {permissions.map((permission) => (
+                  <ProposalActionPermission
+                    actionType={actionType}
+                    permission={permission}
+                    key={permission.id}
+                  />
+                ))}
+              </Box>
+            )}
 
-              {members.map((member) => (
-                <ProposalActionRoleMember
-                  actionType={actionType}
-                  key={member.id}
-                  member={member}
-                />
-              ))}
-            </Box>
-          )}
+            {showVerticleDivider && (
+              <Divider orientation="vertical" sx={{ marginX: 3 }} flexItem />
+            )}
+
+            {members && (
+              <Box width={isDesktop ? "50%" : undefined}>
+                <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
+                  {t("roles.labels.members")}
+                </Typography>
+
+                {members.map((member) => (
+                  <ProposalActionRoleMember
+                    actionType={actionType}
+                    key={member.id}
+                    member={member}
+                  />
+                ))}
+              </Box>
+            )}
+          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>

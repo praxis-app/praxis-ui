@@ -8,4 +8,9 @@ fragment ProposalActionRole on ProposalActionRole {
   members {
     ...ProposalActionRoleMember
   }
+  role {
+    id
+    name
+    color
+  }
 }
