@@ -46,6 +46,13 @@ const ProposalActionRole = ({
     marginTop: 0.5,
     color,
   };
+  const roleChangeChip: SxProps = {
+    backgroundColor: ChangeTypeColors.Add,
+    borderRadius: 2,
+    marginLeft: "0.5ch",
+    maxHeight: "24px",
+    paddingX: 0.75,
+  };
 
   return (
     <Box marginBottom={2.5}>
@@ -76,24 +83,17 @@ const ProposalActionRole = ({
                   </Typography>
 
                   <Flex
-                    sx={{ backgroundColor: ChangeTypeColors.Remove }}
-                    borderRadius={2}
-                    marginLeft="0.5ch"
-                    maxHeight="24px"
-                    paddingX={0.75}
+                    sx={{
+                      ...roleChangeChip,
+                      backgroundColor: ChangeTypeColors.Remove,
+                    }}
                   >
                     <Typography color="primary" marginRight="0.25ch">
                       - {role?.name}
                     </Typography>
                   </Flex>
 
-                  <Flex
-                    sx={{ backgroundColor: ChangeTypeColors.Add }}
-                    borderRadius={2}
-                    marginLeft="0.5ch"
-                    maxHeight="24px"
-                    paddingX={0.75}
-                  >
+                  <Flex sx={roleChangeChip}>
                     <Typography color="primary" marginRight="0.25ch">
                       + {name}
                     </Typography>
@@ -112,11 +112,10 @@ const ProposalActionRole = ({
                   </Typography>
 
                   <Flex
-                    sx={{ backgroundColor: ChangeTypeColors.Remove }}
-                    borderRadius={2}
-                    marginLeft="0.5ch"
-                    maxHeight="24px"
-                    paddingX={0.75}
+                    sx={{
+                      ...roleChangeChip,
+                      backgroundColor: ChangeTypeColors.Remove,
+                    }}
                   >
                     <Typography color="primary" marginRight="0.25ch">
                       -
@@ -124,13 +123,7 @@ const ProposalActionRole = ({
                     <Circle sx={{ ...circleIconStyles, color: role?.color }} />
                   </Flex>
 
-                  <Flex
-                    sx={{ backgroundColor: ChangeTypeColors.Add }}
-                    borderRadius={2}
-                    marginLeft="0.5ch"
-                    maxHeight="24px"
-                    paddingX={0.75}
-                  >
+                  <Flex sx={roleChangeChip}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
