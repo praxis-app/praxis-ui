@@ -73,7 +73,7 @@ const ProposalActionRole = ({
           {name}
         </AccordionSummary>
 
-        <AccordionDetails sx={{ marginBottom: 2 }}>
+        <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
           {actionType === ProposalActionType.ChangeRole && (
             <>
               {name !== role?.name && (
