@@ -89,6 +89,7 @@
     "labels": {
       "action": "Action",
       "color": "Color",
+      "name": "Name",
       "newGroupDescription": "New group description",
       "newGroupName": "New group name",
       "proposedGroupCoverPhoto": "Proposed group cover photo",

@@ -65,7 +65,41 @@ const ProposalActionRole = ({
         <AccordionDetails sx={{ marginBottom: 2 }}>
           {actionType === ProposalActionType.ChangeRole && (
             <>
-              {name !== role?.name && <>NAME_CHANGE_HERE</>}
+              {name !== role?.name && (
+                <Flex marginBottom={isDesktop ? 1.5 : 3}>
+                  <Typography
+                    fontFamily="Inter Bold"
+                    fontSize={15}
+                    gutterBottom
+                  >
+                    {t("proposals.labels.name")}:
+                  </Typography>
+
+                  <Flex
+                    sx={{ backgroundColor: ChangeTypeColors.Remove }}
+                    borderRadius={2}
+                    marginLeft="0.5ch"
+                    maxHeight="24px"
+                    paddingX={0.75}
+                  >
+                    <Typography color="primary" marginRight="0.25ch">
+                      - {role?.name}
+                    </Typography>
+                  </Flex>
+
+                  <Flex
+                    sx={{ backgroundColor: ChangeTypeColors.Add }}
+                    borderRadius={2}
+                    marginLeft="0.5ch"
+                    maxHeight="24px"
+                    paddingX={0.75}
+                  >
+                    <Typography color="primary" marginRight="0.25ch">
+                      + {name}
+                    </Typography>
+                  </Flex>
+                </Flex>
+              )}
 
               {color && color !== role?.color && (
                 <Flex marginBottom={isDesktop ? 1.5 : 3}>
