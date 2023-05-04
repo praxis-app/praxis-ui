@@ -46,12 +46,16 @@ const ProposalActionRole = ({
     marginTop: 0.5,
     color,
   };
-  const roleChangeChip: SxProps = {
+  const roleAddChangeChip: SxProps = {
     backgroundColor: ChangeTypeColors.Add,
     borderRadius: 2,
     marginLeft: "0.5ch",
     maxHeight: "24px",
     paddingX: 0.75,
+  };
+  const roleRemoveChangeChip: SxProps = {
+    ...roleAddChangeChip,
+    backgroundColor: ChangeTypeColors.Remove,
   };
 
   return (
@@ -82,18 +86,13 @@ const ProposalActionRole = ({
                     {t("proposals.labels.name")}:
                   </Typography>
 
-                  <Flex
-                    sx={{
-                      ...roleChangeChip,
-                      backgroundColor: ChangeTypeColors.Remove,
-                    }}
-                  >
+                  <Flex sx={roleRemoveChangeChip}>
                     <Typography color="primary" marginRight="0.25ch">
                       - {role?.name}
                     </Typography>
                   </Flex>
 
-                  <Flex sx={roleChangeChip}>
+                  <Flex sx={roleAddChangeChip}>
                     <Typography color="primary" marginRight="0.25ch">
                       + {name}
                     </Typography>
@@ -111,19 +110,14 @@ const ProposalActionRole = ({
                     {t("proposals.labels.color")}:
                   </Typography>
 
-                  <Flex
-                    sx={{
-                      ...roleChangeChip,
-                      backgroundColor: ChangeTypeColors.Remove,
-                    }}
-                  >
+                  <Flex sx={roleRemoveChangeChip}>
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
                     <Circle sx={{ ...circleIconStyles, color: role?.color }} />
                   </Flex>
 
-                  <Flex sx={roleChangeChip}>
+                  <Flex sx={roleAddChangeChip}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
