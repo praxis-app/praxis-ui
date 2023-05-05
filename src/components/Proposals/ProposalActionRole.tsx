@@ -79,7 +79,7 @@ const ProposalActionRole = ({
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
           {actionType === ProposalActionType.ChangeRole && (
             <>
-              {name !== role?.name && (
+              {name && name !== role?.name && (
                 <Flex sx={roleNameChangeStyles}>
                   <Typography
                     fontFamily="Inter Bold"
