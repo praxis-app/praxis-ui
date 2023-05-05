@@ -29,7 +29,7 @@ const ProposalActionRole = ({
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  const showVerticleDivider = permissions && members && isDesktop;
+  const showDivider = permissions && members;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -157,8 +157,16 @@ const ProposalActionRole = ({
               </Box>
             )}
 
-            {showVerticleDivider && (
-              <Divider orientation="vertical" sx={{ marginX: 3 }} flexItem />
+            {showDivider && (
+              <Divider
+                orientation={isDesktop ? "vertical" : "horizontal"}
+                flexItem
+                sx={{
+                  marginBottom: isDesktop ? 0 : 2,
+                  marginTop: isDesktop ? 0 : 2.8,
+                  marginX: isDesktop ? 3 : 0,
+                }}
+              />
             )}
 
             {members && (
