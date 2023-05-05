@@ -46,16 +46,19 @@ const ProposalActionRole = ({
     marginTop: 0.5,
     color,
   };
-  const roleAddChangeChip: SxProps = {
+  const roleAddChangeStyles: SxProps = {
     backgroundColor: ChangeTypeColors.Add,
     borderRadius: 2,
     marginLeft: "0.5ch",
     maxHeight: "24px",
     paddingX: 0.75,
   };
-  const roleRemoveChangeChip: SxProps = {
-    ...roleAddChangeChip,
+  const roleRemoveChangeStyles: SxProps = {
+    ...roleAddChangeStyles,
     backgroundColor: ChangeTypeColors.Remove,
+  };
+  const roleNameChangeStyles: SxProps = {
+    marginBottom: isDesktop ? 1.5 : color && color !== role?.color ? 1 : 3,
   };
 
   return (
@@ -77,7 +80,7 @@ const ProposalActionRole = ({
           {actionType === ProposalActionType.ChangeRole && (
             <>
               {name !== role?.name && (
-                <Flex marginBottom={isDesktop ? 1.5 : 3}>
+                <Flex sx={roleNameChangeStyles}>
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
@@ -86,13 +89,13 @@ const ProposalActionRole = ({
                     {t("proposals.labels.name")}:
                   </Typography>
 
-                  <Flex sx={roleRemoveChangeChip}>
+                  <Flex sx={roleRemoveChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       - {role?.name}
                     </Typography>
                   </Flex>
 
-                  <Flex sx={roleAddChangeChip}>
+                  <Flex sx={roleAddChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       + {name}
                     </Typography>
@@ -110,14 +113,14 @@ const ProposalActionRole = ({
                     {t("proposals.labels.color")}:
                   </Typography>
 
-                  <Flex sx={roleRemoveChangeChip}>
+                  <Flex sx={roleRemoveChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
                     <Circle sx={{ ...circleIconStyles, color: role?.color }} />
                   </Flex>
 
-                  <Flex sx={roleAddChangeChip}>
+                  <Flex sx={roleAddChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
