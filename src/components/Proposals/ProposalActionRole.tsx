@@ -6,6 +6,7 @@ import {
   ProposalActionRoleFragment,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
+  useRoleByRoleIdLazyQuery,
   useUsersByIdsLazyQuery,
 } from "../../apollo/gen";
 import { ProposalActionType } from "../../constants/proposal.constants";
@@ -33,27 +34,54 @@ const ProposalActionRole = ({
   role,
   ...boxProps
 }: Props) => {
-  const [showRole, setShowRole] = useState(preview);
+  const [showRole, setShowRole] = useState(!!preview);
 
-  const [getUsersByIds, { data, loading, error }] = useUsersByIdsLazyQuery();
+  const [
+    getSelectedRole,
+    {
+      data: selectedRoleData,
+      loading: selectedRoleLoading,
+      error: selectedRoleError,
+    },
+  ] = useRoleByRoleIdLazyQuery();
+
+  const [
+    getSelectedUsers,
+    {
+      data: selectedUsersData,
+      loading: selectedUsersLoading,
+      error: selectedUsersError,
+    },
+  ] = useUsersByIdsLazyQuery();
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
-    if (!preview || !role.members) {
+    if (!preview || !role.members || !role.id) {
       return;
     }
     const userIds = role.members?.map(
       (member) => (member as ProposalActionRoleMemberInput).userId
     );
-    getUsersByIds({
+    getSelectedUsers({
       variables: { userIds },
     });
-  }, [preview, getUsersByIds, role]);
+    getSelectedRole({
+      variables: { id: role.id },
+    });
+  }, [preview, getSelectedUsers, getSelectedRole, role]);
+
+  if (selectedRoleError || selectedUsersError) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (selectedRoleLoading || selectedUsersLoading) {
+    return <ProgressBar />;
+  }
 
   const { name, color, permissions, members } = role;
-  const roleToChange = "role" in role ? role.role : undefined;
+  const roleToChange = "role" in role ? role.role : selectedRoleData?.role;
 
   const isRoleChange = actionType === ProposalActionType.ChangeRole;
   const isChangingRoleName =
@@ -202,7 +230,7 @@ const ProposalActionRole = ({
               marginTop: getMainContentTopMargin(),
             }}
           >
-            {permissions && (
+            {!!permissions?.length && (
               <Box
                 width={isDesktop ? "50%" : undefined}
                 marginBottom={isDesktop ? 0 : 2}
@@ -222,7 +250,7 @@ const ProposalActionRole = ({
               </Box>
             )}
 
-            {permissions && members && (
+            {!!(permissions?.length && members?.length) && (
               <Divider
                 orientation={isDesktop ? "vertical" : "horizontal"}
                 flexItem
@@ -234,24 +262,16 @@ const ProposalActionRole = ({
               />
             )}
 
-            {members && (
+            {!!members?.length && (
               <Box width={isDesktop ? "50%" : undefined}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("roles.labels.members")}
                 </Typography>
 
-                {loading && <ProgressBar />}
-
-                {error && (
-                  <Typography marginTop={1}>
-                    {t("errors.somethingWentWrong")}
-                  </Typography>
-                )}
-
                 {members.map((member) => (
                   <ProposalActionRoleMember
                     key={"id" in member ? member.id : member.userId}
-                    selectedUsers={data?.usersByIds}
+                    selectedUsers={selectedUsersData?.usersByIds}
                     actionType={actionType}
                     member={member}
                   />
