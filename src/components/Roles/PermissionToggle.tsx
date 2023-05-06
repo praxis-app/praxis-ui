@@ -37,7 +37,7 @@ const PermissionToggle = ({
   }: ChangeEvent<HTMLInputElement>) => {
     if (checked === enabled) {
       const index = values.permissions?.findIndex((p) => p.name === name);
-      index && arrayHelpers.remove(index);
+      index !== undefined && arrayHelpers.remove(index);
       return;
     }
     arrayHelpers.push({ name, enabled: checked });
