@@ -30,6 +30,9 @@ const ProposalActionRole = ({
   const isDesktop = useIsDesktop();
 
   const showDivider = permissions && members;
+  const isRoleChange = actionType === ProposalActionType.ChangeRole;
+  const isChangingRoleName = isRoleChange && name && name !== role?.name;
+  const isChangingRoleColor = isRoleChange && color && color !== role?.color;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -61,6 +64,13 @@ const ProposalActionRole = ({
     marginBottom: isDesktop ? 1.5 : color && color !== role?.color ? 1 : 3,
   };
 
+  const getMainContentTopMargin = () => {
+    if (isDesktop || isChangingRoleName || isChangingRoleColor) {
+      return 0;
+    }
+    return 1.8;
+  };
+
   return (
     <Box marginBottom={2.5}>
       <Accordion
@@ -77,9 +87,9 @@ const ProposalActionRole = ({
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
-          {actionType === ProposalActionType.ChangeRole && (
+          {isRoleChange && (
             <>
-              {name && name !== role?.name && (
+              {isChangingRoleName && (
                 <Flex sx={roleNameChangeStyles}>
                   <Typography
                     fontFamily="Inter Bold"
@@ -103,7 +113,7 @@ const ProposalActionRole = ({
                 </Flex>
               )}
 
-              {color && color !== role?.color && (
+              {isChangingRoleColor && (
                 <Flex marginBottom={isDesktop ? 1.5 : 3}>
                   <Typography
                     fontFamily="Inter Bold"
@@ -133,8 +143,9 @@ const ProposalActionRole = ({
 
           <Box
             sx={{
-              display: isDesktop ? "flex" : "initial",
+              display: isDesktop ? "flex" : "block",
               justifyContent: "space-between",
+              marginTop: getMainContentTopMargin(),
             }}
           >
             {permissions && (
