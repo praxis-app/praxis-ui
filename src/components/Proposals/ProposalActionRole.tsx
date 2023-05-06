@@ -29,7 +29,6 @@ const ProposalActionRole = ({
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  const showDivider = permissions && members;
   const isRoleChange = actionType === ProposalActionType.ChangeRole;
   const isChangingRoleName = isRoleChange && name && name !== role?.name;
   const isChangingRoleColor = isRoleChange && color && color !== role?.color;
@@ -113,6 +112,10 @@ const ProposalActionRole = ({
                 </Flex>
               )}
 
+              {isChangingRoleName && isChangingRoleColor && (
+                <Divider sx={{ marginTop: 2.4, marginBottom: 3 }} />
+              )}
+
               {isChangingRoleColor && (
                 <Flex marginBottom={isDesktop ? 1.5 : 3}>
                   <Typography
@@ -141,6 +144,11 @@ const ProposalActionRole = ({
             </>
           )}
 
+          {(isChangingRoleName || isChangingRoleColor) &&
+            (permissions || members) && (
+              <Divider sx={{ marginTop: 2, marginBottom: 3 }} />
+            )}
+
           <Box
             sx={{
               display: isDesktop ? "flex" : "block",
@@ -168,13 +176,13 @@ const ProposalActionRole = ({
               </Box>
             )}
 
-            {showDivider && (
+            {permissions && members && (
               <Divider
                 orientation={isDesktop ? "vertical" : "horizontal"}
                 flexItem
                 sx={{
                   marginBottom: isDesktop ? 0 : 2,
-                  marginTop: isDesktop ? 0 : 2.8,
+                  marginTop: isDesktop ? 0.75 : 2.8,
                   marginX: isDesktop ? 3 : 0,
                 }}
               />
