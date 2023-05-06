@@ -1,8 +1,13 @@
 import { Circle } from "@mui/icons-material";
-import { Box, Divider, SxProps, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, BoxProps, Divider, SxProps, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProposalActionRoleFragment } from "../../apollo/gen";
+import {
+  ProposalActionRoleFragment,
+  ProposalActionRoleInput,
+  ProposalActionRoleMemberInput,
+  useUsersByIdsLazyQuery,
+} from "../../apollo/gen";
 import { ProposalActionType } from "../../constants/proposal.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import Accordion, {
@@ -10,28 +15,51 @@ import Accordion, {
   AccordionSummary,
 } from "../Shared/Accordion";
 import Flex from "../Shared/Flex";
+import ProgressBar from "../Shared/ProgressBar";
 import ProposalActionPermission from "./ProposalActionPermission";
 import ProposalActionRoleMember, {
   ChangeTypeColors,
 } from "./ProposalActionRoleMember";
 
-interface Props {
-  role: ProposalActionRoleFragment;
+interface Props extends Omit<BoxProps, "role"> {
+  role: ProposalActionRoleFragment | ProposalActionRoleInput;
   actionType: ProposalActionType;
+  preview?: boolean;
 }
 
 const ProposalActionRole = ({
-  role: { name, color, permissions, members, role },
   actionType,
+  preview,
+  role,
+  ...boxProps
 }: Props) => {
-  const [showRole, setShowRole] = useState(false);
+  const [showRole, setShowRole] = useState(preview);
+
+  const [getUsersByIds, { data, loading, error }] = useUsersByIdsLazyQuery();
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
+  useEffect(() => {
+    if (!preview || !role.members) {
+      return;
+    }
+    const userIds = role.members?.map(
+      (member) => (member as ProposalActionRoleMemberInput).userId
+    );
+    getUsersByIds({
+      variables: { userIds },
+    });
+  }, [preview, getUsersByIds, role]);
+
+  const { name, color, permissions, members } = role;
+  const roleToChange = "role" in role ? role.role : undefined;
+
   const isRoleChange = actionType === ProposalActionType.ChangeRole;
-  const isChangingRoleName = isRoleChange && name && name !== role?.name;
-  const isChangingRoleColor = isRoleChange && color && color !== role?.color;
+  const isChangingRoleName =
+    isRoleChange && name && name !== roleToChange?.name;
+  const isChangingRoleColor =
+    isRoleChange && color && color !== roleToChange?.color;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -59,8 +87,14 @@ const ProposalActionRole = ({
     ...roleAddChangeStyles,
     backgroundColor: ChangeTypeColors.Remove,
   };
+
+  // TODO: Refactor to use a function instead
   const roleNameChangeStyles: SxProps = {
-    marginBottom: isDesktop ? 1.5 : color && color !== role?.color ? 1 : 3,
+    marginBottom: isDesktop
+      ? 1.5
+      : color && color !== roleToChange?.color
+      ? 1
+      : 3,
   };
 
   const getMainContentTopMargin = () => {
@@ -71,7 +105,7 @@ const ProposalActionRole = ({
   };
 
   return (
-    <Box marginBottom={2.5}>
+    <Box marginBottom={preview ? 0 : 2.5} {...boxProps}>
       <Accordion
         expanded={showRole}
         onChange={() => setShowRole(!showRole)}
@@ -100,7 +134,7 @@ const ProposalActionRole = ({
 
                   <Flex sx={roleRemoveChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
-                      - {role?.name}
+                      - {roleToChange?.name}
                     </Typography>
                   </Flex>
 
@@ -135,7 +169,9 @@ const ProposalActionRole = ({
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
-                    <Circle sx={{ ...circleIconStyles, color: role?.color }} />
+                    <Circle
+                      sx={{ ...circleIconStyles, color: roleToChange?.color }}
+                    />
                   </Flex>
 
                   <Flex sx={roleAddChangeStyles}>
@@ -180,7 +216,7 @@ const ProposalActionRole = ({
                   <ProposalActionPermission
                     actionType={actionType}
                     permission={permission}
-                    key={permission.id}
+                    key={permission.name}
                   />
                 ))}
               </Box>
@@ -204,10 +240,19 @@ const ProposalActionRole = ({
                   {t("roles.labels.members")}
                 </Typography>
 
+                {loading && <ProgressBar />}
+
+                {error && (
+                  <Typography marginTop={1}>
+                    {t("errors.somethingWentWrong")}
+                  </Typography>
+                )}
+
                 {members.map((member) => (
                   <ProposalActionRoleMember
+                    key={"id" in member ? member.id : member.userId}
+                    selectedUsers={data?.usersByIds}
                     actionType={actionType}
-                    key={member.id}
                     member={member}
                   />
                 ))}

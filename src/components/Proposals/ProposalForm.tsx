@@ -47,6 +47,7 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 import ProposalActionFields from "./ProposalActionFields";
+import ProposalActionRole from "./ProposalActionRole";
 import ProposeRoleModal from "./ProposeRoleModal";
 
 type ProposalFormErrors = {
@@ -340,8 +341,14 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   setFieldValue={setFieldValue}
                 />
 
-                {/* TODO: Remove when no longer needed for testing */}
-                {/* <Typography marginTop={3}>{JSON.stringify(values)}</Typography> */}
+                {values.action.role && (
+                  <ProposalActionRole
+                    actionType={values.action.actionType as ProposalActionType}
+                    role={values.action.role}
+                    marginTop={3}
+                    preview
+                  />
+                )}
               </>
             )}
 

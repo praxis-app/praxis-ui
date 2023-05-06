@@ -1,5 +1,9 @@
 import { Typography } from "@mui/material";
-import { ProposalActionRoleMemberFragment } from "../../apollo/gen";
+import {
+  ProposalActionRoleMemberFragment,
+  ProposalActionRoleMemberInput,
+  UserAvatarFragment,
+} from "../../apollo/gen";
 import { ProposalActionType } from "../../constants/proposal.constants";
 import { RoleMemberChangeType } from "../../constants/role.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -13,16 +17,23 @@ export enum ChangeTypeColors {
 }
 
 interface Props {
-  member: ProposalActionRoleMemberFragment;
   actionType: ProposalActionType;
+  member: ProposalActionRoleMemberFragment | ProposalActionRoleMemberInput;
+  selectedUsers?: UserAvatarFragment[];
 }
 
 const ProposalActionRoleMember = ({
-  member: { user, changeType },
+  member,
   actionType,
+  selectedUsers,
 }: Props) => {
   const isChangingRole = actionType === ProposalActionType.ChangeRole;
-  const isRemovingMember = changeType === RoleMemberChangeType.Remove;
+  const isRemovingMember = member.changeType === RoleMemberChangeType.Remove;
+
+  const user =
+    "userId" in member
+      ? selectedUsers?.find((u) => u.id === member.userId)
+      : member.user;
 
   const getBackgroundColor = () => {
     if (!isChangingRole) {
@@ -33,6 +44,10 @@ const ProposalActionRoleMember = ({
     }
     return ChangeTypeColors.Add;
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Link href={getUserProfilePath(user.name)}>

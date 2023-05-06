@@ -1,14 +1,17 @@
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import { SxProps, Typography } from "@mui/material";
 import { t } from "i18next";
-import { ProposalActionPermissionFragment } from "../../apollo/gen";
+import {
+  PermissionInput,
+  ProposalActionPermissionFragment,
+} from "../../apollo/gen";
 import { ProposalActionType } from "../../constants/proposal.constants";
 import { getPermissionText } from "../../utils/role.utils";
 import { ChangeTypeColors } from "./ProposalActionRoleMember";
 
 interface Props {
   actionType: ProposalActionType;
-  permission: ProposalActionPermissionFragment;
+  permission: ProposalActionPermissionFragment | PermissionInput;
 }
 
 const ProposalActionPermission = ({
