@@ -113,7 +113,12 @@ const ProposalActionRole = ({
               )}
 
               {isChangingRoleName && isChangingRoleColor && (
-                <Divider sx={{ marginTop: 2.4, marginBottom: 3 }} />
+                <Divider
+                  sx={{
+                    marginTop: isDesktop ? 2.4 : 2,
+                    marginBottom: isDesktop ? 3 : 2.6,
+                  }}
+                />
               )}
 
               {isChangingRoleColor && (
@@ -146,7 +151,12 @@ const ProposalActionRole = ({
 
           {(isChangingRoleName || isChangingRoleColor) &&
             (permissions || members) && (
-              <Divider sx={{ marginTop: 2, marginBottom: 3 }} />
+              <Divider
+                sx={{
+                  marginTop: isDesktop ? 2 : -0.9,
+                  marginBottom: isDesktop ? 3 : 4.4,
+                }}
+              />
             )}
 
           <Box
@@ -181,8 +191,8 @@ const ProposalActionRole = ({
                 orientation={isDesktop ? "vertical" : "horizontal"}
                 flexItem
                 sx={{
-                  marginBottom: isDesktop ? 0 : 2,
-                  marginTop: isDesktop ? 0.75 : 2.8,
+                  marginBottom: isDesktop ? 0 : 2.1,
+                  marginTop: isDesktop ? 0.75 : 3,
                   marginX: isDesktop ? 3 : 0,
                 }}
               />
