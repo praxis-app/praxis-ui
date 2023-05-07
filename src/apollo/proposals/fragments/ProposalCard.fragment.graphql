@@ -1,6 +1,7 @@
 fragment ProposalCard on Proposal {
   id
   body
+  stage
   voteCount
   createdAt
 

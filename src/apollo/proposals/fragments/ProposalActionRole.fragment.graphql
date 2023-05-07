@@ -2,12 +2,17 @@ fragment ProposalActionRole on ProposalActionRole {
   id
   name
   color
+  oldName
+  oldColor
+
   permissions {
     ...ProposalActionPermission
   }
+
   members {
     ...ProposalActionRoleMember
   }
+
   role {
     id
     name

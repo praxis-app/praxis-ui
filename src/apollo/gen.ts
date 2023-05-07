@@ -439,6 +439,8 @@ export type ProposalActionRole = {
   id: Scalars["Int"];
   members?: Maybe<Array<ProposalActionRoleMember>>;
   name?: Maybe<Scalars["String"]>;
+  oldColor?: Maybe<Scalars["String"]>;
+  oldName?: Maybe<Scalars["String"]>;
   permissions?: Maybe<Array<ProposalActionPermission>>;
   proposalAction: ProposalAction;
   role?: Maybe<Role>;
@@ -1025,9 +1027,9 @@ export type GroupProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body?: string | null;
+          stage: string;
           voteCount: number;
           createdAt: any;
-          stage: string;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -1044,6 +1046,8 @@ export type GroupProfileQuery = {
               id: number;
               name?: string | null;
               color?: string | null;
+              oldName?: string | null;
+              oldColor?: string | null;
               permissions?: Array<{
                 __typename?: "ProposalActionPermission";
                 id: number;
@@ -1323,9 +1327,9 @@ type FeedItem_Proposal_Fragment = {
   __typename?: "Proposal";
   id: number;
   body?: string | null;
+  stage: string;
   voteCount: number;
   createdAt: any;
-  stage: string;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1342,6 +1346,8 @@ type FeedItem_Proposal_Fragment = {
       id: number;
       name?: string | null;
       color?: string | null;
+      oldName?: string | null;
+      oldColor?: string | null;
       permissions?: Array<{
         __typename?: "ProposalActionPermission";
         id: number;
@@ -1591,6 +1597,8 @@ export type ProposalActionFragment = {
     id: number;
     name?: string | null;
     color?: string | null;
+    oldName?: string | null;
+    oldColor?: string | null;
     permissions?: Array<{
       __typename?: "ProposalActionPermission";
       id: number;
@@ -1629,6 +1637,8 @@ export type ProposalActionRoleFragment = {
   id: number;
   name?: string | null;
   color?: string | null;
+  oldName?: string | null;
+  oldColor?: string | null;
   permissions?: Array<{
     __typename?: "ProposalActionPermission";
     id: number;
@@ -1670,9 +1680,9 @@ export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
   body?: string | null;
+  stage: string;
   voteCount: number;
   createdAt: any;
-  stage: string;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1689,6 +1699,8 @@ export type ProposalCardFragment = {
       id: number;
       name?: string | null;
       color?: string | null;
+      oldName?: string | null;
+      oldColor?: string | null;
       permissions?: Array<{
         __typename?: "ProposalActionPermission";
         id: number;
@@ -1791,9 +1803,9 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body?: string | null;
+      stage: string;
       voteCount: number;
       createdAt: any;
-      stage: string;
       action: {
         __typename?: "ProposalAction";
         id: number;
@@ -1810,6 +1822,8 @@ export type CreateProposalMutation = {
           id: number;
           name?: string | null;
           color?: string | null;
+          oldName?: string | null;
+          oldColor?: string | null;
           permissions?: Array<{
             __typename?: "ProposalActionPermission";
             id: number;
@@ -1885,9 +1899,9 @@ export type UpdateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body?: string | null;
+      stage: string;
       voteCount: number;
       createdAt: any;
-      stage: string;
       action: {
         __typename?: "ProposalAction";
         id: number;
@@ -1904,6 +1918,8 @@ export type UpdateProposalMutation = {
           id: number;
           name?: string | null;
           color?: string | null;
+          oldName?: string | null;
+          oldColor?: string | null;
           permissions?: Array<{
             __typename?: "ProposalActionPermission";
             id: number;
@@ -1994,9 +2010,9 @@ export type ProposalQuery = {
     __typename?: "Proposal";
     id: number;
     body?: string | null;
+    stage: string;
     voteCount: number;
     createdAt: any;
-    stage: string;
     action: {
       __typename?: "ProposalAction";
       id: number;
@@ -2013,6 +2029,8 @@ export type ProposalQuery = {
         id: number;
         name?: string | null;
         color?: string | null;
+        oldName?: string | null;
+        oldColor?: string | null;
         permissions?: Array<{
           __typename?: "ProposalActionPermission";
           id: number;
@@ -2446,9 +2464,9 @@ export type FollowUserMutation = {
             __typename?: "Proposal";
             id: number;
             body?: string | null;
+            stage: string;
             voteCount: number;
             createdAt: any;
-            stage: string;
             action: {
               __typename?: "ProposalAction";
               id: number;
@@ -2465,6 +2483,8 @@ export type FollowUserMutation = {
                 id: number;
                 name?: string | null;
                 color?: string | null;
+                oldName?: string | null;
+                oldColor?: string | null;
                 permissions?: Array<{
                   __typename?: "ProposalActionPermission";
                   id: number;
@@ -2680,9 +2700,9 @@ export type HomePageQuery = {
           __typename?: "Proposal";
           id: number;
           body?: string | null;
+          stage: string;
           voteCount: number;
           createdAt: any;
-          stage: string;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -2699,6 +2719,8 @@ export type HomePageQuery = {
               id: number;
               name?: string | null;
               color?: string | null;
+              oldName?: string | null;
+              oldColor?: string | null;
               permissions?: Array<{
                 __typename?: "ProposalActionPermission";
                 id: number;
@@ -2815,9 +2837,9 @@ export type UserProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body?: string | null;
+          stage: string;
           voteCount: number;
           createdAt: any;
-          stage: string;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -2834,6 +2856,8 @@ export type UserProfileQuery = {
               id: number;
               name?: string | null;
               color?: string | null;
+              oldName?: string | null;
+              oldColor?: string | null;
               permissions?: Array<{
                 __typename?: "ProposalActionPermission";
                 id: number;
@@ -3185,6 +3209,8 @@ export const ProposalActionRoleFragmentDoc = gql`
     id
     name
     color
+    oldName
+    oldColor
     permissions {
       ...ProposalActionPermission
     }
@@ -3282,6 +3308,7 @@ export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
     body
+    stage
     voteCount
     createdAt
     action {

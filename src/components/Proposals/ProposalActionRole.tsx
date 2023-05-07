@@ -25,12 +25,14 @@ import ProposalActionRoleMember, {
 interface Props extends Omit<BoxProps, "role"> {
   role: ProposalActionRoleFragment | ProposalActionRoleInput;
   actionType: ProposalActionType;
+  ratified: boolean;
   preview?: boolean;
 }
 
 const ProposalActionRole = ({
   actionType,
   preview,
+  ratified,
   role,
   ...boxProps
 }: Props) => {
@@ -83,11 +85,14 @@ const ProposalActionRole = ({
   const { name, color, permissions, members } = role;
   const roleToChange = "role" in role ? role.role : selectedRoleData?.role;
 
+  const oldName =
+    ratified && "oldName" in role ? role.oldName : roleToChange?.name;
+  const oldColor =
+    ratified && "oldColor" in role ? role.oldColor : roleToChange?.color;
+
   const isRoleChange = actionType === ProposalActionType.ChangeRole;
-  const isChangingRoleName =
-    isRoleChange && name && name !== roleToChange?.name;
-  const isChangingRoleColor =
-    isRoleChange && color && color !== roleToChange?.color;
+  const isChangingRoleName = isRoleChange && name && name !== oldName;
+  const isChangingRoleColor = isRoleChange && color && color !== oldColor;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -162,7 +167,7 @@ const ProposalActionRole = ({
 
                   <Flex sx={roleRemoveChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
-                      - {roleToChange?.name}
+                      - {oldName}
                     </Typography>
                   </Flex>
 
@@ -197,9 +202,7 @@ const ProposalActionRole = ({
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
-                    <Circle
-                      sx={{ ...circleIconStyles, color: roleToChange?.color }}
-                    />
+                    <Circle sx={{ ...circleIconStyles, color: oldColor }} />
                   </Flex>
 
                   <Flex sx={roleAddChangeStyles}>

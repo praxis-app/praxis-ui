@@ -20,6 +20,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
+import { ProposalStage } from "../../constants/proposal.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { getProposalActionLabel } from "../../utils/proposal.utils";
@@ -63,7 +64,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const { action, body, createdAt, group, id, images, user, voteCount } =
+  const { action, body, createdAt, group, id, images, user, voteCount, stage } =
     proposal;
 
   const me = data && data.me;
@@ -185,7 +186,10 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <CardContent sx={cardContentStyles}>
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
-        <ProposalAction action={action} />
+        <ProposalAction
+          action={action}
+          ratified={stage === ProposalStage.Ratified}
+        />
 
         <Link href={proposalPath}>
           {!!images.length && (

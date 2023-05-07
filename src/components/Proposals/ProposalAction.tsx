@@ -7,10 +7,12 @@ import ProposalActionRole from "./ProposalActionRole";
 
 interface Props {
   action: ProposalActionFragment;
+  ratified: boolean;
 }
 
 const ProposalAction = ({
   action: { actionType, groupDescription, groupName, groupCoverPhoto, role },
+  ratified,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -51,7 +53,13 @@ const ProposalAction = ({
     if (!role) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;
     }
-    return <ProposalActionRole role={role} actionType={actionType} />;
+    return (
+      <ProposalActionRole
+        actionType={actionType}
+        ratified={ratified}
+        role={role}
+      />
+    );
   }
 
   return null;

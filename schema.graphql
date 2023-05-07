@@ -264,6 +264,8 @@ type ProposalActionRole {
   id: Int!
   members: [ProposalActionRoleMember!]
   name: String
+  oldColor: String
+  oldName: String
   permissions: [ProposalActionPermission!]
   proposalAction: ProposalAction!
   role: Role
