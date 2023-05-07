@@ -60,7 +60,7 @@ const ProposalActionRole = ({
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
-    if (!preview || !role.members || !role.id) {
+    if (!preview || !role.members) {
       return;
     }
     const userIds = role.members?.map(
@@ -69,9 +69,11 @@ const ProposalActionRole = ({
     getSelectedUsers({
       variables: { userIds },
     });
-    getSelectedRole({
-      variables: { id: role.id },
-    });
+    if (role.id) {
+      getSelectedRole({
+        variables: { id: role.id },
+      });
+    }
   }, [preview, getSelectedUsers, getSelectedRole, role]);
 
   if (selectedRoleError || selectedUsersError) {
