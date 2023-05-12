@@ -25,7 +25,7 @@ import ProposalActionRoleMember, {
 interface Props extends Omit<BoxProps, "role"> {
   role: ProposalActionRoleFragment | ProposalActionRoleInput;
   actionType: ProposalActionType;
-  ratified: boolean;
+  ratified?: boolean;
   preview?: boolean;
 }
 
