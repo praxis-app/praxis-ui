@@ -165,12 +165,14 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <ItemMenu
         anchorEl={menuAnchorEl}
         canDelete={isMe}
-        canUpdate={isMe}
         deleteItem={handleDelete}
         deletePrompt={deletePrompt}
         editPath={editPath}
         itemId={id}
         setAnchorEl={setMenuAnchorEl}
+
+        // TODO: Uncomment when implementing revisions or drafts for proposals
+        // canUpdate={isMe}
       />
     );
   };
