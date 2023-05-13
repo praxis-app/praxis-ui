@@ -20,6 +20,7 @@ import {
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
 import {
+  ProposalActionRoleFragment,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
   useGroupMembersByGroupIdLazyQuery,
@@ -56,7 +57,8 @@ interface Props {
     field: ProposalActionFieldName,
     value: ProposalActionRoleInput
   ) => void;
-  setShowModal(showModal: boolean): void;
+  setShowModal?(showModal: boolean): void;
+  editRole?: ProposalActionRoleFragment;
 }
 
 const ProposeRoleForm = ({
@@ -64,14 +66,17 @@ const ProposeRoleForm = ({
   groupId,
   setFieldValue,
   setShowModal,
+  editRole,
 }: Props) => {
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
 
-  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>(
+    editRole?.members?.map(({ user }) => user.id) || []
+  );
 
   // TODO: Set role color with formik
-  const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
+  const [color, setColor] = useState(editRole?.color || DEFAULT_ROLE_COLOR);
 
   const [
     getGroupMembers,
@@ -130,8 +135,8 @@ const ProposeRoleForm = ({
     groupMembersError || groupRolesError || selectedRoleError;
 
   const initialValues: ProposalActionRoleInput = {
-    name: "",
-    permissions: [],
+    name: editRole?.name || "",
+    permissions: editRole?.permissions || [],
   };
 
   const handleSelectRoleChange =
@@ -205,7 +210,9 @@ const ProposeRoleForm = ({
       color,
     });
 
-    setShowModal(false);
+    if (setShowModal) {
+      setShowModal(false);
+    }
   };
 
   return (
@@ -291,7 +298,7 @@ const ProposeRoleForm = ({
                       </Typography>
                     )}
 
-                    {members.length &&
+                    {!!members.length &&
                       members.map((member) => (
                         <RoleMemberOption
                           key={member.id}

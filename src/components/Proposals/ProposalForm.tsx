@@ -48,6 +48,7 @@ import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 import ProposalActionFields from "./ProposalActionFields";
 import ProposalActionRole from "./ProposalActionRole";
+import ProposeRoleForm from "./ProposeRoleForm";
 import ProposeRoleModal from "./ProposeRoleModal";
 
 type ProposalFormErrors = {
@@ -344,12 +345,21 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   touched={touched}
                   values={values}
                 />
-                <ProposeRoleModal
-                  actionType={values.action.actionType}
-                  groupId={values.groupId}
-                  setFieldValue={setFieldValue}
-                />
-
+                {!editProposal && (
+                  <ProposeRoleModal
+                    actionType={values.action.actionType}
+                    groupId={values.groupId}
+                    setFieldValue={setFieldValue}
+                  />
+                )}
+                {editProposal?.action.role && (
+                  <ProposeRoleForm
+                    actionType={values.action.actionType}
+                    editRole={editProposal.action.role}
+                    groupId={values.groupId}
+                    setFieldValue={setFieldValue}
+                  />
+                )}
                 {values.action.role && !editProposal && (
                   <ProposalActionRole
                     actionType={values.action.actionType as ProposalActionType}
