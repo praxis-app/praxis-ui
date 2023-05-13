@@ -11,6 +11,10 @@ fragment ProposalForm on Proposal {
     groupCoverPhoto {
       ...AttachedImage
     }
+
+    role {
+      ...ProposalActionRole
+    }
   }
 
   images {

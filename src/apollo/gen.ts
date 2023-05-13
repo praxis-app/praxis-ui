@@ -1787,6 +1787,37 @@ export type ProposalFormFragment = {
       id: number;
       filename: string;
     } | null;
+    role?: {
+      __typename?: "ProposalActionRole";
+      id: number;
+      name?: string | null;
+      color?: string | null;
+      oldName?: string | null;
+      oldColor?: string | null;
+      permissions?: Array<{
+        __typename?: "ProposalActionPermission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }> | null;
+      members?: Array<{
+        __typename?: "ProposalActionRoleMember";
+        id: number;
+        changeType: string;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }> | null;
+      role?: {
+        __typename?: "Role";
+        id: number;
+        name: string;
+        color: string;
+      } | null;
+    } | null;
   };
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
 };
@@ -1994,6 +2025,37 @@ export type EditProposalQuery = {
         __typename?: "Image";
         id: number;
         filename: string;
+      } | null;
+      role?: {
+        __typename?: "ProposalActionRole";
+        id: number;
+        name?: string | null;
+        color?: string | null;
+        oldName?: string | null;
+        oldColor?: string | null;
+        permissions?: Array<{
+          __typename?: "ProposalActionPermission";
+          id: number;
+          name: string;
+          enabled: boolean;
+        }> | null;
+        members?: Array<{
+          __typename?: "ProposalActionRoleMember";
+          id: number;
+          changeType: string;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+        }> | null;
+        role?: {
+          __typename?: "Role";
+          id: number;
+          name: string;
+          color: string;
+        } | null;
       } | null;
     };
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -3365,12 +3427,16 @@ export const ProposalFormFragmentDoc = gql`
       groupCoverPhoto {
         ...AttachedImage
       }
+      role {
+        ...ProposalActionRole
+      }
     }
     images {
       ...AttachedImage
     }
   }
   ${AttachedImageFragmentDoc}
+  ${ProposalActionRoleFragmentDoc}
 `;
 export const RoleFragmentDoc = gql`
   fragment Role on Role {

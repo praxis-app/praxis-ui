@@ -70,16 +70,25 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
   const { t } = useTranslation();
 
+  const editProposalRole = {
+    ...editProposal?.action.role,
+    members: editProposal?.action.role?.members?.map((member) => ({
+      changeType: member.changeType,
+      userId: member.user.id,
+    })),
+  };
   const action: ProposalActionInput = {
     actionType: editProposal?.action.actionType || "",
     groupDescription: editProposal?.action.groupDescription || "",
     groupName: editProposal?.action.groupName || "",
+    role: editProposal ? editProposalRole : null,
   };
   const initialValues: CreateProposalInput = {
     body: editProposal?.body || "",
     action,
     groupId,
   };
+
   const actionTypeOptions = getProposalActionTypeOptions(t);
   const joinedGroups = data?.me.joinedGroups;
 
@@ -341,7 +350,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   setFieldValue={setFieldValue}
                 />
 
-                {values.action.role && (
+                {values.action.role && !editProposal && (
                   <ProposalActionRole
                     actionType={values.action.actionType as ProposalActionType}
                     role={values.action.role}
