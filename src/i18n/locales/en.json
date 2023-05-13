@@ -67,7 +67,8 @@
   "proposals": {
     "prompts": {
       "createProposal": "Create a proposal...",
-      "joinGroupToVote": "You need to be a group member to interact with this proposal."
+      "joinGroupToVote": "You need to be a group member to interact with this proposal.",
+      "cannotEditProposedRoles": "Editing of proposed roles is still in development."
     },
     "actions": {
       "attachNewCoverPhoto": "Attach new cover photo",

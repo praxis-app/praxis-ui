@@ -352,6 +352,12 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
               </>
             )}
 
+            {editProposal?.action.role && (
+              <Typography marginTop={1.5}>
+                {t("proposals.prompts.cannotEditProposedRoles")}
+              </Typography>
+            )}
+
             <AttachedImagePreview
               handleDelete={handleDeleteSavedImage}
               savedImages={editProposal?.images || []}
