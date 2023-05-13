@@ -106,11 +106,12 @@
       "ratifiedSuccess": "This proposal has been ratified! 🎉"
     },
     "errors": {
+      "missingActionType": "Proposals must include an action",
       "missingGroupCoverPhoto": "Proposals to change group cover photo must include an image",
       "missingGroupDescription": "Proposals to change group description must include a description field",
-      "missingGroupName": "Proposals to change group name must include a name field",
       "missingGroupId": "Only group proposals are supported at this time",
-      "missingActionType": "Proposals must include an action"
+      "missingGroupName": "Proposals to change group name must include a name field",
+      "missingRole": "Proposals to change or add group roles must include a role"
     }
   },
 

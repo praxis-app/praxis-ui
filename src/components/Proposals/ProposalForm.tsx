@@ -113,6 +113,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
         "proposals.errors.missingGroupCoverPhoto"
       );
     }
+    if (
+      (action.actionType === ProposalActionType.CreateRole ||
+        action.actionType === ProposalActionType.ChangeRole) &&
+      !action.role
+    ) {
+      errors.action.role = t("proposals.errors.missingRole");
+    }
     if (!groupId && !editProposal) {
       errors.groupId = t("proposals.errors.missingGroupId");
     }
@@ -348,6 +355,17 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     marginTop={3}
                     preview
                   />
+                )}
+
+                {errors.action?.role && !!submitCount && (
+                  <Typography
+                    color="error"
+                    fontSize="small"
+                    marginTop={0.5}
+                    gutterBottom
+                  >
+                    {errors.action.role}
+                  </Typography>
                 )}
               </>
             )}
