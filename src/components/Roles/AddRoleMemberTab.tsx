@@ -32,11 +32,14 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props {
+  availableUsersToAdd: UserAvatarFragment[];
   role: AddRoleMemberTabFragment;
-  users: UserAvatarFragment[];
 }
 
-const AddRoleMemberTab = ({ role: { id, members }, users }: Props) => {
+const AddRoleMemberTab = ({
+  availableUsersToAdd,
+  role: { id, members },
+}: Props) => {
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateRole] = useUpdateRoleMutation();
@@ -89,7 +92,7 @@ const AddRoleMemberTab = ({ role: { id, members }, users }: Props) => {
         onClose={handleCloseModal}
         open={isModalOpen}
       >
-        {users.map((user) => (
+        {availableUsersToAdd.map((user) => (
           <RoleMemberOption
             key={user.id}
             selectedUserIds={selectedUserIds}

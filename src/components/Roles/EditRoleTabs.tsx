@@ -80,7 +80,10 @@ const EditRoleTabs = ({ role }: Props) => {
       )}
 
       {tab === 2 && (
-        <AddRoleMemberTab role={role} users={role.availableUsersToAdd} />
+        <AddRoleMemberTab
+          availableUsersToAdd={role.availableUsersToAdd}
+          role={role}
+        />
       )}
     </>
   );
