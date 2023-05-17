@@ -1,25 +1,10 @@
 import {
-  CardActionArea as MuiCardActionArea,
-  Checkbox,
-  styled,
-  Typography,
-} from "@mui/material";
-import {
   ProposalActionRoleMemberInput,
   RoleMemberFragment,
   UserAvatarFragment,
 } from "../../apollo/gen";
 import { RoleMemberChangeType } from "../../constants/role.constants";
-import { ROLE_MEMBER_OPTION_STYLES } from "../Roles/RoleMemberOption";
-import Flex from "../Shared/Flex";
-import UserAvatar from "../Users/UserAvatar";
-
-const CardActionArea = styled(MuiCardActionArea)(() => ({
-  marginBottom: 2,
-  "&:last-child": {
-    marginBottom: 0,
-  },
-}));
+import RoleMemberOption from "../Roles/RoleMemberOption";
 
 interface Props {
   member: UserAvatarFragment;
@@ -73,16 +58,11 @@ const ProposeRoleMemberOption = ({
   };
 
   return (
-    <CardActionArea onClick={handleChange} sx={ROLE_MEMBER_OPTION_STYLES}>
-      <Flex>
-        <UserAvatar user={member} sx={{ marginRight: 1.5 }} />
-        <Typography color="primary" marginTop={1} sx={{ userSelect: "none" }}>
-          {member.name}
-        </Typography>
-      </Flex>
-
-      <Checkbox checked={checked} disableRipple />
-    </CardActionArea>
+    <RoleMemberOption
+      handleChange={handleChange}
+      checked={checked}
+      user={member}
+    />
   );
 };
 

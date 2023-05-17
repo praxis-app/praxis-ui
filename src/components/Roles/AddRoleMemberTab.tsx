@@ -13,9 +13,9 @@ import {
   UserAvatarFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
-import Modal from "../Shared/Modal";
 import Flex from "../Shared/Flex";
-import RoleMemberOption from "./RoleMemberOption";
+import Modal from "../Shared/Modal";
+import AddRoleMemberOption from "./AddRoleMemberOption";
 import RoleMember from "./RoleMember";
 
 const FlexCardContent = styled(MuiCardContent)(() => ({
@@ -93,7 +93,7 @@ const AddRoleMemberTab = ({
         open={isModalOpen}
       >
         {availableUsersToAdd.map((user) => (
-          <RoleMemberOption
+          <AddRoleMemberOption
             key={user.id}
             selectedUserIds={selectedUserIds}
             setSelectedUserIds={setSelectedUserIds}

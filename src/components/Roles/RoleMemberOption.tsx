@@ -1,5 +1,3 @@
-// TODO: Refactor to enable setting as ProposalActionRoleMemberInput type
-
 import {
   CardActionArea as MuiCardActionArea,
   Checkbox,
@@ -28,40 +26,22 @@ const CardActionArea = styled(MuiCardActionArea)(() => ({
 }));
 
 interface Props {
-  selectedUserIds: number[];
-  setSelectedUserIds(selectedUsers: number[]): void;
+  handleChange(): void;
+  checked: boolean;
   user: UserAvatarFragment;
 }
 
-const RoleMemberOption = ({
-  selectedUserIds,
-  setSelectedUserIds,
-  user,
-}: Props) => {
-  const isSelected = selectedUserIds.some((userId) => userId === user.id);
+const RoleMemberOption = ({ handleChange, user, checked }: Props) => (
+  <CardActionArea onClick={handleChange} sx={ROLE_MEMBER_OPTION_STYLES}>
+    <Flex>
+      <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
+      <Typography color="primary" sx={{ marginTop: 1, userSelect: "none" }}>
+        {user.name}
+      </Typography>
+    </Flex>
 
-  const handleChange = () => {
-    if (isSelected) {
-      setSelectedUserIds(
-        selectedUserIds.filter((userId) => userId !== user.id)
-      );
-      return;
-    }
-    setSelectedUserIds([...selectedUserIds, user.id]);
-  };
-
-  return (
-    <CardActionArea onClick={handleChange} sx={ROLE_MEMBER_OPTION_STYLES}>
-      <Flex>
-        <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
-        <Typography color="primary" sx={{ marginTop: 1, userSelect: "none" }}>
-          {user.name}
-        </Typography>
-      </Flex>
-
-      <Checkbox checked={isSelected} disableRipple />
-    </CardActionArea>
-  );
-};
+    <Checkbox checked={checked} disableRipple />
+  </CardActionArea>
+);
 
 export default RoleMemberOption;
