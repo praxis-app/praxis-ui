@@ -35,7 +35,6 @@ import {
 import {
   DEFAULT_ROLE_COLOR,
   GroupPermissions,
-  RoleMemberChangeType,
 } from "../../constants/role.constants";
 import { initPermissions } from "../../utils/role.utils";
 import PermissionToggle from "../Roles/PermissionToggle";
@@ -156,12 +155,6 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
         variables: { id: +event.target.value },
         onCompleted({ role }) {
           setColor(role.color);
-          setSelectedMembers(
-            role.members.map(({ id }) => ({
-              changeType: RoleMemberChangeType.None,
-              userId: id,
-            }))
-          );
           setFieldValue("name", role.name);
         },
       });
@@ -196,12 +189,9 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   };
 
   const handleSubmit = async (formValues: ProposalActionRoleInput) => {
-    const members = selectedMembers.filter(
-      (member) => member.changeType !== RoleMemberChangeType.None
-    );
     setFieldValue(ProposalActionFieldName.Role, {
       ...formValues,
-      members,
+      members: selectedMembers,
       color,
     });
     setOpen(false);
