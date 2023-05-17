@@ -32,29 +32,17 @@ const ProposeRoleMemberOption = ({
   const checked = (isAlreadyAdded && !isSelectedToRemove) || isSelectedToAdd;
 
   const handleChange = () => {
-    if (!isAlreadyAdded && !checked) {
-      setSelectedMembers([
-        ...selectedMembers,
-        {
-          changeType: RoleMemberChangeType.Add,
-          userId: member.id,
-        },
-      ]);
+    if ((!isAlreadyAdded && checked) || (isAlreadyAdded && !checked)) {
+      setSelectedMembers(
+        selectedMembers.filter(({ userId }) => userId !== member.id)
+      );
       return;
     }
-    if (isAlreadyAdded && checked) {
-      setSelectedMembers([
-        ...selectedMembers,
-        {
-          changeType: RoleMemberChangeType.Remove,
-          userId: member.id,
-        },
-      ]);
-      return;
-    }
-    setSelectedMembers(
-      selectedMembers.filter(({ userId }) => userId !== member.id)
-    );
+    const changeType =
+      isAlreadyAdded && checked
+        ? RoleMemberChangeType.Remove
+        : RoleMemberChangeType.Add;
+    setSelectedMembers([...selectedMembers, { changeType, userId: member.id }]);
   };
 
   return (
