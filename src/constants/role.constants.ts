@@ -30,5 +30,6 @@ export enum EditRoleTabNames {
 
 export enum RoleMemberChangeType {
   Add = "add",
+  None = "none",
   Remove = "remove",
 }

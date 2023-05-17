@@ -39,7 +39,6 @@ import {
 } from "../../constants/role.constants";
 import { initPermissions } from "../../utils/role.utils";
 import PermissionToggle from "../Roles/PermissionToggle";
-import RoleMemberOption from "../Roles/RoleMemberOption";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -50,6 +49,7 @@ import Modal from "../Shared/Modal";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import ProgressBar from "../Shared/ProgressBar";
 import { TextField } from "../Shared/TextField";
+import ProposeRoleMemberOption from "./ProposeRoleMemberOption";
 
 export interface ProposeRoleModalValues {
   name: string;
@@ -71,7 +71,9 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
 
-  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
+  const [selectedMembers, setSelectedMembers] = useState<
+    ProposalActionRoleMemberInput[]
+  >([]);
 
   // TODO: Set role color with formik
   const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
@@ -154,7 +156,12 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
         variables: { id: +event.target.value },
         onCompleted({ role }) {
           setColor(role.color);
-          setSelectedUserIds(role.members.map(({ id }) => id));
+          setSelectedMembers(
+            role.members.map(({ id }) => ({
+              changeType: RoleMemberChangeType.None,
+              userId: id,
+            }))
+          );
           setFieldValue("name", role.name);
         },
       });
@@ -176,7 +183,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const handleClose = () => {
     setOpen(false);
     setColor(DEFAULT_ROLE_COLOR);
-    setSelectedUserIds([]);
+    setSelectedMembers([]);
     setShowMembers(false);
   };
 
@@ -189,39 +196,14 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   };
 
   const handleSubmit = async (formValues: ProposalActionRoleInput) => {
-    let memberChanges: ProposalActionRoleMemberInput[] = [];
-
-    if (actionType === ProposalActionType.CreateRole) {
-      memberChanges = selectedUserIds.map((userId) => ({
-        changeType: RoleMemberChangeType.Add,
-        userId,
-      }));
-    }
-
-    if (actionType === ProposalActionType.ChangeRole && selectedRole) {
-      const membersAdded = selectedUserIds
-        .filter(
-          (userId) =>
-            !selectedRole.members.some((member) => member.id === userId)
-        )
-        .map((userId) => ({ userId, changeType: RoleMemberChangeType.Add }));
-
-      const membersRemoved = selectedRole.members
-        .filter(({ id }) => !selectedUserIds.some((userId) => userId === id))
-        .map((member) => ({
-          changeType: RoleMemberChangeType.Remove,
-          userId: member.id,
-        }));
-
-      memberChanges = [...membersAdded, ...membersRemoved];
-    }
-
+    const members = selectedMembers.filter(
+      (member) => member.changeType !== RoleMemberChangeType.None
+    );
     setFieldValue(ProposalActionFieldName.Role, {
       ...formValues,
-      members: memberChanges,
+      members,
       color,
     });
-
     setOpen(false);
   };
 
@@ -314,11 +296,12 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
                       {members.length &&
                         members.map((member) => (
-                          <RoleMemberOption
+                          <ProposeRoleMemberOption
                             key={member.id}
-                            selectedUserIds={selectedUserIds}
-                            setSelectedUserIds={setSelectedUserIds}
-                            user={member}
+                            member={member}
+                            selectedMembers={selectedMembers}
+                            setSelectedMembers={setSelectedMembers}
+                            currentRoleMembers={selectedRole?.members}
                           />
                         ))}
                     </AccordionDetails>

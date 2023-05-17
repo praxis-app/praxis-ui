@@ -1,14 +1,24 @@
 // TODO: Refactor to enable setting as ProposalActionRoleMemberInput type
 
 import {
-  Checkbox,
   CardActionArea as MuiCardActionArea,
-  Typography,
+  Checkbox,
   styled,
+  SxProps,
+  Typography,
 } from "@mui/material";
 import { UserAvatarFragment } from "../../apollo/gen";
 import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/UserAvatar";
+
+export const ROLE_MEMBER_OPTION_STYLES: SxProps = {
+  borderRadius: 2,
+  display: "flex",
+  justifyContent: "space-between",
+  paddingLeft: 0.75,
+  paddingRight: 0.25,
+  paddingY: 0.75,
+};
 
 const CardActionArea = styled(MuiCardActionArea)(() => ({
   marginBottom: 2,
@@ -28,7 +38,7 @@ const RoleMemberOption = ({
   setSelectedUserIds,
   user,
 }: Props) => {
-  const isSelected = !!selectedUserIds.find((userId) => userId === user.id);
+  const isSelected = selectedUserIds.some((userId) => userId === user.id);
 
   const handleChange = () => {
     if (isSelected) {
@@ -40,17 +50,8 @@ const RoleMemberOption = ({
     setSelectedUserIds([...selectedUserIds, user.id]);
   };
 
-  const actionAreaStyles = {
-    borderRadius: 2,
-    display: "flex",
-    justifyContent: "space-between",
-    paddingLeft: 0.75,
-    paddingRight: 0.25,
-    paddingY: 0.75,
-  };
-
   return (
-    <CardActionArea onClick={handleChange} sx={actionAreaStyles}>
+    <CardActionArea onClick={handleChange} sx={ROLE_MEMBER_OPTION_STYLES}>
       <Flex>
         <UserAvatar user={user} sx={{ marginRight: 1.5 }} />
         <Typography color="primary" sx={{ marginTop: 1, userSelect: "none" }}>
