@@ -1,8 +1,7 @@
-// TODO: Get over 80% test coverage for LoginForm component
-
 import { MockedProvider } from "@apollo/client/testing";
 import userEvent from "@testing-library/user-event";
-import { render, screen } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import SignUpForm from "../SignUpForm";
 import * as nextRouter from "next/router";
 
@@ -91,7 +90,7 @@ describe("SignUpForm Tests", () => {
     const button = screen.getByRole("button", { name: "users.actions.signUp" });
     userEvent.click(button);
   });
-  it("Should render all SignUpForm inputs with out email", async() => {
+  it("Should render all SignUpForm inputs with out fields and show required errors", async () => {
     render(
       <MockedProvider>
         <SignUpForm />
@@ -101,23 +100,59 @@ describe("SignUpForm Tests", () => {
       expect(screen.getByLabelText(label)).toBeInTheDocument();
     });
 
-    const input3 = screen.getByLabelText("users.form.password");
-    userEvent.type(input3, "12345");
+    const nameField = screen.getByLabelText("users.form.name");
+    userEvent.type(nameField, "");
+    await act(async () => {
+      fireEvent.blur(nameField);
+    });
+    expect(screen.getByText("signUp.errors.missingName")).toBeInTheDocument();
 
-    const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    userEvent.click(button);
+    const emailField = screen.getByLabelText("users.form.email");
+    userEvent.type(emailField, "");
+    await act(async () => {
+      fireEvent.blur(emailField);
+    });
+    expect(screen.getByText("signUp.errors.missingEmail")).toBeInTheDocument();
 
-    // Select the element with aria-label="states.loading"
-    const loadingElement = screen.getByLabelText('states.loading');
-  // Assert that the element is found
-    expect(loadingElement).toBeInTheDocument();
-      expect(loadingElement).not.toBeDisabled();
-       expect(screen.getByLabelText('users.form.email')).toBeInTheDocument();
-       expect(screen.getByLabelText('users.form.email').value).toBe("");    
-       expect(screen.getByLabelText('users.form.confirmPassword').value).toBe("");    
+    const passwordField = screen.getByLabelText("users.form.password");
+    userEvent.type(passwordField, "");
+    await act(async () => {
+      fireEvent.blur(passwordField);
+    });
+    expect(
+      screen.getByText("signUp.errors.missingPassword")
+    ).toBeInTheDocument();
+
+    const signUpButton = screen.getByRole("button", {
+      name: "users.actions.signUp",
+    });
+    expect(signUpButton.disabled).toBeTruthy();
+  });
+  it("Should render component and check password mismatch between password and confirm password", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
+    const passwordField = screen.getByLabelText("users.form.password");
+    userEvent.type(passwordField, "a");
+    await act(async () => {
+      fireEvent.blur(passwordField);
+    });
+
+    const missingPasswordField = screen.getByLabelText(
+      "users.form.confirmPassword"
+    );
+    userEvent.type(missingPasswordField, "b");
+    await act(async () => {
+      fireEvent.blur(missingPasswordField);
+    });
+    expect(
+      screen.getByText("signUp.errors.confirmPassword")
+    ).toBeInTheDocument();
   });
 
-   it("Should render component and check signup to be disabled", async() => {
+  it("Should render component and check signup to be disabled when no field is entered", async () => {
     render(
       <MockedProvider>
         <SignUpForm />
@@ -129,6 +164,5 @@ describe("SignUpForm Tests", () => {
 
     const button = screen.getByRole("button", { name: "users.actions.signUp" });
     expect(button.disabled).toBeTruthy();
-   
   });
 });
