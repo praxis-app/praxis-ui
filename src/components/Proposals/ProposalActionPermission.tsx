@@ -1,5 +1,8 @@
-import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
-import { SxProps, Typography } from "@mui/material";
+import {
+  CheckBox as MuiCheckBox,
+  CheckBoxOutlineBlank,
+} from "@mui/icons-material";
+import { Box, SxProps, Typography } from "@mui/material";
 import { t } from "i18next";
 import {
   PermissionInput,
@@ -8,6 +11,22 @@ import {
 import { ProposalActionType } from "../../constants/proposal.constants";
 import { getPermissionText } from "../../utils/role.utils";
 import { ChangeTypeColors } from "./ProposalActionRoleMember";
+
+const CHECK_BOX_ICON_STYLES: SxProps = {
+  fontSize: 18,
+  marginRight: "0.5ch",
+  marginTop: 0.2,
+};
+
+const CheckBox = ({ checked }: { checked: boolean }) => (
+  <>
+    {checked ? (
+      <MuiCheckBox color="inherit" sx={CHECK_BOX_ICON_STYLES} />
+    ) : (
+      <CheckBoxOutlineBlank color="inherit" sx={CHECK_BOX_ICON_STYLES} />
+    )}
+  </>
+);
 
 interface Props {
   actionType: ProposalActionType;
@@ -42,21 +61,17 @@ const ProposalActionPermission = ({
     verticalAlign: "middle",
   };
 
-  const iconStyles: SxProps = {
-    fontSize: 18,
-    marginRight: "0.5ch",
-    marginTop: 0.2,
-  };
-
   return (
     <Typography
       color={isChangingRole ? "primary" : undefined}
       sx={permissionStyles}
     >
-      {enabled ? (
-        <CheckBox color="inherit" sx={iconStyles} />
+      {isChangingRole ? (
+        <Box marginRight="0.7ch" component="span">
+          {enabled ? "+" : "-"}
+        </Box>
       ) : (
-        <CheckBoxOutlineBlank color="inherit" sx={iconStyles} />
+        <CheckBox checked={enabled} />
       )}
 
       {displayName}
