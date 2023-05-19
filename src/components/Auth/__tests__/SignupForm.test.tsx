@@ -41,9 +41,9 @@ describe("SignUpForm", () => {
     inviteTokenVarMock("");
     cacheMock.writeQuery();
     isLoggedInVarMock(true);
-    setImageInputKeyMock("sdsdsd");
+    setImageInputKeyMock("");
     removeLocalStorageItemMock(INVITE_TOKEN);
-    toastVarMock("ddd");
+    toastVarMock("error");
 
     render(
       <MockedProvider>
@@ -81,7 +81,7 @@ describe("SignUpForm", () => {
     expect(toastVarMock).toHaveBeenCalled();
   });
 
-  it("when email not entered", async () => {
+  it("on singup it should show error when email is not entered", async () => {
     render(
       <MockedProvider>
         <SignUpForm />
