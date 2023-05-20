@@ -124,4 +124,14 @@ describe("SignUpForm", () => {
     const removeButton = screen.getAllByLabelText("images.labels.removeImage");
     fireEvent.click(removeButton[0]);
   });
+
+  it("should show submit button as disabled when no field is entered", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
+    const button = screen.getByRole("button", { name: "users.actions.signUp" });
+    expect(button).toBeDisabled();
+  });
 });
