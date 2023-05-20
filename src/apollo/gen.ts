@@ -448,10 +448,10 @@ export type ProposalActionRole = {
 
 export type ProposalActionRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["Int"]>;
   members?: InputMaybe<Array<ProposalActionRoleMemberInput>>;
   name?: InputMaybe<Scalars["String"]>;
   permissions?: InputMaybe<Array<PermissionInput>>;
+  roleToUpdateId?: InputMaybe<Scalars["Int"]>;
 };
 
 export type ProposalActionRoleMember = {

@@ -273,10 +273,10 @@ type ProposalActionRole {
 
 input ProposalActionRoleInput {
   color: String
-  id: Int
   members: [ProposalActionRoleMemberInput!]
   name: String
   permissions: [PermissionInput!]
+  roleToUpdateId: Int
 }
 
 type ProposalActionRoleMember {

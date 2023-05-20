@@ -69,9 +69,9 @@ const ProposalActionRole = ({
     getSelectedUsers({
       variables: { userIds },
     });
-    if (role.id) {
+    if ("roleToUpdateId" in role && role.roleToUpdateId) {
       getSelectedRole({
-        variables: { id: role.id },
+        variables: { id: role.roleToUpdateId },
       });
     }
   }, [preview, getSelectedUsers, getSelectedRole, role]);

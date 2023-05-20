@@ -31,6 +31,7 @@ import { FieldNames } from "../../constants/common.constants";
 import {
   ProposalActionFieldName,
   ProposalActionType,
+  ProposeRoleModalFieldName,
 } from "../../constants/proposal.constants";
 import {
   DEFAULT_ROLE_COLOR,
@@ -106,19 +107,22 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const { t } = useTranslation();
 
+  const isCreateRole = actionType === ProposalActionType.CreateRole;
+  const isChangeRole = actionType === ProposalActionType.ChangeRole;
+
   useEffect(() => {
     if (!groupId) {
       return;
     }
-    if (actionType === ProposalActionType.CreateRole) {
+    if (isCreateRole) {
       getGroupMembers({ variables: { groupId } });
       setOpen(true);
     }
-    if (actionType === ProposalActionType.ChangeRole) {
+    if (isChangeRole) {
       getGroupRoles({ variables: { groupId } });
       setOpen(true);
     }
-  }, [groupId, actionType, getGroupMembers, getGroupRoles]);
+  }, [groupId, isChangeRole, isCreateRole, getGroupMembers, getGroupRoles]);
 
   const roles = groupRolesData?.group.roles;
   const selectedRole = selectedRoleData?.role;
@@ -140,10 +144,9 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     permissions: [],
   };
 
-  const title =
-    actionType === ProposalActionType.CreateRole
-      ? t("proposals.actions.createGroupRole")
-      : t("proposals.actions.changeGroupRole");
+  const title = isCreateRole
+    ? t("proposals.actions.createGroupRole")
+    : t("proposals.actions.changeGroupRole");
 
   const handleSelectRoleChange =
     (
@@ -203,18 +206,18 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
         {({ dirty, isSubmitting, values, handleChange, setFieldValue }) => (
           <Form>
             <FormGroup>
-              {actionType === ProposalActionType.ChangeRole && roles && (
+              {isChangeRole && roles && (
                 <FormControl variant="standard" sx={{ marginBottom: 1 }}>
                   <InputLabel>
                     {t("proposals.labels.selectRoleToChange")}
                   </InputLabel>
                   <Select
-                    name="id"
+                    name={ProposeRoleModalFieldName.RoleToUpdateId}
                     onChange={handleSelectRoleChange(
                       handleChange,
                       setFieldValue
                     )}
-                    value={values.id || ""}
+                    value={values.roleToUpdateId || ""}
                   >
                     {roles.map((role) => (
                       <MenuItem value={role.id} key={role.id}>
@@ -225,7 +228,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                 </FormControl>
               )}
 
-              {(actionType === ProposalActionType.CreateRole || values.id) && (
+              {(isCreateRole || values.roleToUpdateId) && (
                 <>
                   <TextField
                     autoComplete="off"
@@ -252,7 +255,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
                     <AccordionDetails>
                       <FieldArray
-                        name="permissions"
+                        name={ProposeRoleModalFieldName.Permissions}
                         render={(arrayHelpers) =>
                           permissions.map((permission) => (
                             <PermissionToggle
@@ -300,7 +303,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
               )}
             </FormGroup>
 
-            {(actionType === ProposalActionType.CreateRole || values.id) && (
+            {(isCreateRole || values.roleToUpdateId) && (
               <Flex justifyContent="end">
                 <PrimaryActionButton
                   disabled={isSubmitButtonDisabled(dirty, isSubmitting)}

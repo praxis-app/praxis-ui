@@ -24,7 +24,7 @@ export enum ProposalActionFieldName {
   RoleId = "action.role.id",
 }
 
-// TODO: Use in ProposeRoleModal
 export enum ProposeRoleModalFieldName {
-  RoleId = "id",
+  Permissions = "permissions",
+  RoleToUpdateId = "roleToUpdateId",
 }
