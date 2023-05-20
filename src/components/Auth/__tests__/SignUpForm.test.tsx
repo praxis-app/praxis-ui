@@ -118,7 +118,7 @@ describe("SignUpForm", () => {
       </MockedProvider>
     );
 
-    const inputElement = screen.getByLabelText("posts.labels.addImages");
+    const inputElement = screen.getByLabelText("images.labels.attachImages");
     fireEvent.change(inputElement, {
       target: {
         files: [new File([], "test-image.png", { type: "image/png" })],
