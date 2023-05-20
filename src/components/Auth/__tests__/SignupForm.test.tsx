@@ -25,9 +25,7 @@ jest.mock("next/router", () => ({
   }),
 }));
 
-const cacheMock = {
-  writeQuery: jest.fn(),
-};
+const cacheMock = { writeQuery: jest.fn() };
 const inviteTokenVarMock = jest.fn();
 const isLoggedInVarMock = jest.fn();
 const setImageInputKeyMock = jest.fn();
@@ -36,7 +34,7 @@ const toastVarMock = jest.fn();
 URL.createObjectURL = jest.fn();
 
 describe("SignUpForm", () => {
-  it("should call the signUp mutation when the sign-up button is clicked", async () => {
+  it("should call the signUp mutation when the submit button is clicked", async () => {
     const mockSignUpMutation = jest.fn();
     const mockOnCompleted = jest.fn();
 
@@ -88,7 +86,7 @@ describe("SignUpForm", () => {
     expect(toastVarMock).toHaveBeenCalled();
   });
 
-  it("on singup it should show error when email is not entered", async () => {
+  it("should show error on submit when email is not entered", async () => {
     render(
       <MockedProvider>
         <SignUpForm />
