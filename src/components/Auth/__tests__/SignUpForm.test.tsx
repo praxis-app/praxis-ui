@@ -125,7 +125,9 @@ describe("SignUpForm", () => {
       },
     });
 
-    const imagePreview = screen.getByTestId("attach-image-preview");
+    const imagePreview = screen.getByLabelText(
+      "images.labels.attachedImagePreview"
+    );
     expect(imagePreview).toBeInTheDocument();
 
     const removeButton = screen.getAllByLabelText("images.labels.removeImage");

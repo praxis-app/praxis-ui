@@ -40,6 +40,8 @@ const AttachedImagePreview = ({
   selectedImages,
   sx,
 }: Props) => {
+  const { t } = useTranslation();
+
   const containerStyles: SxProps = {
     marginBottom: 2.5,
     marginRight: 3.5,
@@ -50,13 +52,13 @@ const AttachedImagePreview = ({
 
   return (
     <Box
+      aria-label={t("images.labels.attachedImagePreview")}
       sx={{
         marginTop: 2,
         display: "flex",
         flexWrap: "wrap",
         ...sx,
       }}
-      data-testid="attach-image-preview"
     >
       {savedImages &&
         savedImages.map(({ id, filename }) => (
