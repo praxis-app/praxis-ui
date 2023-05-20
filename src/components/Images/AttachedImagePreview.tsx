@@ -56,6 +56,7 @@ const AttachedImagePreview = ({
         flexWrap: "wrap",
         ...sx,
       }}
+      data-testid="attach-image-preview"
     >
       {savedImages &&
         savedImages.map(({ id, filename }) => (

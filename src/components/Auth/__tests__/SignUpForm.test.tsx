@@ -109,20 +109,28 @@ describe("SignUpForm", () => {
 
     const errorText = await screen.findByText("signUp.errors.missingEmail");
     expect(errorText).toBeInTheDocument();
+  });
+
+  it("should show image preview when user attaches image, and then hide it when user removes it", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
 
     const inputElement = screen.getByLabelText("posts.labels.addImages");
-
     fireEvent.change(inputElement, {
       target: {
         files: [new File([], "test-image.png", { type: "image/png" })],
       },
     });
 
-    const imagePreview = screen.getByLabelText("images.labels.attachImages");
+    const imagePreview = screen.getByTestId("attach-image-preview");
     expect(imagePreview).toBeInTheDocument();
 
     const removeButton = screen.getAllByLabelText("images.labels.removeImage");
     fireEvent.click(removeButton[0]);
+    expect(imagePreview).not.toBeInTheDocument();
   });
 
   it("should show submit button as disabled when no field is entered", async () => {
