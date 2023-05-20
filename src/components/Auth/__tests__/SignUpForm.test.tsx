@@ -34,6 +34,16 @@ const toastVarMock = jest.fn();
 URL.createObjectURL = jest.fn();
 
 describe("SignUpForm", () => {
+  it("should show submit button as disabled when no field is entered", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
+    const button = screen.getByRole("button", { name: "users.actions.signUp" });
+    expect(button).toBeDisabled();
+  });
+
   it("should call the signUp mutation when the submit button is clicked", async () => {
     const mockSignUpMutation = jest.fn();
     const mockOnCompleted = jest.fn();
@@ -133,15 +143,5 @@ describe("SignUpForm", () => {
     const removeButton = screen.getAllByLabelText("images.labels.removeImage");
     fireEvent.click(removeButton[0]);
     expect(imagePreview).not.toBeInTheDocument();
-  });
-
-  it("should show submit button as disabled when no field is entered", async () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    expect(button).toBeDisabled();
   });
 });
