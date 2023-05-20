@@ -4,7 +4,6 @@ import { MockedProvider } from "@apollo/client/testing";
 import { render, screen } from "@testing-library/react";
 import LoginForm from "../LoginForm";
 
-// Silences warning related to i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     i18n: { changeLanguage: () => new Promise(() => null) },

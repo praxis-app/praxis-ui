@@ -4,6 +4,13 @@ import { useSignUpMutation } from "../../../apollo/gen";
 import { MockedProvider } from "@apollo/client/testing";
 import { INVITE_TOKEN } from "../../../constants/server-invite.constants";
 
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    i18n: { changeLanguage: () => new Promise(() => null) },
+    t: (str: string) => str,
+  }),
+}));
+
 jest.mock("../../../apollo/gen", () => ({
   useSignUpMutation: jest.fn(),
 
