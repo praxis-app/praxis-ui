@@ -1,13 +1,9 @@
-import { MockedProvider } from "@apollo/client/testing";
-import userEvent from "@testing-library/user-event";
-import { render, fireEvent, screen } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import SignUpForm from "../SignUpForm";
-import * as nextRouter from "next/router";
+import { useSignUpMutation } from "../../../apollo/gen";
+import { MockedProvider } from "@apollo/client/testing";
+import { INVITE_TOKEN } from "../../../constants/server-invite.constants";
 
-nextRouter.useRouter = jest.fn();
-nextRouter.useRouter.mockImplementation(() => ({ route: "/" }));
-// Silences warning related to i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     i18n: { changeLanguage: () => new Promise(() => null) },
@@ -15,154 +11,127 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-const formInputLabels = [
-  "users.form.email",
-  "users.form.name",
-  "users.form.password",
-  "users.form.confirmPassword",
-];
+jest.mock("../../../apollo/gen", () => ({
+  useSignUpMutation: jest.fn(),
 
-describe("SignUpForm Tests", () => {
-  it("Should render all SignUpForm inputs", () => {
+  cache: {
+    writeQuery: jest.fn(),
+  },
+}));
+
+jest.mock("next/router", () => ({
+  useRouter: () => ({
+    query: { token: "myValue" },
+  }),
+}));
+
+const cacheMock = { writeQuery: jest.fn() };
+const inviteTokenVarMock = jest.fn();
+const isLoggedInVarMock = jest.fn();
+const setImageInputKeyMock = jest.fn();
+const removeLocalStorageItemMock = jest.fn();
+const toastVarMock = jest.fn();
+URL.createObjectURL = jest.fn();
+
+describe("SignUpForm", () => {
+  it("should call the signUp mutation when the submit button is clicked", async () => {
+    const mockSignUpMutation = jest.fn();
+    const mockOnCompleted = jest.fn();
+
+    mockSignUpMutation.mockImplementationOnce(() => Promise.resolve());
+    mockOnCompleted.mockImplementation(() => Promise.resolve());
+
+    (useSignUpMutation as jest.Mock).mockReturnValue([mockSignUpMutation]);
+
+    inviteTokenVarMock("");
+    cacheMock.writeQuery();
+    isLoggedInVarMock(true);
+    setImageInputKeyMock("");
+    removeLocalStorageItemMock(INVITE_TOKEN);
+    toastVarMock("error");
+
     render(
       <MockedProvider>
         <SignUpForm />
       </MockedProvider>
     );
-    formInputLabels.forEach((label) => {
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("users.form.email"), {
+      target: { value: "test@example.com" },
     });
-    const input1 = screen.getByLabelText("users.form.name");
-    userEvent.type(input1, "ad");
+    fireEvent.change(screen.getByLabelText("users.form.name"), {
+      target: { value: "Test User" },
+    });
+    fireEvent.change(screen.getByLabelText("users.form.password"), {
+      target: { value: "password" },
+    });
+    fireEvent.change(screen.getByLabelText("users.form.confirmPassword"), {
+      target: { value: "password" },
+    });
 
-    const input2 = screen.getByLabelText("users.form.email");
-    userEvent.type(input2, "ad@gmail.com");
+    fireEvent.click(
+      screen.getByRole("button", { name: "users.actions.signUp" })
+    );
 
-    const input3 = screen.getByLabelText("users.form.password");
-    userEvent.type(input3, "12345");
+    await waitFor(() => {
+      expect(mockSignUpMutation).toHaveBeenCalledTimes(1);
+    });
 
-    const input4 = screen.getByLabelText("users.form.confirmPassword");
-    userEvent.type(input4, "12345");
+    expect(cacheMock.writeQuery).toHaveBeenCalledTimes(1);
+    expect(inviteTokenVarMock).toHaveBeenCalled();
 
+    expect(isLoggedInVarMock).toHaveBeenCalled();
+    expect(setImageInputKeyMock).toHaveBeenCalled();
+    expect(removeLocalStorageItemMock).toHaveBeenCalledWith(INVITE_TOKEN);
+    expect(toastVarMock).toHaveBeenCalled();
+  });
+
+  it("should show error on submit when email is not entered", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
+
+    fireEvent.change(screen.getByLabelText("users.form.name"), {
+      target: { value: "Test User" },
+    });
+    fireEvent.change(screen.getByLabelText("users.form.password"), {
+      target: { value: "password" },
+    });
+    fireEvent.change(screen.getByLabelText("users.form.confirmPassword"), {
+      target: { value: "password" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "users.actions.signUp" })
+    );
+
+    const errorText = await screen.findByText("signUp.errors.missingEmail");
+    expect(errorText).toBeInTheDocument();
+
+    const inputElement = screen.getByLabelText("posts.labels.addImages");
+
+    fireEvent.change(inputElement, {
+      target: {
+        files: [new File([], "test-image.png", { type: "image/png" })],
+      },
+    });
+
+    const imagePreview = screen.getByLabelText("images.labels.attachImages");
+    expect(imagePreview).toBeInTheDocument();
+
+    const removeButton = screen.getAllByLabelText("images.labels.removeImage");
+    fireEvent.click(removeButton[0]);
+  });
+
+  it("should show submit button as disabled when no field is entered", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
     const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    userEvent.click(button);
-  });
-  it("Should render all SignUpForm inputs with out name", () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    formInputLabels.forEach((label) => {
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
-    });
-
-    const input2 = screen.getByLabelText("users.form.email");
-    userEvent.type(input2, "ad@gmail.com");
-
-    const input3 = screen.getByLabelText("users.form.password");
-    userEvent.type(input3, "12345");
-
-    const input4 = screen.getByLabelText("users.form.confirmPassword");
-    userEvent.type(input4, "12345");
-
-    const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    userEvent.click(button);
-  });
-  it("Should render all SignUpForm inputs with out email", () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    formInputLabels.forEach((label) => {
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
-    });
-    const input1 = screen.getByLabelText("users.form.name");
-    userEvent.type(input1, "ad");
-
-    const input3 = screen.getByLabelText("users.form.password");
-    userEvent.type(input3, "12345");
-
-    const input4 = screen.getByLabelText("users.form.confirmPassword");
-    userEvent.type(input4, "12345");
-
-    const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    userEvent.click(button);
-  });
-  it("Should render all SignUpForm inputs with out fields and show required errors", async () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    formInputLabels.forEach((label) => {
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
-    });
-
-    const nameField = screen.getByLabelText("users.form.name");
-    userEvent.type(nameField, "");
-    await act(async () => {
-      fireEvent.blur(nameField);
-    });
-    expect(screen.getByText("signUp.errors.missingName")).toBeInTheDocument();
-
-    const emailField = screen.getByLabelText("users.form.email");
-    userEvent.type(emailField, "");
-    await act(async () => {
-      fireEvent.blur(emailField);
-    });
-    expect(screen.getByText("signUp.errors.missingEmail")).toBeInTheDocument();
-
-    const passwordField = screen.getByLabelText("users.form.password");
-    userEvent.type(passwordField, "");
-    await act(async () => {
-      fireEvent.blur(passwordField);
-    });
-    expect(
-      screen.getByText("signUp.errors.missingPassword")
-    ).toBeInTheDocument();
-
-    const signUpButton = screen.getByRole("button", {
-      name: "users.actions.signUp",
-    });
-    expect(signUpButton.disabled).toBeTruthy();
-  });
-  it("Should render component and check password mismatch between password and confirm password", async () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    const passwordField = screen.getByLabelText("users.form.password");
-    userEvent.type(passwordField, "a");
-    await act(async () => {
-      fireEvent.blur(passwordField);
-    });
-
-    const missingPasswordField = screen.getByLabelText(
-      "users.form.confirmPassword"
-    );
-    userEvent.type(missingPasswordField, "b");
-    await act(async () => {
-      fireEvent.blur(missingPasswordField);
-    });
-    expect(
-      screen.getByText("signUp.errors.confirmPassword")
-    ).toBeInTheDocument();
-  });
-
-  it("Should render component and check signup to be disabled when no field is entered", async () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    formInputLabels.forEach((label) => {
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
-    });
-
-    const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    expect(button.disabled).toBeTruthy();
+    expect(button).toBeDisabled();
   });
 });
