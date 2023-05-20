@@ -1,10 +1,8 @@
-// TODO: Get over 80% test coverage for LoginForm component
-
 import { MockedProvider } from "@apollo/client/testing";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { useLoginMutation } from "../../../apollo/gen";
 import LoginForm from "../LoginForm";
 
-// Silences warning related to i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     i18n: { changeLanguage: () => new Promise(() => null) },
@@ -12,17 +10,52 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-const formInputLabels = ["users.form.email", "users.form.password"];
+jest.mock("../../../apollo/gen", () => ({
+  useLoginMutation: jest.fn(),
+  cache: {
+    writeQuery: jest.fn(),
+  },
+}));
 
-describe("LoginForm Tests", () => {
-  it("Should render all LoginForm inputs", () => {
+const cacheMock = { writeQuery: jest.fn() };
+const isLoggedInVarMock = jest.fn();
+const toastVarMock = jest.fn();
+
+describe("LoginForm", () => {
+  it("should call the login mutation when the submit button is clicked", async () => {
+    const mockLoginMutation = jest.fn();
+    const mockOnCompleted = jest.fn();
+
+    mockLoginMutation.mockImplementationOnce(() => Promise.resolve());
+    mockOnCompleted.mockImplementation(() => Promise.resolve());
+
+    (useLoginMutation as jest.Mock).mockReturnValue([mockLoginMutation]);
+
+    cacheMock.writeQuery();
+    isLoggedInVarMock(true);
+    toastVarMock("error");
+
     render(
       <MockedProvider>
         <LoginForm />
       </MockedProvider>
     );
-    formInputLabels.forEach((label) => {
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("users.form.email"), {
+      target: { value: "test@example.com" },
     });
+    fireEvent.change(screen.getByLabelText("users.form.password"), {
+      target: { value: "password" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "users.actions.logIn" })
+    );
+
+    await waitFor(() => {
+      expect(mockLoginMutation).toHaveBeenCalledTimes(1);
+    });
+    expect(cacheMock.writeQuery).toHaveBeenCalledTimes(1);
+    expect(isLoggedInVarMock).toHaveBeenCalled();
+    expect(toastVarMock).toHaveBeenCalled();
   });
 });

@@ -50,11 +50,7 @@ const ImageInput = ({
       return children;
     }
     return (
-      <IconButton
-        aria-label={t("images.labels.attachImages")}
-        disableRipple
-        edge="start"
-      >
+      <IconButton disableRipple edge="start">
         <Image sx={{ fontSize: 40 }} />
       </IconButton>
     );
@@ -64,7 +60,7 @@ const ImageInput = ({
     <Box marginTop={0.35} {...boxProps}>
       <input
         accept="image/*"
-        aria-label={t("posts.labels.addImages")}
+        aria-label={t("images.labels.attachImages")}
         key={refreshKey}
         multiple={multiple}
         name={name}
