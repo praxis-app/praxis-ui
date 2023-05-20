@@ -10,6 +10,7 @@ import {
   UpdateVoteMutation,
   useCreateVoteMutation,
   useDeleteVoteMutation,
+  useRolesByGroupIdLazyQuery,
   useUpdateVoteMutation,
 } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
@@ -36,8 +37,10 @@ interface Props {
 
 const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
   const [createVote] = useCreateVoteMutation();
-  const [updateVote] = useUpdateVoteMutation();
   const [deleteVote] = useDeleteVoteMutation();
+  const [updateVote] = useUpdateVoteMutation();
+
+  const [getGroupRoles] = useRolesByGroupIdLazyQuery();
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
@@ -53,7 +56,9 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
     return { color: Blurple.Primary };
   };
 
-  const handleCompleted = (data: CreateVoteMutation | UpdateVoteMutation) => {
+  const handleCompleted = async (
+    data: CreateVoteMutation | UpdateVoteMutation
+  ) => {
     const {
       vote: {
         proposal: {
@@ -65,7 +70,17 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
     } = "createVote" in data ? data.createVote : data.updateVote;
 
     const isRatified = stage === ProposalStage.Ratified;
+
     if (isRatified) {
+      const isRoleProposal =
+        actionType === ProposalActionType.CreateRole ||
+        actionType === ProposalActionType.ChangeRole;
+
+      // Load group roles if a role was added or changed
+      if (isRoleProposal && group) {
+        await getGroupRoles({ variables: { id: group.id } });
+      }
+
       toastVar({
         status: "info",
         title: t("proposals.toasts.ratifiedSuccess"),
