@@ -34,6 +34,16 @@ const toastVarMock = jest.fn();
 URL.createObjectURL = jest.fn();
 
 describe("SignUpForm", () => {
+  it("should show submit button as disabled when no field is entered", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
+    const button = screen.getByRole("button", { name: "users.actions.signUp" });
+    expect(button).toBeDisabled();
+  });
+
   it("should call the signUp mutation when the submit button is clicked", async () => {
     const mockSignUpMutation = jest.fn();
     const mockOnCompleted = jest.fn();
@@ -109,29 +119,29 @@ describe("SignUpForm", () => {
 
     const errorText = await screen.findByText("signUp.errors.missingEmail");
     expect(errorText).toBeInTheDocument();
+  });
 
-    const inputElement = screen.getByLabelText("posts.labels.addImages");
+  it("should show image preview when user attaches image, and then hide it when user removes it", async () => {
+    render(
+      <MockedProvider>
+        <SignUpForm />
+      </MockedProvider>
+    );
 
+    const inputElement = screen.getByLabelText("images.labels.attachImages");
     fireEvent.change(inputElement, {
       target: {
         files: [new File([], "test-image.png", { type: "image/png" })],
       },
     });
 
-    const imagePreview = screen.getByLabelText("images.labels.attachImages");
+    const imagePreview = screen.getByLabelText(
+      "images.labels.attachedImagePreview"
+    );
     expect(imagePreview).toBeInTheDocument();
 
     const removeButton = screen.getAllByLabelText("images.labels.removeImage");
     fireEvent.click(removeButton[0]);
-  });
-
-  it("should show submit button as disabled when no field is entered", async () => {
-    render(
-      <MockedProvider>
-        <SignUpForm />
-      </MockedProvider>
-    );
-    const button = screen.getByRole("button", { name: "users.actions.signUp" });
-    expect(button).toBeDisabled();
+    expect(imagePreview).not.toBeInTheDocument();
   });
 });

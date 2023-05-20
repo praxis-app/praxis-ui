@@ -302,6 +302,7 @@
 
   "images": {
     "labels": {
+      "attachedImagePreview": "Attached image preview",
       "attachedImages": "Attached images",
       "attachImages": "Attach images",
       "coverPhoto": "Cover photo",
