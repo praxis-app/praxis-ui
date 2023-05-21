@@ -1,7 +1,4 @@
-import {
-  CheckBox as MuiCheckBox,
-  CheckBoxOutlineBlank,
-} from "@mui/icons-material";
+import { CheckBox } from "@mui/icons-material";
 import { Box, SxProps, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
@@ -17,16 +14,6 @@ const CHECK_BOX_ICON_STYLES: SxProps = {
   marginRight: "0.5ch",
   marginTop: 0.2,
 };
-
-const CheckBox = ({ checked }: { checked: boolean }) => (
-  <>
-    {checked ? (
-      <MuiCheckBox color="inherit" sx={CHECK_BOX_ICON_STYLES} />
-    ) : (
-      <CheckBoxOutlineBlank color="inherit" sx={CHECK_BOX_ICON_STYLES} />
-    )}
-  </>
-);
 
 interface Props {
   actionType: ProposalActionType;
@@ -73,7 +60,7 @@ const ProposalActionPermission = ({
           {enabled ? "+" : "-"}
         </Box>
       ) : (
-        <CheckBox checked={enabled} />
+        <CheckBox color="inherit" sx={CHECK_BOX_ICON_STYLES} />
       )}
 
       {displayName}
