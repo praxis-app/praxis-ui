@@ -3,7 +3,7 @@ import {
   CheckBoxOutlineBlank,
 } from "@mui/icons-material";
 import { Box, SxProps, Typography } from "@mui/material";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import {
   PermissionInput,
   ProposalActionPermissionFragment,
@@ -37,6 +37,8 @@ const ProposalActionPermission = ({
   permission: { name, enabled },
   actionType,
 }: Props) => {
+  const { t } = useTranslation();
+
   const { displayName } = getPermissionText(name, t);
   const isChangingRole = actionType === ProposalActionType.ChangeRole;
 
