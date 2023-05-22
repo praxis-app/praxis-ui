@@ -94,8 +94,8 @@ const ProposalActionRole = ({
     ratified && "oldColor" in role ? role.oldColor : roleToChange?.color;
 
   const isRoleChange = actionType === ProposalActionType.ChangeRole;
-  const isChangingRoleName = isRoleChange && name && name !== oldName;
-  const isChangingRoleColor = isRoleChange && color && color !== oldColor;
+  const isChangingName = isRoleChange && name && name !== oldName;
+  const isChangingColor = isRoleChange && color && color !== oldColor;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -112,29 +112,29 @@ const ProposalActionRole = ({
     marginTop: 0.5,
     color,
   };
-  const roleAddChangeStyles: SxProps = {
+  const addChangeStyles: SxProps = {
     backgroundColor: ChangeTypeColors.Add,
     borderRadius: 2,
     marginLeft: "0.5ch",
     maxHeight: "24px",
     paddingX: 0.75,
   };
-  const roleRemoveChangeStyles: SxProps = {
-    ...roleAddChangeStyles,
+  const removeChangeStyles: SxProps = {
+    ...addChangeStyles,
     backgroundColor: ChangeTypeColors.Remove,
   };
 
-  // TODO: Refactor to use a function instead
-  const roleNameChangeStyles: SxProps = {
-    marginBottom: isDesktop
-      ? 1.5
-      : color && color !== roleToChange?.color
-      ? 1
-      : 3,
+  const getNameChangeMarginBottom = () => {
+    if (isDesktop) {
+      return 1.5;
+    }
+    if (color && color !== roleToChange?.color) {
+      return 1;
+    }
+    return 3;
   };
-
-  const getMainContentTopMargin = () => {
-    if (isDesktop || isChangingRoleName || isChangingRoleColor) {
+  const getMainContentMarginTop = () => {
+    if (isDesktop || isChangingName || isChangingColor) {
       return 0;
     }
     return 1.8;
@@ -158,8 +158,8 @@ const ProposalActionRole = ({
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
           {isRoleChange && (
             <>
-              {isChangingRoleName && (
-                <Flex sx={roleNameChangeStyles}>
+              {isChangingName && (
+                <Flex marginBottom={getNameChangeMarginBottom()}>
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
@@ -168,13 +168,13 @@ const ProposalActionRole = ({
                     {t("proposals.labels.name")}:
                   </Typography>
 
-                  <Flex sx={roleRemoveChangeStyles}>
+                  <Flex sx={removeChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       - {oldName}
                     </Typography>
                   </Flex>
 
-                  <Flex sx={roleAddChangeStyles}>
+                  <Flex sx={addChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       + {name}
                     </Typography>
@@ -182,7 +182,7 @@ const ProposalActionRole = ({
                 </Flex>
               )}
 
-              {isChangingRoleName && isChangingRoleColor && (
+              {isChangingName && isChangingColor && (
                 <Divider
                   sx={{
                     marginTop: isDesktop ? 2.4 : 2,
@@ -191,7 +191,7 @@ const ProposalActionRole = ({
                 />
               )}
 
-              {isChangingRoleColor && (
+              {isChangingColor && (
                 <Flex marginBottom={isDesktop ? 1.5 : 3}>
                   <Typography
                     fontFamily="Inter Bold"
@@ -201,14 +201,14 @@ const ProposalActionRole = ({
                     {t("proposals.labels.color")}:
                   </Typography>
 
-                  <Flex sx={roleRemoveChangeStyles}>
+                  <Flex sx={removeChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
                     <Circle sx={{ ...circleIconStyles, color: oldColor }} />
                   </Flex>
 
-                  <Flex sx={roleAddChangeStyles}>
+                  <Flex sx={addChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
@@ -219,21 +219,20 @@ const ProposalActionRole = ({
             </>
           )}
 
-          {(isChangingRoleName || isChangingRoleColor) &&
-            (permissions || members) && (
-              <Divider
-                sx={{
-                  marginTop: isDesktop ? 2 : -0.9,
-                  marginBottom: isDesktop ? 3 : 4.4,
-                }}
-              />
-            )}
+          {(isChangingName || isChangingColor) && (permissions || members) && (
+            <Divider
+              sx={{
+                marginTop: isDesktop ? 2 : -0.9,
+                marginBottom: isDesktop ? 3 : 4.4,
+              }}
+            />
+          )}
 
           <Box
             sx={{
               display: isDesktop ? "flex" : "block",
               justifyContent: "space-between",
-              marginTop: getMainContentTopMargin(),
+              marginTop: getMainContentMarginTop(),
             }}
           >
             {!!permissions?.length && (
