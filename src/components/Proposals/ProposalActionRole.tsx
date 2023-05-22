@@ -59,11 +59,12 @@ const ProposalActionRole = ({
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
+  // Fetch data required for preview in ProposalForm
   useEffect(() => {
     if (!preview || !role.members) {
       return;
     }
-    const userIds = role.members?.map(
+    const userIds = role.members.map(
       (member) => (member as ProposalActionRoleMemberInput).userId
     );
     getSelectedUsers({
