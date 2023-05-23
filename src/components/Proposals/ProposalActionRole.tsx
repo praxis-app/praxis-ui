@@ -116,7 +116,7 @@ const ProposalActionRole = ({
     backgroundColor: ChangeTypeColors.Add,
     borderRadius: 2,
     marginLeft: "0.5ch",
-    maxHeight: "24px",
+    paddingY: 0.2,
     paddingX: 0.75,
   };
   const removeChangeStyles: SxProps = {
@@ -165,7 +165,10 @@ const ProposalActionRole = ({
           {isRoleChange && (
             <>
               {isChangingName && (
-                <Flex marginBottom={getNameChangeMarginBottom()}>
+                <Flex
+                  marginBottom={getNameChangeMarginBottom()}
+                  flexDirection={isDesktop ? "row" : "column"}
+                >
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
@@ -174,7 +177,10 @@ const ProposalActionRole = ({
                     {t("proposals.labels.name")}:
                   </Typography>
 
-                  <Flex sx={removeChangeStyles}>
+                  <Flex
+                    marginBottom={isDesktop ? 0 : 1}
+                    sx={removeChangeStyles}
+                  >
                     <Typography color="primary" marginRight="0.25ch">
                       - {oldName}
                     </Typography>
