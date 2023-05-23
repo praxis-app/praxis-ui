@@ -72,25 +72,23 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const isProposalPage = asPath.includes(NavigationPaths.Proposals);
 
+  const hasMedia =
+    action.groupName ||
+    action.groupDescription ||
+    action.groupCoverPhoto ||
+    action.role ||
+    images.length;
+
   const groupPath = getGroupPath(group?.name || "");
   const proposalPath = `${NavigationPaths.Proposals}/${id}`;
   const userProfilePath = getUserProfilePath(user?.name);
   const formattedDate = timeAgo(createdAt);
 
   const bodyStyles = {
-    marginBottom:
-      action.groupName ||
-      action.groupDescription ||
-      action.groupCoverPhoto ||
-      images.length
-        ? 2.5
-        : 3.5,
+    marginBottom: hasMedia ? 2.5 : 3.5,
   };
   const cardContentStyles = {
     paddingTop: images.length && !body ? 2.5 : 3,
-  };
-  const imageListStyles = {
-    marginBottom: me ? 1.9 : 0,
   };
 
   const handleDelete = async (id: number) => {
@@ -195,7 +193,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
 
         <Link href={proposalPath}>
           {!!images.length && (
-            <AttachedImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} marginBottom={me ? 1.9 : 0} />
           )}
         </Link>
       </CardContent>
