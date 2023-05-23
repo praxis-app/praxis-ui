@@ -69,12 +69,10 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
 
+  const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
   const [selectedMembers, setSelectedMembers] = useState<
     ProposalActionRoleMemberInput[]
   >([]);
-
-  // TODO: Set role color with formik
-  const [color, setColor] = useState(DEFAULT_ROLE_COLOR);
 
   const [
     getGroupMembers,
