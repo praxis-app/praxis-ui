@@ -69,7 +69,7 @@
       "createProposal": "Create a proposal...",
       "joinGroupToVote": "You need to be a group member to interact with this proposal.",
       "cannotEditProposedRoles": "Editing of proposed roles is still in development.",
-      "emptyPermsAndMembers": "No proposed permissions or more role members."
+      "emptyPermsAndMembers": "No proposed permissions or role members."
     },
     "actions": {
       "attachNewCoverPhoto": "Attach new cover photo",
