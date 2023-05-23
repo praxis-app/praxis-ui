@@ -343,6 +343,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   values={values}
                 />
                 <ProposeRoleModal
+                  key={`${values.action.actionType}-${values.groupId}`}
                   actionType={values.action.actionType}
                   groupId={values.groupId}
                   setFieldValue={setFieldValue}
