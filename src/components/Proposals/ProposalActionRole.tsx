@@ -172,6 +172,7 @@ const ProposalActionRole = ({
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
+                    paddingTop={0.2}
                     gutterBottom
                   >
                     {t("proposals.labels.name")}:
