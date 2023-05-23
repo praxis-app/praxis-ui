@@ -225,14 +225,15 @@ const ProposalActionRole = ({
             </>
           )}
 
-          {(isChangingName || isChangingColor) && (permissions || members) && (
-            <Divider
-              sx={{
-                marginTop: isDesktop ? 2 : -0.9,
-                marginBottom: isDesktop ? 3 : 4.4,
-              }}
-            />
-          )}
+          {(isChangingName || isChangingColor) &&
+            !!(permissions?.length || members?.length) && (
+              <Divider
+                sx={{
+                  marginTop: isDesktop ? 2 : -0.9,
+                  marginBottom: isDesktop ? 3 : 4.4,
+                }}
+              />
+            )}
 
           <Box
             sx={{
