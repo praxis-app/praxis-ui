@@ -144,6 +144,27 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     ? t("proposals.actions.createGroupRole")
     : t("proposals.actions.changeGroupRole");
 
+  const isSubmitButtonDisabled = (
+    values: ProposalActionRoleInput,
+    isSubmitting: boolean
+  ) => {
+    if (isSubmitting) {
+      return true;
+    }
+    if (isChangeRole) {
+      if (!selectedRole) {
+        return true;
+      }
+      const dirty =
+        color !== selectedRole.color ||
+        values.name !== selectedRole.name ||
+        values.permissions?.length ||
+        selectedMembers.length;
+      return !dirty;
+    }
+    return !values.name;
+  };
+
   const handleSelectRoleChange =
     (
       handleChange: (e: ChangeEvent) => void,
@@ -179,14 +200,6 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     setShowMembers(false);
   };
 
-  // TODO: Factor in whether role color has been changed
-  const isSubmitButtonDisabled = (dirty: boolean, isSubmitting: boolean) => {
-    if (isSubmitting) {
-      return true;
-    }
-    return !dirty;
-  };
-
   const handleSubmit = async (formValues: ProposalActionRoleInput) => {
     setFieldValue(ProposalActionFieldName.Role, {
       ...formValues,
@@ -199,7 +212,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   return (
     <Modal open={open} onClose={handleClose} title={title}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ dirty, isSubmitting, values, handleChange, setFieldValue }) => (
+        {({ isSubmitting, values, handleChange, setFieldValue }) => (
           <Form>
             <FormGroup>
               {isChangeRole && roles && (
@@ -302,7 +315,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
             {(isCreateRole || values.roleToUpdateId) && (
               <Flex justifyContent="end">
                 <PrimaryActionButton
-                  disabled={isSubmitButtonDisabled(dirty, isSubmitting)}
+                  disabled={isSubmitButtonDisabled(values, isSubmitting)}
                   isLoading={isSubmitting}
                   sx={{ marginTop: 1.5 }}
                   type="submit"
