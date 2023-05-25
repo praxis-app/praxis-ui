@@ -1,10 +1,10 @@
 fragment EditRoleTabs on Role {
   ...Role
-  ...AddMemberTab
+  ...AddRoleMemberTab
   ...DeleteRoleButton
 
   permissions {
-    ...PermissionsForm
+    ...PermissionToggle
   }
 
   availableUsersToAdd {

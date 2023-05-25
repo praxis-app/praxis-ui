@@ -67,7 +67,7 @@ const Role = ({
                 }}
               >
                 <Person sx={memberIconStyles} />
-                {t("roles.labels.members", { count: memberCount })}
+                {t("roles.labels.membersCount", { count: memberCount })}
               </Typography>
             </Box>
           </Flex>

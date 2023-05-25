@@ -63,7 +63,7 @@ const Modal = ({
       return appBarContent;
     }
     return (
-      <Toolbar sx={{ backgroundColor: Blurple.Primary }}>
+      <Toolbar>
         <IconButton
           aria-label="close"
           color="primary"
@@ -80,9 +80,11 @@ const Modal = ({
         >
           {title}
         </Typography>
-        <Button color="primary" onClick={closingAction}>
-          {actionLabel}
-        </Button>
+        {actionLabel && (
+          <Button color="primary" onClick={closingAction}>
+            {actionLabel}
+          </Button>
+        )}
       </Toolbar>
     );
   };
@@ -96,9 +98,11 @@ const Modal = ({
       // Required for mobile
       BackdropProps={{ onClick: onClose }}
       // Required for desktop
-      onBackdropClick={onClose}
+      onClose={onClose}
     >
-      <AppBar sx={{ position: "relative" }}>{renderAppBarContent()}</AppBar>
+      <AppBar sx={{ position: "relative", backgroundColor: Blurple.Primary }}>
+        {renderAppBarContent()}
+      </AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>
     </Dialog>
   );

@@ -9,48 +9,39 @@
  * - Manage Invites
  */
 
-import { Box, BoxProps, Switch, Typography, useTheme } from "@mui/material";
-import {
-  FieldArray,
-  FieldArrayRenderProps,
-  Form,
-  Formik,
-  FormikHelpers,
-} from "formik";
-import { ChangeEvent } from "react";
+import { Box, BoxProps } from "@mui/material";
+import { FieldArray, Form, Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   PermissionInput,
-  PermissionsFormFragment,
+  PermissionToggleFragment,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
-import { getPermissionText } from "../../utils/role.utils";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import PermissionToggle from "./PermissionToggle";
 
-interface FormValues {
+export interface PermissionsFormValues {
   permissions: PermissionInput[];
 }
 
 interface Props extends BoxProps {
-  permissions: PermissionsFormFragment[];
+  permissions: PermissionToggleFragment[];
   roleId: number;
 }
 
 const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
   const [updateRole] = useUpdateRoleMutation();
-
   const { t } = useTranslation();
-  const theme = useTheme();
 
-  const initialValues: FormValues = {
+  const initialValues: PermissionsFormValues = {
     permissions: [],
   };
 
   const handleSubmit = async (
-    { permissions }: FormValues,
-    { setSubmitting, resetForm }: FormikHelpers<FormValues>
+    { permissions }: PermissionsFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<PermissionsFormValues>
   ) => {
     try {
       updateRole({
@@ -73,61 +64,6 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
     }
   };
 
-  const handleSwitchChange =
-    (
-      { id, enabled }: PermissionsFormFragment,
-      arrayHelpers: FieldArrayRenderProps,
-      values: FormValues
-    ) =>
-    ({ target: { checked } }: ChangeEvent<HTMLInputElement>) => {
-      if (checked === enabled) {
-        const index = values.permissions.findIndex((p) => p.id === id);
-        arrayHelpers.remove(index);
-        return;
-      }
-      arrayHelpers.push({ id, enabled: checked });
-    };
-
-  const renderSwitch = (
-    values: FormValues,
-    permission: PermissionsFormFragment,
-    arrayHelpers: FieldArrayRenderProps
-  ) => {
-    const permissionInput = values.permissions.find(
-      (p) => p.id === permission.id
-    );
-    const checked =
-      permissionInput !== undefined
-        ? permissionInput.enabled
-        : permission.enabled;
-
-    const { name, description, inDev } = getPermissionText(permission.name, t);
-    if (inDev) {
-      return null;
-    }
-
-    return (
-      <Flex justifyContent="space-between" key={permission.id}>
-        <Box marginBottom={2.8}>
-          <Typography>{name}</Typography>
-
-          <Typography
-            fontSize={12}
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            {description}
-          </Typography>
-        </Box>
-
-        <Switch
-          checked={checked}
-          inputProps={{ "aria-label": name || t("labels.switch") }}
-          onChange={handleSwitchChange(permission, arrayHelpers, values)}
-        />
-      </Flex>
-    );
-  };
-
   return (
     <Box {...boxProps}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -137,17 +73,21 @@ const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
               name="permissions"
               render={(arrayHelpers) => (
                 <Box marginBottom={2}>
-                  {permissions.map((permission) =>
-                    renderSwitch(values, permission, arrayHelpers)
-                  )}
+                  {permissions.map((permission) => (
+                    <PermissionToggle
+                      key={permission.id}
+                      arrayHelpers={arrayHelpers}
+                      permission={permission}
+                      values={values}
+                    />
+                  ))}
                 </Box>
               )}
             />
 
-            <Flex justifyContent="end">
+            <Flex justifyContent="end" sx={{ marginTop: 6 }}>
               <PrimaryActionButton
                 disabled={isSubmitting || !values.permissions.length}
-                sx={{ marginTop: 1.5 }}
                 type="submit"
               >
                 {t("actions.save")}

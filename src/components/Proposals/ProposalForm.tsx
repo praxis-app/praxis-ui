@@ -36,8 +36,8 @@ import {
   TypeNames,
 } from "../../constants/common.constants";
 import {
-  ProposalActionFieldNames,
-  ProposalActionTypes,
+  ProposalActionFieldName,
+  ProposalActionType,
 } from "../../constants/proposal.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
@@ -47,6 +47,8 @@ import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 import ProposalActionFields from "./ProposalActionFields";
+import ProposalActionRole from "./ProposalActionRole";
+import ProposeRoleModal from "./ProposeRoleModal";
 
 type ProposalFormErrors = {
   action: FormikErrors<ProposalActionInput>;
@@ -89,13 +91,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       errors.action.actionType = t("proposals.errors.missingActionType");
     }
     if (
-      action.actionType === ProposalActionTypes.ChangeName &&
+      action.actionType === ProposalActionType.ChangeName &&
       !action.groupName
     ) {
       errors.action.groupName = t("proposals.errors.missingGroupName");
     }
     if (
-      action.actionType === ProposalActionTypes.ChangeDescription &&
+      action.actionType === ProposalActionType.ChangeDescription &&
       !action.groupDescription
     ) {
       errors.action.groupDescription = t(
@@ -103,13 +105,20 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
       );
     }
     if (
-      action.actionType === ProposalActionTypes.ChangeCoverPhoto &&
+      action.actionType === ProposalActionType.ChangeCoverPhoto &&
       !editProposal?.action.groupCoverPhoto &&
       !action.groupCoverPhoto
     ) {
       errors.action.groupCoverPhoto = t(
         "proposals.errors.missingGroupCoverPhoto"
       );
+    }
+    if (
+      (action.actionType === ProposalActionType.CreateRole ||
+        action.actionType === ProposalActionType.ChangeRole) &&
+      !action.role
+    ) {
+      errors.action.role = t("proposals.errors.missingRole");
     }
     if (!groupId && !editProposal) {
       errors.groupId = t("proposals.errors.missingGroupId");
@@ -277,7 +286,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                 >
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
-                    name={ProposalActionFieldNames.ActionType}
+                    name={ProposalActionFieldName.ActionType}
                     onChange={handleChange}
                     value={values.action.actionType}
                   >
@@ -333,7 +342,39 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   touched={touched}
                   values={values}
                 />
+                <ProposeRoleModal
+                  key={`${values.action.actionType}-${values.groupId}`}
+                  actionType={values.action.actionType}
+                  groupId={values.groupId}
+                  setFieldValue={setFieldValue}
+                />
+
+                {values.action.role && (
+                  <ProposalActionRole
+                    actionType={values.action.actionType as ProposalActionType}
+                    role={values.action.role}
+                    marginTop={3}
+                    preview
+                  />
+                )}
+
+                {errors.action?.role && !!submitCount && (
+                  <Typography
+                    color="error"
+                    fontSize="small"
+                    marginTop={0.5}
+                    gutterBottom
+                  >
+                    {errors.action.role}
+                  </Typography>
+                )}
               </>
+            )}
+
+            {editProposal?.action.role && (
+              <Typography marginTop={1.5}>
+                {t("proposals.prompts.cannotEditProposedRoles")}
+              </Typography>
             )}
 
             <AttachedImagePreview

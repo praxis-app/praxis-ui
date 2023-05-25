@@ -4,7 +4,7 @@ mutation UpdateRole($roleData: UpdateRoleInput!) {
       ...Role
 
       permissions {
-        ...PermissionsForm
+        ...PermissionToggle
       }
       members {
         ...RoleMember

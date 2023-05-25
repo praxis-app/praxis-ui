@@ -3,9 +3,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useEditProposalQuery } from "../../../apollo/gen";
-import DeleteProposalButton from "../../../components/Proposals/DeleteProposalButton";
-import ProposalForm from "../../../components/Proposals/ProposalForm";
-import Card from "../../../components/Shared/Card";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 
 const EditProposalPage: NextPage = () => {
@@ -30,17 +27,18 @@ const EditProposalPage: NextPage = () => {
     return null;
   }
 
-  const { proposal } = data;
+  // TODO: Uncomment when implementing revisions or drafts for proposals
+  // const { proposal } = data;
+  // return (
+  //   <>
+  //     <Card sx={{ marginBottom: 2.5 }}>
+  //       <ProposalForm editProposal={proposal} />
+  //     </Card>
+  //     <DeleteProposalButton proposalId={proposal.id} />
+  //   </>
+  // );
 
-  return (
-    <>
-      <Card sx={{ marginBottom: 2.5 }}>
-        <ProposalForm editProposal={proposal} />
-      </Card>
-
-      <DeleteProposalButton proposalId={proposal.id} />
-    </>
-  );
+  return <Typography>{t("prompts.inDev")}</Typography>;
 };
 
 export default EditProposalPage;

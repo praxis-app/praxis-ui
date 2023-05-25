@@ -1,42 +1,38 @@
 import { Namespace, TFunction } from "react-i18next";
-import { ProposalActionTypes } from "../constants/proposal.constants";
+import { ProposalActionType } from "../constants/proposal.constants";
 
 export const getProposalActionTypeOptions = (
   t: TFunction<Namespace<"ns1">, undefined>
 ) => [
   {
     message: t("proposals.actionTypes.changeName"),
-    value: ProposalActionTypes.ChangeName,
+    value: ProposalActionType.ChangeName,
   },
   {
     message: t("proposals.actionTypes.changeDescription"),
-    value: ProposalActionTypes.ChangeDescription,
+    value: ProposalActionType.ChangeDescription,
   },
   {
     message: t("proposals.actionTypes.changeCoverPhoto"),
-    value: ProposalActionTypes.ChangeCoverPhoto,
+    value: ProposalActionType.ChangeCoverPhoto,
+  },
+  {
+    message: t("proposals.actionTypes.createRole"),
+    value: ProposalActionType.CreateRole,
+  },
+  {
+    message: t("proposals.actionTypes.changeRole"),
+    value: ProposalActionType.ChangeRole,
   },
   {
     message: t("proposals.actionTypes.test"),
-    value: ProposalActionTypes.Test,
+    value: ProposalActionType.Test,
   },
 
   // TODO: Uncomment after adding support for remaining action types
   // {
-  //   message: t("proposals.actionTypes.assignRole"),
-  //   value: ProposalActionTypes.AssignRole,
-  // },
-  // {
-  //   message: t("proposals.actionTypes.changeRole"),
-  //   value: ProposalActionTypes.ChangeRole,
-  // },
-  // {
   //   message: t("proposals.actionTypes.changeSettings"),
   //   value: ProposalActionTypes.ChangeSettings,
-  // },
-  // {
-  //   message: t("proposals.actionTypes.createRole"),
-  //   value: ProposalActionTypes.CreateRole,
   // },
   // {
   //   message: t("proposals.actionTypes.planEvent"),
@@ -49,23 +45,21 @@ export const getProposalActionLabel = (
   t: TFunction<Namespace<"ns1">, undefined>
 ): string => {
   switch (actionType) {
-    case ProposalActionTypes.PlanEvent:
+    case ProposalActionType.PlanEvent:
       return t("proposals.actionTypes.planEvent");
-    case ProposalActionTypes.ChangeName:
+    case ProposalActionType.ChangeName:
       return t("proposals.actionTypes.changeName");
-    case ProposalActionTypes.ChangeCoverPhoto:
+    case ProposalActionType.ChangeCoverPhoto:
       return t("proposals.actionTypes.changeCoverPhoto");
-    case ProposalActionTypes.ChangeDescription:
+    case ProposalActionType.ChangeDescription:
       return t("proposals.actionTypes.changeDescription");
-    case ProposalActionTypes.ChangeSettings:
+    case ProposalActionType.ChangeSettings:
       return t("proposals.actionTypes.changeSettings");
-    case ProposalActionTypes.CreateRole:
+    case ProposalActionType.CreateRole:
       return t("proposals.actionTypes.createRole");
-    case ProposalActionTypes.ChangeRole:
+    case ProposalActionType.ChangeRole:
       return t("proposals.actionTypes.changeRole");
-    case ProposalActionTypes.AssignRole:
-      return t("proposals.actionTypes.assignRole");
-    case ProposalActionTypes.Test:
+    case ProposalActionType.Test:
       return t("proposals.actionTypes.test");
     default:
       return "";

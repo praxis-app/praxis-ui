@@ -202,7 +202,7 @@ type Permission {
 
 input PermissionInput {
   enabled: Boolean!
-  id: Int!
+  name: String!
 }
 
 type Post {
@@ -240,6 +240,7 @@ type ProposalAction {
   groupName: String
   id: Int!
   proposal: Proposal!
+  role: ProposalActionRole
   updatedAt: DateTime!
 }
 
@@ -248,11 +249,53 @@ input ProposalActionInput {
   groupCoverPhoto: Upload
   groupDescription: String
   groupName: String
+  role: ProposalActionRoleInput
+}
+
+type ProposalActionPermission {
+  enabled: Boolean!
+  id: Int!
+  name: String!
+  role: ProposalActionRole!
+}
+
+type ProposalActionRole {
+  color: String
+  id: Int!
+  members: [ProposalActionRoleMember!]
+  name: String
+  oldColor: String
+  oldName: String
+  permissions: [ProposalActionPermission!]
+  proposalAction: ProposalAction!
+  role: Role
+}
+
+input ProposalActionRoleInput {
+  color: String
+  members: [ProposalActionRoleMemberInput!]
+  name: String
+  permissions: [PermissionInput!]
+  roleToUpdateId: Int
+}
+
+type ProposalActionRoleMember {
+  changeType: String!
+  createdAt: DateTime!
+  id: Int!
+  role: ProposalActionRole!
+  updatedAt: DateTime!
+  user: User!
+}
+
+input ProposalActionRoleMemberInput {
+  changeType: String!
+  userId: Int!
 }
 
 type Query {
   authCheck: Boolean!
-  group(name: String!): Group!
+  group(id: Int, name: String): Group!
   groups: [Group!]!
   isFirstUser: Boolean!
   me: User!
@@ -267,6 +310,7 @@ type Query {
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
   users: [User!]!
+  usersByIds(ids: [Int!]!): [User!]!
   vote(id: Int!): Vote!
   votes: [Vote!]!
 }
@@ -280,6 +324,7 @@ type Role {
   members: [User!]!
   name: String!
   permissions: [Permission!]!
+  proposalActionRoles: [ProposalActionRole!]!
 }
 
 type ServerInvite {

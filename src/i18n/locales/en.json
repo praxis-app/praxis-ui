@@ -4,6 +4,7 @@
   "actions": {
     "cancel": "Cancel",
     "comment": "Comment",
+    "confirm": "Confirm",
     "copy": "Copy",
     "create": "Create",
     "delete": "Delete",
@@ -66,15 +67,18 @@
   "proposals": {
     "prompts": {
       "createProposal": "Create a proposal...",
-      "joinGroupToVote": "You need to be a group member to interact with this proposal."
+      "joinGroupToVote": "You need to be a group member to interact with this proposal.",
+      "cannotEditProposedRoles": "Editing of proposed roles is still in development.",
+      "emptyPermsAndMembers": "No proposed permissions or role members."
     },
     "actions": {
       "attachNewCoverPhoto": "Attach new cover photo",
+      "changeGroupRole": "Propose a role change",
+      "createGroupRole": "Propose a new group role",
       "createProposal": "Create Proposal",
       "vote": "Vote"
     },
     "actionTypes": {
-      "assignRole": "Assign Group Role",
       "changeDescription": "Change Group Description",
       "changeCoverPhoto": "Change Cover Photo",
       "changeName": "Change Group Name",
@@ -86,23 +90,29 @@
     },
     "labels": {
       "action": "Action",
+      "color": "Color",
+      "name": "Name",
       "newGroupDescription": "New group description",
       "newGroupName": "New group name",
       "proposedGroupCoverPhoto": "Proposed group cover photo",
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
-      "ratified": "Ratified"
+      "proposedRole": "Proposed role",
+      "proposedRoleChange": "Role change",
+      "ratified": "Ratified",
+      "selectRoleToChange": "Choose a role"
     },
     "toasts": {
       "noVotingAfterRatification": "This proposal has been ratified and can no longer be voted on.",
       "ratifiedSuccess": "This proposal has been ratified! 🎉"
     },
     "errors": {
+      "missingActionType": "Proposals must include an action",
       "missingGroupCoverPhoto": "Proposals to change group cover photo must include an image",
       "missingGroupDescription": "Proposals to change group description must include a description field",
-      "missingGroupName": "Proposals to change group name must include a name field",
       "missingGroupId": "Only group proposals are supported at this time",
-      "missingActionType": "Proposals must include an action"
+      "missingGroupName": "Proposals to change group name must include a name field",
+      "missingRole": "Proposals to change or add group roles must include a role"
     }
   },
 
@@ -254,8 +264,9 @@
       "pickColor": "Pick a Color"
     },
     "labels": {
-      "members_one": "{{count}} Member",
-      "members_other": "{{count}} Members"
+      "members": "Members",
+      "membersCount_one": "{{count}} Member",
+      "membersCount_other": "{{count}} Members"
     },
     "tabs": {
       "display": "Display",
@@ -297,6 +308,9 @@
     "states": {
       "enabled": "Enabled",
       "disabled": "Disabled"
+    },
+    "labels": {
+      "permissions": "Permissions"
     }
   },
 

@@ -20,19 +20,19 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { ProposalActionTypes } from "../../constants/proposal.constants";
+import { ProposalStage } from "../../constants/proposal.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { getProposalActionLabel } from "../../utils/proposal.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
-import AttachedImage from "../Images/AttachedImage";
 import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 import { removeProposal } from "./DeleteProposalButton";
+import ProposalAction from "./ProposalAction";
 import ProposalCardFooter from "./ProposalCardFooter";
 
 const CardHeader = styled(MuiCardHeader)(() => ({
@@ -64,21 +64,20 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const {
-    action: { actionType, groupDescription, groupName, groupCoverPhoto },
-    body,
-    createdAt,
-    group,
-    id,
-    images,
-    user,
-    voteCount,
-  } = proposal;
+  const { action, body, createdAt, group, id, images, user, voteCount, stage } =
+    proposal;
 
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const isProposalPage = asPath.includes(NavigationPaths.Proposals);
+
+  const hasMedia =
+    action.groupName ||
+    action.groupDescription ||
+    action.groupCoverPhoto ||
+    action.role ||
+    images.length;
 
   const groupPath = getGroupPath(group?.name || "");
   const proposalPath = `${NavigationPaths.Proposals}/${id}`;
@@ -86,16 +85,10 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const formattedDate = timeAgo(createdAt);
 
   const bodyStyles = {
-    marginBottom:
-      groupName || groupDescription || groupCoverPhoto || images.length
-        ? 2.5
-        : 3.5,
+    marginBottom: hasMedia ? 2.5 : 3.5,
   };
   const cardContentStyles = {
     paddingTop: images.length && !body ? 2.5 : 3,
-  };
-  const imageListStyles = {
-    marginBottom: me ? 1.9 : 0,
   };
 
   const handleDelete = async (id: number) => {
@@ -122,7 +115,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   };
 
   const renderTitle = () => {
-    const actionLabel = getProposalActionLabel(actionType, t);
+    const actionLabel = getProposalActionLabel(action.actionType, t);
     const showGroup = group && !isGroupPage;
 
     return (
@@ -170,12 +163,14 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <ItemMenu
         anchorEl={menuAnchorEl}
         canDelete={isMe}
-        canUpdate={isMe}
         deleteItem={handleDelete}
         deletePrompt={deletePrompt}
         editPath={editPath}
         itemId={id}
         setAnchorEl={setMenuAnchorEl}
+
+        // TODO: Uncomment when implementing revisions or drafts for proposals
+        // canUpdate={isMe}
       />
     );
   };
@@ -191,31 +186,14 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
       <CardContent sx={cardContentStyles}>
         {body && <Typography sx={bodyStyles}>{body}</Typography>}
 
+        <ProposalAction
+          action={action}
+          ratified={stage === ProposalStage.Ratified}
+        />
+
         <Link href={proposalPath}>
-          {actionType === ProposalActionTypes.ChangeName && (
-            <Typography marginBottom={3.5}>
-              {t("proposals.labels.newGroupName")}: {groupName}
-            </Typography>
-          )}
-
-          {actionType === ProposalActionTypes.ChangeDescription && (
-            <Typography marginBottom={3.5}>
-              {t("proposals.labels.newGroupDescription")}: {groupDescription}
-            </Typography>
-          )}
-
-          {actionType === ProposalActionTypes.ChangeCoverPhoto &&
-            groupCoverPhoto && (
-              <Box marginBottom="20px">
-                <Typography gutterBottom fontSize={14}>
-                  {t("proposals.labels.proposedGroupCoverPhoto")}:
-                </Typography>
-                <AttachedImage image={groupCoverPhoto} width="55%" />
-              </Box>
-            )}
-
           {!!images.length && (
-            <AttachedImageList images={images} sx={imageListStyles} />
+            <AttachedImageList images={images} marginBottom={me ? 1.9 : 0} />
           )}
         </Link>
       </CardContent>

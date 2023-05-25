@@ -1,28 +1,19 @@
 fragment ProposalCard on Proposal {
   id
   body
+  stage
   voteCount
   createdAt
 
   action {
-    id
-    actionType
-    groupDescription
-    groupName
-
-    groupCoverPhoto {
-      ...AttachedImage
-    }
+    ...ProposalAction
   }
-
   user {
     ...UserAvatar
   }
-
   group {
     ...GroupAvatar
   }
-
   images {
     ...AttachedImage
   }

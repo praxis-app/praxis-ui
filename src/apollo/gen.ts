@@ -372,7 +372,7 @@ export type Permission = {
 
 export type PermissionInput = {
   enabled: Scalars["Boolean"];
-  id: Scalars["Int"];
+  name: Scalars["String"];
 };
 
 export type Post = {
@@ -413,6 +413,7 @@ export type ProposalAction = {
   groupName?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
   proposal: Proposal;
+  role?: Maybe<ProposalActionRole>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -421,6 +422,51 @@ export type ProposalActionInput = {
   groupCoverPhoto?: InputMaybe<Scalars["Upload"]>;
   groupDescription?: InputMaybe<Scalars["String"]>;
   groupName?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<ProposalActionRoleInput>;
+};
+
+export type ProposalActionPermission = {
+  __typename?: "ProposalActionPermission";
+  enabled: Scalars["Boolean"];
+  id: Scalars["Int"];
+  name: Scalars["String"];
+  role: ProposalActionRole;
+};
+
+export type ProposalActionRole = {
+  __typename?: "ProposalActionRole";
+  color?: Maybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  members?: Maybe<Array<ProposalActionRoleMember>>;
+  name?: Maybe<Scalars["String"]>;
+  oldColor?: Maybe<Scalars["String"]>;
+  oldName?: Maybe<Scalars["String"]>;
+  permissions?: Maybe<Array<ProposalActionPermission>>;
+  proposalAction: ProposalAction;
+  role?: Maybe<Role>;
+};
+
+export type ProposalActionRoleInput = {
+  color?: InputMaybe<Scalars["String"]>;
+  members?: InputMaybe<Array<ProposalActionRoleMemberInput>>;
+  name?: InputMaybe<Scalars["String"]>;
+  permissions?: InputMaybe<Array<PermissionInput>>;
+  roleToUpdateId?: InputMaybe<Scalars["Int"]>;
+};
+
+export type ProposalActionRoleMember = {
+  __typename?: "ProposalActionRoleMember";
+  changeType: Scalars["String"];
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  role: ProposalActionRole;
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
+export type ProposalActionRoleMemberInput = {
+  changeType: Scalars["String"];
+  userId: Scalars["Int"];
 };
 
 export type Query = {
@@ -441,12 +487,14 @@ export type Query = {
   serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
+  usersByIds: Array<User>;
   vote: Vote;
   votes: Array<Vote>;
 };
 
 export type QueryGroupArgs = {
-  name: Scalars["String"];
+  id?: InputMaybe<Scalars["Int"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryMemberRequestArgs = {
@@ -474,6 +522,10 @@ export type QueryUserArgs = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type QueryUsersByIdsArgs = {
+  ids: Array<Scalars["Int"]>;
+};
+
 export type QueryVoteArgs = {
   id: Scalars["Int"];
 };
@@ -488,6 +540,7 @@ export type Role = {
   members: Array<User>;
   name: Scalars["String"];
   permissions: Array<Permission>;
+  proposalActionRoles: Array<ProposalActionRole>;
 };
 
 export type ServerInvite = {
@@ -917,6 +970,24 @@ export type GroupMembersQuery = {
   me: { __typename?: "User"; id: number };
 };
 
+export type GroupMembersByGroupIdQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type GroupMembersByGroupIdQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    members: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
+};
+
 export type GroupProfileQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
@@ -956,9 +1027,9 @@ export type GroupProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body?: string | null;
+          stage: string;
           voteCount: number;
           createdAt: any;
-          stage: string;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -969,6 +1040,37 @@ export type GroupProfileQuery = {
               __typename?: "Image";
               id: number;
               filename: string;
+            } | null;
+            role?: {
+              __typename?: "ProposalActionRole";
+              id: number;
+              name?: string | null;
+              color?: string | null;
+              oldName?: string | null;
+              oldColor?: string | null;
+              permissions?: Array<{
+                __typename?: "ProposalActionPermission";
+                id: number;
+                name: string;
+                enabled: boolean;
+              }> | null;
+              members?: Array<{
+                __typename?: "ProposalActionRoleMember";
+                id: number;
+                changeType: string;
+                user: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+              }> | null;
+              role?: {
+                __typename?: "Role";
+                id: number;
+                name: string;
+                color: string;
+              } | null;
             } | null;
           };
           user: {
@@ -1026,6 +1128,19 @@ export type GroupRolesQuery = {
       memberCount: number;
       group?: { __typename?: "Group"; id: number; name: string } | null;
     }>;
+  };
+};
+
+export type GroupRolesByGroupIdQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type GroupRolesByGroupIdQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    roles: Array<{ __typename?: "Role"; id: number; name: string }>;
   };
 };
 
@@ -1212,9 +1327,9 @@ type FeedItem_Proposal_Fragment = {
   __typename?: "Proposal";
   id: number;
   body?: string | null;
+  stage: string;
   voteCount: number;
   createdAt: any;
-  stage: string;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1225,6 +1340,37 @@ type FeedItem_Proposal_Fragment = {
       __typename?: "Image";
       id: number;
       filename: string;
+    } | null;
+    role?: {
+      __typename?: "ProposalActionRole";
+      id: number;
+      name?: string | null;
+      color?: string | null;
+      oldName?: string | null;
+      oldColor?: string | null;
+      permissions?: Array<{
+        __typename?: "ProposalActionPermission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }> | null;
+      members?: Array<{
+        __typename?: "ProposalActionRoleMember";
+        id: number;
+        changeType: string;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }> | null;
+      role?: {
+        __typename?: "Role";
+        id: number;
+        name: string;
+        color: string;
+      } | null;
     } | null;
   };
   user: {
@@ -1435,13 +1581,108 @@ export type PostQuery = {
   };
 };
 
+export type ProposalActionFragment = {
+  __typename?: "ProposalAction";
+  id: number;
+  actionType: string;
+  groupDescription?: string | null;
+  groupName?: string | null;
+  groupCoverPhoto?: {
+    __typename?: "Image";
+    id: number;
+    filename: string;
+  } | null;
+  role?: {
+    __typename?: "ProposalActionRole";
+    id: number;
+    name?: string | null;
+    color?: string | null;
+    oldName?: string | null;
+    oldColor?: string | null;
+    permissions?: Array<{
+      __typename?: "ProposalActionPermission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }> | null;
+    members?: Array<{
+      __typename?: "ProposalActionRoleMember";
+      id: number;
+      changeType: string;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }> | null;
+    role?: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+    } | null;
+  } | null;
+};
+
+export type ProposalActionPermissionFragment = {
+  __typename?: "ProposalActionPermission";
+  id: number;
+  name: string;
+  enabled: boolean;
+};
+
+export type ProposalActionRoleFragment = {
+  __typename?: "ProposalActionRole";
+  id: number;
+  name?: string | null;
+  color?: string | null;
+  oldName?: string | null;
+  oldColor?: string | null;
+  permissions?: Array<{
+    __typename?: "ProposalActionPermission";
+    id: number;
+    name: string;
+    enabled: boolean;
+  }> | null;
+  members?: Array<{
+    __typename?: "ProposalActionRoleMember";
+    id: number;
+    changeType: string;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+  }> | null;
+  role?: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+  } | null;
+};
+
+export type ProposalActionRoleMemberFragment = {
+  __typename?: "ProposalActionRoleMember";
+  id: number;
+  changeType: string;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
 export type ProposalCardFragment = {
   __typename?: "Proposal";
   id: number;
   body?: string | null;
+  stage: string;
   voteCount: number;
   createdAt: any;
-  stage: string;
   action: {
     __typename?: "ProposalAction";
     id: number;
@@ -1452,6 +1693,37 @@ export type ProposalCardFragment = {
       __typename?: "Image";
       id: number;
       filename: string;
+    } | null;
+    role?: {
+      __typename?: "ProposalActionRole";
+      id: number;
+      name?: string | null;
+      color?: string | null;
+      oldName?: string | null;
+      oldColor?: string | null;
+      permissions?: Array<{
+        __typename?: "ProposalActionPermission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }> | null;
+      members?: Array<{
+        __typename?: "ProposalActionRoleMember";
+        id: number;
+        changeType: string;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }> | null;
+      role?: {
+        __typename?: "Role";
+        id: number;
+        name: string;
+        color: string;
+      } | null;
     } | null;
   };
   user: {
@@ -1515,6 +1787,7 @@ export type ProposalFormFragment = {
       id: number;
       filename: string;
     } | null;
+    role?: { __typename?: "ProposalActionRole"; id: number } | null;
   };
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
 };
@@ -1531,9 +1804,9 @@ export type CreateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body?: string | null;
+      stage: string;
       voteCount: number;
       createdAt: any;
-      stage: string;
       action: {
         __typename?: "ProposalAction";
         id: number;
@@ -1544,6 +1817,37 @@ export type CreateProposalMutation = {
           __typename?: "Image";
           id: number;
           filename: string;
+        } | null;
+        role?: {
+          __typename?: "ProposalActionRole";
+          id: number;
+          name?: string | null;
+          color?: string | null;
+          oldName?: string | null;
+          oldColor?: string | null;
+          permissions?: Array<{
+            __typename?: "ProposalActionPermission";
+            id: number;
+            name: string;
+            enabled: boolean;
+          }> | null;
+          members?: Array<{
+            __typename?: "ProposalActionRoleMember";
+            id: number;
+            changeType: string;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }> | null;
+          role?: {
+            __typename?: "Role";
+            id: number;
+            name: string;
+            color: string;
+          } | null;
         } | null;
       };
       user: {
@@ -1596,9 +1900,9 @@ export type UpdateProposalMutation = {
       __typename?: "Proposal";
       id: number;
       body?: string | null;
+      stage: string;
       voteCount: number;
       createdAt: any;
-      stage: string;
       action: {
         __typename?: "ProposalAction";
         id: number;
@@ -1609,6 +1913,37 @@ export type UpdateProposalMutation = {
           __typename?: "Image";
           id: number;
           filename: string;
+        } | null;
+        role?: {
+          __typename?: "ProposalActionRole";
+          id: number;
+          name?: string | null;
+          color?: string | null;
+          oldName?: string | null;
+          oldColor?: string | null;
+          permissions?: Array<{
+            __typename?: "ProposalActionPermission";
+            id: number;
+            name: string;
+            enabled: boolean;
+          }> | null;
+          members?: Array<{
+            __typename?: "ProposalActionRoleMember";
+            id: number;
+            changeType: string;
+            user: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+          }> | null;
+          role?: {
+            __typename?: "Role";
+            id: number;
+            name: string;
+            color: string;
+          } | null;
         } | null;
       };
       user: {
@@ -1661,6 +1996,7 @@ export type EditProposalQuery = {
         id: number;
         filename: string;
       } | null;
+      role?: { __typename?: "ProposalActionRole"; id: number } | null;
     };
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   };
@@ -1676,9 +2012,9 @@ export type ProposalQuery = {
     __typename?: "Proposal";
     id: number;
     body?: string | null;
+    stage: string;
     voteCount: number;
     createdAt: any;
-    stage: string;
     action: {
       __typename?: "ProposalAction";
       id: number;
@@ -1689,6 +2025,37 @@ export type ProposalQuery = {
         __typename?: "Image";
         id: number;
         filename: string;
+      } | null;
+      role?: {
+        __typename?: "ProposalActionRole";
+        id: number;
+        name?: string | null;
+        color?: string | null;
+        oldName?: string | null;
+        oldColor?: string | null;
+        permissions?: Array<{
+          __typename?: "ProposalActionPermission";
+          id: number;
+          name: string;
+          enabled: boolean;
+        }> | null;
+        members?: Array<{
+          __typename?: "ProposalActionRoleMember";
+          id: number;
+          changeType: string;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+        }> | null;
+        role?: {
+          __typename?: "Role";
+          id: number;
+          name: string;
+          color: string;
+        } | null;
       } | null;
     };
     user: {
@@ -1719,7 +2086,7 @@ export type ProposalQuery = {
   };
 };
 
-export type AddMemberTabFragment = {
+export type AddRoleMemberTabFragment = {
   __typename?: "Role";
   id: number;
   members: Array<{
@@ -1763,7 +2130,7 @@ export type EditRoleTabsFragment = {
   }>;
 };
 
-export type PermissionsFormFragment = {
+export type PermissionToggleFragment = {
   __typename?: "Permission";
   id: number;
   name: string;
@@ -1930,6 +2297,76 @@ export type EditServerRoleQuery = {
   me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
+export type RoleByRoleIdQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type RoleByRoleIdQuery = {
+  __typename?: "Query";
+  role: {
+    __typename?: "Role";
+    id: number;
+    name: string;
+    color: string;
+    permissions: Array<{
+      __typename?: "Permission";
+      id: number;
+      name: string;
+      enabled: boolean;
+    }>;
+    members: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+    availableUsersToAdd: Array<{
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
+};
+
+export type RolesByGroupIdQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type RolesByGroupIdQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    roles: Array<{
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+      permissions: Array<{
+        __typename?: "Permission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }>;
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
+      members: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+    }>;
+  };
+};
+
 export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ServerRolesQuery = {
@@ -2067,9 +2504,9 @@ export type FollowUserMutation = {
             __typename?: "Proposal";
             id: number;
             body?: string | null;
+            stage: string;
             voteCount: number;
             createdAt: any;
-            stage: string;
             action: {
               __typename?: "ProposalAction";
               id: number;
@@ -2080,6 +2517,37 @@ export type FollowUserMutation = {
                 __typename?: "Image";
                 id: number;
                 filename: string;
+              } | null;
+              role?: {
+                __typename?: "ProposalActionRole";
+                id: number;
+                name?: string | null;
+                color?: string | null;
+                oldName?: string | null;
+                oldColor?: string | null;
+                permissions?: Array<{
+                  __typename?: "ProposalActionPermission";
+                  id: number;
+                  name: string;
+                  enabled: boolean;
+                }> | null;
+                members?: Array<{
+                  __typename?: "ProposalActionRoleMember";
+                  id: number;
+                  changeType: string;
+                  user: {
+                    __typename?: "User";
+                    id: number;
+                    name: string;
+                    profilePicture: { __typename?: "Image"; id: number };
+                  };
+                }> | null;
+                role?: {
+                  __typename?: "Role";
+                  id: number;
+                  name: string;
+                  color: string;
+                } | null;
               } | null;
             };
             user: {
@@ -2272,9 +2740,9 @@ export type HomePageQuery = {
           __typename?: "Proposal";
           id: number;
           body?: string | null;
+          stage: string;
           voteCount: number;
           createdAt: any;
-          stage: string;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -2285,6 +2753,37 @@ export type HomePageQuery = {
               __typename?: "Image";
               id: number;
               filename: string;
+            } | null;
+            role?: {
+              __typename?: "ProposalActionRole";
+              id: number;
+              name?: string | null;
+              color?: string | null;
+              oldName?: string | null;
+              oldColor?: string | null;
+              permissions?: Array<{
+                __typename?: "ProposalActionPermission";
+                id: number;
+                name: string;
+                enabled: boolean;
+              }> | null;
+              members?: Array<{
+                __typename?: "ProposalActionRoleMember";
+                id: number;
+                changeType: string;
+                user: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+              }> | null;
+              role?: {
+                __typename?: "Role";
+                id: number;
+                name: string;
+                color: string;
+              } | null;
             } | null;
           };
           user: {
@@ -2378,9 +2877,9 @@ export type UserProfileQuery = {
           __typename?: "Proposal";
           id: number;
           body?: string | null;
+          stage: string;
           voteCount: number;
           createdAt: any;
-          stage: string;
           action: {
             __typename?: "ProposalAction";
             id: number;
@@ -2391,6 +2890,37 @@ export type UserProfileQuery = {
               __typename?: "Image";
               id: number;
               filename: string;
+            } | null;
+            role?: {
+              __typename?: "ProposalActionRole";
+              id: number;
+              name?: string | null;
+              color?: string | null;
+              oldName?: string | null;
+              oldColor?: string | null;
+              permissions?: Array<{
+                __typename?: "ProposalActionPermission";
+                id: number;
+                name: string;
+                enabled: boolean;
+              }> | null;
+              members?: Array<{
+                __typename?: "ProposalActionRoleMember";
+                id: number;
+                changeType: string;
+                user: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+              }> | null;
+              role?: {
+                __typename?: "Role";
+                id: number;
+                name: string;
+                color: string;
+              } | null;
             } | null;
           };
           user: {
@@ -2435,6 +2965,20 @@ export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 export type UsersQuery = {
   __typename?: "Query";
   users: Array<{ __typename?: "User"; id: number; name: string }>;
+};
+
+export type UsersByIdsQueryVariables = Exact<{
+  userIds: Array<Scalars["Int"]> | Scalars["Int"];
+}>;
+
+export type UsersByIdsQuery = {
+  __typename?: "Query";
+  usersByIds: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  }>;
 };
 
 export type VoteFragment = {
@@ -2683,6 +3227,61 @@ export const PostCardFragmentDoc = gql`
   ${GroupAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
+export const ProposalActionPermissionFragmentDoc = gql`
+  fragment ProposalActionPermission on ProposalActionPermission {
+    id
+    name
+    enabled
+  }
+`;
+export const ProposalActionRoleMemberFragmentDoc = gql`
+  fragment ProposalActionRoleMember on ProposalActionRoleMember {
+    id
+    changeType
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export const ProposalActionRoleFragmentDoc = gql`
+  fragment ProposalActionRole on ProposalActionRole {
+    id
+    name
+    color
+    oldName
+    oldColor
+    permissions {
+      ...ProposalActionPermission
+    }
+    members {
+      ...ProposalActionRoleMember
+    }
+    role {
+      id
+      name
+      color
+    }
+  }
+  ${ProposalActionPermissionFragmentDoc}
+  ${ProposalActionRoleMemberFragmentDoc}
+`;
+export const ProposalActionFragmentDoc = gql`
+  fragment ProposalAction on ProposalAction {
+    id
+    actionType
+    groupDescription
+    groupName
+    groupCoverPhoto {
+      ...AttachedImage
+    }
+    role {
+      ...ProposalActionRole
+    }
+  }
+  ${AttachedImageFragmentDoc}
+  ${ProposalActionRoleFragmentDoc}
+`;
 export const VoteMenuFragmentDoc = gql`
   fragment VoteMenu on Proposal {
     id
@@ -2749,16 +3348,11 @@ export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
     body
+    stage
     voteCount
     createdAt
     action {
-      id
-      actionType
-      groupDescription
-      groupName
-      groupCoverPhoto {
-        ...AttachedImage
-      }
+      ...ProposalAction
     }
     user {
       ...UserAvatar
@@ -2771,9 +3365,10 @@ export const ProposalCardFragmentDoc = gql`
     }
     ...ProposalCardFooter
   }
-  ${AttachedImageFragmentDoc}
+  ${ProposalActionFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+  ${AttachedImageFragmentDoc}
   ${ProposalCardFooterFragmentDoc}
 `;
 export const FeedItemFragmentDoc = gql`
@@ -2810,6 +3405,9 @@ export const ProposalFormFragmentDoc = gql`
       groupCoverPhoto {
         ...AttachedImage
       }
+      role {
+        id
+      }
     }
     images {
       ...AttachedImage
@@ -2836,8 +3434,8 @@ export const RoleMemberFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const AddMemberTabFragmentDoc = gql`
-  fragment AddMemberTab on Role {
+export const AddRoleMemberTabFragmentDoc = gql`
+  fragment AddRoleMemberTab on Role {
     id
     members {
       ...RoleMember
@@ -2854,8 +3452,8 @@ export const DeleteRoleButtonFragmentDoc = gql`
     }
   }
 `;
-export const PermissionsFormFragmentDoc = gql`
-  fragment PermissionsForm on Permission {
+export const PermissionToggleFragmentDoc = gql`
+  fragment PermissionToggle on Permission {
     id
     name
     enabled
@@ -2864,19 +3462,19 @@ export const PermissionsFormFragmentDoc = gql`
 export const EditRoleTabsFragmentDoc = gql`
   fragment EditRoleTabs on Role {
     ...Role
-    ...AddMemberTab
+    ...AddRoleMemberTab
     ...DeleteRoleButton
     permissions {
-      ...PermissionsForm
+      ...PermissionToggle
     }
     availableUsersToAdd {
       ...UserAvatar
     }
   }
   ${RoleFragmentDoc}
-  ${AddMemberTabFragmentDoc}
+  ${AddRoleMemberTabFragmentDoc}
   ${DeleteRoleButtonFragmentDoc}
-  ${PermissionsFormFragmentDoc}
+  ${PermissionToggleFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const ToggleFormsFragmentDoc = gql`
@@ -3787,6 +4385,69 @@ export type GroupMembersQueryResult = Apollo.QueryResult<
   GroupMembersQuery,
   GroupMembersQueryVariables
 >;
+export const GroupMembersByGroupIdDocument = gql`
+  query GroupMembersByGroupId($groupId: Int!) {
+    group(id: $groupId) {
+      id
+      members {
+        id
+        ...UserAvatar
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useGroupMembersByGroupIdQuery__
+ *
+ * To run a query within a React component, call `useGroupMembersByGroupIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupMembersByGroupIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupMembersByGroupIdQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useGroupMembersByGroupIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >(GroupMembersByGroupIdDocument, options);
+}
+export function useGroupMembersByGroupIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GroupMembersByGroupIdQuery,
+    GroupMembersByGroupIdQueryVariables
+  >(GroupMembersByGroupIdDocument, options);
+}
+export type GroupMembersByGroupIdQueryHookResult = ReturnType<
+  typeof useGroupMembersByGroupIdQuery
+>;
+export type GroupMembersByGroupIdLazyQueryHookResult = ReturnType<
+  typeof useGroupMembersByGroupIdLazyQuery
+>;
+export type GroupMembersByGroupIdQueryResult = Apollo.QueryResult<
+  GroupMembersByGroupIdQuery,
+  GroupMembersByGroupIdQueryVariables
+>;
 export const GroupProfileDocument = gql`
   query GroupProfile($name: String!) {
     group(name: $name) {
@@ -3915,6 +4576,68 @@ export type GroupRolesLazyQueryHookResult = ReturnType<
 export type GroupRolesQueryResult = Apollo.QueryResult<
   GroupRolesQuery,
   GroupRolesQueryVariables
+>;
+export const GroupRolesByGroupIdDocument = gql`
+  query GroupRolesByGroupId($groupId: Int!) {
+    group(id: $groupId) {
+      id
+      roles {
+        id
+        name
+      }
+    }
+  }
+`;
+
+/**
+ * __useGroupRolesByGroupIdQuery__
+ *
+ * To run a query within a React component, call `useGroupRolesByGroupIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupRolesByGroupIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupRolesByGroupIdQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useGroupRolesByGroupIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupRolesByGroupIdQuery,
+    GroupRolesByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GroupRolesByGroupIdQuery,
+    GroupRolesByGroupIdQueryVariables
+  >(GroupRolesByGroupIdDocument, options);
+}
+export function useGroupRolesByGroupIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupRolesByGroupIdQuery,
+    GroupRolesByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GroupRolesByGroupIdQuery,
+    GroupRolesByGroupIdQueryVariables
+  >(GroupRolesByGroupIdDocument, options);
+}
+export type GroupRolesByGroupIdQueryHookResult = ReturnType<
+  typeof useGroupRolesByGroupIdQuery
+>;
+export type GroupRolesByGroupIdLazyQueryHookResult = ReturnType<
+  typeof useGroupRolesByGroupIdLazyQuery
+>;
+export type GroupRolesByGroupIdQueryResult = Apollo.QueryResult<
+  GroupRolesByGroupIdQuery,
+  GroupRolesByGroupIdQueryVariables
 >;
 export const GroupsDocument = gql`
   query Groups {
@@ -5155,7 +5878,7 @@ export const UpdateRoleDocument = gql`
       role {
         ...Role
         permissions {
-          ...PermissionsForm
+          ...PermissionToggle
         }
         members {
           ...RoleMember
@@ -5175,7 +5898,7 @@ export const UpdateRoleDocument = gql`
     }
   }
   ${RoleFragmentDoc}
-  ${PermissionsFormFragmentDoc}
+  ${PermissionToggleFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
@@ -5284,6 +6007,139 @@ export type EditServerRoleLazyQueryHookResult = ReturnType<
 export type EditServerRoleQueryResult = Apollo.QueryResult<
   EditServerRoleQuery,
   EditServerRoleQueryVariables
+>;
+export const RoleByRoleIdDocument = gql`
+  query RoleByRoleId($id: Int!) {
+    role(id: $id) {
+      id
+      name
+      color
+      permissions {
+        ...PermissionToggle
+      }
+      members {
+        ...UserAvatar
+      }
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+    }
+  }
+  ${PermissionToggleFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useRoleByRoleIdQuery__
+ *
+ * To run a query within a React component, call `useRoleByRoleIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRoleByRoleIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRoleByRoleIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRoleByRoleIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    RoleByRoleIdQuery,
+    RoleByRoleIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<RoleByRoleIdQuery, RoleByRoleIdQueryVariables>(
+    RoleByRoleIdDocument,
+    options
+  );
+}
+export function useRoleByRoleIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    RoleByRoleIdQuery,
+    RoleByRoleIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<RoleByRoleIdQuery, RoleByRoleIdQueryVariables>(
+    RoleByRoleIdDocument,
+    options
+  );
+}
+export type RoleByRoleIdQueryHookResult = ReturnType<
+  typeof useRoleByRoleIdQuery
+>;
+export type RoleByRoleIdLazyQueryHookResult = ReturnType<
+  typeof useRoleByRoleIdLazyQuery
+>;
+export type RoleByRoleIdQueryResult = Apollo.QueryResult<
+  RoleByRoleIdQuery,
+  RoleByRoleIdQueryVariables
+>;
+export const RolesByGroupIdDocument = gql`
+  query RolesByGroupId($id: Int!) {
+    group(id: $id) {
+      id
+      roles {
+        ...EditRoleTabs
+      }
+    }
+  }
+  ${EditRoleTabsFragmentDoc}
+`;
+
+/**
+ * __useRolesByGroupIdQuery__
+ *
+ * To run a query within a React component, call `useRolesByGroupIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRolesByGroupIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRolesByGroupIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRolesByGroupIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    RolesByGroupIdQuery,
+    RolesByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<RolesByGroupIdQuery, RolesByGroupIdQueryVariables>(
+    RolesByGroupIdDocument,
+    options
+  );
+}
+export function useRolesByGroupIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    RolesByGroupIdQuery,
+    RolesByGroupIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<RolesByGroupIdQuery, RolesByGroupIdQueryVariables>(
+    RolesByGroupIdDocument,
+    options
+  );
+}
+export type RolesByGroupIdQueryHookResult = ReturnType<
+  typeof useRolesByGroupIdQuery
+>;
+export type RolesByGroupIdLazyQueryHookResult = ReturnType<
+  typeof useRolesByGroupIdLazyQuery
+>;
+export type RolesByGroupIdQueryResult = Apollo.QueryResult<
+  RolesByGroupIdQuery,
+  RolesByGroupIdQueryVariables
 >;
 export const ServerRolesDocument = gql`
   query ServerRoles {
@@ -5967,6 +6823,64 @@ export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<
   UsersQuery,
   UsersQueryVariables
+>;
+export const UsersByIdsDocument = gql`
+  query UsersByIds($userIds: [Int!]!) {
+    usersByIds(ids: $userIds) {
+      id
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+
+/**
+ * __useUsersByIdsQuery__
+ *
+ * To run a query within a React component, call `useUsersByIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersByIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersByIdsQuery({
+ *   variables: {
+ *      userIds: // value for 'userIds'
+ *   },
+ * });
+ */
+export function useUsersByIdsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UsersByIdsQuery,
+    UsersByIdsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UsersByIdsQuery, UsersByIdsQueryVariables>(
+    UsersByIdsDocument,
+    options
+  );
+}
+export function useUsersByIdsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UsersByIdsQuery,
+    UsersByIdsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UsersByIdsQuery, UsersByIdsQueryVariables>(
+    UsersByIdsDocument,
+    options
+  );
+}
+export type UsersByIdsQueryHookResult = ReturnType<typeof useUsersByIdsQuery>;
+export type UsersByIdsLazyQueryHookResult = ReturnType<
+  typeof useUsersByIdsLazyQuery
+>;
+export type UsersByIdsQueryResult = Apollo.QueryResult<
+  UsersByIdsQuery,
+  UsersByIdsQueryVariables
 >;
 export const CreateVoteDocument = gql`
   mutation CreateVote($voteData: CreateVoteInput!) {

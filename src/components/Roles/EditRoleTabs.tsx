@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { EditRoleTabsFragment } from "../../apollo/gen";
 import { EditRoleTabNames } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
-import AddMemberTab from "./AddMemberTab";
+import AddRoleMemberTab from "./AddRoleMemberTab";
 import DeleteRoleButton from "./DeleteRoleButton";
 import PermissionsForm from "./PermissionsForm";
 import RoleForm from "./RoleForm";
@@ -80,7 +80,10 @@ const EditRoleTabs = ({ role }: Props) => {
       )}
 
       {tab === 2 && (
-        <AddMemberTab role={role} users={role.availableUsersToAdd} />
+        <AddRoleMemberTab
+          availableUsersToAdd={role.availableUsersToAdd}
+          role={role}
+        />
       )}
     </>
   );

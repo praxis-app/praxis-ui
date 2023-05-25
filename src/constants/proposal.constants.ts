@@ -1,5 +1,4 @@
-export enum ProposalActionTypes {
-  AssignRole = "assign-role",
+export enum ProposalActionType {
   ChangeCoverPhoto = "change-cover-photo",
   ChangeDescription = "change-description",
   ChangeName = "change-name",
@@ -10,15 +9,22 @@ export enum ProposalActionTypes {
   Test = "test",
 }
 
-export enum ProposalStages {
+export enum ProposalStage {
   Ratified = "ratified",
   Revision = "revision",
   Voting = "voting",
 }
 
-export enum ProposalActionFieldNames {
+export enum ProposalActionFieldName {
   ActionType = "action.actionType",
   GroupCoverPhoto = "action.groupCoverPhoto",
   GroupDescription = "action.groupDescription",
   GroupName = "action.groupName",
+  Role = "action.role",
+  RoleId = "action.role.id",
+}
+
+export enum ProposeRoleModalFieldName {
+  Permissions = "permissions",
+  RoleToUpdateId = "roleToUpdateId",
 }
