@@ -48,11 +48,16 @@ $ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to view and interact with the UI.
 
-## Docker
+## Make and Docker
+
+Ensure that you have Make and Docker installed to use the following commands.
 
 ```bash
-# Build and start containers
-$ docker-compose up
+# Build the app
+$ make build-dev
+
+# Start the app
+$ make start-dev
 ```
 
 ## Prettier and ESLint
@@ -73,7 +78,7 @@ $ yarn generate
 
 Read more about [GraphQL Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started).
 
-## Test
+## Testing
 
 ```bash
 # Unit tests
