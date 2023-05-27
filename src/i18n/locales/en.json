@@ -220,6 +220,7 @@
       "groupMembers_one": "{{count}} Group Member",
       "groupMembers_other": "{{count}} Group Members",
       "groupRoles": "Group Roles",
+      "groupSettings": "Group Settings",
       "joined": "Joined",
       "majority": "Majority Vote",
       "memberRequests_one": "{{count}} Member Request",
