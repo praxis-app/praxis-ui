@@ -39,7 +39,7 @@ $ cd praxis-ui && yarn
 $ cp .env.example .env
 ```
 
-Install the API: https://github.com/praxis-app/praxis-api#installation
+Instructions for setting up the API are located here: https://github.com/praxis-app/praxis-api#installation
 
 ## Running the app
 
