@@ -52,7 +52,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to view an
 
 ## Make and Docker
 
-Ensure that you have Make and Docker installed to use the following commands.
+Ensure that you have [Make](https://www.gnu.org/software/make) and [Docker](https://docs.docker.com/engine/install) installed to use the following commands.
 
 ```bash
 # Build the app
