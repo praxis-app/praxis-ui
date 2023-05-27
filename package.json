@@ -69,6 +69,10 @@
     "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "^12.1.4"
   },
+  "engines": {
+    "node": "16.13.0",
+    "npm": "8.1.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
