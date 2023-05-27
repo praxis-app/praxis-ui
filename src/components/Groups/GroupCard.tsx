@@ -1,5 +1,5 @@
 import { ApolloCache, FetchResult, useReactiveVar } from "@apollo/client";
-import { AccountBox } from "@mui/icons-material";
+import { AccountBox, Settings } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -104,6 +104,11 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     await redirectTo(groupRolesPath);
   };
 
+  const handleSettingsButtonClick = async () => {
+    const settingsPath = `${NavigationPaths.Groups}/${name}/settings`;
+    await redirectTo(settingsPath);
+  };
+
   const renderItemMenu = () => {
     const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
     const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
@@ -123,6 +128,10 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         editPath={editGroupPath}
         setAnchorEl={setMenuAnchorEl}
       >
+        <MenuItem onClick={handleSettingsButtonClick}>
+          <Settings fontSize="small" sx={{ marginRight: 1 }} />
+          {t("groups.labels.settings")}
+        </MenuItem>
         {canManageRoles && (
           <MenuItem onClick={handleRolesButtonClick}>
             <AccountBox fontSize="small" sx={{ marginRight: 1 }} />

@@ -228,6 +228,7 @@
       "members_other": "{{count}} Members",
       "requests_one": "{{count}} Request",
       "requests_other": "{{count}} Requests",
+      "settings": "Settings",
       "xToPass": "X to Pass"
     },
     "prompts": {

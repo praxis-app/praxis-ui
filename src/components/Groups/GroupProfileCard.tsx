@@ -1,7 +1,7 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { useReactiveVar } from "@apollo/client";
-import { AccountBox, HowToVote } from "@mui/icons-material";
+import { AccountBox, HowToVote, Settings } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -117,6 +117,11 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     await redirectTo(groupRolesPath);
   };
 
+  const handleSettingsButtonClick = async () => {
+    const settingsPath = `${NavigationPaths.Groups}/${name}/settings`;
+    await redirectTo(settingsPath);
+  };
+
   const renderCardActions = () => {
     const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
     const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
@@ -140,6 +145,10 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
             setAnchorEl={setMenuAnchorEl}
             variant="ghost"
           >
+            <MenuItem onClick={handleSettingsButtonClick}>
+              <Settings fontSize="small" sx={{ marginRight: 1 }} />
+              {t("groups.labels.settings")}
+            </MenuItem>
             {canManageRoles && (
               <MenuItem onClick={handleRolesButtonClick}>
                 <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
