@@ -26,6 +26,8 @@ Core features currently in development:
 
 ## Installation
 
+Ensure that you're using Node v16.13.0 before proceeding.
+
 ```bash
 # Install Yarn globally
 $ npm install -g yarn
@@ -37,6 +39,8 @@ $ cd praxis-ui && yarn
 $ cp .env.example .env
 ```
 
+Instructions for setting up the API are located here: https://github.com/praxis-app/praxis-api#installation
+
 ## Running the app
 
 ```bash
@@ -46,11 +50,16 @@ $ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to view and interact with the UI.
 
-## Docker
+## Make and Docker
+
+Ensure that you have [Make](https://www.gnu.org/software/make) and [Docker](https://docs.docker.com/engine/install) installed to use the following commands.
 
 ```bash
-# Build and start containers
-$ docker-compose up
+# Build the app
+$ make build-dev
+
+# Start the app
+$ make start-dev
 ```
 
 ## Prettier and ESLint
@@ -71,7 +80,17 @@ $ yarn generate
 
 Read more about [GraphQL Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started).
 
-## Testing for accessibility
+## Testing
+
+```bash
+# Unit tests
+$ yarn test
+
+# Test coverage
+$ yarn test --coverage
+```
+
+## Accessibility
 
 Install the following Chrome extension provided by Deque Systems: [axe DevTools - Web Accessibility Testing](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd?hl=en-US)
 

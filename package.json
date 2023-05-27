@@ -14,7 +14,7 @@
     "prettier:check": "yarn prettier:base --check",
     "prettier": "yarn prettier:base --write",
     "start": "next start",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
@@ -68,6 +68,10 @@
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "^12.1.4"
+  },
+  "engines": {
+    "node": "16.13.0",
+    "npm": "8.1.0"
   },
   "husky": {
     "hooks": {
