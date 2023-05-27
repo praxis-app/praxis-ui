@@ -115,6 +115,15 @@ type Group {
   posts: [Post!]!
   proposals: [Proposal!]!
   roles: [Role!]!
+  settings: GroupConfig!
+  updatedAt: DateTime!
+}
+
+type GroupConfig {
+  createdAt: DateTime!
+  group: Group!
+  id: Int!
+  privacy: String!
   updatedAt: DateTime!
 }
 
@@ -296,6 +305,7 @@ input ProposalActionRoleMemberInput {
 type Query {
   authCheck: Boolean!
   group(id: Int, name: String): Group!
+  groupConfig(id: Int!): GroupConfig!
   groups: [Group!]!
   isFirstUser: Boolean!
   me: User!

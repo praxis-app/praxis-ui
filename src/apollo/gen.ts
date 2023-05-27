@@ -151,6 +151,16 @@ export type Group = {
   posts: Array<Post>;
   proposals: Array<Proposal>;
   roles: Array<Role>;
+  settings: GroupConfig;
+  updatedAt: Scalars["DateTime"];
+};
+
+export type GroupConfig = {
+  __typename?: "GroupConfig";
+  createdAt: Scalars["DateTime"];
+  group: Group;
+  id: Scalars["Int"];
+  privacy: Scalars["String"];
   updatedAt: Scalars["DateTime"];
 };
 
@@ -473,6 +483,7 @@ export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
   group: Group;
+  groupConfig: GroupConfig;
   groups: Array<Group>;
   isFirstUser: Scalars["Boolean"];
   me: User;
@@ -495,6 +506,10 @@ export type Query = {
 export type QueryGroupArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryGroupConfigArgs = {
+  id: Scalars["Int"];
 };
 
 export type QueryMemberRequestArgs = {
@@ -1141,6 +1156,20 @@ export type GroupRolesByGroupIdQuery = {
     __typename?: "Group";
     id: number;
     roles: Array<{ __typename?: "Role"; id: number; name: string }>;
+  };
+};
+
+export type GroupSettingsQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type GroupSettingsQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    myPermissions: Array<string>;
+    settings: { __typename?: "GroupConfig"; id: number; privacy: string };
   };
 };
 
@@ -4638,6 +4667,69 @@ export type GroupRolesByGroupIdLazyQueryHookResult = ReturnType<
 export type GroupRolesByGroupIdQueryResult = Apollo.QueryResult<
   GroupRolesByGroupIdQuery,
   GroupRolesByGroupIdQueryVariables
+>;
+export const GroupSettingsDocument = gql`
+  query GroupSettings($name: String!) {
+    group(name: $name) {
+      id
+      myPermissions
+      settings {
+        id
+        privacy
+      }
+    }
+  }
+`;
+
+/**
+ * __useGroupSettingsQuery__
+ *
+ * To run a query within a React component, call `useGroupSettingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupSettingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupSettingsQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGroupSettingsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupSettingsQuery,
+    GroupSettingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupSettingsQuery, GroupSettingsQueryVariables>(
+    GroupSettingsDocument,
+    options
+  );
+}
+export function useGroupSettingsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupSettingsQuery,
+    GroupSettingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupSettingsQuery, GroupSettingsQueryVariables>(
+    GroupSettingsDocument,
+    options
+  );
+}
+export type GroupSettingsQueryHookResult = ReturnType<
+  typeof useGroupSettingsQuery
+>;
+export type GroupSettingsLazyQueryHookResult = ReturnType<
+  typeof useGroupSettingsLazyQuery
+>;
+export type GroupSettingsQueryResult = Apollo.QueryResult<
+  GroupSettingsQuery,
+  GroupSettingsQueryVariables
 >;
 export const GroupsDocument = gql`
   query Groups {
