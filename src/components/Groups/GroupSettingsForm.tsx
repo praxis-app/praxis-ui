@@ -11,25 +11,39 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
-import { GroupSettingsFormFragment } from "../../apollo/gen";
+import {
+  GroupSettingsFormFragment,
+  UpdateGroupConfigInput,
+  useUpdateGroupSettingsMutation,
+} from "../../apollo/gen";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
+type FormValues = Omit<UpdateGroupConfigInput, "groupId">;
+
 interface Props {
-  settings: GroupSettingsFormFragment;
+  group: GroupSettingsFormFragment;
 }
 
-const GroupSettingsForm = ({ settings: { privacy } }: Props) => {
+const GroupSettingsForm = ({ group }: Props) => {
+  const [updateSettings] = useUpdateGroupSettingsMutation();
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const initialValues = { privacy };
+  const initialValues: FormValues = {
+    privacy: group.settings.privacy,
+  };
+
+  const handleSubmit = async (values: FormValues) => {
+    await updateSettings({
+      variables: {
+        groupConfigData: { groupId: group.id, ...values },
+      },
+    });
+  };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={() => console.log("TODO: Add submit function")}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {({ dirty, isSubmitting, handleChange, values }) => (
         <Form>
           <FormGroup>
@@ -47,9 +61,9 @@ const GroupSettingsForm = ({ settings: { privacy } }: Props) => {
 
               <Select
                 name="privacy"
+                onChange={handleChange}
                 value={values.privacy}
                 variant="standard"
-                onChange={handleChange}
                 disableUnderline
               >
                 <MenuItem value="private">

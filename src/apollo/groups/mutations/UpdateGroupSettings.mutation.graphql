@@ -1,0 +1,8 @@
+mutation UpdateGroupSettings($groupConfigData: UpdateGroupConfigInput!) {
+  updateGroupConfig(groupConfigData: $groupConfigData) {
+    group {
+      id
+      ...GroupSettingsForm
+    }
+  }
+}

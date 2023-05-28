@@ -195,6 +195,7 @@ type Mutation {
   signUp(input: SignUpInput!): SignUpPayload!
   unfollowUser(id: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
+  updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
   updateRole(roleData: UpdateRoleInput!): UpdateRolePayload!
@@ -359,6 +360,11 @@ input SignUpInput {
 
 type SignUpPayload {
   user: User!
+}
+
+input UpdateGroupConfigInput {
+  groupId: Int!
+  privacy: String
 }
 
 input UpdateGroupInput {

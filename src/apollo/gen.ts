@@ -237,6 +237,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   unfollowUser: Scalars["Boolean"];
   updateGroup: UpdateGroupPayload;
+  updateGroupConfig: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
   updateProposal: UpdateProposalPayload;
   updateRole: UpdateRolePayload;
@@ -350,6 +351,10 @@ export type MutationUnfollowUserArgs = {
 
 export type MutationUpdateGroupArgs = {
   groupData: UpdateGroupInput;
+};
+
+export type MutationUpdateGroupConfigArgs = {
+  groupConfigData: UpdateGroupConfigInput;
 };
 
 export type MutationUpdatePostArgs = {
@@ -584,6 +589,11 @@ export type SignUpPayload = {
   user: User;
 };
 
+export type UpdateGroupConfigInput = {
+  groupId: Scalars["Int"];
+  privacy?: InputMaybe<Scalars["String"]>;
+};
+
 export type UpdateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description?: InputMaybe<Scalars["String"]>;
@@ -787,9 +797,9 @@ export type GroupProfileCardFragment = {
 };
 
 export type GroupSettingsFormFragment = {
-  __typename?: "GroupConfig";
+  __typename?: "Group";
   id: number;
-  privacy: string;
+  settings: { __typename?: "GroupConfig"; id: number; privacy: string };
 };
 
 export type RequestToJoinFragment = {
@@ -913,6 +923,22 @@ export type UpdateGroupMutation = {
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
+    };
+  };
+};
+
+export type UpdateGroupSettingsMutationVariables = Exact<{
+  groupConfigData: UpdateGroupConfigInput;
+}>;
+
+export type UpdateGroupSettingsMutation = {
+  __typename?: "Mutation";
+  updateGroupConfig: {
+    __typename?: "UpdateGroupPayload";
+    group: {
+      __typename?: "Group";
+      id: number;
+      settings: { __typename?: "GroupConfig"; id: number; privacy: string };
     };
   };
 };
@@ -3202,9 +3228,12 @@ export const GroupProfileCardFragmentDoc = gql`
   }
 `;
 export const GroupSettingsFormFragmentDoc = gql`
-  fragment GroupSettingsForm on GroupConfig {
+  fragment GroupSettingsForm on Group {
     id
-    privacy
+    settings {
+      id
+      privacy
+    }
   }
 `;
 export const RequestToJoinFragmentDoc = gql`
@@ -4242,6 +4271,60 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutation,
   UpdateGroupMutationVariables
 >;
+export const UpdateGroupSettingsDocument = gql`
+  mutation UpdateGroupSettings($groupConfigData: UpdateGroupConfigInput!) {
+    updateGroupConfig(groupConfigData: $groupConfigData) {
+      group {
+        id
+        ...GroupSettingsForm
+      }
+    }
+  }
+  ${GroupSettingsFormFragmentDoc}
+`;
+export type UpdateGroupSettingsMutationFn = Apollo.MutationFunction<
+  UpdateGroupSettingsMutation,
+  UpdateGroupSettingsMutationVariables
+>;
+
+/**
+ * __useUpdateGroupSettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateGroupSettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGroupSettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGroupSettingsMutation, { data, loading, error }] = useUpdateGroupSettingsMutation({
+ *   variables: {
+ *      groupConfigData: // value for 'groupConfigData'
+ *   },
+ * });
+ */
+export function useUpdateGroupSettingsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateGroupSettingsMutation,
+    UpdateGroupSettingsMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateGroupSettingsMutation,
+    UpdateGroupSettingsMutationVariables
+  >(UpdateGroupSettingsDocument, options);
+}
+export type UpdateGroupSettingsMutationHookResult = ReturnType<
+  typeof useUpdateGroupSettingsMutation
+>;
+export type UpdateGroupSettingsMutationResult =
+  Apollo.MutationResult<UpdateGroupSettingsMutation>;
+export type UpdateGroupSettingsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateGroupSettingsMutation,
+  UpdateGroupSettingsMutationVariables
+>;
 export const EditGroupDocument = gql`
   query EditGroup($name: String!) {
     group(name: $name) {
@@ -4682,10 +4765,7 @@ export type GroupRolesByGroupIdQueryResult = Apollo.QueryResult<
 export const GroupSettingsDocument = gql`
   query GroupSettings($name: String!) {
     group(name: $name) {
-      id
-      settings {
-        ...GroupSettingsForm
-      }
+      ...GroupSettingsForm
     }
   }
   ${GroupSettingsFormFragmentDoc}
