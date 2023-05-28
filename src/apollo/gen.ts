@@ -141,7 +141,7 @@ export type Group = {
   description: Scalars["String"];
   feed: Array<FeedItem>;
   id: Scalars["Int"];
-  isJoinedByMe: Scalars["Boolean"];
+  isJoinedByMe?: Maybe<Scalars["Boolean"]>;
   memberCount: Scalars["Int"];
   memberRequestCount?: Maybe<Scalars["Int"]>;
   memberRequests?: Maybe<Array<MemberRequest>>;
@@ -1130,7 +1130,7 @@ export type GroupProfileQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe: boolean;
+            isJoinedByMe?: boolean | null;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -1344,7 +1344,7 @@ export type PublicHomePageQuery = {
         group?: {
           __typename?: "Group";
           id: number;
-          isJoinedByMe: boolean;
+          isJoinedByMe?: boolean | null;
           name: string;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
         } | null;
@@ -1549,7 +1549,7 @@ type FeedItem_Proposal_Fragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    isJoinedByMe: boolean;
+    isJoinedByMe?: boolean | null;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1902,7 +1902,7 @@ export type ProposalCardFragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    isJoinedByMe: boolean;
+    isJoinedByMe?: boolean | null;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1936,7 +1936,11 @@ export type ProposalCardFooterFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-  group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
+  group?: {
+    __typename?: "Group";
+    id: number;
+    isJoinedByMe?: boolean | null;
+  } | null;
 };
 
 export type ProposalFormFragment = {
@@ -2026,7 +2030,7 @@ export type CreateProposalMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        isJoinedByMe: boolean;
+        isJoinedByMe?: boolean | null;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -2122,7 +2126,7 @@ export type UpdateProposalMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        isJoinedByMe: boolean;
+        isJoinedByMe?: boolean | null;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -2234,7 +2238,7 @@ export type ProposalQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      isJoinedByMe: boolean;
+      isJoinedByMe?: boolean | null;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
@@ -2726,7 +2730,7 @@ export type FollowUserMutation = {
             group?: {
               __typename?: "Group";
               id: number;
-              isJoinedByMe: boolean;
+              isJoinedByMe?: boolean | null;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
@@ -2962,7 +2966,7 @@ export type HomePageQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe: boolean;
+            isJoinedByMe?: boolean | null;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -3099,7 +3103,7 @@ export type UserProfileQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe: boolean;
+            isJoinedByMe?: boolean | null;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;

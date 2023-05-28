@@ -105,7 +105,7 @@ type Group {
   description: String!
   feed: [FeedItem!]!
   id: Int!
-  isJoinedByMe: Boolean!
+  isJoinedByMe: Boolean
   memberCount: Int!
   memberRequestCount: Int
   memberRequests: [MemberRequest!]
