@@ -110,7 +110,7 @@ type Group {
   memberRequestCount: Int
   memberRequests: [MemberRequest!]
   members: [User!]!
-  myPermissions: [String!]!
+  myPermissions: [String!]
   name: String!
   posts: [Post!]!
   proposals: [Proposal!]!
@@ -221,7 +221,7 @@ type Post {
   group: Group
   id: Int!
   images: [Image!]!
-  isLikedByMe: Boolean!
+  isLikedByMe: Boolean
   likes: [Like!]!
   likesCount: Int!
   updatedAt: DateTime!

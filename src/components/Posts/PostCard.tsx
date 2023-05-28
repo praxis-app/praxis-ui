@@ -133,7 +133,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
 
     const canManagePosts =
       me?.serverPermissions.includes(ServerPermissions.ManagePosts) ||
-      group?.myPermissions.includes(GroupPermissions.ManagePosts);
+      group?.myPermissions?.includes(GroupPermissions.ManagePosts);
     const canDelete = canManagePosts || isMe;
 
     return (

@@ -146,7 +146,7 @@ export type Group = {
   memberRequestCount?: Maybe<Scalars["Int"]>;
   memberRequests?: Maybe<Array<MemberRequest>>;
   members: Array<User>;
-  myPermissions: Array<Scalars["String"]>;
+  myPermissions?: Maybe<Array<Scalars["String"]>>;
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
@@ -397,7 +397,7 @@ export type Post = {
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
-  isLikedByMe: Scalars["Boolean"];
+  isLikedByMe?: Maybe<Scalars["Boolean"]>;
   likes: Array<Like>;
   likesCount: Scalars["Int"];
   updatedAt: Scalars["DateTime"];
@@ -765,7 +765,7 @@ export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
   memberRequestCount?: number | null;
-  myPermissions: Array<string>;
+  myPermissions?: Array<string> | null;
   id: number;
   name: string;
   members: Array<{ __typename?: "User"; id: number }>;
@@ -792,7 +792,7 @@ export type GroupProfileCardFragment = {
   id: number;
   name: string;
   memberRequestCount?: number | null;
-  myPermissions: Array<string>;
+  myPermissions?: Array<string> | null;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
 };
@@ -852,7 +852,7 @@ export type CreateGroupMutation = {
     group: {
       __typename?: "Group";
       description: string;
-      myPermissions: Array<string>;
+      myPermissions?: Array<string> | null;
       id: number;
       name: string;
       members: Array<{ __typename?: "User"; id: number }>;
@@ -952,7 +952,7 @@ export type EditGroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
-    myPermissions: Array<string>;
+    myPermissions?: Array<string> | null;
     id: number;
     name: string;
     description: string;
@@ -974,7 +974,7 @@ export type EditGroupRoleQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      myPermissions: Array<string>;
+      myPermissions?: Array<string> | null;
       name: string;
     } | null;
     permissions: Array<{
@@ -1047,7 +1047,7 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount?: number | null;
-    myPermissions: Array<string>;
+    myPermissions?: Array<string> | null;
     feed: Array<
       | {
           __typename?: "Post";
@@ -1055,7 +1055,7 @@ export type GroupProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe: boolean;
+          isLikedByMe?: boolean | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -1065,7 +1065,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions: Array<string>;
+            myPermissions?: Array<string> | null;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1167,7 +1167,7 @@ export type GroupRolesQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    myPermissions: Array<string>;
+    myPermissions?: Array<string> | null;
     roles: Array<{
       __typename?: "Role";
       id: number;
@@ -1213,7 +1213,7 @@ export type GroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount?: number | null;
-    myPermissions: Array<string>;
+    myPermissions?: Array<string> | null;
     id: number;
     name: string;
     members: Array<{ __typename?: "User"; id: number }>;
@@ -1269,7 +1269,7 @@ export type PublicHomePageQuery = {
         body?: string | null;
         createdAt: any;
         likesCount: number;
-        isLikedByMe: boolean;
+        isLikedByMe?: boolean | null;
         images: Array<{ __typename?: "Image"; id: number; filename: string }>;
         user: {
           __typename?: "User";
@@ -1279,7 +1279,7 @@ export type PublicHomePageQuery = {
         };
         group?: {
           __typename?: "Group";
-          myPermissions: Array<string>;
+          myPermissions?: Array<string> | null;
           id: number;
           name: string;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1473,7 +1473,7 @@ type FeedItem_Post_Fragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
-  isLikedByMe: boolean;
+  isLikedByMe?: boolean | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1483,7 +1483,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions: Array<string>;
+    myPermissions?: Array<string> | null;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1577,7 +1577,7 @@ export type PostCardFragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
-  isLikedByMe: boolean;
+  isLikedByMe?: boolean | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1587,7 +1587,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions: Array<string>;
+    myPermissions?: Array<string> | null;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1598,7 +1598,7 @@ export type PostCardFooterFragment = {
   __typename?: "Post";
   id: number;
   likesCount: number;
-  isLikedByMe: boolean;
+  isLikedByMe?: boolean | null;
 };
 
 export type PostFormFragment = {
@@ -1622,7 +1622,7 @@ export type CreatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe: boolean;
+      isLikedByMe?: boolean | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1632,7 +1632,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions: Array<string>;
+        myPermissions?: Array<string> | null;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1665,7 +1665,7 @@ export type LikePostMutation = {
         __typename?: "Post";
         id: number;
         likesCount: number;
-        isLikedByMe: boolean;
+        isLikedByMe?: boolean | null;
       };
     };
   };
@@ -1685,7 +1685,7 @@ export type UpdatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe: boolean;
+      isLikedByMe?: boolean | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1695,7 +1695,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions: Array<string>;
+        myPermissions?: Array<string> | null;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1730,7 +1730,7 @@ export type PostQuery = {
     body?: string | null;
     createdAt: any;
     likesCount: number;
-    isLikedByMe: boolean;
+    isLikedByMe?: boolean | null;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
@@ -1740,7 +1740,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
-      myPermissions: Array<string>;
+      myPermissions?: Array<string> | null;
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2379,7 +2379,7 @@ export type DeleteRoleMemberMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions: Array<string>;
+        myPermissions?: Array<string> | null;
       } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
@@ -2421,7 +2421,7 @@ export type UpdateRoleMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions: Array<string>;
+        myPermissions?: Array<string> | null;
         name: string;
       } | null;
     };
@@ -2647,7 +2647,7 @@ export type FollowUserMutation = {
             body?: string | null;
             createdAt: any;
             likesCount: number;
-            isLikedByMe: boolean;
+            isLikedByMe?: boolean | null;
             images: Array<{
               __typename?: "Image";
               id: number;
@@ -2661,7 +2661,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
-              myPermissions: Array<string>;
+              myPermissions?: Array<string> | null;
               id: number;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2810,7 +2810,7 @@ export type EditUserQuery = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe: boolean;
+      isLikedByMe?: boolean | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -2820,7 +2820,7 @@ export type EditUserQuery = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions: Array<string>;
+        myPermissions?: Array<string> | null;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2887,7 +2887,7 @@ export type HomePageQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe: boolean;
+          isLikedByMe?: boolean | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -2897,7 +2897,7 @@ export type HomePageQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions: Array<string>;
+            myPermissions?: Array<string> | null;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -3024,7 +3024,7 @@ export type UserProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe: boolean;
+          isLikedByMe?: boolean | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -3034,7 +3034,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions: Array<string>;
+            myPermissions?: Array<string> | null;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
