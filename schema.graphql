@@ -315,6 +315,7 @@ type Query {
   posts: [Post!]!
   proposal(id: Int!): Proposal!
   proposals: [Proposal!]!
+  publicGroupsFeed: [FeedItem!]!
   role(id: Int!): Role!
   serverInvite(token: String!): ServerInvite!
   serverInvites: [ServerInvite!]!

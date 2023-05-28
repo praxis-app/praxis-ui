@@ -497,6 +497,7 @@ export type Query = {
   posts: Array<Post>;
   proposal: Proposal;
   proposals: Array<Proposal>;
+  publicGroupsFeed: Array<FeedItem>;
   role: Role;
   serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
@@ -1255,6 +1256,112 @@ export type MemberRequestsQuery = {
       group: { __typename?: "Group"; id: number };
     }> | null;
   };
+};
+
+export type PublicHomePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type PublicHomePageQuery = {
+  __typename?: "Query";
+  publicGroupsFeed: Array<
+    | {
+        __typename?: "Post";
+        id: number;
+        body?: string | null;
+        createdAt: any;
+        likesCount: number;
+        isLikedByMe: boolean;
+        images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+        group?: {
+          __typename?: "Group";
+          myPermissions: Array<string>;
+          id: number;
+          name: string;
+          coverPhoto?: { __typename?: "Image"; id: number } | null;
+        } | null;
+      }
+    | {
+        __typename?: "Proposal";
+        id: number;
+        body?: string | null;
+        stage: string;
+        voteCount: number;
+        createdAt: any;
+        action: {
+          __typename?: "ProposalAction";
+          id: number;
+          actionType: string;
+          groupDescription?: string | null;
+          groupName?: string | null;
+          groupCoverPhoto?: {
+            __typename?: "Image";
+            id: number;
+            filename: string;
+          } | null;
+          role?: {
+            __typename?: "ProposalActionRole";
+            id: number;
+            name?: string | null;
+            color?: string | null;
+            oldName?: string | null;
+            oldColor?: string | null;
+            permissions?: Array<{
+              __typename?: "ProposalActionPermission";
+              id: number;
+              name: string;
+              enabled: boolean;
+            }> | null;
+            members?: Array<{
+              __typename?: "ProposalActionRoleMember";
+              id: number;
+              changeType: string;
+              user: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+            }> | null;
+            role?: {
+              __typename?: "Role";
+              id: number;
+              name: string;
+              color: string;
+            } | null;
+          } | null;
+        };
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+          name: string;
+          coverPhoto?: { __typename?: "Image"; id: number } | null;
+        } | null;
+        images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+        votes: Array<{
+          __typename?: "Vote";
+          id: number;
+          voteType: string;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+        }>;
+      }
+  >;
 };
 
 export type AttachedImageFragment = {
@@ -4994,6 +5101,64 @@ export type MemberRequestsLazyQueryHookResult = ReturnType<
 export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQuery,
   MemberRequestsQueryVariables
+>;
+export const PublicHomePageDocument = gql`
+  query PublicHomePage {
+    publicGroupsFeed {
+      ...FeedItem
+    }
+  }
+  ${FeedItemFragmentDoc}
+`;
+
+/**
+ * __usePublicHomePageQuery__
+ *
+ * To run a query within a React component, call `usePublicHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicHomePageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePublicHomePageQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    PublicHomePageQuery,
+    PublicHomePageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PublicHomePageQuery, PublicHomePageQueryVariables>(
+    PublicHomePageDocument,
+    options
+  );
+}
+export function usePublicHomePageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PublicHomePageQuery,
+    PublicHomePageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PublicHomePageQuery, PublicHomePageQueryVariables>(
+    PublicHomePageDocument,
+    options
+  );
+}
+export type PublicHomePageQueryHookResult = ReturnType<
+  typeof usePublicHomePageQuery
+>;
+export type PublicHomePageLazyQueryHookResult = ReturnType<
+  typeof usePublicHomePageLazyQuery
+>;
+export type PublicHomePageQueryResult = Apollo.QueryResult<
+  PublicHomePageQuery,
+  PublicHomePageQueryVariables
 >;
 export const DeleteImageDocument = gql`
   mutation DeleteImage($id: Int!) {
