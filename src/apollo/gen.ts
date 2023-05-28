@@ -2441,12 +2441,6 @@ export type ServerRolesQuery = {
   }>;
 };
 
-export type ToggleFormsFragment = {
-  __typename?: "User";
-  id: number;
-  joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-};
-
 export type EditProfileFormFragment = {
   __typename?: "User";
   id: number;
@@ -2468,6 +2462,12 @@ export type FollowButtonFragment = {
   __typename?: "User";
   id: number;
   isFollowedByMe: boolean;
+};
+
+export type ToggleFormsFragment = {
+  __typename?: "User";
+  id: number;
+  joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
 };
 
 export type TopNavDropdownFragment = {
@@ -3546,15 +3546,6 @@ export const EditRoleTabsFragmentDoc = gql`
   ${PermissionToggleFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-export const ToggleFormsFragmentDoc = gql`
-  fragment ToggleForms on User {
-    id
-    joinedGroups {
-      id
-      name
-    }
-  }
-`;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
     id
@@ -3576,6 +3567,15 @@ export const FollowFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
   ${FollowButtonFragmentDoc}
+`;
+export const ToggleFormsFragmentDoc = gql`
+  fragment ToggleForms on User {
+    id
+    joinedGroups {
+      id
+      name
+    }
+  }
 `;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
