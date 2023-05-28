@@ -82,7 +82,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     ? members.find((member) => currentUserId === member.id)
     : undefined;
 
-  const canApproveMemberRequests = myPermissions.includes(
+  const canApproveMemberRequests = myPermissions?.includes(
     GroupPermissions.ApproveMemberRequests
   );
 
@@ -110,9 +110,15 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   };
 
   const renderItemMenu = () => {
-    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
-    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const canDeleteGroup = myPermissions?.includes(
+      GroupPermissions.DeleteGroup
+    );
+    const canUpdateGroup = myPermissions?.includes(
+      GroupPermissions.UpdateGroup
+    );
+    const canManageRoles = myPermissions?.includes(
+      GroupPermissions.ManageRoles
+    );
     if (!canDeleteGroup && !canUpdateGroup && !canManageRoles) {
       return null;
     }

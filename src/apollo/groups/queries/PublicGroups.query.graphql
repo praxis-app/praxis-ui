@@ -1,0 +1,5 @@
+query PublicGroups {
+  publicGroups {
+    ...GroupCard
+  }
+}
