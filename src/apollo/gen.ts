@@ -786,6 +786,12 @@ export type GroupProfileCardFragment = {
   members: Array<{ __typename?: "User"; id: number }>;
 };
 
+export type GroupSettingsFormFragment = {
+  __typename?: "GroupConfig";
+  id: number;
+  privacy: string;
+};
+
 export type RequestToJoinFragment = {
   __typename?: "MemberRequest";
   id: number;
@@ -1168,7 +1174,6 @@ export type GroupSettingsQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    myPermissions: Array<string>;
     settings: { __typename?: "GroupConfig"; id: number; privacy: string };
   };
 };
@@ -3196,6 +3201,12 @@ export const GroupProfileCardFragmentDoc = gql`
     myPermissions
   }
 `;
+export const GroupSettingsFormFragmentDoc = gql`
+  fragment GroupSettingsForm on GroupConfig {
+    id
+    privacy
+  }
+`;
 export const RequestToJoinFragmentDoc = gql`
   fragment RequestToJoin on MemberRequest {
     id
@@ -4672,13 +4683,12 @@ export const GroupSettingsDocument = gql`
   query GroupSettings($name: String!) {
     group(name: $name) {
       id
-      myPermissions
       settings {
-        id
-        privacy
+        ...GroupSettingsForm
       }
     }
   }
+  ${GroupSettingsFormFragmentDoc}
 `;
 
 /**

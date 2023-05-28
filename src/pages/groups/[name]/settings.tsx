@@ -52,7 +52,7 @@ const GroupSettings: NextPage = () => {
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} sx={{ marginBottom: 3 }} />
-      <GroupSettingsForm />
+      <GroupSettingsForm settings={data.group.settings} />
     </>
   );
 };

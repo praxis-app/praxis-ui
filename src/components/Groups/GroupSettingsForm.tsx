@@ -11,21 +11,26 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
+import { GroupSettingsFormFragment } from "../../apollo/gen";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
-const GroupSettingsForm = () => {
+interface Props {
+  settings: GroupSettingsFormFragment;
+}
+
+const GroupSettingsForm = ({ settings: { privacy } }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const initialValues = { privacy: "private" };
+  const initialValues = { privacy };
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={() => console.log("TODO: Add submit function")}
     >
-      {({ dirty, isSubmitting }) => (
+      {({ dirty, isSubmitting, handleChange, values }) => (
         <Form>
           <FormGroup>
             <Flex justifyContent="space-between">
@@ -42,8 +47,9 @@ const GroupSettingsForm = () => {
 
               <Select
                 name="privacy"
-                value={"private"}
+                value={values.privacy}
                 variant="standard"
+                onChange={handleChange}
                 disableUnderline
               >
                 <MenuItem value="private">

@@ -1,0 +1,4 @@
+fragment GroupSettingsForm on GroupConfig {
+  id
+  privacy
+}
