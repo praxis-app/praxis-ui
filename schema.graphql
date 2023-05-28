@@ -309,7 +309,7 @@ type Query {
   groupConfig(id: Int!): GroupConfig!
   groups: [Group!]!
   isFirstUser: Boolean!
-  me: User!
+  me: User
   memberRequest(groupId: Int!): MemberRequest
   post(id: Int!): Post!
   posts: [Post!]!

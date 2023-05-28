@@ -491,7 +491,7 @@ export type Query = {
   groupConfig: GroupConfig;
   groups: Array<Group>;
   isFirstUser: Scalars["Boolean"];
-  me: User;
+  me?: Maybe<User>;
   memberRequest?: Maybe<MemberRequest>;
   post: Post;
   posts: Array<Post>;
@@ -1015,7 +1015,7 @@ export type GroupMembersQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me: { __typename?: "User"; id: number };
+  me?: { __typename?: "User"; id: number } | null;
 };
 
 export type GroupMembersByGroupIdQueryVariables = Exact<{
@@ -1151,11 +1151,11 @@ export type GroupProfileQuery = {
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{ __typename?: "User"; id: number }>;
   };
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-  };
+  } | null;
 };
 
 export type GroupRolesQueryVariables = Exact<{
@@ -1219,7 +1219,7 @@ export type GroupsQuery = {
     members: Array<{ __typename?: "User"; id: number }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
-  me: { __typename?: "User"; id: number };
+  me?: { __typename?: "User"; id: number } | null;
 };
 
 export type MemberRequestQueryVariables = Exact<{
@@ -1455,7 +1455,11 @@ export type ServerInvitesQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+  me?: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: Array<string>;
+  } | null;
 };
 
 export type DeleteLikeMutationVariables = Exact<{
@@ -2465,7 +2469,11 @@ export type EditServerRoleQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+  me?: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: Array<string>;
+  } | null;
 };
 
 export type RoleByRoleIdQueryVariables = Exact<{
@@ -2853,7 +2861,7 @@ export type FollowersQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me: { __typename?: "User"; id: number };
+  me?: { __typename?: "User"; id: number } | null;
 };
 
 export type FollowingQueryVariables = Exact<{
@@ -2874,14 +2882,14 @@ export type FollowingQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me: { __typename?: "User"; id: number };
+  me?: { __typename?: "User"; id: number } | null;
 };
 
 export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type HomePageQuery = {
   __typename?: "Query";
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     homeFeed: Array<
@@ -2985,7 +2993,7 @@ export type HomePageQuery = {
         }
     >;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-  };
+  } | null;
 };
 
 export type IsFirstUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -2996,14 +3004,14 @@ export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
   __typename?: "Query";
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     serverPermissions: Array<string>;
     name: string;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
-  };
+  } | null;
 };
 
 export type UserProfileQueryVariables = Exact<{
@@ -3124,11 +3132,11 @@ export type UserProfileQuery = {
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-  };
+  } | null;
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;

@@ -74,7 +74,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   const { id, name, coverPhoto, members, memberRequestCount, myPermissions } =
     group;
 
-  const canApproveMemberRequests = myPermissions.includes(
+  const canApproveMemberRequests = myPermissions?.includes(
     GroupPermissions.ApproveMemberRequests
   );
   const showCardHeader = isLoggedIn && isAboveSmall;
@@ -123,9 +123,15 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   };
 
   const renderCardActions = () => {
-    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
-    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const canDeleteGroup = myPermissions?.includes(
+      GroupPermissions.DeleteGroup
+    );
+    const canUpdateGroup = myPermissions?.includes(
+      GroupPermissions.UpdateGroup
+    );
+    const canManageRoles = myPermissions?.includes(
+      GroupPermissions.ManageRoles
+    );
     const showMenuButton = canDeleteGroup || canUpdateGroup || canManageRoles;
 
     return (
