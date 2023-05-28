@@ -242,7 +242,7 @@
         "privacy": "Privacy"
       },
       "descriptions": {
-        "privacy": "Choose whether or not group content is viewable to the public."
+        "privacy": "Choose whether or not the group and it's content are viewable to the public."
       }
     },
     "tips": {
