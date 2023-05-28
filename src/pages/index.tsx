@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../apollo/cache";
-import { useHomePageQuery, usePublicHomePageQuery } from "../apollo/gen";
+import { useHomePageQuery, usePublicGroupsFeedQuery } from "../apollo/gen";
 import WelcomeCard from "../components/About/WelcomeCard";
 import Feed from "../components/Shared/Feed";
 import ProgressBar from "../components/Shared/ProgressBar";
@@ -20,36 +20,36 @@ const Home: NextPage = () => {
   } = useHomePageQuery({ skip: !isLoggedIn });
 
   const {
-    data: publicHomePageData,
-    loading: publicHomePageLoading,
-    error: publicHomePageError,
-  } = usePublicHomePageQuery({
+    data: publicFeedData,
+    loading: publicFeedLoading,
+    error: publicFeedError,
+  } = usePublicGroupsFeedQuery({
     errorPolicy: "all",
     skip: isLoggedIn,
   });
 
   const { t } = useTranslation();
 
-  if (!homePageData && !publicHomePageData) {
-    if (isDeniedAccess(homePageError || publicHomePageError)) {
+  if (!homePageData && !publicFeedData) {
+    if (isDeniedAccess(homePageError || publicFeedError)) {
       return <Typography>{t("prompts.permissionDenied")}</Typography>;
     }
 
-    if (homePageError || publicHomePageError) {
+    if (homePageError || publicFeedError) {
       return <Typography>{t("errors.somethingWentWrong")}</Typography>;
     }
     return null;
   }
 
-  if (homePageLoading || publicHomePageLoading) {
+  if (homePageLoading || publicFeedLoading) {
     return <ProgressBar />;
   }
 
-  if (!isLoggedIn && publicHomePageData) {
+  if (!isLoggedIn && publicFeedData) {
     return (
       <>
         <WelcomeCard />
-        <Feed feed={publicHomePageData.publicGroupsFeed} />
+        <Feed feed={publicFeedData.publicGroupsFeed} />
       </>
     );
   }

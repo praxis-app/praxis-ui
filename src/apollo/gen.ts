@@ -1258,9 +1258,9 @@ export type MemberRequestsQuery = {
   };
 };
 
-export type PublicHomePageQueryVariables = Exact<{ [key: string]: never }>;
+export type PublicGroupsFeedQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PublicHomePageQuery = {
+export type PublicGroupsFeedQuery = {
   __typename?: "Query";
   publicGroupsFeed: Array<
     | {
@@ -5114,8 +5114,8 @@ export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQuery,
   MemberRequestsQueryVariables
 >;
-export const PublicHomePageDocument = gql`
-  query PublicHomePage {
+export const PublicGroupsFeedDocument = gql`
+  query PublicGroupsFeed {
     publicGroupsFeed {
       ...FeedItem
     }
@@ -5124,53 +5124,53 @@ export const PublicHomePageDocument = gql`
 `;
 
 /**
- * __usePublicHomePageQuery__
+ * __usePublicGroupsFeedQuery__
  *
- * To run a query within a React component, call `usePublicHomePageQuery` and pass it any options that fit your needs.
- * When your component renders, `usePublicHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePublicGroupsFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicGroupsFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePublicHomePageQuery({
+ * const { data, loading, error } = usePublicGroupsFeedQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePublicHomePageQuery(
+export function usePublicGroupsFeedQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    PublicHomePageQuery,
-    PublicHomePageQueryVariables
+    PublicGroupsFeedQuery,
+    PublicGroupsFeedQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PublicHomePageQuery, PublicHomePageQueryVariables>(
-    PublicHomePageDocument,
+  return Apollo.useQuery<PublicGroupsFeedQuery, PublicGroupsFeedQueryVariables>(
+    PublicGroupsFeedDocument,
     options
   );
 }
-export function usePublicHomePageLazyQuery(
+export function usePublicGroupsFeedLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    PublicHomePageQuery,
-    PublicHomePageQueryVariables
+    PublicGroupsFeedQuery,
+    PublicGroupsFeedQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PublicHomePageQuery, PublicHomePageQueryVariables>(
-    PublicHomePageDocument,
-    options
-  );
+  return Apollo.useLazyQuery<
+    PublicGroupsFeedQuery,
+    PublicGroupsFeedQueryVariables
+  >(PublicGroupsFeedDocument, options);
 }
-export type PublicHomePageQueryHookResult = ReturnType<
-  typeof usePublicHomePageQuery
+export type PublicGroupsFeedQueryHookResult = ReturnType<
+  typeof usePublicGroupsFeedQuery
 >;
-export type PublicHomePageLazyQueryHookResult = ReturnType<
-  typeof usePublicHomePageLazyQuery
+export type PublicGroupsFeedLazyQueryHookResult = ReturnType<
+  typeof usePublicGroupsFeedLazyQuery
 >;
-export type PublicHomePageQueryResult = Apollo.QueryResult<
-  PublicHomePageQuery,
-  PublicHomePageQueryVariables
+export type PublicGroupsFeedQueryResult = Apollo.QueryResult<
+  PublicGroupsFeedQuery,
+  PublicGroupsFeedQueryVariables
 >;
 export const DeleteImageDocument = gql`
   mutation DeleteImage($id: Int!) {

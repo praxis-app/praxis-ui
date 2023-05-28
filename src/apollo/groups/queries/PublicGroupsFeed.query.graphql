@@ -1,4 +1,4 @@
-query PublicHomePage {
+query PublicGroupsFeed {
   publicGroupsFeed {
     ...FeedItem
   }
