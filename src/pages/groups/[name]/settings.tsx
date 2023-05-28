@@ -6,6 +6,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useGroupSettingsQuery } from "../../../apollo/gen";
+import GroupSettingsForm from "../../../components/Groups/GroupSettingsForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
@@ -50,11 +51,8 @@ const GroupSettings: NextPage = () => {
 
   return (
     <>
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
-
-      <Typography marginTop={3}>
-        {JSON.stringify(data.group.settings)}
-      </Typography>
+      <Breadcrumbs breadcrumbs={breadcrumbs} sx={{ marginBottom: 3 }} />
+      <GroupSettingsForm />
     </>
   );
 };

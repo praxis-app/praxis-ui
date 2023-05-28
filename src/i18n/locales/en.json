@@ -227,6 +227,8 @@
       "memberRequests_other": "{{count}} Member Requests",
       "members_one": "{{count}} Member",
       "members_other": "{{count}} Members",
+      "private": "Private",
+      "public": "Public",
       "requests_one": "{{count}} Request",
       "requests_other": "{{count}} Requests",
       "settings": "Settings",
@@ -234,6 +236,14 @@
     },
     "prompts": {
       "confirmLeave": "Are you sure you want to leave the group?"
+    },
+    "settings": {
+      "names": {
+        "privacy": "Privacy"
+      },
+      "descriptions": {
+        "privacy": "Choose whether or not group content is viewable to the public."
+      }
     },
     "tips": {
       "organizeWithGroups": "Groups are a great way to organize your community. Whether you want to share your interests, plan events, or collaborate on projects, groups are the perfect place to do it.",
