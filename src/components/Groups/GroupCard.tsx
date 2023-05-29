@@ -3,7 +3,7 @@ import { AccountBox, Settings } from "@mui/icons-material";
 import {
   Box,
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
   MenuItem,
@@ -62,6 +62,12 @@ export const removeGroup =
 
 const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
+}));
+
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 18,
+  },
 }));
 
 interface Props extends CardProps {
@@ -158,7 +164,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
       <CardContent>
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
 
-        <Box sx={{ marginBottom: 1.75 }}>
+        <Box sx={{ marginBottom: isLoggedIn ? 1.75 : 0 }}>
           <Link href={groupMembersPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
