@@ -796,6 +796,7 @@ export type GroupProfileCardFragment = {
   myPermissions?: Array<string> | null;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
+  settings: { __typename?: "GroupConfig"; privacy: string };
 };
 
 export type GroupSettingsFormFragment = {
@@ -1151,6 +1152,7 @@ export type GroupProfileQuery = {
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{ __typename?: "User"; id: number }>;
+    settings: { __typename?: "GroupConfig"; privacy: string };
   };
   me?: {
     __typename?: "User";
@@ -3358,6 +3360,9 @@ export const GroupProfileCardFragmentDoc = gql`
     }
     members {
       id
+    }
+    settings {
+      privacy
     }
     memberRequestCount
     myPermissions

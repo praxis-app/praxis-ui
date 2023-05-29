@@ -1,7 +1,7 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { useReactiveVar } from "@apollo/client";
-import { AccountBox, HowToVote, Settings } from "@mui/icons-material";
+import { AccountBox, Lock, Public, Settings } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -24,6 +24,7 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
+import { GroupPrivacy } from "../../constants/group.constants";
 import { GroupPermissions } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
@@ -71,8 +72,15 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   const isAboveMedium = useAboveBreakpoint("md");
   const isAboveSmall = useAboveBreakpoint("sm");
 
-  const { id, name, coverPhoto, members, memberRequestCount, myPermissions } =
-    group;
+  const {
+    id,
+    coverPhoto,
+    memberRequestCount,
+    members,
+    myPermissions,
+    name,
+    settings,
+  } = group;
 
   const canApproveMemberRequests = myPermissions?.includes(
     GroupPermissions.ApproveMemberRequests
@@ -95,13 +103,15 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   };
 
   const nameTextStyles: SxProps = {
+    width: getNameTextWidth(),
     fontSize: isAboveSmall ? 25 : 23,
     marginTop: showCardHeader ? -7 : -0.3,
-    width: getNameTextWidth(),
+    marginBottom: 1,
   };
-  const voteIconStyles: SxProps = {
+  const iconStyles: SxProps = {
     marginBottom: -0.5,
     marginRight: "0.2ch",
+    fontSize: 20,
   };
 
   const handleDelete = async (id: number) => {
@@ -178,10 +188,21 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
 
         <DetailsBox fontSize={isAboveSmall ? undefined : 15}>
           <Link href={"/"} disabled>
-            <HowToVote sx={voteIconStyles} />
-            {t("groups.labels.majority")}
+            {settings.privacy === GroupPrivacy.Private ? (
+              <>
+                <Lock sx={iconStyles} />
+                {t("groups.labels.private")}
+              </>
+            ) : (
+              <>
+                <Public sx={iconStyles} />
+                {t("groups.labels.public")}
+              </>
+            )}
           </Link>
+
           {MIDDOT_WITH_SPACES}
+
           <Link href={groupMembersPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
