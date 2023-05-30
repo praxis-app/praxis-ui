@@ -3,6 +3,8 @@ mutation UpdateGroupSettings($groupConfigData: UpdateGroupConfigInput!) {
     group {
       id
       ...GroupSettingsForm
+      ...GroupProfileCard
+      ...GroupCard
     }
   }
 }

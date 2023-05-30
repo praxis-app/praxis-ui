@@ -65,7 +65,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
           { query: HomePageDocument },
           (homePageData) =>
             produce(homePageData, (draft) => {
-              draft?.me.homeFeed.unshift(post);
+              draft?.me?.homeFeed.unshift(post);
             })
         );
         cache.modify({

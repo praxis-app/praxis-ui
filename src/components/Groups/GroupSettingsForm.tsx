@@ -9,13 +9,14 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import {
   GroupSettingsFormFragment,
   UpdateGroupConfigInput,
   useUpdateGroupSettingsMutation,
 } from "../../apollo/gen";
+import { GroupPrivacy } from "../../constants/group.constants";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 
@@ -34,16 +35,26 @@ const GroupSettingsForm = ({ group }: Props) => {
     privacy: group.settings.privacy,
   };
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (
+    values: FormValues,
+    { setSubmitting, resetForm }: FormikHelpers<FormValues>
+  ) =>
     await updateSettings({
       variables: {
         groupConfigData: { groupId: group.id, ...values },
       },
+      onCompleted() {
+        setSubmitting(false);
+        resetForm();
+      },
     });
-  };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      enableReinitialize
+    >
       {({ dirty, isSubmitting, handleChange, values }) => (
         <Form>
           <FormGroup>
@@ -66,10 +77,12 @@ const GroupSettingsForm = ({ group }: Props) => {
                 variant="standard"
                 disableUnderline
               >
-                <MenuItem value="private">
+                <MenuItem value={GroupPrivacy.Private}>
                   {t("groups.labels.private")}
                 </MenuItem>
-                <MenuItem value="public">{t("groups.labels.public")}</MenuItem>
+                <MenuItem value={GroupPrivacy.Public}>
+                  {t("groups.labels.public")}
+                </MenuItem>
               </Select>
             </Flex>
           </FormGroup>

@@ -941,7 +941,13 @@ export type UpdateGroupSettingsMutation = {
     group: {
       __typename?: "Group";
       id: number;
+      name: string;
+      memberRequestCount?: number | null;
+      myPermissions?: Array<string> | null;
+      description: string;
       settings: { __typename?: "GroupConfig"; id: number; privacy: string };
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      members: Array<{ __typename?: "User"; id: number }>;
     };
   };
 };
@@ -4418,10 +4424,14 @@ export const UpdateGroupSettingsDocument = gql`
       group {
         id
         ...GroupSettingsForm
+        ...GroupProfileCard
+        ...GroupCard
       }
     }
   }
   ${GroupSettingsFormFragmentDoc}
+  ${GroupProfileCardFragmentDoc}
+  ${GroupCardFragmentDoc}
 `;
 export type UpdateGroupSettingsMutationFn = Apollo.MutationFunction<
   UpdateGroupSettingsMutation,
@@ -4906,6 +4916,7 @@ export type GroupRolesByGroupIdQueryResult = Apollo.QueryResult<
 export const GroupSettingsDocument = gql`
   query GroupSettings($name: String!) {
     group(name: $name) {
+      id
       ...GroupSettingsForm
     }
   }
