@@ -81,7 +81,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     groupId,
   };
   const actionTypeOptions = getProposalActionTypeOptions(t);
-  const joinedGroups = data?.me.joinedGroups;
+  const joinedGroups = data?.me?.joinedGroups;
 
   const validateProposal = ({ action, groupId }: CreateProposalInput) => {
     const errors: ProposalFormErrors = {
@@ -148,7 +148,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
           { query: HomePageDocument },
           (homePageData) =>
             produce(homePageData, (draft) => {
-              draft?.me.homeFeed.unshift(proposal);
+              draft?.me?.homeFeed.unshift(proposal);
             })
         );
         cache.modify({

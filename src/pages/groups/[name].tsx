@@ -38,14 +38,15 @@ const GroupPage: NextPage = () => {
   }
 
   const { group, me } = data;
-  const currentMemberId =
-    me && group.members.find((member) => member.id === me.id)?.id;
+  const currentMemberId = me
+    ? group.members.find((member) => member.id === me.id)?.id
+    : undefined;
 
   return (
     <>
       <GroupProfileCard group={group} currentMemberId={currentMemberId} />
 
-      {currentMemberId && <ToggleForms groupId={group.id} me={me} />}
+      {me && currentMemberId && <ToggleForms groupId={group.id} me={me} />}
 
       <Feed feed={group.feed} />
     </>

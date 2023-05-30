@@ -24,7 +24,7 @@ const GroupRoles: NextPage = () => {
   const group = data?.group;
   const roles = group?.roles;
 
-  const canManageRoles = group?.myPermissions.includes(
+  const canManageRoles = group?.myPermissions?.includes(
     GroupPermissions.ManageRoles
   );
 

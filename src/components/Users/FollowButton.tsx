@@ -46,7 +46,7 @@ const FollowButton = ({
             { query: HomePageDocument },
             (homePageData) =>
               produce(homePageData, (draft) => {
-                if (!draft) {
+                if (!draft?.me) {
                   return;
                 }
                 draft.me.homeFeed = draft.me.homeFeed.filter(

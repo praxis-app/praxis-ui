@@ -38,7 +38,7 @@ const EditGroup: NextPage = () => {
     return null;
   }
 
-  if (!group.myPermissions.includes(GroupPermissions.UpdateGroup)) {
+  if (!group.myPermissions?.includes(GroupPermissions.UpdateGroup)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 
