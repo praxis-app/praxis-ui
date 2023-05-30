@@ -33,10 +33,6 @@ const ProposalPage: NextPage = () => {
     return null;
   }
 
-  if (!data) {
-    return null;
-  }
-
   return <ProposalCard proposal={data.proposal} />;
 };
 
