@@ -1,5 +1,6 @@
 import { Circle } from "@mui/icons-material";
 import { Box, BoxProps, Divider, SxProps, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -36,7 +37,9 @@ const ProposalActionRole = ({
   role,
   ...boxProps
 }: Props) => {
-  const [showRole, setShowRole] = useState(!!preview);
+  const { asPath } = useRouter();
+  const isProposalPage = asPath.includes("/proposals/");
+  const [showRole, setShowRole] = useState(!!preview || isProposalPage);
 
   const [
     getSelectedRole,
