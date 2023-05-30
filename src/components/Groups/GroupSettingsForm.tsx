@@ -1,5 +1,6 @@
 // TODO: Add basic functionality for events - below is a WIP
 
+import { Warning } from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -85,6 +86,19 @@ const GroupSettingsForm = ({ group }: Props) => {
                 </MenuItem>
               </Select>
             </Flex>
+
+            {group.settings.privacy === GroupPrivacy.Public && (
+              <Typography fontSize={12} color="error" marginTop={1} width="80%">
+                <Warning
+                  sx={{
+                    fontSize: 14,
+                    marginBottom: -0.3,
+                    marginRight: "0.5ch",
+                  }}
+                />
+                {t("groups.prompts.publicGroup")}
+              </Typography>
+            )}
           </FormGroup>
 
           <Divider sx={{ marginY: 3 }} />

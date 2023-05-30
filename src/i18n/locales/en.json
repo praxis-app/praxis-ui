@@ -235,7 +235,8 @@
       "xToPass": "X to Pass"
     },
     "prompts": {
-      "confirmLeave": "Are you sure you want to leave the group?"
+      "confirmLeave": "Are you sure you want to leave the group?",
+      "publicGroup": "Anyone can view the group page and any content posted by group members."
     },
     "settings": {
       "names": {
