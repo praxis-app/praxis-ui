@@ -110,7 +110,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   };
   const iconStyles: SxProps = {
     marginBottom: -0.5,
-    marginRight: "0.2ch",
+    marginRight: "0.3ch",
     fontSize: 20,
   };
 
