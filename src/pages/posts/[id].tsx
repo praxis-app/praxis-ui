@@ -5,26 +5,31 @@ import { useTranslation } from "react-i18next";
 import { usePostQuery } from "../../apollo/gen";
 import PostCard from "../../components/Posts/PostCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import { isDeniedAccess } from "../../utils/error.utils";
 
 const PostPage: NextPage = () => {
   const { query } = useRouter();
   const id = parseInt(String(query?.id));
   const { data, loading, error } = usePostQuery({
     variables: { id },
+    errorPolicy: "all",
     skip: !id,
   });
 
   const { t } = useTranslation();
-
-  if (error) {
-    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
-  }
 
   if (loading) {
     return <ProgressBar />;
   }
 
   if (!data) {
+    if (isDeniedAccess(error)) {
+      return <Typography>{t("prompts.permissionDenied")}</Typography>;
+    }
+
+    if (error) {
+      return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+    }
     return null;
   }
 
