@@ -31,6 +31,7 @@ import { redirectTo } from "../../utils/common.utils";
 import {
   getEditGroupPath,
   getGroupMembersPath,
+  getGroupPath,
   getMemberRequestsPath,
 } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -87,6 +88,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   );
   const showCardHeader = isLoggedIn && isAboveSmall;
 
+  const groupPath = getGroupPath(name);
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
@@ -203,7 +205,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
 
           {MIDDOT_WITH_SPACES}
 
-          <Link href={groupMembersPath}>
+          <Link href={isLoggedIn ? groupMembersPath : groupPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
 

@@ -165,7 +165,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
 
         <Box sx={{ marginBottom: isLoggedIn ? 1.75 : 0 }}>
-          <Link href={groupMembersPath}>
+          <Link href={isLoggedIn ? groupMembersPath : groupPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
 
