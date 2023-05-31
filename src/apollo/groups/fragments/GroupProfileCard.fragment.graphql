@@ -8,7 +8,7 @@ fragment GroupProfileCard on Group {
     id
   }
   settings {
-    privacy
+    isPublic
   }
   memberRequestCount
   myPermissions

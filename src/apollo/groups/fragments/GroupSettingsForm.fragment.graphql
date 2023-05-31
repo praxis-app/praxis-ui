@@ -2,6 +2,6 @@ fragment GroupSettingsForm on Group {
   id
   settings {
     id
-    privacy
+    isPublic
   }
 }

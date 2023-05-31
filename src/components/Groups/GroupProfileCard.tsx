@@ -24,7 +24,6 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { GroupPrivacy } from "../../constants/group.constants";
 import { GroupPermissions } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
@@ -190,15 +189,15 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
 
         <DetailsBox fontSize={isAboveSmall ? undefined : 15}>
           <Link href={"/"} disabled>
-            {settings.privacy === GroupPrivacy.Private ? (
-              <>
-                <Lock sx={iconStyles} />
-                {t("groups.labels.private")}
-              </>
-            ) : (
+            {settings.isPublic ? (
               <>
                 <Public sx={iconStyles} />
                 {t("groups.labels.public")}
+              </>
+            ) : (
+              <>
+                <Lock sx={iconStyles} />
+                {t("groups.labels.private")}
               </>
             )}
           </Link>

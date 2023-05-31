@@ -160,7 +160,7 @@ export type GroupConfig = {
   createdAt: Scalars["DateTime"];
   group: Group;
   id: Scalars["Int"];
-  privacy: Scalars["String"];
+  isPublic: Scalars["Boolean"];
   updatedAt: Scalars["DateTime"];
 };
 
@@ -488,7 +488,6 @@ export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
   group: Group;
-  groupConfig: GroupConfig;
   groups: Array<Group>;
   isFirstUser: Scalars["Boolean"];
   me?: Maybe<User>;
@@ -513,10 +512,6 @@ export type Query = {
 export type QueryGroupArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
-};
-
-export type QueryGroupConfigArgs = {
-  id: Scalars["Int"];
 };
 
 export type QueryMemberRequestArgs = {
@@ -796,13 +791,13 @@ export type GroupProfileCardFragment = {
   myPermissions?: Array<string> | null;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
-  settings: { __typename?: "GroupConfig"; privacy: string };
+  settings: { __typename?: "GroupConfig"; isPublic: boolean };
 };
 
 export type GroupSettingsFormFragment = {
   __typename?: "Group";
   id: number;
-  settings: { __typename?: "GroupConfig"; id: number; privacy: string };
+  settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
 };
 
 export type RequestToJoinFragment = {
@@ -945,7 +940,7 @@ export type UpdateGroupSettingsMutation = {
       memberRequestCount?: number | null;
       myPermissions?: Array<string> | null;
       description: string;
-      settings: { __typename?: "GroupConfig"; id: number; privacy: string };
+      settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       members: Array<{ __typename?: "User"; id: number }>;
     };
@@ -1158,7 +1153,7 @@ export type GroupProfileQuery = {
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{ __typename?: "User"; id: number }>;
-    settings: { __typename?: "GroupConfig"; privacy: string };
+    settings: { __typename?: "GroupConfig"; isPublic: boolean };
   };
   me?: {
     __typename?: "User";
@@ -1210,7 +1205,7 @@ export type GroupSettingsQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    settings: { __typename?: "GroupConfig"; id: number; privacy: string };
+    settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
   };
 };
 
@@ -3368,7 +3363,7 @@ export const GroupProfileCardFragmentDoc = gql`
       id
     }
     settings {
-      privacy
+      isPublic
     }
     memberRequestCount
     myPermissions
@@ -3379,7 +3374,7 @@ export const GroupSettingsFormFragmentDoc = gql`
     id
     settings {
       id
-      privacy
+      isPublic
     }
   }
 `;

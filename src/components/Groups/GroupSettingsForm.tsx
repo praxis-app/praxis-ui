@@ -33,7 +33,9 @@ const GroupSettingsForm = ({ group }: Props) => {
   const theme = useTheme();
 
   const initialValues: FormValues = {
-    privacy: group.settings.privacy,
+    privacy: group.settings.isPublic
+      ? GroupPrivacy.Public
+      : GroupPrivacy.Private,
   };
 
   const handleSubmit = async (
@@ -87,7 +89,7 @@ const GroupSettingsForm = ({ group }: Props) => {
               </Select>
             </Flex>
 
-            {group.settings.privacy === GroupPrivacy.Public && (
+            {group.settings.isPublic && (
               <Typography fontSize={12} color="error" marginTop={1} width="80%">
                 <Warning
                   sx={{

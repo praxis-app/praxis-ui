@@ -123,7 +123,7 @@ type GroupConfig {
   createdAt: DateTime!
   group: Group!
   id: Int!
-  privacy: String!
+  isPublic: Boolean!
   updatedAt: DateTime!
 }
 
@@ -306,7 +306,6 @@ input ProposalActionRoleMemberInput {
 type Query {
   authCheck: Boolean!
   group(id: Int, name: String): Group!
-  groupConfig(id: Int!): GroupConfig!
   groups: [Group!]!
   isFirstUser: Boolean!
   me: User
