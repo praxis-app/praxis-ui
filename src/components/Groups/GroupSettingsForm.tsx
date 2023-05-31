@@ -1,5 +1,3 @@
-// TODO: Add basic functionality for events - below is a WIP
-
 import { Warning } from "@mui/icons-material";
 import {
   Box,

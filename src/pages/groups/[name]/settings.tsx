@@ -1,5 +1,3 @@
-// TODO: Add basic functionality for events - below is a WIP
-
 import { Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { NextPage } from "next";
