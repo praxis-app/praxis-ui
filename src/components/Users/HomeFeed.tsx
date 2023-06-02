@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useHomePageQuery } from "../../apollo/gen";
+import { useHomeFeedQuery } from "../../apollo/gen";
 import { isDeniedAccess } from "../../utils/error.utils";
 import Feed from "../Shared/Feed";
 import ProgressBar from "../Shared/ProgressBar";
 import ToggleForms from "../Shared/ToggleForms";
 
 const HomeFeed = () => {
-  const { data, loading, error } = useHomePageQuery();
+  const { data, loading, error } = useHomeFeedQuery();
   const { t } = useTranslation();
 
   if (loading) {

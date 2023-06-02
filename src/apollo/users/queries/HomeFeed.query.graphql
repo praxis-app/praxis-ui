@@ -1,4 +1,4 @@
-query HomePage {
+query HomeFeed {
   me {
     id
     homeFeed {

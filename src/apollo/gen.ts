@@ -2906,9 +2906,9 @@ export type FollowingQuery = {
   me?: { __typename?: "User"; id: number } | null;
 };
 
-export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
+export type HomeFeedQueryVariables = Exact<{ [key: string]: never }>;
 
-export type HomePageQuery = {
+export type HomeFeedQuery = {
   __typename?: "Query";
   me?: {
     __typename?: "User";
@@ -7001,8 +7001,8 @@ export type FollowingQueryResult = Apollo.QueryResult<
   FollowingQuery,
   FollowingQueryVariables
 >;
-export const HomePageDocument = gql`
-  query HomePage {
+export const HomeFeedDocument = gql`
+  query HomeFeed {
     me {
       id
       homeFeed {
@@ -7016,48 +7016,48 @@ export const HomePageDocument = gql`
 `;
 
 /**
- * __useHomePageQuery__
+ * __useHomeFeedQuery__
  *
- * To run a query within a React component, call `useHomePageQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHomeFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHomePageQuery({
+ * const { data, loading, error } = useHomeFeedQuery({
  *   variables: {
  *   },
  * });
  */
-export function useHomePageQuery(
-  baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>
+export function useHomeFeedQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
-    HomePageDocument,
+  return Apollo.useQuery<HomeFeedQuery, HomeFeedQueryVariables>(
+    HomeFeedDocument,
     options
   );
 }
-export function useHomePageLazyQuery(
+export function useHomeFeedLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    HomePageQuery,
-    HomePageQueryVariables
+    HomeFeedQuery,
+    HomeFeedQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(
-    HomePageDocument,
+  return Apollo.useLazyQuery<HomeFeedQuery, HomeFeedQueryVariables>(
+    HomeFeedDocument,
     options
   );
 }
-export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
-export type HomePageLazyQueryHookResult = ReturnType<
-  typeof useHomePageLazyQuery
+export type HomeFeedQueryHookResult = ReturnType<typeof useHomeFeedQuery>;
+export type HomeFeedLazyQueryHookResult = ReturnType<
+  typeof useHomeFeedLazyQuery
 >;
-export type HomePageQueryResult = Apollo.QueryResult<
-  HomePageQuery,
-  HomePageQueryVariables
+export type HomeFeedQueryResult = Apollo.QueryResult<
+  HomeFeedQuery,
+  HomeFeedQueryVariables
 >;
 export const IsFirstUserDocument = gql`
   query IsFirstUser {
