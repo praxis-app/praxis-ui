@@ -14,16 +14,15 @@ import { isDeniedAccess } from "../../../utils/error.utils";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const GroupSettings: NextPage = () => {
-  const { t } = useTranslation();
-  const isDesktop = useIsDesktop();
-
   const { query } = useRouter();
   const name = String(query?.name || "");
-
   const { data, loading, error } = useGroupSettingsQuery({
     variables: { name },
     skip: !name,
   });
+
+  const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
 
   const group = data?.group;
   const canManageSettings = group?.myPermissions?.includes(
