@@ -39,7 +39,6 @@ const GroupSettings: NextPage = () => {
   if (loading) {
     return <ProgressBar />;
   }
-
   if (!group) {
     return null;
   }
