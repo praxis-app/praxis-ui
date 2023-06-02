@@ -8,7 +8,9 @@ import GroupSettingsForm from "../../../components/Groups/GroupSettingsForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
+import { GroupPermissions } from "../../../constants/role.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
+import { isDeniedAccess } from "../../../utils/error.utils";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const GroupSettings: NextPage = () => {
@@ -23,15 +25,22 @@ const GroupSettings: NextPage = () => {
     skip: !name,
   });
 
+  const group = data?.group;
+  const canManageSettings = group?.myPermissions?.includes(
+    GroupPermissions.ManageSettings
+  );
+
+  if (isDeniedAccess(error) || (group && !canManageSettings)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
-
   if (loading) {
     return <ProgressBar />;
   }
 
-  if (!data) {
+  if (!group) {
     return null;
   }
 
@@ -50,7 +59,7 @@ const GroupSettings: NextPage = () => {
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} sx={{ marginBottom: 3 }} />
-      <GroupSettingsForm group={data.group} />
+      <GroupSettingsForm group={group} />
     </>
   );
 };

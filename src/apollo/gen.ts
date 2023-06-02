@@ -1205,6 +1205,7 @@ export type GroupSettingsQuery = {
   group: {
     __typename?: "Group";
     id: number;
+    myPermissions?: Array<string> | null;
     settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
   };
 };
@@ -4912,6 +4913,7 @@ export const GroupSettingsDocument = gql`
   query GroupSettings($name: String!) {
     group(name: $name) {
       id
+      myPermissions
       ...GroupSettingsForm
     }
   }
