@@ -212,7 +212,8 @@
     },
     "errors": {
       "couldNotCreate": "Group could not be created",
-      "couldNotUpdate": "Group could not be updated"
+      "couldNotUpdate": "Group could not be updated",
+      "couldNotUpdateSettings": "Could not update group settings"
     },
     "labels": {
       "consensus": "Consensus",

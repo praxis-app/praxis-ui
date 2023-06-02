@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import {
   GroupSettingsFormFragment,
   UpdateGroupConfigInput,
@@ -47,6 +48,12 @@ const GroupSettingsForm = ({ group }: Props) => {
       onCompleted() {
         setSubmitting(false);
         resetForm();
+      },
+      onError() {
+        toastVar({
+          status: "error",
+          title: t("groups.errors.couldNotUpdateSettings"),
+        });
       },
     });
 
