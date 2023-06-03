@@ -98,7 +98,7 @@ Once the extension is installed, open up Chrome DevTools, and navigate to the **
 
 ## Tools to get Involved and Collaborate
 
-- Discord: https://discord.gg/s5MxNBehxS, or message **forrest#2807** for more information.
+- Discord: Message **forrest#2807** for more information.
 - Notion: A link to the Notion page can be obtained upon request.
 
 ## Contributions
