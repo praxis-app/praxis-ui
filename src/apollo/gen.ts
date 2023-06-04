@@ -397,7 +397,7 @@ export type Post = {
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
-  isLikedByMe?: Maybe<Scalars["Boolean"]>;
+  isLikedByMe: Scalars["Boolean"];
   likes: Array<Like>;
   likesCount: Scalars["Int"];
   updatedAt: Scalars["DateTime"];
@@ -1060,7 +1060,7 @@ export type GroupProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe?: boolean | null;
+          isLikedByMe?: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -1298,7 +1298,7 @@ export type PublicGroupsFeedQuery = {
         body?: string | null;
         createdAt: any;
         likesCount: number;
-        isLikedByMe?: boolean | null;
+        isLikedByMe?: boolean;
         images: Array<{ __typename?: "Image"; id: number; filename: string }>;
         user: {
           __typename?: "User";
@@ -1502,7 +1502,7 @@ type FeedItem_Post_Fragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
-  isLikedByMe?: boolean | null;
+  isLikedByMe?: boolean;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1606,7 +1606,7 @@ export type PostCardFragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
-  isLikedByMe?: boolean | null;
+  isLikedByMe?: boolean;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1627,7 +1627,7 @@ export type PostCardFooterFragment = {
   __typename?: "Post";
   id: number;
   likesCount: number;
-  isLikedByMe?: boolean | null;
+  isLikedByMe?: boolean;
 };
 
 export type PostFormFragment = {
@@ -1652,7 +1652,7 @@ export type CreatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe?: boolean | null;
+      isLikedByMe?: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1696,7 +1696,7 @@ export type LikePostMutation = {
         __typename?: "Post";
         id: number;
         likesCount: number;
-        isLikedByMe?: boolean | null;
+        isLikedByMe?: boolean;
       };
     };
   };
@@ -1717,7 +1717,7 @@ export type UpdatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe?: boolean | null;
+      isLikedByMe?: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1763,7 +1763,7 @@ export type PostQuery = {
     body?: string | null;
     createdAt: any;
     likesCount: number;
-    isLikedByMe?: boolean | null;
+    isLikedByMe?: boolean;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
@@ -2684,7 +2684,7 @@ export type FollowUserMutation = {
             body?: string | null;
             createdAt: any;
             likesCount: number;
-            isLikedByMe?: boolean | null;
+            isLikedByMe?: boolean;
             images: Array<{
               __typename?: "Image";
               id: number;
@@ -2848,7 +2848,7 @@ export type EditUserQuery = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe?: boolean | null;
+      isLikedByMe?: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -2927,7 +2927,7 @@ export type HomeFeedQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe?: boolean | null;
+          isLikedByMe?: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -3065,7 +3065,7 @@ export type UserProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe?: boolean | null;
+          isLikedByMe?: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
