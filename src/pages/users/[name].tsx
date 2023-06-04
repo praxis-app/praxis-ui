@@ -19,7 +19,7 @@ const UserProfile: NextPage = () => {
   const { query } = useRouter();
   const name = String(query?.name || "");
   const { data, loading, error } = useUserProfileQuery({
-    variables: { name },
+    variables: { name, isLoggedIn },
     skip: !name,
   });
 

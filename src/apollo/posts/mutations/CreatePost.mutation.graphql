@@ -1,4 +1,4 @@
-mutation CreatePost($postData: CreatePostInput!) {
+mutation CreatePost($postData: CreatePostInput!, $isLoggedIn: Boolean = true) {
   createPost(postData: $postData) {
     post {
       ...PostCard
