@@ -10,7 +10,7 @@ fragment ProposalCardFooter on Proposal {
 
   group {
     id
-    isJoinedByMe
+    isJoinedByMe @include(if: $isLoggedIn)
   }
 
   ...VoteMenu

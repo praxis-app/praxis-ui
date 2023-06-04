@@ -2002,6 +2002,7 @@ export type ProposalFormFragment = {
 
 export type CreateProposalMutationVariables = Exact<{
   proposalData: CreateProposalInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type CreateProposalMutation = {
@@ -2098,6 +2099,7 @@ export type DeleteProposalMutation = {
 
 export type UpdateProposalMutationVariables = Exact<{
   proposalData: UpdateProposalInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdateProposalMutation = {
@@ -2212,6 +2214,7 @@ export type EditProposalQuery = {
 
 export type ProposalQueryVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type ProposalQuery = {
@@ -3565,7 +3568,7 @@ export const ProposalCardFooterFragmentDoc = gql`
     }
     group {
       id
-      isJoinedByMe
+      isJoinedByMe @include(if: $isLoggedIn)
     }
     ...VoteMenu
     ...VoteBadges
@@ -5918,7 +5921,10 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const CreateProposalDocument = gql`
-  mutation CreateProposal($proposalData: CreateProposalInput!) {
+  mutation CreateProposal(
+    $proposalData: CreateProposalInput!
+    $isLoggedIn: Boolean = true
+  ) {
     createProposal(proposalData: $proposalData) {
       proposal {
         ...ProposalCard
@@ -5946,6 +5952,7 @@ export type CreateProposalMutationFn = Apollo.MutationFunction<
  * const [createProposalMutation, { data, loading, error }] = useCreateProposalMutation({
  *   variables: {
  *      proposalData: // value for 'proposalData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6019,7 +6026,10 @@ export type DeleteProposalMutationOptions = Apollo.BaseMutationOptions<
   DeleteProposalMutationVariables
 >;
 export const UpdateProposalDocument = gql`
-  mutation UpdateProposal($proposalData: UpdateProposalInput!) {
+  mutation UpdateProposal(
+    $proposalData: UpdateProposalInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updateProposal(proposalData: $proposalData) {
       proposal {
         ...ProposalCard
@@ -6047,6 +6057,7 @@ export type UpdateProposalMutationFn = Apollo.MutationFunction<
  * const [updateProposalMutation, { data, loading, error }] = useUpdateProposalMutation({
  *   variables: {
  *      proposalData: // value for 'proposalData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6131,7 +6142,7 @@ export type EditProposalQueryResult = Apollo.QueryResult<
   EditProposalQueryVariables
 >;
 export const ProposalDocument = gql`
-  query Proposal($id: Int!) {
+  query Proposal($id: Int!, $isLoggedIn: Boolean!) {
     proposal(id: $id) {
       ...ProposalCard
     }
@@ -6152,6 +6163,7 @@ export const ProposalDocument = gql`
  * const { data, loading, error } = useProposalQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
