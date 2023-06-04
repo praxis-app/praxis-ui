@@ -1,4 +1,4 @@
-query Groups {
+query Groups($isLoggedIn: Boolean = true) {
   groups {
     ...GroupCard
   }

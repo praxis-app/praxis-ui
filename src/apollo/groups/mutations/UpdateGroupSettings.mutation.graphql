@@ -1,4 +1,7 @@
-mutation UpdateGroupSettings($groupConfigData: UpdateGroupConfigInput!) {
+mutation UpdateGroupSettings(
+  $groupConfigData: UpdateGroupConfigInput!
+  $isLoggedIn: Boolean = true
+) {
   updateGroupConfig(groupConfigData: $groupConfigData) {
     group {
       id

@@ -11,5 +11,5 @@ fragment GroupProfileCard on Group {
     isPublic
   }
   memberRequestCount
-  myPermissions
+  myPermissions @include(if: $isLoggedIn)
 }

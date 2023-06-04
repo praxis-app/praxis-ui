@@ -927,6 +927,7 @@ export type UpdateGroupMutation = {
 
 export type UpdateGroupSettingsMutationVariables = Exact<{
   groupConfigData: UpdateGroupConfigInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdateGroupSettingsMutation = {
@@ -1211,7 +1212,9 @@ export type GroupSettingsQuery = {
   };
 };
 
-export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
+export type GroupsQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type GroupsQuery = {
   __typename?: "Query";
@@ -1264,7 +1267,9 @@ export type MemberRequestsQuery = {
   };
 };
 
-export type PublicGroupsQueryVariables = Exact<{ [key: string]: never }>;
+export type PublicGroupsQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type PublicGroupsQuery = {
   __typename?: "Query";
@@ -3327,7 +3332,7 @@ export const GroupCardFragmentDoc = gql`
     ...GroupAvatar
     description
     memberRequestCount
-    myPermissions
+    myPermissions @include(if: $isLoggedIn)
     members {
       id
     }
@@ -3379,7 +3384,7 @@ export const GroupProfileCardFragmentDoc = gql`
       isPublic
     }
     memberRequestCount
-    myPermissions
+    myPermissions @include(if: $isLoggedIn)
   }
 `;
 export const GroupSettingsFormFragmentDoc = gql`
@@ -3442,7 +3447,7 @@ export const PostCardFragmentDoc = gql`
     }
     group {
       ...GroupAvatar
-      myPermissions
+      myPermissions @include(if: $isLoggedIn)
     }
     ...PostCardFooter
   }
@@ -4427,7 +4432,10 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutationVariables
 >;
 export const UpdateGroupSettingsDocument = gql`
-  mutation UpdateGroupSettings($groupConfigData: UpdateGroupConfigInput!) {
+  mutation UpdateGroupSettings(
+    $groupConfigData: UpdateGroupConfigInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updateGroupConfig(groupConfigData: $groupConfigData) {
       group {
         id
@@ -4460,6 +4468,7 @@ export type UpdateGroupSettingsMutationFn = Apollo.MutationFunction<
  * const [updateGroupSettingsMutation, { data, loading, error }] = useUpdateGroupSettingsMutation({
  *   variables: {
  *      groupConfigData: // value for 'groupConfigData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -4984,7 +4993,7 @@ export type GroupSettingsQueryResult = Apollo.QueryResult<
   GroupSettingsQueryVariables
 >;
 export const GroupsDocument = gql`
-  query Groups {
+  query Groups($isLoggedIn: Boolean = true) {
     groups {
       ...GroupCard
     }
@@ -5007,6 +5016,7 @@ export const GroupsDocument = gql`
  * @example
  * const { data, loading, error } = useGroupsQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5158,7 +5168,7 @@ export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQueryVariables
 >;
 export const PublicGroupsDocument = gql`
-  query PublicGroups {
+  query PublicGroups($isLoggedIn: Boolean = false) {
     publicGroups {
       ...GroupCard
     }
@@ -5178,6 +5188,7 @@ export const PublicGroupsDocument = gql`
  * @example
  * const { data, loading, error } = usePublicGroupsQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
