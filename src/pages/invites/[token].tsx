@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
 import { useServerInviteQuery } from "../../apollo/gen";
-import WelcomeCard from "../../components/About/WelcomeCard";
+import PublicGroupsFeed from "../../components/Groups/PublicGroupsFeed";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../constants/common.constants";
 import { INVITE_TOKEN } from "../../constants/server-invite.constants";
@@ -45,7 +45,7 @@ const ServerInvitePage: NextPage = () => {
     return <ProgressBar />;
   }
 
-  return <WelcomeCard />;
+  return <PublicGroupsFeed />;
 };
 
 export default ServerInvitePage;
