@@ -7,7 +7,7 @@ query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
     }
   }
 
-  me {
+  me @include(if: $isLoggedIn) {
     id
     ...ToggleForms
   }

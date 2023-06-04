@@ -141,12 +141,12 @@ export type Group = {
   description: Scalars["String"];
   feed: Array<FeedItem>;
   id: Scalars["Int"];
-  isJoinedByMe?: Maybe<Scalars["Boolean"]>;
+  isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
   memberRequestCount?: Maybe<Scalars["Int"]>;
   memberRequests?: Maybe<Array<MemberRequest>>;
   members: Array<User>;
-  myPermissions?: Maybe<Array<Scalars["String"]>>;
+  myPermissions: Array<Scalars["String"]>;
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
@@ -490,7 +490,7 @@ export type Query = {
   group: Group;
   groups: Array<Group>;
   isFirstUser: Scalars["Boolean"];
-  me?: Maybe<User>;
+  me: User;
   memberRequest?: Maybe<MemberRequest>;
   post: Post;
   posts: Array<Post>;
@@ -761,7 +761,7 @@ export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
   memberRequestCount?: number | null;
-  myPermissions?: Array<string> | null;
+  myPermissions?: Array<string>;
   id: number;
   name: string;
   members: Array<{ __typename?: "User"; id: number }>;
@@ -788,7 +788,7 @@ export type GroupProfileCardFragment = {
   id: number;
   name: string;
   memberRequestCount?: number | null;
-  myPermissions?: Array<string> | null;
+  myPermissions?: Array<string>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
   settings: { __typename?: "GroupConfig"; isPublic: boolean };
@@ -849,7 +849,7 @@ export type CreateGroupMutation = {
     group: {
       __typename?: "Group";
       description: string;
-      myPermissions?: Array<string> | null;
+      myPermissions: Array<string>;
       id: number;
       name: string;
       members: Array<{ __typename?: "User"; id: number }>;
@@ -939,7 +939,7 @@ export type UpdateGroupSettingsMutation = {
       id: number;
       name: string;
       memberRequestCount?: number | null;
-      myPermissions?: Array<string> | null;
+      myPermissions?: Array<string>;
       description: string;
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -956,7 +956,7 @@ export type EditGroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
-    myPermissions?: Array<string> | null;
+    myPermissions: Array<string>;
     id: number;
     name: string;
     description: string;
@@ -978,7 +978,7 @@ export type EditGroupRoleQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      myPermissions?: Array<string> | null;
+      myPermissions: Array<string>;
       name: string;
     } | null;
     permissions: Array<{
@@ -1019,7 +1019,7 @@ export type GroupMembersQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me?: { __typename?: "User"; id: number } | null;
+  me: { __typename?: "User"; id: number };
 };
 
 export type GroupMembersByGroupIdQueryVariables = Exact<{
@@ -1052,7 +1052,7 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount?: number | null;
-    myPermissions?: Array<string> | null;
+    myPermissions?: Array<string>;
     feed: Array<
       | {
           __typename?: "Post";
@@ -1070,7 +1070,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions?: Array<string> | null;
+            myPermissions?: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1135,7 +1135,7 @@ export type GroupProfileQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe?: boolean | null;
+            isJoinedByMe?: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -1161,7 +1161,7 @@ export type GroupProfileQuery = {
     __typename?: "User";
     id: number;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-  } | null;
+  };
 };
 
 export type GroupRolesQueryVariables = Exact<{
@@ -1173,7 +1173,7 @@ export type GroupRolesQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    myPermissions?: Array<string> | null;
+    myPermissions: Array<string>;
     roles: Array<{
       __typename?: "Role";
       id: number;
@@ -1207,7 +1207,7 @@ export type GroupSettingsQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    myPermissions?: Array<string> | null;
+    myPermissions: Array<string>;
     settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
   };
 };
@@ -1222,13 +1222,13 @@ export type GroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount?: number | null;
-    myPermissions?: Array<string> | null;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     members: Array<{ __typename?: "User"; id: number }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
-  me?: { __typename?: "User"; id: number } | null;
+  me: { __typename?: "User"; id: number };
 };
 
 export type MemberRequestQueryVariables = Exact<{
@@ -1277,7 +1277,7 @@ export type PublicGroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount?: number | null;
-    myPermissions?: Array<string> | null;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     members: Array<{ __typename?: "User"; id: number }>;
@@ -1308,7 +1308,7 @@ export type PublicGroupsFeedQuery = {
         };
         group?: {
           __typename?: "Group";
-          myPermissions?: Array<string> | null;
+          myPermissions?: Array<string>;
           id: number;
           name: string;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1373,7 +1373,7 @@ export type PublicGroupsFeedQuery = {
         group?: {
           __typename?: "Group";
           id: number;
-          isJoinedByMe?: boolean | null;
+          isJoinedByMe?: boolean;
           name: string;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
         } | null;
@@ -1484,11 +1484,7 @@ export type ServerInvitesQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-  me?: {
-    __typename?: "User";
-    id: number;
-    serverPermissions: Array<string>;
-  } | null;
+  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
 export type DeleteLikeMutationVariables = Exact<{
@@ -1516,7 +1512,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions?: Array<string> | null;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1582,7 +1578,7 @@ type FeedItem_Proposal_Fragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    isJoinedByMe?: boolean | null;
+    isJoinedByMe?: boolean;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1620,7 +1616,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions?: Array<string> | null;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1666,7 +1662,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions?: Array<string> | null;
+        myPermissions?: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1731,7 +1727,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions?: Array<string> | null;
+        myPermissions?: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1777,7 +1773,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
-      myPermissions?: Array<string> | null;
+      myPermissions?: Array<string>;
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1939,7 +1935,7 @@ export type ProposalCardFragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    isJoinedByMe?: boolean | null;
+    isJoinedByMe?: boolean;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1973,11 +1969,7 @@ export type ProposalCardFooterFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-  group?: {
-    __typename?: "Group";
-    id: number;
-    isJoinedByMe?: boolean | null;
-  } | null;
+  group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
 };
 
 export type ProposalFormFragment = {
@@ -2068,7 +2060,7 @@ export type CreateProposalMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        isJoinedByMe?: boolean | null;
+        isJoinedByMe?: boolean;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -2165,7 +2157,7 @@ export type UpdateProposalMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        isJoinedByMe?: boolean | null;
+        isJoinedByMe?: boolean;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -2278,7 +2270,7 @@ export type ProposalQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      isJoinedByMe?: boolean | null;
+      isJoinedByMe?: boolean;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
@@ -2423,7 +2415,7 @@ export type DeleteRoleMemberMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions?: Array<string> | null;
+        myPermissions: Array<string>;
       } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
@@ -2465,7 +2457,7 @@ export type UpdateRoleMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions?: Array<string> | null;
+        myPermissions: Array<string>;
         name: string;
       } | null;
     };
@@ -2505,11 +2497,7 @@ export type EditServerRoleQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me?: {
-    __typename?: "User";
-    id: number;
-    serverPermissions: Array<string>;
-  } | null;
+  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
 };
 
 export type RoleByRoleIdQueryVariables = Exact<{
@@ -2710,7 +2698,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
-              myPermissions?: Array<string> | null;
+              myPermissions?: Array<string>;
               id: number;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2775,7 +2763,7 @@ export type FollowUserMutation = {
             group?: {
               __typename?: "Group";
               id: number;
-              isJoinedByMe?: boolean | null;
+              isJoinedByMe?: boolean;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
@@ -2870,7 +2858,7 @@ export type EditUserQuery = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions?: Array<string> | null;
+        myPermissions?: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2899,7 +2887,7 @@ export type FollowersQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me?: { __typename?: "User"; id: number } | null;
+  me: { __typename?: "User"; id: number };
 };
 
 export type FollowingQueryVariables = Exact<{
@@ -2920,7 +2908,7 @@ export type FollowingQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me?: { __typename?: "User"; id: number } | null;
+  me: { __typename?: "User"; id: number };
 };
 
 export type HomeFeedQueryVariables = Exact<{
@@ -2929,7 +2917,7 @@ export type HomeFeedQueryVariables = Exact<{
 
 export type HomeFeedQuery = {
   __typename?: "Query";
-  me?: {
+  me: {
     __typename?: "User";
     id: number;
     homeFeed: Array<
@@ -2949,7 +2937,7 @@ export type HomeFeedQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions?: Array<string> | null;
+            myPermissions?: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -3014,7 +3002,7 @@ export type HomeFeedQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe?: boolean | null;
+            isJoinedByMe?: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -3033,7 +3021,7 @@ export type HomeFeedQuery = {
         }
     >;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-  } | null;
+  };
 };
 
 export type IsFirstUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -3044,14 +3032,14 @@ export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
   __typename?: "Query";
-  me?: {
+  me: {
     __typename?: "User";
     id: number;
     serverPermissions: Array<string>;
     name: string;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
-  } | null;
+  };
 };
 
 export type UserProfileQueryVariables = Exact<{
@@ -3087,7 +3075,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions?: Array<string> | null;
+            myPermissions?: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -3152,7 +3140,7 @@ export type UserProfileQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe?: boolean | null;
+            isJoinedByMe?: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -3173,11 +3161,11 @@ export type UserProfileQuery = {
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
-  me?: {
+  me: {
     __typename?: "User";
     id: number;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-  } | null;
+  };
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
@@ -4750,7 +4738,7 @@ export const GroupProfileDocument = gql`
         ...FeedItem
       }
     }
-    me {
+    me @include(if: $isLoggedIn) {
       id
       ...ToggleForms
     }
