@@ -3334,7 +3334,7 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
-    memberRequestCount
+    memberRequestCount @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn)
     members {
       id
@@ -3377,6 +3377,8 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
+    memberRequestCount @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn)
     coverPhoto {
       id
     }
@@ -3386,8 +3388,6 @@ export const GroupProfileCardFragmentDoc = gql`
     settings {
       isPublic
     }
-    memberRequestCount
-    myPermissions @include(if: $isLoggedIn)
   }
 `;
 export const GroupSettingsFormFragmentDoc = gql`
