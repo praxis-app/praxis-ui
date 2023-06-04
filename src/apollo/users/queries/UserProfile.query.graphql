@@ -1,4 +1,4 @@
-query UserProfile($name: String, $isLoggedIn: Boolean!) {
+query UserProfile($name: String, $isLoggedIn: Boolean = true) {
   user(name: $name) {
     ...UserProfileCard
 

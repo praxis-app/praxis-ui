@@ -3056,7 +3056,7 @@ export type MeQuery = {
 
 export type UserProfileQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
-  isLoggedIn: Scalars["Boolean"];
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UserProfileQuery = {
@@ -7208,7 +7208,7 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UserProfileDocument = gql`
-  query UserProfile($name: String, $isLoggedIn: Boolean!) {
+  query UserProfile($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {
       ...UserProfileCard
       profileFeed {
@@ -7243,7 +7243,7 @@ export const UserProfileDocument = gql`
  * });
  */
 export function useUserProfileQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     UserProfileQuery,
     UserProfileQueryVariables
   >
