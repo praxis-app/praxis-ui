@@ -1,5 +1,5 @@
 fragment PostCardFooter on Post {
   id
   likesCount
-  isLikedByMe
+  isLikedByMe @include(if: $isLoggedIn)
 }

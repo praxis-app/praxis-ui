@@ -927,6 +927,7 @@ export type UpdateGroupMutation = {
 
 export type UpdateGroupSettingsMutationVariables = Exact<{
   groupConfigData: UpdateGroupConfigInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdateGroupSettingsMutation = {
@@ -1041,6 +1042,7 @@ export type GroupMembersByGroupIdQuery = {
 
 export type GroupProfileQueryVariables = Exact<{
   name: Scalars["String"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type GroupProfileQuery = {
@@ -1210,7 +1212,9 @@ export type GroupSettingsQuery = {
   };
 };
 
-export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
+export type GroupsQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type GroupsQuery = {
   __typename?: "Query";
@@ -1263,7 +1267,9 @@ export type MemberRequestsQuery = {
   };
 };
 
-export type PublicGroupsQueryVariables = Exact<{ [key: string]: never }>;
+export type PublicGroupsQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type PublicGroupsQuery = {
   __typename?: "Query";
@@ -1279,7 +1285,9 @@ export type PublicGroupsQuery = {
   }>;
 };
 
-export type PublicGroupsFeedQueryVariables = Exact<{ [key: string]: never }>;
+export type PublicGroupsFeedQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type PublicGroupsFeedQuery = {
   __typename?: "Query";
@@ -1635,6 +1643,7 @@ export type PostFormFragment = {
 
 export type CreatePostMutationVariables = Exact<{
   postData: CreatePostInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type CreatePostMutation = {
@@ -1677,6 +1686,7 @@ export type DeletePostMutation = {
 
 export type LikePostMutationVariables = Exact<{
   likeData: CreateLikeInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type LikePostMutation = {
@@ -1698,6 +1708,7 @@ export type LikePostMutation = {
 
 export type UpdatePostMutationVariables = Exact<{
   postData: UpdatePostInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdatePostMutation = {
@@ -1745,6 +1756,7 @@ export type EditPostQuery = {
 
 export type PostQueryVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type PostQuery = {
@@ -1990,6 +2002,7 @@ export type ProposalFormFragment = {
 
 export type CreateProposalMutationVariables = Exact<{
   proposalData: CreateProposalInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type CreateProposalMutation = {
@@ -2086,6 +2099,7 @@ export type DeleteProposalMutation = {
 
 export type UpdateProposalMutationVariables = Exact<{
   proposalData: UpdateProposalInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdateProposalMutation = {
@@ -2200,6 +2214,7 @@ export type EditProposalQuery = {
 
 export type ProposalQueryVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type ProposalQuery = {
@@ -2639,6 +2654,7 @@ export type UserProfileCardFragment = {
 
 export type FollowUserMutationVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type FollowUserMutation = {
@@ -2824,6 +2840,7 @@ export type UpdateUserMutation = {
 
 export type EditUserQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type EditUserQuery = {
@@ -2906,7 +2923,9 @@ export type FollowingQuery = {
   me?: { __typename?: "User"; id: number } | null;
 };
 
-export type HomeFeedQueryVariables = Exact<{ [key: string]: never }>;
+export type HomeFeedQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type HomeFeedQuery = {
   __typename?: "Query";
@@ -3037,6 +3056,7 @@ export type MeQuery = {
 
 export type UserProfileQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UserProfileQuery = {
@@ -3314,8 +3334,8 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
-    memberRequestCount
-    myPermissions
+    memberRequestCount @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn)
     members {
       id
     }
@@ -3357,6 +3377,8 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
+    memberRequestCount @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn)
     coverPhoto {
       id
     }
@@ -3366,8 +3388,6 @@ export const GroupProfileCardFragmentDoc = gql`
     settings {
       isPublic
     }
-    memberRequestCount
-    myPermissions
   }
 `;
 export const GroupSettingsFormFragmentDoc = gql`
@@ -3414,7 +3434,7 @@ export const PostCardFooterFragmentDoc = gql`
   fragment PostCardFooter on Post {
     id
     likesCount
-    isLikedByMe
+    isLikedByMe @include(if: $isLoggedIn)
   }
 `;
 export const PostCardFragmentDoc = gql`
@@ -3430,7 +3450,7 @@ export const PostCardFragmentDoc = gql`
     }
     group {
       ...GroupAvatar
-      myPermissions
+      myPermissions @include(if: $isLoggedIn)
     }
     ...PostCardFooter
   }
@@ -3548,7 +3568,7 @@ export const ProposalCardFooterFragmentDoc = gql`
     }
     group {
       id
-      isJoinedByMe
+      isJoinedByMe @include(if: $isLoggedIn)
     }
     ...VoteMenu
     ...VoteBadges
@@ -4415,7 +4435,10 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutationVariables
 >;
 export const UpdateGroupSettingsDocument = gql`
-  mutation UpdateGroupSettings($groupConfigData: UpdateGroupConfigInput!) {
+  mutation UpdateGroupSettings(
+    $groupConfigData: UpdateGroupConfigInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updateGroupConfig(groupConfigData: $groupConfigData) {
       group {
         id
@@ -4448,6 +4471,7 @@ export type UpdateGroupSettingsMutationFn = Apollo.MutationFunction<
  * const [updateGroupSettingsMutation, { data, loading, error }] = useUpdateGroupSettingsMutation({
  *   variables: {
  *      groupConfigData: // value for 'groupConfigData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -4719,7 +4743,7 @@ export type GroupMembersByGroupIdQueryResult = Apollo.QueryResult<
   GroupMembersByGroupIdQueryVariables
 >;
 export const GroupProfileDocument = gql`
-  query GroupProfile($name: String!) {
+  query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
     group(name: $name) {
       ...GroupProfileCard
       feed {
@@ -4749,6 +4773,7 @@ export const GroupProfileDocument = gql`
  * const { data, loading, error } = useGroupProfileQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -4971,7 +4996,7 @@ export type GroupSettingsQueryResult = Apollo.QueryResult<
   GroupSettingsQueryVariables
 >;
 export const GroupsDocument = gql`
-  query Groups {
+  query Groups($isLoggedIn: Boolean = true) {
     groups {
       ...GroupCard
     }
@@ -4994,6 +5019,7 @@ export const GroupsDocument = gql`
  * @example
  * const { data, loading, error } = useGroupsQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5145,7 +5171,7 @@ export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQueryVariables
 >;
 export const PublicGroupsDocument = gql`
-  query PublicGroups {
+  query PublicGroups($isLoggedIn: Boolean = false) {
     publicGroups {
       ...GroupCard
     }
@@ -5165,6 +5191,7 @@ export const PublicGroupsDocument = gql`
  * @example
  * const { data, loading, error } = usePublicGroupsQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5203,7 +5230,7 @@ export type PublicGroupsQueryResult = Apollo.QueryResult<
   PublicGroupsQueryVariables
 >;
 export const PublicGroupsFeedDocument = gql`
-  query PublicGroupsFeed {
+  query PublicGroupsFeed($isLoggedIn: Boolean = false) {
     publicGroupsFeed {
       ...FeedItem
     }
@@ -5223,6 +5250,7 @@ export const PublicGroupsFeedDocument = gql`
  * @example
  * const { data, loading, error } = usePublicGroupsFeedQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5579,7 +5607,10 @@ export type DeleteLikeMutationOptions = Apollo.BaseMutationOptions<
   DeleteLikeMutationVariables
 >;
 export const CreatePostDocument = gql`
-  mutation CreatePost($postData: CreatePostInput!) {
+  mutation CreatePost(
+    $postData: CreatePostInput!
+    $isLoggedIn: Boolean = true
+  ) {
     createPost(postData: $postData) {
       post {
         ...PostCard
@@ -5607,6 +5638,7 @@ export type CreatePostMutationFn = Apollo.MutationFunction<
  * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
  *   variables: {
  *      postData: // value for 'postData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5680,7 +5712,7 @@ export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
   DeletePostMutationVariables
 >;
 export const LikePostDocument = gql`
-  mutation LikePost($likeData: CreateLikeInput!) {
+  mutation LikePost($likeData: CreateLikeInput!, $isLoggedIn: Boolean = true) {
     createLike(likeData: $likeData) {
       like {
         id
@@ -5711,6 +5743,7 @@ export type LikePostMutationFn = Apollo.MutationFunction<
  * const [likePostMutation, { data, loading, error }] = useLikePostMutation({
  *   variables: {
  *      likeData: // value for 'likeData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5733,7 +5766,10 @@ export type LikePostMutationOptions = Apollo.BaseMutationOptions<
   LikePostMutationVariables
 >;
 export const UpdatePostDocument = gql`
-  mutation UpdatePost($postData: UpdatePostInput!) {
+  mutation UpdatePost(
+    $postData: UpdatePostInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updatePost(postData: $postData) {
       post {
         ...PostCard
@@ -5761,6 +5797,7 @@ export type UpdatePostMutationFn = Apollo.MutationFunction<
  * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
  *   variables: {
  *      postData: // value for 'postData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5840,7 +5877,7 @@ export type EditPostQueryResult = Apollo.QueryResult<
   EditPostQueryVariables
 >;
 export const PostDocument = gql`
-  query Post($id: Int!) {
+  query Post($id: Int!, $isLoggedIn: Boolean!) {
     post(id: $id) {
       ...PostCard
     }
@@ -5861,6 +5898,7 @@ export const PostDocument = gql`
  * const { data, loading, error } = usePostQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5883,7 +5921,10 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const CreateProposalDocument = gql`
-  mutation CreateProposal($proposalData: CreateProposalInput!) {
+  mutation CreateProposal(
+    $proposalData: CreateProposalInput!
+    $isLoggedIn: Boolean = true
+  ) {
     createProposal(proposalData: $proposalData) {
       proposal {
         ...ProposalCard
@@ -5911,6 +5952,7 @@ export type CreateProposalMutationFn = Apollo.MutationFunction<
  * const [createProposalMutation, { data, loading, error }] = useCreateProposalMutation({
  *   variables: {
  *      proposalData: // value for 'proposalData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5984,7 +6026,10 @@ export type DeleteProposalMutationOptions = Apollo.BaseMutationOptions<
   DeleteProposalMutationVariables
 >;
 export const UpdateProposalDocument = gql`
-  mutation UpdateProposal($proposalData: UpdateProposalInput!) {
+  mutation UpdateProposal(
+    $proposalData: UpdateProposalInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updateProposal(proposalData: $proposalData) {
       proposal {
         ...ProposalCard
@@ -6012,6 +6057,7 @@ export type UpdateProposalMutationFn = Apollo.MutationFunction<
  * const [updateProposalMutation, { data, loading, error }] = useUpdateProposalMutation({
  *   variables: {
  *      proposalData: // value for 'proposalData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6096,7 +6142,7 @@ export type EditProposalQueryResult = Apollo.QueryResult<
   EditProposalQueryVariables
 >;
 export const ProposalDocument = gql`
-  query Proposal($id: Int!) {
+  query Proposal($id: Int!, $isLoggedIn: Boolean!) {
     proposal(id: $id) {
       ...ProposalCard
     }
@@ -6117,6 +6163,7 @@ export const ProposalDocument = gql`
  * const { data, loading, error } = useProposalQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6645,7 +6692,7 @@ export type ServerRolesQueryResult = Apollo.QueryResult<
   ServerRolesQueryVariables
 >;
 export const FollowUserDocument = gql`
-  mutation FollowUser($id: Int!) {
+  mutation FollowUser($id: Int!, $isLoggedIn: Boolean = true) {
     followUser(id: $id) {
       followedUser {
         id
@@ -6689,6 +6736,7 @@ export type FollowUserMutationFn = Apollo.MutationFunction<
  * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6822,7 +6870,7 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutationVariables
 >;
 export const EditUserDocument = gql`
-  query EditUser($name: String) {
+  query EditUser($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {
       ...UserProfileCard
       posts {
@@ -6847,6 +6895,7 @@ export const EditUserDocument = gql`
  * const { data, loading, error } = useEditUserQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -7002,7 +7051,7 @@ export type FollowingQueryResult = Apollo.QueryResult<
   FollowingQueryVariables
 >;
 export const HomeFeedDocument = gql`
-  query HomeFeed {
+  query HomeFeed($isLoggedIn: Boolean = true) {
     me {
       id
       homeFeed {
@@ -7027,6 +7076,7 @@ export const HomeFeedDocument = gql`
  * @example
  * const { data, loading, error } = useHomeFeedQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -7158,7 +7208,7 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UserProfileDocument = gql`
-  query UserProfile($name: String) {
+  query UserProfile($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {
       ...UserProfileCard
       profileFeed {
@@ -7188,6 +7238,7 @@ export const UserProfileDocument = gql`
  * const { data, loading, error } = useUserProfileQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */

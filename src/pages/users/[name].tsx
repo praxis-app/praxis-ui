@@ -20,7 +20,7 @@ const UserProfile: NextPage = () => {
   const name = String(query?.name || "");
   const { data, loading, error } = useUserProfileQuery({
     variables: { name },
-    skip: !name,
+    skip: !name || !isLoggedIn,
   });
 
   const { t } = useTranslation();

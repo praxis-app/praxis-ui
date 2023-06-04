@@ -1,4 +1,4 @@
-query GroupProfile($name: String!) {
+query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
   group(name: $name) {
     ...GroupProfileCard
 

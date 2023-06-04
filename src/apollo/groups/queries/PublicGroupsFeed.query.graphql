@@ -1,4 +1,4 @@
-query PublicGroupsFeed {
+query PublicGroupsFeed($isLoggedIn: Boolean = false) {
   publicGroupsFeed {
     ...FeedItem
   }
