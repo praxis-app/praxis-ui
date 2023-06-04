@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -11,6 +12,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { isLoggedInVar } from "../../apollo/cache";
 import {
   PostCardFragment,
   useDeletePostMutation,
@@ -58,9 +60,13 @@ interface Props extends CardProps {
 }
 
 const PostCard = ({ post, ...cardProps }: Props) => {
-  const { data } = useMeQuery();
-  const [deletePost] = useDeletePostMutation();
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
+  const [deletePost] = useDeletePostMutation();
+  const { data } = useMeQuery({
+    skip: !isLoggedIn,
+  });
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
