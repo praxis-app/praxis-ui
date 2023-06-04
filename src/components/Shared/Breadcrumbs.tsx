@@ -1,5 +1,6 @@
 import {
   Breadcrumbs as MuiBreadcrumbs,
+  SxProps,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -12,13 +13,14 @@ interface Breadcrumb {
 
 interface Props {
   breadcrumbs: Breadcrumb[];
+  sx?: SxProps;
 }
 
-const Breadcrumbs = ({ breadcrumbs }: Props) => {
+const Breadcrumbs = ({ breadcrumbs, sx }: Props) => {
   const theme = useTheme();
 
   return (
-    <MuiBreadcrumbs sx={{ marginBottom: 1.25 }}>
+    <MuiBreadcrumbs sx={{ marginBottom: 1.25, ...sx }}>
       {breadcrumbs.map(({ label, href }) => {
         if (href) {
           return (

@@ -1,4 +1,4 @@
-query GroupProfile($name: String!) {
+query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
   group(name: $name) {
     ...GroupProfileCard
 
@@ -7,7 +7,7 @@ query GroupProfile($name: String!) {
     }
   }
 
-  me {
+  me @include(if: $isLoggedIn) {
     id
     ...ToggleForms
   }

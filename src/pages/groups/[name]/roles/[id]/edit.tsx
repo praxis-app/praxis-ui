@@ -29,7 +29,7 @@ const EditGroupRole: NextPage = () => {
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  const canManageRoles = role?.group?.myPermissions.includes(
+  const canManageRoles = role?.group?.myPermissions?.includes(
     GroupPermissions.ManageRoles
   );
   const groupPath = getGroupPath(name);

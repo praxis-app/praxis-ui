@@ -8,8 +8,8 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreatePostInput,
-  HomePageDocument,
-  HomePageQuery,
+  HomeFeedDocument,
+  HomeFeedQuery,
   PostFormFragment,
   UpdatePostInput,
   useCreatePostMutation,
@@ -61,11 +61,11 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
         const {
           createPost: { post },
         } = data;
-        cache.updateQuery<HomePageQuery>(
-          { query: HomePageDocument },
+        cache.updateQuery<HomeFeedQuery>(
+          { query: HomeFeedDocument },
           (homePageData) =>
             produce(homePageData, (draft) => {
-              draft?.me.homeFeed.unshift(post);
+              draft?.me?.homeFeed.unshift(post);
             })
         );
         cache.modify({

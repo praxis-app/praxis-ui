@@ -2,8 +2,8 @@ fragment GroupCard on Group {
   ...GroupAvatar
 
   description
-  memberRequestCount
-  myPermissions
+  memberRequestCount @include(if: $isLoggedIn)
+  myPermissions @include(if: $isLoggedIn)
 
   members {
     id

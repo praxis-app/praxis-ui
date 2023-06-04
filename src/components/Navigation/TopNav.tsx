@@ -40,6 +40,7 @@ const TopNav = ({ appBarProps }: Props) => {
     fontSize: isDesktop ? 24 : 18,
     letterSpacing: 0.25,
     textTransform: "none",
+    minWidth: "75px",
   };
 
   const desktopToolbarStyles: SxProps = {

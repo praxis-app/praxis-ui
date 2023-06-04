@@ -20,8 +20,8 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateProposalInput,
-  HomePageDocument,
-  HomePageQuery,
+  HomeFeedDocument,
+  HomeFeedQuery,
   ProposalActionInput,
   ProposalFormFragment,
   UpdateProposalInput,
@@ -81,7 +81,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
     groupId,
   };
   const actionTypeOptions = getProposalActionTypeOptions(t);
-  const joinedGroups = data?.me.joinedGroups;
+  const joinedGroups = data?.me?.joinedGroups;
 
   const validateProposal = ({ action, groupId }: CreateProposalInput) => {
     const errors: ProposalFormErrors = {
@@ -144,11 +144,11 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
         const {
           createProposal: { proposal },
         } = data;
-        cache.updateQuery<HomePageQuery>(
-          { query: HomePageDocument },
+        cache.updateQuery<HomeFeedQuery>(
+          { query: HomeFeedDocument },
           (homePageData) =>
             produce(homePageData, (draft) => {
-              draft?.me.homeFeed.unshift(proposal);
+              draft?.me?.homeFeed.unshift(proposal);
             })
         );
         cache.modify({

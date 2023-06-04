@@ -29,9 +29,9 @@ interface Props {
 }
 
 const ServerInviteRow = ({
-  isLast,
-  me: { serverPermissions },
   serverInvite: { id, user, token, uses, maxUses, expiresAt },
+  isLast,
+  me,
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteInvite] = useDeleteServerInviteMutation();
@@ -41,7 +41,7 @@ const ServerInviteRow = ({
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
   });
-  const canManageInvites = serverPermissions.includes(
+  const canManageInvites = me?.serverPermissions.includes(
     ServerPermissions.ManageInvites
   );
 

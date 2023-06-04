@@ -151,6 +151,16 @@ export type Group = {
   posts: Array<Post>;
   proposals: Array<Proposal>;
   roles: Array<Role>;
+  settings: GroupConfig;
+  updatedAt: Scalars["DateTime"];
+};
+
+export type GroupConfig = {
+  __typename?: "GroupConfig";
+  createdAt: Scalars["DateTime"];
+  group: Group;
+  id: Scalars["Int"];
+  isPublic: Scalars["Boolean"];
   updatedAt: Scalars["DateTime"];
 };
 
@@ -227,6 +237,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   unfollowUser: Scalars["Boolean"];
   updateGroup: UpdateGroupPayload;
+  updateGroupConfig: UpdateGroupPayload;
   updatePost: UpdatePostPayload;
   updateProposal: UpdateProposalPayload;
   updateRole: UpdateRolePayload;
@@ -340,6 +351,10 @@ export type MutationUnfollowUserArgs = {
 
 export type MutationUpdateGroupArgs = {
   groupData: UpdateGroupInput;
+};
+
+export type MutationUpdateGroupConfigArgs = {
+  groupConfigData: UpdateGroupConfigInput;
 };
 
 export type MutationUpdatePostArgs = {
@@ -481,6 +496,8 @@ export type Query = {
   posts: Array<Post>;
   proposal: Proposal;
   proposals: Array<Proposal>;
+  publicGroups: Array<Group>;
+  publicGroupsFeed: Array<FeedItem>;
   role: Role;
   serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
@@ -567,6 +584,11 @@ export type SignUpInput = {
 export type SignUpPayload = {
   __typename?: "SignUpPayload";
   user: User;
+};
+
+export type UpdateGroupConfigInput = {
+  groupId: Scalars["Int"];
+  privacy?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateGroupInput = {
@@ -739,7 +761,7 @@ export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
   memberRequestCount?: number | null;
-  myPermissions: Array<string>;
+  myPermissions?: Array<string>;
   id: number;
   name: string;
   members: Array<{ __typename?: "User"; id: number }>;
@@ -766,9 +788,16 @@ export type GroupProfileCardFragment = {
   id: number;
   name: string;
   memberRequestCount?: number | null;
-  myPermissions: Array<string>;
+  myPermissions?: Array<string>;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
+  settings: { __typename?: "GroupConfig"; isPublic: boolean };
+};
+
+export type GroupSettingsFormFragment = {
+  __typename?: "Group";
+  id: number;
+  settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
 };
 
 export type RequestToJoinFragment = {
@@ -896,6 +925,29 @@ export type UpdateGroupMutation = {
   };
 };
 
+export type UpdateGroupSettingsMutationVariables = Exact<{
+  groupConfigData: UpdateGroupConfigInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type UpdateGroupSettingsMutation = {
+  __typename?: "Mutation";
+  updateGroupConfig: {
+    __typename?: "UpdateGroupPayload";
+    group: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      memberRequestCount?: number | null;
+      myPermissions?: Array<string>;
+      description: string;
+      settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      members: Array<{ __typename?: "User"; id: number }>;
+    };
+  };
+};
+
 export type EditGroupQueryVariables = Exact<{
   name: Scalars["String"];
 }>;
@@ -990,6 +1042,7 @@ export type GroupMembersByGroupIdQuery = {
 
 export type GroupProfileQueryVariables = Exact<{
   name: Scalars["String"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type GroupProfileQuery = {
@@ -999,7 +1052,7 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount?: number | null;
-    myPermissions: Array<string>;
+    myPermissions?: Array<string>;
     feed: Array<
       | {
           __typename?: "Post";
@@ -1007,7 +1060,7 @@ export type GroupProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe: boolean;
+          isLikedByMe?: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -1017,7 +1070,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions: Array<string>;
+            myPermissions?: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1082,7 +1135,7 @@ export type GroupProfileQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe: boolean;
+            isJoinedByMe?: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -1102,8 +1155,9 @@ export type GroupProfileQuery = {
     >;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{ __typename?: "User"; id: number }>;
+    settings: { __typename?: "GroupConfig"; isPublic: boolean };
   };
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
@@ -1144,7 +1198,23 @@ export type GroupRolesByGroupIdQuery = {
   };
 };
 
-export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
+export type GroupSettingsQueryVariables = Exact<{
+  name: Scalars["String"];
+}>;
+
+export type GroupSettingsQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    id: number;
+    myPermissions: Array<string>;
+    settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
+  };
+};
+
+export type GroupsQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
 export type GroupsQuery = {
   __typename?: "Query";
@@ -1152,7 +1222,7 @@ export type GroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount?: number | null;
-    myPermissions: Array<string>;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     members: Array<{ __typename?: "User"; id: number }>;
@@ -1195,6 +1265,132 @@ export type MemberRequestsQuery = {
       group: { __typename?: "Group"; id: number };
     }> | null;
   };
+};
+
+export type PublicGroupsQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type PublicGroupsQuery = {
+  __typename?: "Query";
+  publicGroups: Array<{
+    __typename?: "Group";
+    description: string;
+    memberRequestCount?: number | null;
+    myPermissions?: Array<string>;
+    id: number;
+    name: string;
+    members: Array<{ __typename?: "User"; id: number }>;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+  }>;
+};
+
+export type PublicGroupsFeedQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type PublicGroupsFeedQuery = {
+  __typename?: "Query";
+  publicGroupsFeed: Array<
+    | {
+        __typename?: "Post";
+        id: number;
+        body?: string | null;
+        createdAt: any;
+        likesCount: number;
+        isLikedByMe?: boolean;
+        images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+        group?: {
+          __typename?: "Group";
+          myPermissions?: Array<string>;
+          id: number;
+          name: string;
+          coverPhoto?: { __typename?: "Image"; id: number } | null;
+        } | null;
+      }
+    | {
+        __typename?: "Proposal";
+        id: number;
+        body?: string | null;
+        stage: string;
+        voteCount: number;
+        createdAt: any;
+        action: {
+          __typename?: "ProposalAction";
+          id: number;
+          actionType: string;
+          groupDescription?: string | null;
+          groupName?: string | null;
+          groupCoverPhoto?: {
+            __typename?: "Image";
+            id: number;
+            filename: string;
+          } | null;
+          role?: {
+            __typename?: "ProposalActionRole";
+            id: number;
+            name?: string | null;
+            color?: string | null;
+            oldName?: string | null;
+            oldColor?: string | null;
+            permissions?: Array<{
+              __typename?: "ProposalActionPermission";
+              id: number;
+              name: string;
+              enabled: boolean;
+            }> | null;
+            members?: Array<{
+              __typename?: "ProposalActionRoleMember";
+              id: number;
+              changeType: string;
+              user: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+            }> | null;
+            role?: {
+              __typename?: "Role";
+              id: number;
+              name: string;
+              color: string;
+            } | null;
+          } | null;
+        };
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe?: boolean;
+          name: string;
+          coverPhoto?: { __typename?: "Image"; id: number } | null;
+        } | null;
+        images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+        votes: Array<{
+          __typename?: "Vote";
+          id: number;
+          voteType: string;
+          user: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+        }>;
+      }
+  >;
 };
 
 export type AttachedImageFragment = {
@@ -1306,7 +1502,7 @@ type FeedItem_Post_Fragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
-  isLikedByMe: boolean;
+  isLikedByMe?: boolean;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1316,7 +1512,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions: Array<string>;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1382,7 +1578,7 @@ type FeedItem_Proposal_Fragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    isJoinedByMe: boolean;
+    isJoinedByMe?: boolean;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1410,7 +1606,7 @@ export type PostCardFragment = {
   body?: string | null;
   createdAt: any;
   likesCount: number;
-  isLikedByMe: boolean;
+  isLikedByMe?: boolean;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -1420,7 +1616,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions: Array<string>;
+    myPermissions?: Array<string>;
     id: number;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1431,7 +1627,7 @@ export type PostCardFooterFragment = {
   __typename?: "Post";
   id: number;
   likesCount: number;
-  isLikedByMe: boolean;
+  isLikedByMe?: boolean;
 };
 
 export type PostFormFragment = {
@@ -1443,6 +1639,7 @@ export type PostFormFragment = {
 
 export type CreatePostMutationVariables = Exact<{
   postData: CreatePostInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type CreatePostMutation = {
@@ -1455,7 +1652,7 @@ export type CreatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe: boolean;
+      isLikedByMe?: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1465,7 +1662,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions: Array<string>;
+        myPermissions?: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1485,6 +1682,7 @@ export type DeletePostMutation = {
 
 export type LikePostMutationVariables = Exact<{
   likeData: CreateLikeInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type LikePostMutation = {
@@ -1498,7 +1696,7 @@ export type LikePostMutation = {
         __typename?: "Post";
         id: number;
         likesCount: number;
-        isLikedByMe: boolean;
+        isLikedByMe?: boolean;
       };
     };
   };
@@ -1506,6 +1704,7 @@ export type LikePostMutation = {
 
 export type UpdatePostMutationVariables = Exact<{
   postData: UpdatePostInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdatePostMutation = {
@@ -1518,7 +1717,7 @@ export type UpdatePostMutation = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe: boolean;
+      isLikedByMe?: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1528,7 +1727,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions: Array<string>;
+        myPermissions?: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1553,6 +1752,7 @@ export type EditPostQuery = {
 
 export type PostQueryVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type PostQuery = {
@@ -1563,7 +1763,7 @@ export type PostQuery = {
     body?: string | null;
     createdAt: any;
     likesCount: number;
-    isLikedByMe: boolean;
+    isLikedByMe?: boolean;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
@@ -1573,7 +1773,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
-      myPermissions: Array<string>;
+      myPermissions?: Array<string>;
       id: number;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -1735,7 +1935,7 @@ export type ProposalCardFragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    isJoinedByMe: boolean;
+    isJoinedByMe?: boolean;
     name: string;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
@@ -1769,7 +1969,7 @@ export type ProposalCardFooterFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-  group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
+  group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
 };
 
 export type ProposalFormFragment = {
@@ -1794,6 +1994,7 @@ export type ProposalFormFragment = {
 
 export type CreateProposalMutationVariables = Exact<{
   proposalData: CreateProposalInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type CreateProposalMutation = {
@@ -1859,7 +2060,7 @@ export type CreateProposalMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        isJoinedByMe: boolean;
+        isJoinedByMe?: boolean;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -1890,6 +2091,7 @@ export type DeleteProposalMutation = {
 
 export type UpdateProposalMutationVariables = Exact<{
   proposalData: UpdateProposalInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdateProposalMutation = {
@@ -1955,7 +2157,7 @@ export type UpdateProposalMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        isJoinedByMe: boolean;
+        isJoinedByMe?: boolean;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
@@ -2004,6 +2206,7 @@ export type EditProposalQuery = {
 
 export type ProposalQueryVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type ProposalQuery = {
@@ -2067,7 +2270,7 @@ export type ProposalQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      isJoinedByMe: boolean;
+      isJoinedByMe?: boolean;
       name: string;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
@@ -2381,12 +2584,6 @@ export type ServerRolesQuery = {
   }>;
 };
 
-export type ToggleFormsFragment = {
-  __typename?: "User";
-  id: number;
-  joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-};
-
 export type EditProfileFormFragment = {
   __typename?: "User";
   id: number;
@@ -2408,6 +2605,12 @@ export type FollowButtonFragment = {
   __typename?: "User";
   id: number;
   isFollowedByMe: boolean;
+};
+
+export type ToggleFormsFragment = {
+  __typename?: "User";
+  id: number;
+  joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
 };
 
 export type TopNavDropdownFragment = {
@@ -2439,6 +2642,7 @@ export type UserProfileCardFragment = {
 
 export type FollowUserMutationVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type FollowUserMutation = {
@@ -2480,7 +2684,7 @@ export type FollowUserMutation = {
             body?: string | null;
             createdAt: any;
             likesCount: number;
-            isLikedByMe: boolean;
+            isLikedByMe?: boolean;
             images: Array<{
               __typename?: "Image";
               id: number;
@@ -2494,7 +2698,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
-              myPermissions: Array<string>;
+              myPermissions?: Array<string>;
               id: number;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2559,7 +2763,7 @@ export type FollowUserMutation = {
             group?: {
               __typename?: "Group";
               id: number;
-              isJoinedByMe: boolean;
+              isJoinedByMe?: boolean;
               name: string;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
@@ -2624,6 +2828,7 @@ export type UpdateUserMutation = {
 
 export type EditUserQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type EditUserQuery = {
@@ -2643,7 +2848,7 @@ export type EditUserQuery = {
       body?: string | null;
       createdAt: any;
       likesCount: number;
-      isLikedByMe: boolean;
+      isLikedByMe?: boolean;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -2653,7 +2858,7 @@ export type EditUserQuery = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions: Array<string>;
+        myPermissions?: Array<string>;
         id: number;
         name: string;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2706,9 +2911,11 @@ export type FollowingQuery = {
   me: { __typename?: "User"; id: number };
 };
 
-export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
+export type HomeFeedQueryVariables = Exact<{
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
 
-export type HomePageQuery = {
+export type HomeFeedQuery = {
   __typename?: "Query";
   me: {
     __typename?: "User";
@@ -2720,7 +2927,7 @@ export type HomePageQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe: boolean;
+          isLikedByMe?: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -2730,7 +2937,7 @@ export type HomePageQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions: Array<string>;
+            myPermissions?: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2795,7 +3002,7 @@ export type HomePageQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe: boolean;
+            isJoinedByMe?: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -2837,6 +3044,7 @@ export type MeQuery = {
 
 export type UserProfileQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UserProfileQuery = {
@@ -2857,7 +3065,7 @@ export type UserProfileQuery = {
           body?: string | null;
           createdAt: any;
           likesCount: number;
-          isLikedByMe: boolean;
+          isLikedByMe?: boolean;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -2867,7 +3075,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions: Array<string>;
+            myPermissions?: Array<string>;
             id: number;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
@@ -2932,7 +3140,7 @@ export type UserProfileQuery = {
           group?: {
             __typename?: "Group";
             id: number;
-            isJoinedByMe: boolean;
+            isJoinedByMe?: boolean;
             name: string;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
@@ -3114,8 +3322,8 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
-    memberRequestCount
-    myPermissions
+    memberRequestCount @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn)
     members {
       id
     }
@@ -3157,14 +3365,26 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
+    memberRequestCount @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn)
     coverPhoto {
       id
     }
     members {
       id
     }
-    memberRequestCount
-    myPermissions
+    settings {
+      isPublic
+    }
+  }
+`;
+export const GroupSettingsFormFragmentDoc = gql`
+  fragment GroupSettingsForm on Group {
+    id
+    settings {
+      id
+      isPublic
+    }
   }
 `;
 export const RequestToJoinFragmentDoc = gql`
@@ -3202,7 +3422,7 @@ export const PostCardFooterFragmentDoc = gql`
   fragment PostCardFooter on Post {
     id
     likesCount
-    isLikedByMe
+    isLikedByMe @include(if: $isLoggedIn)
   }
 `;
 export const PostCardFragmentDoc = gql`
@@ -3218,7 +3438,7 @@ export const PostCardFragmentDoc = gql`
     }
     group {
       ...GroupAvatar
-      myPermissions
+      myPermissions @include(if: $isLoggedIn)
     }
     ...PostCardFooter
   }
@@ -3336,7 +3556,7 @@ export const ProposalCardFooterFragmentDoc = gql`
     }
     group {
       id
-      isJoinedByMe
+      isJoinedByMe @include(if: $isLoggedIn)
     }
     ...VoteMenu
     ...VoteBadges
@@ -3477,15 +3697,6 @@ export const EditRoleTabsFragmentDoc = gql`
   ${PermissionToggleFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-export const ToggleFormsFragmentDoc = gql`
-  fragment ToggleForms on User {
-    id
-    joinedGroups {
-      id
-      name
-    }
-  }
-`;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
     id
@@ -3507,6 +3718,15 @@ export const FollowFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
   ${FollowButtonFragmentDoc}
+`;
+export const ToggleFormsFragmentDoc = gql`
+  fragment ToggleForms on User {
+    id
+    joinedGroups {
+      id
+      name
+    }
+  }
 `;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
@@ -4202,6 +4422,68 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutation,
   UpdateGroupMutationVariables
 >;
+export const UpdateGroupSettingsDocument = gql`
+  mutation UpdateGroupSettings(
+    $groupConfigData: UpdateGroupConfigInput!
+    $isLoggedIn: Boolean = true
+  ) {
+    updateGroupConfig(groupConfigData: $groupConfigData) {
+      group {
+        id
+        ...GroupSettingsForm
+        ...GroupProfileCard
+        ...GroupCard
+      }
+    }
+  }
+  ${GroupSettingsFormFragmentDoc}
+  ${GroupProfileCardFragmentDoc}
+  ${GroupCardFragmentDoc}
+`;
+export type UpdateGroupSettingsMutationFn = Apollo.MutationFunction<
+  UpdateGroupSettingsMutation,
+  UpdateGroupSettingsMutationVariables
+>;
+
+/**
+ * __useUpdateGroupSettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateGroupSettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGroupSettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGroupSettingsMutation, { data, loading, error }] = useUpdateGroupSettingsMutation({
+ *   variables: {
+ *      groupConfigData: // value for 'groupConfigData'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useUpdateGroupSettingsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateGroupSettingsMutation,
+    UpdateGroupSettingsMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateGroupSettingsMutation,
+    UpdateGroupSettingsMutationVariables
+  >(UpdateGroupSettingsDocument, options);
+}
+export type UpdateGroupSettingsMutationHookResult = ReturnType<
+  typeof useUpdateGroupSettingsMutation
+>;
+export type UpdateGroupSettingsMutationResult =
+  Apollo.MutationResult<UpdateGroupSettingsMutation>;
+export type UpdateGroupSettingsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateGroupSettingsMutation,
+  UpdateGroupSettingsMutationVariables
+>;
 export const EditGroupDocument = gql`
   query EditGroup($name: String!) {
     group(name: $name) {
@@ -4449,14 +4731,14 @@ export type GroupMembersByGroupIdQueryResult = Apollo.QueryResult<
   GroupMembersByGroupIdQueryVariables
 >;
 export const GroupProfileDocument = gql`
-  query GroupProfile($name: String!) {
+  query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
     group(name: $name) {
       ...GroupProfileCard
       feed {
         ...FeedItem
       }
     }
-    me {
+    me @include(if: $isLoggedIn) {
       id
       ...ToggleForms
     }
@@ -4479,6 +4761,7 @@ export const GroupProfileDocument = gql`
  * const { data, loading, error } = useGroupProfileQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -4639,8 +4922,69 @@ export type GroupRolesByGroupIdQueryResult = Apollo.QueryResult<
   GroupRolesByGroupIdQuery,
   GroupRolesByGroupIdQueryVariables
 >;
+export const GroupSettingsDocument = gql`
+  query GroupSettings($name: String!) {
+    group(name: $name) {
+      id
+      myPermissions
+      ...GroupSettingsForm
+    }
+  }
+  ${GroupSettingsFormFragmentDoc}
+`;
+
+/**
+ * __useGroupSettingsQuery__
+ *
+ * To run a query within a React component, call `useGroupSettingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupSettingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupSettingsQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGroupSettingsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupSettingsQuery,
+    GroupSettingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupSettingsQuery, GroupSettingsQueryVariables>(
+    GroupSettingsDocument,
+    options
+  );
+}
+export function useGroupSettingsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupSettingsQuery,
+    GroupSettingsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupSettingsQuery, GroupSettingsQueryVariables>(
+    GroupSettingsDocument,
+    options
+  );
+}
+export type GroupSettingsQueryHookResult = ReturnType<
+  typeof useGroupSettingsQuery
+>;
+export type GroupSettingsLazyQueryHookResult = ReturnType<
+  typeof useGroupSettingsLazyQuery
+>;
+export type GroupSettingsQueryResult = Apollo.QueryResult<
+  GroupSettingsQuery,
+  GroupSettingsQueryVariables
+>;
 export const GroupsDocument = gql`
-  query Groups {
+  query Groups($isLoggedIn: Boolean = true) {
     groups {
       ...GroupCard
     }
@@ -4663,6 +5007,7 @@ export const GroupsDocument = gql`
  * @example
  * const { data, loading, error } = useGroupsQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -4812,6 +5157,124 @@ export type MemberRequestsLazyQueryHookResult = ReturnType<
 export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQuery,
   MemberRequestsQueryVariables
+>;
+export const PublicGroupsDocument = gql`
+  query PublicGroups($isLoggedIn: Boolean = false) {
+    publicGroups {
+      ...GroupCard
+    }
+  }
+  ${GroupCardFragmentDoc}
+`;
+
+/**
+ * __usePublicGroupsQuery__
+ *
+ * To run a query within a React component, call `usePublicGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicGroupsQuery({
+ *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function usePublicGroupsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    PublicGroupsQuery,
+    PublicGroupsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PublicGroupsQuery, PublicGroupsQueryVariables>(
+    PublicGroupsDocument,
+    options
+  );
+}
+export function usePublicGroupsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PublicGroupsQuery,
+    PublicGroupsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PublicGroupsQuery, PublicGroupsQueryVariables>(
+    PublicGroupsDocument,
+    options
+  );
+}
+export type PublicGroupsQueryHookResult = ReturnType<
+  typeof usePublicGroupsQuery
+>;
+export type PublicGroupsLazyQueryHookResult = ReturnType<
+  typeof usePublicGroupsLazyQuery
+>;
+export type PublicGroupsQueryResult = Apollo.QueryResult<
+  PublicGroupsQuery,
+  PublicGroupsQueryVariables
+>;
+export const PublicGroupsFeedDocument = gql`
+  query PublicGroupsFeed($isLoggedIn: Boolean = false) {
+    publicGroupsFeed {
+      ...FeedItem
+    }
+  }
+  ${FeedItemFragmentDoc}
+`;
+
+/**
+ * __usePublicGroupsFeedQuery__
+ *
+ * To run a query within a React component, call `usePublicGroupsFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicGroupsFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicGroupsFeedQuery({
+ *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function usePublicGroupsFeedQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    PublicGroupsFeedQuery,
+    PublicGroupsFeedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PublicGroupsFeedQuery, PublicGroupsFeedQueryVariables>(
+    PublicGroupsFeedDocument,
+    options
+  );
+}
+export function usePublicGroupsFeedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PublicGroupsFeedQuery,
+    PublicGroupsFeedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    PublicGroupsFeedQuery,
+    PublicGroupsFeedQueryVariables
+  >(PublicGroupsFeedDocument, options);
+}
+export type PublicGroupsFeedQueryHookResult = ReturnType<
+  typeof usePublicGroupsFeedQuery
+>;
+export type PublicGroupsFeedLazyQueryHookResult = ReturnType<
+  typeof usePublicGroupsFeedLazyQuery
+>;
+export type PublicGroupsFeedQueryResult = Apollo.QueryResult<
+  PublicGroupsFeedQuery,
+  PublicGroupsFeedQueryVariables
 >;
 export const DeleteImageDocument = gql`
   mutation DeleteImage($id: Int!) {
@@ -5132,7 +5595,10 @@ export type DeleteLikeMutationOptions = Apollo.BaseMutationOptions<
   DeleteLikeMutationVariables
 >;
 export const CreatePostDocument = gql`
-  mutation CreatePost($postData: CreatePostInput!) {
+  mutation CreatePost(
+    $postData: CreatePostInput!
+    $isLoggedIn: Boolean = true
+  ) {
     createPost(postData: $postData) {
       post {
         ...PostCard
@@ -5160,6 +5626,7 @@ export type CreatePostMutationFn = Apollo.MutationFunction<
  * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
  *   variables: {
  *      postData: // value for 'postData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5233,7 +5700,7 @@ export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
   DeletePostMutationVariables
 >;
 export const LikePostDocument = gql`
-  mutation LikePost($likeData: CreateLikeInput!) {
+  mutation LikePost($likeData: CreateLikeInput!, $isLoggedIn: Boolean = true) {
     createLike(likeData: $likeData) {
       like {
         id
@@ -5264,6 +5731,7 @@ export type LikePostMutationFn = Apollo.MutationFunction<
  * const [likePostMutation, { data, loading, error }] = useLikePostMutation({
  *   variables: {
  *      likeData: // value for 'likeData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5286,7 +5754,10 @@ export type LikePostMutationOptions = Apollo.BaseMutationOptions<
   LikePostMutationVariables
 >;
 export const UpdatePostDocument = gql`
-  mutation UpdatePost($postData: UpdatePostInput!) {
+  mutation UpdatePost(
+    $postData: UpdatePostInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updatePost(postData: $postData) {
       post {
         ...PostCard
@@ -5314,6 +5785,7 @@ export type UpdatePostMutationFn = Apollo.MutationFunction<
  * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
  *   variables: {
  *      postData: // value for 'postData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5393,7 +5865,7 @@ export type EditPostQueryResult = Apollo.QueryResult<
   EditPostQueryVariables
 >;
 export const PostDocument = gql`
-  query Post($id: Int!) {
+  query Post($id: Int!, $isLoggedIn: Boolean!) {
     post(id: $id) {
       ...PostCard
     }
@@ -5414,6 +5886,7 @@ export const PostDocument = gql`
  * const { data, loading, error } = usePostQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5436,7 +5909,10 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const CreateProposalDocument = gql`
-  mutation CreateProposal($proposalData: CreateProposalInput!) {
+  mutation CreateProposal(
+    $proposalData: CreateProposalInput!
+    $isLoggedIn: Boolean = true
+  ) {
     createProposal(proposalData: $proposalData) {
       proposal {
         ...ProposalCard
@@ -5464,6 +5940,7 @@ export type CreateProposalMutationFn = Apollo.MutationFunction<
  * const [createProposalMutation, { data, loading, error }] = useCreateProposalMutation({
  *   variables: {
  *      proposalData: // value for 'proposalData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5537,7 +6014,10 @@ export type DeleteProposalMutationOptions = Apollo.BaseMutationOptions<
   DeleteProposalMutationVariables
 >;
 export const UpdateProposalDocument = gql`
-  mutation UpdateProposal($proposalData: UpdateProposalInput!) {
+  mutation UpdateProposal(
+    $proposalData: UpdateProposalInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updateProposal(proposalData: $proposalData) {
       proposal {
         ...ProposalCard
@@ -5565,6 +6045,7 @@ export type UpdateProposalMutationFn = Apollo.MutationFunction<
  * const [updateProposalMutation, { data, loading, error }] = useUpdateProposalMutation({
  *   variables: {
  *      proposalData: // value for 'proposalData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5649,7 +6130,7 @@ export type EditProposalQueryResult = Apollo.QueryResult<
   EditProposalQueryVariables
 >;
 export const ProposalDocument = gql`
-  query Proposal($id: Int!) {
+  query Proposal($id: Int!, $isLoggedIn: Boolean!) {
     proposal(id: $id) {
       ...ProposalCard
     }
@@ -5670,6 +6151,7 @@ export const ProposalDocument = gql`
  * const { data, loading, error } = useProposalQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6198,7 +6680,7 @@ export type ServerRolesQueryResult = Apollo.QueryResult<
   ServerRolesQueryVariables
 >;
 export const FollowUserDocument = gql`
-  mutation FollowUser($id: Int!) {
+  mutation FollowUser($id: Int!, $isLoggedIn: Boolean = true) {
     followUser(id: $id) {
       followedUser {
         id
@@ -6242,6 +6724,7 @@ export type FollowUserMutationFn = Apollo.MutationFunction<
  * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6375,7 +6858,7 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutationVariables
 >;
 export const EditUserDocument = gql`
-  query EditUser($name: String) {
+  query EditUser($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {
       ...UserProfileCard
       posts {
@@ -6400,6 +6883,7 @@ export const EditUserDocument = gql`
  * const { data, loading, error } = useEditUserQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -6554,8 +7038,8 @@ export type FollowingQueryResult = Apollo.QueryResult<
   FollowingQuery,
   FollowingQueryVariables
 >;
-export const HomePageDocument = gql`
-  query HomePage {
+export const HomeFeedDocument = gql`
+  query HomeFeed($isLoggedIn: Boolean = true) {
     me {
       id
       homeFeed {
@@ -6569,48 +7053,49 @@ export const HomePageDocument = gql`
 `;
 
 /**
- * __useHomePageQuery__
+ * __useHomeFeedQuery__
  *
- * To run a query within a React component, call `useHomePageQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHomeFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHomePageQuery({
+ * const { data, loading, error } = useHomeFeedQuery({
  *   variables: {
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
-export function useHomePageQuery(
-  baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>
+export function useHomeFeedQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomeFeedQuery, HomeFeedQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
-    HomePageDocument,
+  return Apollo.useQuery<HomeFeedQuery, HomeFeedQueryVariables>(
+    HomeFeedDocument,
     options
   );
 }
-export function useHomePageLazyQuery(
+export function useHomeFeedLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    HomePageQuery,
-    HomePageQueryVariables
+    HomeFeedQuery,
+    HomeFeedQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(
-    HomePageDocument,
+  return Apollo.useLazyQuery<HomeFeedQuery, HomeFeedQueryVariables>(
+    HomeFeedDocument,
     options
   );
 }
-export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
-export type HomePageLazyQueryHookResult = ReturnType<
-  typeof useHomePageLazyQuery
+export type HomeFeedQueryHookResult = ReturnType<typeof useHomeFeedQuery>;
+export type HomeFeedLazyQueryHookResult = ReturnType<
+  typeof useHomeFeedLazyQuery
 >;
-export type HomePageQueryResult = Apollo.QueryResult<
-  HomePageQuery,
-  HomePageQueryVariables
+export type HomeFeedQueryResult = Apollo.QueryResult<
+  HomeFeedQuery,
+  HomeFeedQueryVariables
 >;
 export const IsFirstUserDocument = gql`
   query IsFirstUser {
@@ -6711,7 +7196,7 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UserProfileDocument = gql`
-  query UserProfile($name: String) {
+  query UserProfile($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {
       ...UserProfileCard
       profileFeed {
@@ -6741,6 +7226,7 @@ export const UserProfileDocument = gql`
  * const { data, loading, error } = useUserProfileQuery({
  *   variables: {
  *      name: // value for 'name'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */

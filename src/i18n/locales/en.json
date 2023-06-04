@@ -212,7 +212,8 @@
     },
     "errors": {
       "couldNotCreate": "Group could not be created",
-      "couldNotUpdate": "Group could not be updated"
+      "couldNotUpdate": "Group could not be updated",
+      "couldNotUpdateSettings": "Could not update group settings"
     },
     "labels": {
       "consensus": "Consensus",
@@ -220,18 +221,31 @@
       "groupMembers_one": "{{count}} Group Member",
       "groupMembers_other": "{{count}} Group Members",
       "groupRoles": "Group Roles",
+      "groupSettings": "Group Settings",
       "joined": "Joined",
       "majority": "Majority Vote",
       "memberRequests_one": "{{count}} Member Request",
       "memberRequests_other": "{{count}} Member Requests",
       "members_one": "{{count}} Member",
       "members_other": "{{count}} Members",
+      "private": "Private",
+      "public": "Public",
       "requests_one": "{{count}} Request",
       "requests_other": "{{count}} Requests",
+      "settings": "Settings",
       "xToPass": "X to Pass"
     },
     "prompts": {
-      "confirmLeave": "Are you sure you want to leave the group?"
+      "confirmLeave": "Are you sure you want to leave the group?",
+      "publicGroup": "Anyone can view the group page and any content posted by group members."
+    },
+    "settings": {
+      "names": {
+        "privacy": "Privacy"
+      },
+      "descriptions": {
+        "privacy": "Choose whether or not the group and it's content are viewable to the public."
+      }
     },
     "tips": {
       "organizeWithGroups": "Groups are a great way to organize your community. Whether you want to share your interests, plan events, or collaborate on projects, groups are the perfect place to do it.",

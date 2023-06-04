@@ -1,5 +1,3 @@
-// TODO: Add more comments below to explain how refreshTokenLink works
-
 import { Observable } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import {
@@ -44,6 +42,7 @@ const refreshTokenLink = onError(
     new Observable((observer) => {
       if (graphQLErrors) {
         graphQLErrors.map(async ({ message, locations, path }, index) => {
+          // TODO: Include extensions.stacktrace in error output
           console.error(formatGQLError(message, path, locations));
 
           if (!response) {
@@ -51,7 +50,6 @@ const refreshTokenLink = onError(
           }
 
           if (message === UNAUTHORIZED) {
-            // Ignore unauthroized errors for refreshToken mutations
             if (operation.operationName === MutationNames.RefreshToken) {
               return observer.error(graphQLErrors[index]);
             }

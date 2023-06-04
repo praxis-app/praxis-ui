@@ -1,7 +1,7 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { useReactiveVar } from "@apollo/client";
-import { AccountBox, HowToVote } from "@mui/icons-material";
+import { AccountBox, Lock, Public, Settings } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -30,6 +30,7 @@ import { redirectTo } from "../../utils/common.utils";
 import {
   getEditGroupPath,
   getGroupMembersPath,
+  getGroupPath,
   getMemberRequestsPath,
 } from "../../utils/group.utils";
 import CoverPhoto from "../Images/CoverPhoto";
@@ -71,14 +72,22 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   const isAboveMedium = useAboveBreakpoint("md");
   const isAboveSmall = useAboveBreakpoint("sm");
 
-  const { id, name, coverPhoto, members, memberRequestCount, myPermissions } =
-    group;
+  const {
+    id,
+    coverPhoto,
+    memberRequestCount,
+    members,
+    myPermissions,
+    name,
+    settings,
+  } = group;
 
-  const canApproveMemberRequests = myPermissions.includes(
+  const canApproveMemberRequests = myPermissions?.includes(
     GroupPermissions.ApproveMemberRequests
   );
   const showCardHeader = isLoggedIn && isAboveSmall;
 
+  const groupPath = getGroupPath(name);
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
@@ -95,13 +104,15 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   };
 
   const nameTextStyles: SxProps = {
+    width: getNameTextWidth(),
     fontSize: isAboveSmall ? 25 : 23,
     marginTop: showCardHeader ? -7 : -0.3,
-    width: getNameTextWidth(),
+    marginBottom: 1,
   };
-  const voteIconStyles: SxProps = {
+  const iconStyles: SxProps = {
     marginBottom: -0.5,
-    marginRight: "0.2ch",
+    marginRight: "0.3ch",
+    fontSize: 20,
   };
 
   const handleDelete = async (id: number) => {
@@ -117,10 +128,21 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     await redirectTo(groupRolesPath);
   };
 
+  const handleSettingsButtonClick = async () => {
+    const settingsPath = `${NavigationPaths.Groups}/${name}/settings`;
+    await redirectTo(settingsPath);
+  };
+
   const renderCardActions = () => {
-    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
-    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const canDeleteGroup = myPermissions?.includes(
+      GroupPermissions.DeleteGroup
+    );
+    const canUpdateGroup = myPermissions?.includes(
+      GroupPermissions.UpdateGroup
+    );
+    const canManageRoles = myPermissions?.includes(
+      GroupPermissions.ManageRoles
+    );
     const showMenuButton = canDeleteGroup || canUpdateGroup || canManageRoles;
 
     return (
@@ -140,6 +162,10 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
             setAnchorEl={setMenuAnchorEl}
             variant="ghost"
           >
+            <MenuItem onClick={handleSettingsButtonClick}>
+              <Settings fontSize="small" sx={{ marginRight: 1 }} />
+              {t("groups.labels.settings")}
+            </MenuItem>
             {canManageRoles && (
               <MenuItem onClick={handleRolesButtonClick}>
                 <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
@@ -163,11 +189,22 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
 
         <DetailsBox fontSize={isAboveSmall ? undefined : 15}>
           <Link href={"/"} disabled>
-            <HowToVote sx={voteIconStyles} />
-            {t("groups.labels.majority")}
+            {settings.isPublic ? (
+              <>
+                <Public sx={iconStyles} />
+                {t("groups.labels.public")}
+              </>
+            ) : (
+              <>
+                <Lock sx={iconStyles} />
+                {t("groups.labels.private")}
+              </>
+            )}
           </Link>
+
           {MIDDOT_WITH_SPACES}
-          <Link href={groupMembersPath}>
+
+          <Link href={isLoggedIn ? groupMembersPath : groupPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
 

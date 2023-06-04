@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -10,7 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toastVar } from "../../apollo/cache";
+import { isLoggedInVar, toastVar } from "../../apollo/cache";
 import {
   ProposalCardFragment,
   useDeleteProposalMutation,
@@ -58,8 +59,12 @@ interface Props extends CardProps {
 
 const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const [deleteProposal] = useDeleteProposalMutation();
-  const { data } = useMeQuery();
+  const { data } = useMeQuery({
+    skip: !isLoggedIn,
+  });
 
   const { asPath } = useRouter();
   const { t } = useTranslation();

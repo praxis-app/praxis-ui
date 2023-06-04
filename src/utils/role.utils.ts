@@ -36,7 +36,6 @@ export const getPermissionText = (
       return {
         displayName: t("permissions.names.manageSettings"),
         description: t("permissions.descriptions.manageGroupSettings"),
-        inDev: true,
       };
     case GroupPermissions.CreateEvents:
       return {

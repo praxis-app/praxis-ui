@@ -115,6 +115,15 @@ type Group {
   posts: [Post!]!
   proposals: [Proposal!]!
   roles: [Role!]!
+  settings: GroupConfig!
+  updatedAt: DateTime!
+}
+
+type GroupConfig {
+  createdAt: DateTime!
+  group: Group!
+  id: Int!
+  isPublic: Boolean!
   updatedAt: DateTime!
 }
 
@@ -186,6 +195,7 @@ type Mutation {
   signUp(input: SignUpInput!): SignUpPayload!
   unfollowUser(id: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
+  updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
   updateRole(roleData: UpdateRoleInput!): UpdateRolePayload!
@@ -304,6 +314,8 @@ type Query {
   posts: [Post!]!
   proposal(id: Int!): Proposal!
   proposals: [Proposal!]!
+  publicGroups: [Group!]!
+  publicGroupsFeed: [FeedItem!]!
   role(id: Int!): Role!
   serverInvite(token: String!): ServerInvite!
   serverInvites: [ServerInvite!]!
@@ -349,6 +361,11 @@ input SignUpInput {
 
 type SignUpPayload {
   user: User!
+}
+
+input UpdateGroupConfigInput {
+  groupId: Int!
+  privacy: String
 }
 
 input UpdateGroupInput {

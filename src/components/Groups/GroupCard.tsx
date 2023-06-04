@@ -1,9 +1,9 @@
 import { ApolloCache, FetchResult, useReactiveVar } from "@apollo/client";
-import { AccountBox } from "@mui/icons-material";
+import { AccountBox, Settings } from "@mui/icons-material";
 import {
   Box,
   Card,
-  CardContent,
+  CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
   MenuItem,
@@ -64,6 +64,12 @@ const CardHeader = styled(MuiCardHeader)(() => ({
   paddingBottom: 0,
 }));
 
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 18,
+  },
+}));
+
 interface Props extends CardProps {
   currentUserId?: number;
   group: GroupCardFragment;
@@ -82,7 +88,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     ? members.find((member) => currentUserId === member.id)
     : undefined;
 
-  const canApproveMemberRequests = myPermissions.includes(
+  const canApproveMemberRequests = myPermissions?.includes(
     GroupPermissions.ApproveMemberRequests
   );
 
@@ -104,10 +110,21 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     await redirectTo(groupRolesPath);
   };
 
+  const handleSettingsButtonClick = async () => {
+    const settingsPath = `${NavigationPaths.Groups}/${name}/settings`;
+    await redirectTo(settingsPath);
+  };
+
   const renderItemMenu = () => {
-    const canDeleteGroup = myPermissions.includes(GroupPermissions.DeleteGroup);
-    const canUpdateGroup = myPermissions.includes(GroupPermissions.UpdateGroup);
-    const canManageRoles = myPermissions.includes(GroupPermissions.ManageRoles);
+    const canDeleteGroup = myPermissions?.includes(
+      GroupPermissions.DeleteGroup
+    );
+    const canUpdateGroup = myPermissions?.includes(
+      GroupPermissions.UpdateGroup
+    );
+    const canManageRoles = myPermissions?.includes(
+      GroupPermissions.ManageRoles
+    );
     if (!canDeleteGroup && !canUpdateGroup && !canManageRoles) {
       return null;
     }
@@ -123,6 +140,10 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         editPath={editGroupPath}
         setAnchorEl={setMenuAnchorEl}
       >
+        <MenuItem onClick={handleSettingsButtonClick}>
+          <Settings fontSize="small" sx={{ marginRight: 1 }} />
+          {t("groups.labels.settings")}
+        </MenuItem>
         {canManageRoles && (
           <MenuItem onClick={handleRolesButtonClick}>
             <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
@@ -143,8 +164,8 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
       <CardContent>
         <Typography sx={{ marginBottom: 1.25 }}>{description}</Typography>
 
-        <Box sx={{ marginBottom: 1.75 }}>
-          <Link href={groupMembersPath}>
+        <Box sx={{ marginBottom: isLoggedIn ? 1.75 : 0 }}>
+          <Link href={isLoggedIn ? groupMembersPath : groupPath}>
             {t("groups.labels.members", { count: members.length })}
           </Link>
 
