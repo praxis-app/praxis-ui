@@ -3,12 +3,7 @@ import { ArrowDropDown } from "@mui/icons-material";
 import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  inviteTokenVar,
-  isAuthLoadingVar,
-  isLoggedInVar,
-  isRefreshingTokenVar,
-} from "../../apollo/cache";
+import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
 import { useIsFirstUserQuery, useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
@@ -40,20 +35,20 @@ const USER_AVATAR_STYLES: SxProps = {
 
 const TopNavDesktop = () => {
   const inviteToken = useReactiveVar(inviteTokenVar);
-  const isAuthLoading = useReactiveVar(isAuthLoadingVar);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const isRefreshingToken = useReactiveVar(isRefreshingTokenVar);
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
 
-  const { data: isFirstUserData } = useIsFirstUserQuery({ skip: isLoggedIn });
-  const { data: meData, loading } = useMeQuery({ skip: !isLoggedIn });
+  const { data: isFirstUserData } = useIsFirstUserQuery({
+    skip: isLoggedIn,
+  });
+  const { data: meData } = useMeQuery({
+    skip: !isLoggedIn,
+  });
 
   const { t } = useTranslation();
 
   const me = meData?.me;
   const isFirstUser = isFirstUserData?.isFirstUser;
-  const showAuthLinks = !isLoggedIn && !isAuthLoading && !isRefreshingToken;
-
   const userProfilePath = getUserProfilePath(me?.name);
   const signUpPath = isFirstUser
     ? NavigationPaths.SignUp
@@ -64,13 +59,9 @@ const TopNavDesktop = () => {
 
   const handleClose = () => setMenuAnchorEl(null);
 
-  if (loading) {
-    return null;
-  }
-
   return (
     <Flex sx={TOP_NAV_STYLES}>
-      {!isAuthLoading && <SearchBar />}
+      <SearchBar />
 
       {me && (
         <Flex>
@@ -100,7 +91,7 @@ const TopNavDesktop = () => {
         </Flex>
       )}
 
-      {showAuthLinks && (
+      {!isLoggedIn && (
         <Flex>
           <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
             {t("users.actions.logIn")}
