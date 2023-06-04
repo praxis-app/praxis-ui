@@ -70,7 +70,7 @@ const refreshTokenLink = onError(
                 return retryRequest();
               } catch {
                 prepareExit();
-                return observer.next(response);
+                return observer.error(graphQLErrors[index]);
               }
             }
 
