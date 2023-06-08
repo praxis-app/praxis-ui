@@ -26,7 +26,6 @@ import {
   isNavDrawerOpenVar,
 } from "../../apollo/cache";
 import {
-  MeDocument,
   useIsFirstUserQuery,
   useLogOutMutation,
   useMeQuery,
@@ -69,12 +68,7 @@ const NavDrawer = () => {
   const handleLogOutClick = async () =>
     await logOut({
       onCompleted: handleLogOutComplete,
-      update(cache) {
-        cache.writeQuery({
-          query: MeDocument,
-          data: { me: null },
-        });
-      },
+      update: (cache) => cache.reset(),
     });
 
   const redirectTo = (path: string) => () => {
