@@ -11,7 +11,7 @@ import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
-export const handleLogOutComplete = async () => {
+export const handleLogOutComplete = () => {
   isLoggedInVar(false);
   isAuthLoadingVar(false);
   isRefreshingTokenVar(false);
