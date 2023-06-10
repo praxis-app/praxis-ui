@@ -4,11 +4,14 @@ import {
   MutationNames,
   UNAUTHORIZED,
 } from "../../../constants/common.constants";
-import { logOutUser } from "../../../utils/auth.utils";
 import { formatGQLError } from "../../../utils/error.utils";
-import { isRefreshingTokenVar } from "../../cache";
+import {
+  isAuthLoadingVar,
+  isLoggedInVar,
+  isRefreshingTokenVar,
+} from "../../cache";
 import client from "../../client";
-import { RefreshTokenDocument } from "../../gen";
+import { LogOutDocument, RefreshTokenDocument } from "../../gen";
 
 type Callback = (arg: unknown) => void;
 
@@ -25,12 +28,14 @@ const prepareExit = () => {
   tokenSubscribers = [];
 };
 
-export const refreshToken = async () => {
+const refreshToken = async () => {
   try {
     isRefreshingTokenVar(true);
     await client.mutate({ mutation: RefreshTokenDocument });
   } catch (err) {
-    await logOutUser();
+    await client.mutate({ mutation: LogOutDocument });
+    isAuthLoadingVar(false);
+    isLoggedInVar(false);
     throw err;
   } finally {
     isRefreshingTokenVar(false);
