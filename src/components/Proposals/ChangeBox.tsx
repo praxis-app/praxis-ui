@@ -1,7 +1,11 @@
-import { Check, Close } from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 import { Box, SxProps, useTheme } from "@mui/material";
 import { ChangeType } from "../../constants/common.constants";
-import { ChangeTypeColors } from "./ProposalActionRoleMember";
+
+export enum ChangeTypeColors {
+  Add = "#324135",
+  Remove = "#3f302f",
+}
 
 interface Props {
   changeType: ChangeType;
@@ -16,33 +20,33 @@ const ChangeBox = ({ changeType, sx }: Props) => {
       changeType === ChangeType.Add
         ? ChangeTypeColors.Add
         : ChangeTypeColors.Remove,
-    borderRadius: 1,
-    borderWidth: 1,
     borderColor: theme.palette.divider,
+    borderRadius: 1,
     borderStyle: "solid",
-    width: 20,
+    borderWidth: 1,
     height: 20,
+    width: 20,
     ...sx,
   };
 
   const iconStyles: SxProps = {
-    fontSize: 14,
-    marginLeft: 0.2,
-    marginBottom: -0.05,
     color: changeType === ChangeType.Add ? "#47FF7A" : "#FF4E4E",
+    fontSize: 14,
+    marginBottom: -0.1,
+    marginLeft: 0.25,
   };
 
   if (changeType === ChangeType.Remove) {
     return (
       <Box component="span" sx={boxStyles}>
-        <Close sx={iconStyles} />
+        <Remove sx={iconStyles} />
       </Box>
     );
   }
 
   return (
     <Box component="span" sx={boxStyles}>
-      <Check sx={iconStyles} />
+      <Add sx={iconStyles} />
     </Box>
   );
 };

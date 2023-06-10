@@ -18,10 +18,9 @@ import Accordion, {
 } from "../Shared/Accordion";
 import Flex from "../Shared/Flex";
 import ProgressBar from "../Shared/ProgressBar";
+import { ChangeTypeColors } from "./ChangeBox";
 import ProposalActionPermission from "./ProposalActionPermission";
-import ProposalActionRoleMember, {
-  ChangeTypeColors,
-} from "./ProposalActionRoleMember";
+import ProposalActionRoleMember from "./ProposalActionRoleMember";
 
 interface Props extends Omit<BoxProps, "role"> {
   role: ProposalActionRoleFragment | ProposalActionRoleInput;

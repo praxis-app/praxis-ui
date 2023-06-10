@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { SxProps, Typography, useTheme } from "@mui/material";
 import {
   ProposalActionRoleMemberFragment,
   ProposalActionRoleMemberInput,
@@ -10,11 +10,7 @@ import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
-
-export enum ChangeTypeColors {
-  Add = "#324135",
-  Remove = "#3f302f",
-}
+import ChangeBox from "./ChangeBox";
 
 interface Props {
   actionType: ProposalActionType;
@@ -27,44 +23,39 @@ const ProposalActionRoleMember = ({
   actionType,
   selectedUsers,
 }: Props) => {
-  const isChangingRole = actionType === ProposalActionType.ChangeRole;
-  const isRemovingMember = member.changeType === ChangeType.Remove;
+  const theme = useTheme();
 
   const user =
     "userId" in member
       ? selectedUsers?.find((u) => u.id === member.userId)
       : member.user;
 
-  const getBackgroundColor = () => {
-    if (!isChangingRole) {
-      return;
-    }
-    if (isRemovingMember) {
-      return ChangeTypeColors.Remove;
-    }
-    return ChangeTypeColors.Add;
-  };
-
   if (!user) {
     return null;
   }
 
+  const isChangingRole = actionType === ProposalActionType.ChangeRole;
+  const isRemovingMember = member.changeType === ChangeType.Remove;
+
+  const memberStyles: SxProps = {
+    borderColor: theme.palette.divider,
+    borderRadius: 1,
+    borderStyle: isChangingRole ? "solid" : undefined,
+    borderWidth: isChangingRole ? 1 : undefined,
+    marginBottom: isChangingRole ? 1 : 0.5,
+    paddingX: isChangingRole ? 0.6 : 0,
+    paddingY: isChangingRole ? 0.5 : 0,
+    fontSize: 14,
+  };
+
   return (
     <Link href={getUserProfilePath(user.name)}>
-      <Flex
-        borderRadius={2}
-        marginBottom={isChangingRole ? 1 : 0.5}
-        paddingY={isChangingRole ? 0.25 : 0}
-        sx={{ backgroundColor: getBackgroundColor(), fontSize: 14 }}
-      >
+      <Flex sx={memberStyles}>
         {isChangingRole && (
-          <Typography
-            color="primary"
-            fontSize="inherit"
-            sx={{ minWidth: 0.07, marginLeft: 1 }}
-          >
-            {isRemovingMember ? "-" : "+"}
-          </Typography>
+          <ChangeBox
+            changeType={isRemovingMember ? ChangeType.Remove : ChangeType.Add}
+            sx={{ marginRight: "1ch" }}
+          />
         )}
 
         <UserAvatar
