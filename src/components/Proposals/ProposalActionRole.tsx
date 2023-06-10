@@ -299,7 +299,7 @@ const ProposalActionRole = ({
                   flexItem
                   sx={{
                     marginBottom: isDesktop ? 0 : 2.1,
-                    marginTop: isDesktop ? 0.75 : 3,
+                    marginTop: isDesktop ? 0.75 : 2.5,
                     marginX: isDesktop ? 3 : 0,
                   }}
                 />
