@@ -204,7 +204,7 @@ const ProposalActionRole = ({
               {isChangingName && isChangingColor && (
                 <Divider
                   sx={{
-                    marginTop: isDesktop ? 2.4 : 2,
+                    marginTop: isDesktop ? 2.4 : 3,
                     marginBottom: isDesktop ? 3 : 2.6,
                   }}
                 />
