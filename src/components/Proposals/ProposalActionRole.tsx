@@ -111,14 +111,13 @@ const ProposalActionRole = ({
     paddingX: 2,
   };
   const circleIconStyles: SxProps = {
-    fontSize: 16,
+    color: isChangingColor ? oldColor : color,
     marginTop: 0.5,
-    color,
+    fontSize: 16,
   };
   const addChangeStyles: SxProps = {
     backgroundColor: ChangeTypeColors.Add,
     borderRadius: 2,
-    marginLeft: "0.5ch",
     paddingY: 0.2,
     paddingX: 0.75,
   };
@@ -155,7 +154,7 @@ const ProposalActionRole = ({
             {accordionSummary}:
           </Typography>
           <Circle sx={{ ...circleIconStyles, marginRight: "0.5ch" }} />
-          {name}
+          {isChangingName ? oldName : name}
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
@@ -178,11 +177,12 @@ const ProposalActionRole = ({
                     paddingTop={0.2}
                     gutterBottom
                   >
-                    {t("proposals.labels.name")}:
+                    {`${t("proposals.labels.name")}${isDesktop ? ":" : ""}`}
                   </Typography>
 
                   <Flex
                     marginBottom={isDesktop ? 0 : 1}
+                    marginLeft={isDesktop ? "0.5ch" : 0}
                     sx={removeChangeStyles}
                   >
                     <Typography color="primary" marginRight="0.25ch">
@@ -190,7 +190,10 @@ const ProposalActionRole = ({
                     </Typography>
                   </Flex>
 
-                  <Flex sx={addChangeStyles}>
+                  <Flex
+                    marginLeft={isDesktop ? "0.5ch" : 0}
+                    sx={addChangeStyles}
+                  >
                     <Typography color="primary" marginRight="0.25ch">
                       + {name}
                     </Typography>
@@ -201,7 +204,7 @@ const ProposalActionRole = ({
               {isChangingName && isChangingColor && (
                 <Divider
                   sx={{
-                    marginTop: isDesktop ? 2.4 : 2,
+                    marginTop: isDesktop ? 2.4 : 3,
                     marginBottom: isDesktop ? 3 : 2.6,
                   }}
                 />
@@ -217,18 +220,18 @@ const ProposalActionRole = ({
                     {t("proposals.labels.color")}:
                   </Typography>
 
-                  <Flex sx={removeChangeStyles}>
+                  <Flex marginLeft="0.5ch" sx={removeChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
-                    <Circle sx={{ ...circleIconStyles, color: oldColor }} />
+                    <Circle sx={circleIconStyles} />
                   </Flex>
 
-                  <Flex sx={addChangeStyles}>
+                  <Flex marginLeft="0.5ch" sx={addChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
-                    <Circle sx={circleIconStyles} />
+                    <Circle sx={{ ...circleIconStyles, color }} />
                   </Flex>
                 </Flex>
               )}
