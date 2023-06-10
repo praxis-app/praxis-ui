@@ -4,8 +4,8 @@ import {
   ProposalActionRoleMemberInput,
   UserAvatarFragment,
 } from "../../apollo/gen";
+import { ChangeType } from "../../constants/common.constants";
 import { ProposalActionType } from "../../constants/proposal.constants";
-import { RoleMemberChangeType } from "../../constants/role.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -28,7 +28,7 @@ const ProposalActionRoleMember = ({
   selectedUsers,
 }: Props) => {
   const isChangingRole = actionType === ProposalActionType.ChangeRole;
-  const isRemovingMember = member.changeType === RoleMemberChangeType.Remove;
+  const isRemovingMember = member.changeType === ChangeType.Remove;
 
   const user =
     "userId" in member
