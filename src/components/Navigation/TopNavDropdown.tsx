@@ -6,11 +6,7 @@ import {
   isLoggedInVar,
   isRefreshingTokenVar,
 } from "../../apollo/cache";
-import {
-  MeDocument,
-  TopNavDropdownFragment,
-  useLogOutMutation,
-} from "../../apollo/gen";
+import { TopNavDropdownFragment, useLogOutMutation } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { ServerPermissions } from "../../constants/role.constants";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
@@ -51,12 +47,7 @@ const TopNavDropdown = ({
     window.confirm(t("users.prompts.logOut")) &&
     logOut({
       onCompleted: handleLogOutComplete,
-      update(cache) {
-        cache.writeQuery({
-          query: MeDocument,
-          data: { me: null },
-        });
-      },
+      update: (cache) => cache.reset(),
     });
 
   const handleEditProfileButtonClick = () => {
