@@ -1,5 +1,5 @@
 import { Button as MuiButton, ButtonProps, styled } from "@mui/material";
-import { Blurple } from "../../theme";
+import { Blurple } from "../../styles/theme";
 import Spinner from "./Spinner";
 
 export const BLURPLE_BUTTON_COLORS = {

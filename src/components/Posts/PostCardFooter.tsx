@@ -9,7 +9,7 @@ import {
   useLikePostMutation,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
-import { Blurple } from "../../theme";
+import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
