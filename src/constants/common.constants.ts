@@ -50,6 +50,11 @@ export enum FieldNames {
   Query = "query",
 }
 
+export enum ChangeType {
+  Add = "add",
+  Remove = "remove",
+}
+
 export enum Environments {
   Development = "development",
   Production = "production",

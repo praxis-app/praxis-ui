@@ -12,8 +12,8 @@ import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
 export enum ChangeTypeColors {
-  Add = "#2f5631",
-  Remove = "#723431",
+  Add = "#324135",
+  Remove = "#3f302f",
 }
 
 interface Props {
