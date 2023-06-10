@@ -123,15 +123,21 @@ const ProposalActionRole = ({
     marginTop: 0.5,
     fontSize: 16,
   };
+  const colorChangeIconStyles: SxProps = {
+    ...circleIconStyles,
+    fontSize: 14,
+    marginRight: "0.8ch",
+    marginTop: 0.4,
+  };
   const changeStyles: SxProps = {
     borderColor: theme.palette.divider,
     borderRadius: 1,
     borderStyle: "solid",
     borderWidth: 1,
+    fontSize: 14,
     marginBottom: 1,
     paddingX: 0.6,
     paddingY: 0.5,
-    fontSize: 14,
   };
 
   const getNameChangeMarginBottom = () => {
@@ -225,29 +231,45 @@ const ProposalActionRole = ({
               )}
 
               {isChangingColor && (
-                <Flex marginBottom={isDesktop ? 1.5 : 3}>
+                <Box marginBottom={isDesktop ? 1.5 : 3}>
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
                     gutterBottom
                   >
-                    {t("proposals.labels.color")}:
+                    {t("proposals.labels.color")}
                   </Typography>
 
-                  <Flex marginLeft="0.5ch" sx={changeStyles}>
-                    <Typography color="primary" marginRight="0.25ch">
-                      -
+                  <Flex sx={changeStyles}>
+                    <ChangeBox
+                      changeType={ChangeType.Remove}
+                      sx={{ marginRight: "0.8ch" }}
+                    />
+                    <Circle sx={colorChangeIconStyles} />
+                    <Typography
+                      color="primary"
+                      fontSize="inherit"
+                      marginRight="0.25ch"
+                    >
+                      {oldColor}
                     </Typography>
-                    <Circle sx={circleIconStyles} />
                   </Flex>
 
-                  <Flex marginLeft="0.5ch" sx={changeStyles}>
-                    <Typography color="primary" marginRight="0.25ch">
-                      +
+                  <Flex sx={changeStyles}>
+                    <ChangeBox
+                      changeType={ChangeType.Add}
+                      sx={{ marginRight: "0.8ch" }}
+                    />
+                    <Circle sx={{ ...colorChangeIconStyles, color }} />
+                    <Typography
+                      color="primary"
+                      fontSize="inherit"
+                      marginRight="0.25ch"
+                    >
+                      {color}
                     </Typography>
-                    <Circle sx={{ ...circleIconStyles, color }} />
                   </Flex>
-                </Flex>
+                </Box>
               )}
             </>
           )}
