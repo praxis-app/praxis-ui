@@ -53,6 +53,7 @@ const ProposalActionPermission = ({
         <ChangeBox
           changeType={enabled ? ChangeType.Add : ChangeType.Remove}
           sx={{ marginRight: "1ch" }}
+          component="span"
         />
       ) : (
         <CheckBox color="inherit" sx={CHECK_BOX_ICON_STYLES} />

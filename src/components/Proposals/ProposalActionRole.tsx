@@ -1,5 +1,12 @@
 import { Circle } from "@mui/icons-material";
-import { Box, BoxProps, Divider, SxProps, Typography } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Divider,
+  SxProps,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,6 +17,7 @@ import {
   useRoleByRoleIdLazyQuery,
   useUsersByIdsLazyQuery,
 } from "../../apollo/gen";
+import { ChangeType } from "../../constants/common.constants";
 import { ProposalActionType } from "../../constants/proposal.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import Accordion, {
@@ -18,7 +26,7 @@ import Accordion, {
 } from "../Shared/Accordion";
 import Flex from "../Shared/Flex";
 import ProgressBar from "../Shared/ProgressBar";
-import { ChangeTypeColors } from "./ChangeBox";
+import ChangeBox from "./ChangeBox";
 import ProposalActionPermission from "./ProposalActionPermission";
 import ProposalActionRoleMember from "./ProposalActionRoleMember";
 
@@ -60,6 +68,7 @@ const ProposalActionRole = ({
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
+  const theme = useTheme();
 
   // Fetch data required for preview in ProposalForm
   useEffect(() => {
@@ -114,15 +123,15 @@ const ProposalActionRole = ({
     marginTop: 0.5,
     fontSize: 16,
   };
-  const addChangeStyles: SxProps = {
-    backgroundColor: ChangeTypeColors.Add,
-    borderRadius: 2,
-    paddingY: 0.2,
-    paddingX: 0.75,
-  };
-  const removeChangeStyles: SxProps = {
-    ...addChangeStyles,
-    backgroundColor: ChangeTypeColors.Remove,
+  const changeStyles: SxProps = {
+    borderColor: theme.palette.divider,
+    borderRadius: 1,
+    borderStyle: "solid",
+    borderWidth: 1,
+    marginBottom: 1,
+    paddingX: 0.6,
+    paddingY: 0.5,
+    fontSize: 14,
   };
 
   const getNameChangeMarginBottom = () => {
@@ -166,38 +175,44 @@ const ProposalActionRole = ({
           {isRoleChange && (
             <>
               {isChangingName && (
-                <Flex
-                  marginBottom={getNameChangeMarginBottom()}
-                  flexDirection={isDesktop ? "row" : "column"}
-                >
+                <Box marginBottom={getNameChangeMarginBottom()}>
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
                     paddingTop={0.2}
                     gutterBottom
                   >
-                    {`${t("proposals.labels.name")}${isDesktop ? ":" : ""}`}
+                    {t("proposals.labels.name")}
                   </Typography>
 
-                  <Flex
-                    marginBottom={isDesktop ? 0 : 1}
-                    marginLeft={isDesktop ? "0.5ch" : 0}
-                    sx={removeChangeStyles}
-                  >
-                    <Typography color="primary" marginRight="0.25ch">
-                      - {oldName}
+                  <Flex marginBottom={isDesktop ? 0 : 1} sx={changeStyles}>
+                    <ChangeBox
+                      changeType={ChangeType.Remove}
+                      sx={{ marginRight: "1ch" }}
+                    />
+                    <Typography
+                      color="primary"
+                      fontSize="inherit"
+                      marginRight="0.25ch"
+                    >
+                      {oldName}
                     </Typography>
                   </Flex>
 
-                  <Flex
-                    marginLeft={isDesktop ? "0.5ch" : 0}
-                    sx={addChangeStyles}
-                  >
-                    <Typography color="primary" marginRight="0.25ch">
-                      + {name}
+                  <Flex sx={changeStyles}>
+                    <ChangeBox
+                      changeType={ChangeType.Add}
+                      sx={{ marginRight: "1ch" }}
+                    />
+                    <Typography
+                      color="primary"
+                      fontSize="inherit"
+                      marginRight="0.25ch"
+                    >
+                      {name}
                     </Typography>
                   </Flex>
-                </Flex>
+                </Box>
               )}
 
               {isChangingName && isChangingColor && (
@@ -219,14 +234,14 @@ const ProposalActionRole = ({
                     {t("proposals.labels.color")}:
                   </Typography>
 
-                  <Flex marginLeft="0.5ch" sx={removeChangeStyles}>
+                  <Flex marginLeft="0.5ch" sx={changeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
                     <Circle sx={circleIconStyles} />
                   </Flex>
 
-                  <Flex marginLeft="0.5ch" sx={addChangeStyles}>
+                  <Flex marginLeft="0.5ch" sx={changeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
