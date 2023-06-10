@@ -111,9 +111,9 @@ const ProposalActionRole = ({
     paddingX: 2,
   };
   const circleIconStyles: SxProps = {
-    fontSize: 16,
+    color: isChangingColor ? oldColor : color,
     marginTop: 0.5,
-    color,
+    fontSize: 16,
   };
   const addChangeStyles: SxProps = {
     backgroundColor: ChangeTypeColors.Add,
@@ -154,7 +154,7 @@ const ProposalActionRole = ({
             {accordionSummary}:
           </Typography>
           <Circle sx={{ ...circleIconStyles, marginRight: "0.5ch" }} />
-          {name}
+          {isChangingName ? oldName : name}
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
@@ -224,14 +224,14 @@ const ProposalActionRole = ({
                     <Typography color="primary" marginRight="0.25ch">
                       -
                     </Typography>
-                    <Circle sx={{ ...circleIconStyles, color: oldColor }} />
+                    <Circle sx={circleIconStyles} />
                   </Flex>
 
                   <Flex marginLeft="0.5ch" sx={addChangeStyles}>
                     <Typography color="primary" marginRight="0.25ch">
                       +
                     </Typography>
-                    <Circle sx={circleIconStyles} />
+                    <Circle sx={{ ...circleIconStyles, color }} />
                   </Flex>
                 </Flex>
               )}
