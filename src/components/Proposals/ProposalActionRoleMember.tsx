@@ -54,7 +54,7 @@ const ProposalActionRoleMember = ({
         {isChangingRole && (
           <ChangeBox
             changeType={isRemovingMember ? ChangeType.Remove : ChangeType.Add}
-            sx={{ marginRight: "1ch" }}
+            sx={{ marginRight: "1.2ch" }}
           />
         )}
 
