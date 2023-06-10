@@ -142,10 +142,10 @@ const ProposalActionRole = ({
 
   const getNameChangeMarginBottom = () => {
     if (isDesktop) {
-      return 1.5;
+      return 2;
     }
     if (color && color !== roleToChange?.color) {
-      return 1;
+      return 2;
     }
     return 3;
   };
@@ -221,17 +221,8 @@ const ProposalActionRole = ({
                 </Box>
               )}
 
-              {isChangingName && isChangingColor && (
-                <Divider
-                  sx={{
-                    marginTop: isDesktop ? 2.4 : 3,
-                    marginBottom: isDesktop ? 3 : 2.6,
-                  }}
-                />
-              )}
-
               {isChangingColor && (
-                <Box marginBottom={isDesktop ? 1.5 : 3}>
+                <Box marginBottom={isDesktop ? 2 : 4}>
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
@@ -274,16 +265,6 @@ const ProposalActionRole = ({
             </>
           )}
 
-          {(isChangingName || isChangingColor) &&
-            !!(permissions?.length || members?.length) && (
-              <Divider
-                sx={{
-                  marginTop: isDesktop ? 2 : -0.9,
-                  marginBottom: isDesktop ? 3 : 4.4,
-                }}
-              />
-            )}
-
           <Box
             sx={{
               display: isDesktop ? "flex" : "block",
@@ -311,7 +292,7 @@ const ProposalActionRole = ({
               </Box>
             )}
 
-            {!!(permissions?.length && members?.length) && (
+            {isDesktop && !!(permissions?.length && members?.length) && (
               <Divider
                 orientation={isDesktop ? "vertical" : "horizontal"}
                 flexItem
