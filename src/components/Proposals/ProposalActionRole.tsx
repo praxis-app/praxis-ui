@@ -179,7 +179,7 @@ const ProposalActionRole = ({
           )}
 
           {isRoleChange && (
-            <>
+            <Box>
               {isChangingName && (
                 <Box marginBottom={getNameChangeMarginBottom()}>
                   <Typography
@@ -262,7 +262,7 @@ const ProposalActionRole = ({
                   </Flex>
                 </Box>
               )}
-            </>
+            </Box>
           )}
 
           <Box
@@ -292,17 +292,18 @@ const ProposalActionRole = ({
               </Box>
             )}
 
-            {isDesktop && !!(permissions?.length && members?.length) && (
-              <Divider
-                orientation={isDesktop ? "vertical" : "horizontal"}
-                flexItem
-                sx={{
-                  marginBottom: isDesktop ? 0 : 2.1,
-                  marginTop: isDesktop ? 0.75 : 3,
-                  marginX: isDesktop ? 3 : 0,
-                }}
-              />
-            )}
+            {!(isRoleChange && !isDesktop) &&
+              !!(permissions?.length && members?.length) && (
+                <Divider
+                  orientation={isDesktop ? "vertical" : "horizontal"}
+                  flexItem
+                  sx={{
+                    marginBottom: isDesktop ? 0 : 2.1,
+                    marginTop: isDesktop ? 0.75 : 3,
+                    marginX: isDesktop ? 3 : 0,
+                  }}
+                />
+              )}
 
             {!!members?.length && (
               <Box width={isDesktop ? "50%" : undefined}>
