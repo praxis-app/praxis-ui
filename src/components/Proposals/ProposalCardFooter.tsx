@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { ProposalCardFooterFragment } from "../../apollo/gen";
 import { ProposalStage } from "../../constants/proposal.constants";
-import { Blurple } from "../../theme";
+import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
 import CardFooterButton from "../Shared/CardFooterButton";
 import VoteBadges from "../Votes/VoteBadges";

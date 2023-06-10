@@ -19,7 +19,7 @@ import {
   ProposalStage,
 } from "../../constants/proposal.constants";
 import { VoteTypes } from "../../constants/vote.constants";
-import { Blurple } from "../../theme";
+import { Blurple } from "../../styles/theme";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 

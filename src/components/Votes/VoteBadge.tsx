@@ -4,7 +4,7 @@ import { useState } from "react";
 import { VoteFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { Blurple } from "../../theme";
+import { Blurple } from "../../styles/theme";
 import Flex from "../Shared/Flex";
 import VotesPopover from "./VotesPopover";
 

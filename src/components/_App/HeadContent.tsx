@@ -1,4 +1,4 @@
-import theme from "../../theme";
+import theme from "../../styles/theme";
 
 const HeadContent = () => (
   <>

@@ -7,7 +7,7 @@ import {
   PermissionToggleFragment,
   ProposalActionRoleInput,
 } from "../../apollo/gen";
-import theme from "../../theme";
+import theme from "../../styles/theme";
 import { getPermissionText } from "../../utils/role.utils";
 import Flex from "../Shared/Flex";
 import { PermissionsFormValues } from "./PermissionsForm";
