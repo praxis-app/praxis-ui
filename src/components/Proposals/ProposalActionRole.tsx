@@ -177,7 +177,7 @@ const ProposalActionRole = ({
                     paddingTop={0.2}
                     gutterBottom
                   >
-                    {t("proposals.labels.name")}:
+                    {`${t("proposals.labels.name")}${isDesktop ? ":" : ""}`}
                   </Typography>
 
                   <Flex
