@@ -33,7 +33,7 @@ import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 import { removeProposal } from "./DeleteProposalButton";
-import ProposalAction from "./ProposalAction";
+import ProposalAction from "./ProposalActions/ProposalAction";
 import ProposalCardFooter from "./ProposalCardFooter";
 
 const CardHeader = styled(MuiCardHeader)(() => ({

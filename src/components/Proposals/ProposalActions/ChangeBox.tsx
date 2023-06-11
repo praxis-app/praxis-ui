@@ -1,6 +1,6 @@
 import { Add, Remove } from "@mui/icons-material";
 import { Box, BoxProps, SxProps, useTheme } from "@mui/material";
-import { ChangeType } from "../../constants/common.constants";
+import { ChangeType } from "../../../constants/common.constants";
 
 interface Props extends BoxProps {
   changeType: ChangeType;

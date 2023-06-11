@@ -17,16 +17,16 @@ import {
   ProposalActionRoleMemberInput,
   useRoleByRoleIdLazyQuery,
   useUsersByIdsLazyQuery,
-} from "../../apollo/gen";
-import { ChangeType } from "../../constants/common.constants";
-import { ProposalActionType } from "../../constants/proposal.constants";
-import { useIsDesktop } from "../../hooks/common.hooks";
+} from "../../../apollo/gen";
+import { ChangeType } from "../../../constants/common.constants";
+import { ProposalActionType } from "../../../constants/proposal.constants";
+import { useIsDesktop } from "../../../hooks/common.hooks";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
-} from "../Shared/Accordion";
-import Flex from "../Shared/Flex";
-import ProgressBar from "../Shared/ProgressBar";
+} from "../../Shared/Accordion";
+import Flex from "../../Shared/Flex";
+import ProgressBar from "../../Shared/ProgressBar";
 import ChangeBox from "./ChangeBox";
 import ProposalActionPermission from "./ProposalActionPermission";
 import ProposalActionRoleMember from "./ProposalActionRoleMember";

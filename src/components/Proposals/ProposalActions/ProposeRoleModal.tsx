@@ -24,29 +24,29 @@ import {
   useGroupMembersByGroupIdLazyQuery,
   useGroupRolesByGroupIdLazyQuery,
   useRoleByRoleIdLazyQuery,
-} from "../../apollo/gen";
-import { FieldNames } from "../../constants/common.constants";
+} from "../../../apollo/gen";
+import { FieldNames } from "../../../constants/common.constants";
 import {
   ProposalActionFieldName,
   ProposalActionType,
   ProposeRoleModalFieldName,
-} from "../../constants/proposal.constants";
+} from "../../../constants/proposal.constants";
 import {
   DEFAULT_ROLE_COLOR,
   GroupPermissions,
-} from "../../constants/role.constants";
-import { initPermissions } from "../../utils/role.utils";
-import PermissionToggle from "../Roles/PermissionToggle";
+} from "../../../constants/role.constants";
+import { initPermissions } from "../../../utils/role.utils";
+import PermissionToggle from "../../Roles/PermissionToggle";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
-} from "../Shared/Accordion";
-import ColorPicker from "../Shared/ColorPicker";
-import Flex from "../Shared/Flex";
-import Modal from "../Shared/Modal";
-import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import ProgressBar from "../Shared/ProgressBar";
-import { TextField } from "../Shared/TextField";
+} from "../../Shared/Accordion";
+import ColorPicker from "../../Shared/ColorPicker";
+import Flex from "../../Shared/Flex";
+import Modal from "../../Shared/Modal";
+import PrimaryActionButton from "../../Shared/PrimaryActionButton";
+import ProgressBar from "../../Shared/ProgressBar";
+import { TextField } from "../../Shared/TextField";
 import ProposeRoleMemberOption from "./ProposeRoleMemberOption";
 
 export interface ProposeRoleModalValues {

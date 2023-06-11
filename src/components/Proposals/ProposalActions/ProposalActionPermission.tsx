@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import {
   PermissionInput,
   ProposalActionPermissionFragment,
-} from "../../apollo/gen";
-import { ChangeType } from "../../constants/common.constants";
-import { ProposalActionType } from "../../constants/proposal.constants";
-import { getPermissionText } from "../../utils/role.utils";
+} from "../../../apollo/gen";
+import { ChangeType } from "../../../constants/common.constants";
+import { ProposalActionType } from "../../../constants/proposal.constants";
+import { getPermissionText } from "../../../utils/role.utils";
 import ChangeBox from "./ChangeBox";
 
 const CHECK_BOX_ICON_STYLES: SxProps = {

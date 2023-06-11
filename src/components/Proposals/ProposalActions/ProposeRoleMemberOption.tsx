@@ -2,9 +2,9 @@ import {
   ProposalActionRoleMemberInput,
   RoleMemberFragment,
   UserAvatarFragment,
-} from "../../apollo/gen";
-import { ChangeType } from "../../constants/common.constants";
-import RoleMemberOption from "../Roles/RoleMemberOption";
+} from "../../../apollo/gen";
+import { ChangeType } from "../../../constants/common.constants";
+import RoleMemberOption from "../../Roles/RoleMemberOption";
 
 interface Props {
   member: UserAvatarFragment;

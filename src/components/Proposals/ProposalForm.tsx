@@ -46,9 +46,9 @@ import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
-import ProposalActionFields from "./ProposalActionFields";
-import ProposalActionRole from "./ProposalActionRole";
-import ProposeRoleModal from "./ProposeRoleModal";
+import ProposalActionFields from "./ProposalActions/ProposalActionFields";
+import ProposalActionRole from "./ProposalActions/ProposalActionRole";
+import ProposeRoleModal from "./ProposalActions/ProposeRoleModal";
 
 type ProposalFormErrors = {
   action: FormikErrors<ProposalActionInput>;

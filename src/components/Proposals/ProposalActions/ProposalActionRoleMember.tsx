@@ -3,13 +3,13 @@ import {
   ProposalActionRoleMemberFragment,
   ProposalActionRoleMemberInput,
   UserAvatarFragment,
-} from "../../apollo/gen";
-import { ChangeType } from "../../constants/common.constants";
-import { ProposalActionType } from "../../constants/proposal.constants";
-import { getUserProfilePath } from "../../utils/user.utils";
-import Flex from "../Shared/Flex";
-import Link from "../Shared/Link";
-import UserAvatar from "../Users/UserAvatar";
+} from "../../../apollo/gen";
+import { ChangeType } from "../../../constants/common.constants";
+import { ProposalActionType } from "../../../constants/proposal.constants";
+import { getUserProfilePath } from "../../../utils/user.utils";
+import Flex from "../../Shared/Flex";
+import Link from "../../Shared/Link";
+import UserAvatar from "../../Users/UserAvatar";
 import ChangeBox from "./ChangeBox";
 
 interface Props {
