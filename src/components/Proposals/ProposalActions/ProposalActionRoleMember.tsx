@@ -38,7 +38,7 @@ const ProposalActionRoleMember = ({
   const isRemovingMember = member.changeType === ChangeType.Remove;
 
   const memberStyles: SxProps = {
-    borderColor: theme.palette.divider,
+    borderColor: theme.palette.primary.light,
     borderRadius: 1,
     borderStyle: isChangingRole ? "solid" : undefined,
     borderWidth: isChangingRole ? 1 : undefined,
