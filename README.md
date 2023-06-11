@@ -94,12 +94,7 @@ $ yarn test --coverage
 
 Install the following Chrome extension provided by Deque Systems: [axe DevTools - Web Accessibility Testing](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd?hl=en-US)
 
-Once the extension is installed, open up Chrome DevTools, and navigate to the **axe DevTools** tab. Here you can click the **Scan ALL of my page** button to check for any accessibility issues.
-
-## Tools to get Involved and Collaborate
-
-- Discord: Message **forrest#2807** for more information.
-- Notion: A link to the Notion page can be obtained upon request.
+Once the extension is installed, open up Chrome DevTools, and navigate to the "axe DevTools" tab. Here you can click the "Scan ALL of my page" button to check for any accessibility issues.
 
 ## Contributions
 
