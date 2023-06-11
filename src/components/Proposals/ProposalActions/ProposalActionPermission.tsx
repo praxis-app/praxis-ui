@@ -41,7 +41,6 @@ const ProposalActionPermission = ({
     paddingY: isChangingRole ? 0.5 : 0,
     display: "flex",
     fontSize: 14,
-    verticalAlign: "middle",
   };
 
   return (
