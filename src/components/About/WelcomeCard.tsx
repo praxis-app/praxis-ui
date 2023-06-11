@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
@@ -20,7 +19,6 @@ const WelcomeCard = () => {
   const { data } = useIsFirstUserQuery({ skip: isLoggedIn });
 
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const signUpPath = data?.isFirstUser
     ? NavigationPaths.SignUp
@@ -30,7 +28,7 @@ const WelcomeCard = () => {
     <Card>
       <CardHeader
         title={t("prompts.welcomeToPraxis")}
-        sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
+        sx={{ paddingBottom: 0.75 }}
       />
 
       <CardContent>

@@ -5,7 +5,6 @@ import {
   CardHeader,
   styled,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar } from "../../apollo/cache";
@@ -21,13 +20,12 @@ const CardContent = styled(MuiCardContent)(() => ({
 const GroupTipsCard = () => {
   const inviteToken = useReactiveVar(inviteTokenVar);
   const { t } = useTranslation();
-  const theme = useTheme();
 
   return (
     <Card>
       <CardHeader
         title={t("groups.headers.organizeWithGroups")}
-        sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
+        sx={{ paddingBottom: 0.75 }}
       />
 
       <CardContent>

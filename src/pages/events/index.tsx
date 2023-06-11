@@ -6,7 +6,6 @@ import {
   CardHeader,
   styled,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
@@ -19,20 +18,17 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 const EventsIndex: NextPage = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   return (
     <Card>
       <CardHeader
         title={t("events.headers.planEvents")}
-        sx={{ color: theme.palette.primary.main, paddingBottom: 0.75 }}
+        sx={{ paddingBottom: 0.75 }}
       />
       <CardContent>
         <Typography gutterBottom>{t("events.tips.planEvents")}</Typography>
         <Typography gutterBottom>{t("events.tips.proposedEvents")}</Typography>
-        <Typography sx={{ color: theme.palette.text.secondary }} gutterBottom>
-          {t("prompts.inDev")}
-        </Typography>
+        <Typography gutterBottom>{t("prompts.inDev")}</Typography>
       </CardContent>
     </Card>
   );

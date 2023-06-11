@@ -22,7 +22,7 @@ const initialTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: grey[100],
+      main: "#e4e6ea",
     },
     text: {
       primary: "#e4e6ea",
@@ -115,14 +115,6 @@ const theme: Theme = createTheme(initialTheme, {
           [initialTheme.breakpoints.up("sm")]: {
             minWidth: 160,
           },
-        },
-      },
-    },
-
-    MuiMenuItem: {
-      styleOverrides: {
-        root: {
-          color: initialTheme.palette.primary.main,
         },
       },
     },

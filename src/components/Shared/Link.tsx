@@ -17,7 +17,7 @@ const Link = ({ href, children, sx, disabled, ...linkProps }: Props) => {
       <MuiLink
         href={href}
         sx={{
-          color: theme.palette.primary.main,
+          color: theme.palette.text.primary,
           pointerEvents: disabled ? "none" : undefined,
           textDecoration: "none",
           ...sx,
