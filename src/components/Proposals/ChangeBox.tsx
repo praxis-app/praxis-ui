@@ -2,11 +2,6 @@ import { Add, Remove } from "@mui/icons-material";
 import { Box, BoxProps, SxProps, useTheme } from "@mui/material";
 import { ChangeType } from "../../constants/common.constants";
 
-export enum ChangeTypeColors {
-  Add = "#324135",
-  Remove = "#3f302f",
-}
-
 interface Props extends BoxProps {
   changeType: ChangeType;
   sx?: SxProps;
@@ -16,10 +11,7 @@ const ChangeBox = ({ changeType, sx, ...boxProps }: Props) => {
   const theme = useTheme();
 
   const boxStyles: SxProps = {
-    backgroundColor:
-      changeType === ChangeType.Add
-        ? ChangeTypeColors.Add
-        : ChangeTypeColors.Remove,
+    backgroundColor: changeType === ChangeType.Add ? "#324135" : "#3f302f",
     borderColor: theme.palette.divider,
     borderRadius: 1,
     borderStyle: "solid",
