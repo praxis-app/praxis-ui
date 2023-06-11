@@ -233,12 +233,9 @@ const ProposalActionRole = ({
                 isChangingColor &&
                 !(isRoleChange && !isDesktop) && (
                   <Divider
+                    sx={{ marginTop: 0.75, marginX: 3 }}
                     orientation="vertical"
                     flexItem
-                    sx={{
-                      marginTop: 0.75,
-                      marginX: 3,
-                    }}
                   />
                 )}
 
