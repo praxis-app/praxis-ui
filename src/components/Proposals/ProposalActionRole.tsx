@@ -179,9 +179,17 @@ const ProposalActionRole = ({
           )}
 
           {isRoleChange && (
-            <Box>
+            <Box
+              sx={{
+                display: isDesktop ? "flex" : "block",
+                justifyContent: "space-between",
+              }}
+            >
               {isChangingName && (
-                <Box marginBottom={getNameChangeMarginBottom()}>
+                <Box
+                  marginBottom={getNameChangeMarginBottom()}
+                  width={isDesktop ? "50%" : undefined}
+                >
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
@@ -221,8 +229,24 @@ const ProposalActionRole = ({
                 </Box>
               )}
 
+              {isChangingName &&
+                isChangingColor &&
+                !(isRoleChange && !isDesktop) && (
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{
+                      marginTop: 0.75,
+                      marginX: 3,
+                    }}
+                  />
+                )}
+
               {isChangingColor && (
-                <Box marginBottom={isDesktop ? 2 : 4}>
+                <Box
+                  marginBottom={isDesktop ? 2 : 4}
+                  width={isDesktop ? "50%" : undefined}
+                >
                   <Typography
                     fontFamily="Inter Bold"
                     fontSize={15}
@@ -294,15 +318,7 @@ const ProposalActionRole = ({
 
             {!(isRoleChange && !isDesktop) &&
               !!(permissions?.length && members?.length) && (
-                <Divider
-                  orientation={isDesktop ? "vertical" : "horizontal"}
-                  flexItem
-                  sx={{
-                    marginBottom: isDesktop ? 0 : 2.1,
-                    marginTop: isDesktop ? 0.75 : 2.5,
-                    marginX: isDesktop ? 3 : 0,
-                  }}
-                />
+                <Divider orientation="vertical" flexItem sx={{ marginX: 3 }} />
               )}
 
             {!!members?.length && (
