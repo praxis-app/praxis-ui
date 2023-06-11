@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { ProposalActionFragment } from "../../apollo/gen";
-import { ProposalActionType } from "../../constants/proposal.constants";
-import AttachedImage from "../Images/AttachedImage";
+import { ProposalActionFragment } from "../../../apollo/gen";
+import { ProposalActionType } from "../../../constants/proposal.constants";
+import AttachedImage from "../../Images/AttachedImage";
 import ProposalActionRole from "./ProposalActionRole";
 
 interface Props {

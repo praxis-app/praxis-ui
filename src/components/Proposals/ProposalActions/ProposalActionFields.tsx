@@ -2,14 +2,14 @@ import { CropOriginal } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 import { FormikErrors, FormikTouched } from "formik";
 import { t } from "i18next";
-import { CreateProposalInput, ProposalFormFragment } from "../../apollo/gen";
+import { CreateProposalInput, ProposalFormFragment } from "../../../apollo/gen";
 import {
   ProposalActionFieldName,
   ProposalActionType,
-} from "../../constants/proposal.constants";
-import AttachedImagePreview from "../Images/AttachedImagePreview";
-import ImageInput from "../Images/ImageInput";
-import { TextField } from "../Shared/TextField";
+} from "../../../constants/proposal.constants";
+import AttachedImagePreview from "../../Images/AttachedImagePreview";
+import ImageInput from "../../Images/ImageInput";
+import { TextField } from "../../Shared/TextField";
 
 interface Props {
   editProposal?: ProposalFormFragment;

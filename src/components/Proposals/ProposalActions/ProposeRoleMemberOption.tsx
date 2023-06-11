@@ -2,9 +2,9 @@ import {
   ProposalActionRoleMemberInput,
   RoleMemberFragment,
   UserAvatarFragment,
-} from "../../apollo/gen";
-import { RoleMemberChangeType } from "../../constants/role.constants";
-import RoleMemberOption from "../Roles/RoleMemberOption";
+} from "../../../apollo/gen";
+import { ChangeType } from "../../../constants/common.constants";
+import RoleMemberOption from "../../Roles/RoleMemberOption";
 
 interface Props {
   member: UserAvatarFragment;
@@ -21,11 +21,11 @@ const ProposeRoleMemberOption = ({
 }: Props) => {
   const isSelectedToAdd = selectedMembers.some(
     ({ userId, changeType }) =>
-      userId === member.id && changeType === RoleMemberChangeType.Add
+      userId === member.id && changeType === ChangeType.Add
   );
   const isSelectedToRemove = selectedMembers.some(
     ({ userId, changeType }) =>
-      userId === member.id && changeType === RoleMemberChangeType.Remove
+      userId === member.id && changeType === ChangeType.Remove
   );
   const isAlreadyAdded = currentRoleMembers?.some(({ id }) => id === member.id);
 
@@ -39,9 +39,7 @@ const ProposeRoleMemberOption = ({
       return;
     }
     const changeType =
-      isAlreadyAdded && checked
-        ? RoleMemberChangeType.Remove
-        : RoleMemberChangeType.Add;
+      isAlreadyAdded && checked ? ChangeType.Remove : ChangeType.Add;
     setSelectedMembers([...selectedMembers, { changeType, userId: member.id }]);
   };
 

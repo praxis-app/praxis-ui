@@ -27,8 +27,3 @@ export enum EditRoleTabNames {
   Permissions = "permissions",
   Members = "members",
 }
-
-export enum RoleMemberChangeType {
-  Add = "add",
-  Remove = "remove",
-}
