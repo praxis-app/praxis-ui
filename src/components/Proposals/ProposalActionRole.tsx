@@ -2,7 +2,7 @@ import { Circle } from "@mui/icons-material";
 import {
   Box,
   BoxProps,
-  Divider,
+  Grid,
   SxProps,
   Typography,
   useTheme,
@@ -140,22 +140,6 @@ const ProposalActionRole = ({
     paddingY: 0.5,
   };
 
-  const getNameChangeMarginBottom = () => {
-    if (isDesktop) {
-      return 2;
-    }
-    if (color && color !== roleToChange?.color) {
-      return 2;
-    }
-    return 3;
-  };
-  const getMainContentMarginTop = () => {
-    if (isDesktop || isChangingName || isChangingColor) {
-      return 0;
-    }
-    return 1.8;
-  };
-
   return (
     <Box marginBottom={preview ? 0 : 2.5} {...boxProps}>
       <Accordion
@@ -178,127 +162,101 @@ const ProposalActionRole = ({
             </Typography>
           )}
 
-          {isRoleChange && (
-            <Box
-              sx={{
-                display: isDesktop ? "flex" : "block",
-                justifyContent: "space-between",
-              }}
-            >
-              {isChangingName && (
-                <Box
-                  marginBottom={getNameChangeMarginBottom()}
-                  width={isDesktop ? "calc(50% - 24px)" : undefined}
-                >
-                  <Typography
-                    fontFamily="Inter Bold"
-                    fontSize={15}
-                    paddingTop={0.2}
-                    gutterBottom
-                  >
-                    {t("proposals.labels.name")}
-                  </Typography>
-
-                  <Flex marginBottom={isDesktop ? 0 : 1} sx={changeStyles}>
-                    <ChangeBox
-                      changeType={ChangeType.Remove}
-                      sx={{ marginRight: "1ch" }}
-                    />
+          <Grid
+            columns={isDesktop ? 12 : 4}
+            columnSpacing={3}
+            rowSpacing={1}
+            container
+          >
+            {isRoleChange && (
+              <>
+                {isChangingName && (
+                  <Grid item xs={6}>
                     <Typography
-                      color="primary"
-                      fontSize="inherit"
-                      marginRight="0.25ch"
+                      fontFamily="Inter Bold"
+                      fontSize={15}
+                      paddingTop={0.2}
+                      gutterBottom
                     >
-                      {oldName}
+                      {t("proposals.labels.name")}
                     </Typography>
-                  </Flex>
 
-                  <Flex sx={changeStyles}>
-                    <ChangeBox
-                      changeType={ChangeType.Add}
-                      sx={{ marginRight: "1ch" }}
-                    />
-                    <Typography
-                      color="primary"
-                      fontSize="inherit"
-                      marginRight="0.25ch"
-                    >
-                      {name}
-                    </Typography>
-                  </Flex>
-                </Box>
-              )}
+                    <Flex marginBottom={isDesktop ? 0 : 1} sx={changeStyles}>
+                      <ChangeBox
+                        changeType={ChangeType.Remove}
+                        sx={{ marginRight: "1ch" }}
+                      />
+                      <Typography
+                        color="primary"
+                        fontSize="inherit"
+                        marginRight="0.25ch"
+                      >
+                        {oldName}
+                      </Typography>
+                    </Flex>
 
-              {isChangingName &&
-                isChangingColor &&
-                !(isRoleChange && !isDesktop) && (
-                  <Divider
-                    sx={{ marginTop: 0.75, marginX: 3 }}
-                    orientation="vertical"
-                    flexItem
-                  />
+                    <Flex sx={changeStyles}>
+                      <ChangeBox
+                        changeType={ChangeType.Add}
+                        sx={{ marginRight: "1ch" }}
+                      />
+                      <Typography
+                        color="primary"
+                        fontSize="inherit"
+                        marginRight="0.25ch"
+                      >
+                        {name}
+                      </Typography>
+                    </Flex>
+                  </Grid>
                 )}
 
-              {isChangingColor && (
-                <Box
-                  marginBottom={isDesktop ? 2 : 4}
-                  width={isDesktop ? "calc(50% - 24px)" : undefined}
-                >
-                  <Typography
-                    fontFamily="Inter Bold"
-                    fontSize={15}
-                    gutterBottom
-                  >
-                    {t("proposals.labels.color")}
-                  </Typography>
-
-                  <Flex sx={changeStyles}>
-                    <ChangeBox
-                      changeType={ChangeType.Remove}
-                      sx={{ marginRight: "0.8ch" }}
-                    />
-                    <Circle sx={colorChangeIconStyles} />
+                {isChangingColor && (
+                  <Grid item xs={6}>
                     <Typography
-                      color="primary"
-                      fontSize="inherit"
-                      marginRight="0.25ch"
+                      fontFamily="Inter Bold"
+                      fontSize={15}
+                      gutterBottom
                     >
-                      {oldColor}
+                      {t("proposals.labels.color")}
                     </Typography>
-                  </Flex>
 
-                  <Flex sx={changeStyles}>
-                    <ChangeBox
-                      changeType={ChangeType.Add}
-                      sx={{ marginRight: "0.8ch" }}
-                    />
-                    <Circle sx={{ ...colorChangeIconStyles, color }} />
-                    <Typography
-                      color="primary"
-                      fontSize="inherit"
-                      marginRight="0.25ch"
-                    >
-                      {color}
-                    </Typography>
-                  </Flex>
-                </Box>
-              )}
-            </Box>
-          )}
+                    <Flex sx={changeStyles}>
+                      <ChangeBox
+                        changeType={ChangeType.Remove}
+                        sx={{ marginRight: "0.8ch" }}
+                      />
+                      <Circle sx={colorChangeIconStyles} />
+                      <Typography
+                        color="primary"
+                        fontSize="inherit"
+                        marginRight="0.25ch"
+                      >
+                        {oldColor}
+                      </Typography>
+                    </Flex>
 
-          <Box
-            sx={{
-              display: isDesktop ? "flex" : "block",
-              justifyContent: "space-between",
-              marginTop: getMainContentMarginTop(),
-            }}
-          >
+                    <Flex sx={changeStyles}>
+                      <ChangeBox
+                        changeType={ChangeType.Add}
+                        sx={{ marginRight: "0.8ch" }}
+                      />
+                      <Circle sx={{ ...colorChangeIconStyles, color }} />
+                      <Typography
+                        color="primary"
+                        fontSize="inherit"
+                        marginRight="0.25ch"
+                      >
+                        {color}
+                      </Typography>
+                    </Flex>
+                  </Grid>
+                )}
+              </>
+            )}
+
             {!!permissions?.length && (
-              <Box
-                width={isDesktop ? "calc(50% - 24px)" : undefined}
-                marginBottom={isDesktop ? 0 : 2}
-                marginTop={isDesktop ? 0 : -2}
-              >
+              <Grid item xs={6}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("permissions.labels.permissions")}
                 </Typography>
@@ -310,16 +268,11 @@ const ProposalActionRole = ({
                     key={permission.name}
                   />
                 ))}
-              </Box>
+              </Grid>
             )}
 
-            {!(isRoleChange && !isDesktop) &&
-              !!(permissions?.length && members?.length) && (
-                <Divider orientation="vertical" flexItem sx={{ marginX: 3 }} />
-              )}
-
             {!!members?.length && (
-              <Box width={isDesktop ? "calc(50% - 24px)" : undefined}>
+              <Grid item xs={6}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("roles.labels.members")}
                 </Typography>
@@ -332,9 +285,9 @@ const ProposalActionRole = ({
                     member={member}
                   />
                 ))}
-              </Box>
+              </Grid>
             )}
-          </Box>
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </Box>
