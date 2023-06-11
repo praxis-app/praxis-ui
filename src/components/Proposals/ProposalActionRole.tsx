@@ -2,6 +2,7 @@ import { Circle } from "@mui/icons-material";
 import {
   Box,
   BoxProps,
+  Divider,
   Grid,
   SxProps,
   Typography,
@@ -256,7 +257,7 @@ const ProposalActionRole = ({
             )}
 
             {!!permissions?.length && (
-              <Grid item xs={6}>
+              <Grid item xs={!isRoleChange ? 5 : 6}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("permissions.labels.permissions")}
                 </Typography>
@@ -271,8 +272,17 @@ const ProposalActionRole = ({
               </Grid>
             )}
 
+            {!isRoleChange && !!(permissions?.length && members?.length) && (
+              <Grid item xs={1.25}>
+                <Divider
+                  orientation={isDesktop ? "vertical" : "horizontal"}
+                  sx={{ marginTop: 0.6 }}
+                />
+              </Grid>
+            )}
+
             {!!members?.length && (
-              <Grid item xs={6}>
+              <Grid item xs={!isRoleChange ? 5.75 : 6}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("roles.labels.members")}
                 </Typography>
