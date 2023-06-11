@@ -273,10 +273,13 @@ const ProposalActionRole = ({
             )}
 
             {!isRoleChange && !!(permissions?.length && members?.length) && (
-              <Grid item xs={1.25}>
+              <Grid item xs={isDesktop ? 1.25 : 12}>
                 <Divider
                   orientation={isDesktop ? "vertical" : "horizontal"}
-                  sx={{ marginTop: 0.6 }}
+                  sx={{
+                    marginTop: isDesktop ? 0.6 : 1,
+                    marginBottom: isDesktop ? 0 : 1,
+                  }}
                 />
               </Grid>
             )}
