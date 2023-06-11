@@ -27,7 +27,7 @@ import Accordion, {
 } from "../../Shared/Accordion";
 import Flex from "../../Shared/Flex";
 import ProgressBar from "../../Shared/ProgressBar";
-import ChangeBox from "./ChangeBox";
+import ChangeIcon from "./ChangeIcon";
 import ProposalActionPermission from "./ProposalActionPermission";
 import ProposalActionRoleMember from "./ProposalActionRoleMember";
 
@@ -183,7 +183,7 @@ const ProposalActionRole = ({
                     </Typography>
 
                     <Flex marginBottom={isDesktop ? 0 : 1} sx={changeStyles}>
-                      <ChangeBox
+                      <ChangeIcon
                         changeType={ChangeType.Remove}
                         sx={{ marginRight: "1ch" }}
                       />
@@ -197,7 +197,7 @@ const ProposalActionRole = ({
                     </Flex>
 
                     <Flex sx={changeStyles}>
-                      <ChangeBox
+                      <ChangeIcon
                         changeType={ChangeType.Add}
                         sx={{ marginRight: "1ch" }}
                       />
@@ -223,7 +223,7 @@ const ProposalActionRole = ({
                     </Typography>
 
                     <Flex sx={changeStyles}>
-                      <ChangeBox
+                      <ChangeIcon
                         changeType={ChangeType.Remove}
                         sx={{ marginRight: "0.8ch" }}
                       />
@@ -238,7 +238,7 @@ const ProposalActionRole = ({
                     </Flex>
 
                     <Flex sx={changeStyles}>
-                      <ChangeBox
+                      <ChangeIcon
                         changeType={ChangeType.Add}
                         sx={{ marginRight: "0.8ch" }}
                       />

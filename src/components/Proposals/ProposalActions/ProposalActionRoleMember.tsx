@@ -10,7 +10,7 @@ import { getUserProfilePath } from "../../../utils/user.utils";
 import Flex from "../../Shared/Flex";
 import Link from "../../Shared/Link";
 import UserAvatar from "../../Users/UserAvatar";
-import ChangeBox from "./ChangeBox";
+import ChangeIcon from "./ChangeIcon";
 
 interface Props {
   actionType: ProposalActionType;
@@ -52,7 +52,7 @@ const ProposalActionRoleMember = ({
     <Link href={getUserProfilePath(user.name)}>
       <Flex sx={memberStyles}>
         {isChangingRole && (
-          <ChangeBox
+          <ChangeIcon
             changeType={isRemovingMember ? ChangeType.Remove : ChangeType.Add}
             sx={{ marginRight: "1.2ch" }}
           />

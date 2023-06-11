@@ -7,7 +7,7 @@ interface Props extends BoxProps {
   sx?: SxProps;
 }
 
-const ChangeBox = ({ changeType, sx, ...boxProps }: Props) => {
+const ChangeIcon = ({ changeType, sx, ...boxProps }: Props) => {
   const theme = useTheme();
 
   const boxStyles: SxProps = {
@@ -41,4 +41,4 @@ const ChangeBox = ({ changeType, sx, ...boxProps }: Props) => {
   );
 };
 
-export default ChangeBox;
+export default ChangeIcon;

@@ -8,7 +8,7 @@ import {
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { getPermissionText } from "../../../utils/role.utils";
-import ChangeBox from "./ChangeBox";
+import ChangeIcon from "./ChangeIcon";
 
 const CHECK_BOX_ICON_STYLES: SxProps = {
   fontSize: 18,
@@ -50,7 +50,7 @@ const ProposalActionPermission = ({
       sx={permissionStyles}
     >
       {isChangingRole ? (
-        <ChangeBox
+        <ChangeIcon
           changeType={enabled ? ChangeType.Add : ChangeType.Remove}
           sx={{ marginRight: "1ch" }}
           component="span"
