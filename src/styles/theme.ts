@@ -1,5 +1,5 @@
 import { grey } from "@mui/material/colors";
-import { createTheme, Theme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 export enum Blurple {
   Active = "#4666A8",
@@ -10,7 +10,7 @@ export enum Blurple {
 
 declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
-    navigation: string;
+    secondary: string;
   }
 }
 
@@ -29,15 +29,15 @@ const initialTheme = createTheme({
       secondary: "#b1b3b8",
     },
     background: {
-      default: "#323232",
-      paper: "#424242",
-      navigation: "#1e1e1e",
+      default: "#18191a",
+      paper: "#242526",
+      secondary: "#3a3b3c",
     },
-    divider: "rgba(255, 255, 255, 0.15)",
+    divider: "#3a3b3c",
   },
 });
 
-const theme: Theme = createTheme(initialTheme, {
+const theme = createTheme(initialTheme, {
   components: {
     MuiContainer: {
       styleOverrides: {
@@ -91,7 +91,8 @@ const theme: Theme = createTheme(initialTheme, {
     MuiBottomNavigation: {
       styleOverrides: {
         root: {
-          backgroundColor: initialTheme.palette.background.navigation,
+          backgroundColor: initialTheme.palette.background.paper,
+          borderTop: `1px solid ${initialTheme.palette.background.secondary}`,
           height: 70,
         },
       },
