@@ -30,17 +30,13 @@ const ChangeBox = ({ changeType, sx, ...boxProps }: Props) => {
     fontSize: 14,
   };
 
-  if (changeType === ChangeType.Remove) {
-    return (
-      <Box sx={boxStyles} {...boxProps}>
-        <Remove sx={iconStyles} />
-      </Box>
-    );
-  }
-
   return (
     <Box sx={boxStyles} {...boxProps}>
-      <Add sx={iconStyles} />
+      {changeType === ChangeType.Remove ? (
+        <Remove sx={iconStyles} />
+      ) : (
+        <Add sx={iconStyles} />
+      )}
     </Box>
   );
 };
