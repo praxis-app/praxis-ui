@@ -188,7 +188,7 @@ const ProposalActionRole = ({
               {isChangingName && (
                 <Box
                   marginBottom={getNameChangeMarginBottom()}
-                  width={isDesktop ? "50%" : undefined}
+                  width={isDesktop ? "calc(50% - 24px)" : undefined}
                 >
                   <Typography
                     fontFamily="Inter Bold"
@@ -245,7 +245,7 @@ const ProposalActionRole = ({
               {isChangingColor && (
                 <Box
                   marginBottom={isDesktop ? 2 : 4}
-                  width={isDesktop ? "50%" : undefined}
+                  width={isDesktop ? "calc(50% - 24px)" : undefined}
                 >
                   <Typography
                     fontFamily="Inter Bold"
@@ -298,7 +298,7 @@ const ProposalActionRole = ({
           >
             {!!permissions?.length && (
               <Box
-                width={isDesktop ? "50%" : undefined}
+                width={isDesktop ? "calc(50% - 24px)" : undefined}
                 marginBottom={isDesktop ? 0 : 2}
                 marginTop={isDesktop ? 0 : -2}
               >
@@ -322,7 +322,7 @@ const ProposalActionRole = ({
               )}
 
             {!!members?.length && (
-              <Box width={isDesktop ? "50%" : undefined}>
+              <Box width={isDesktop ? "calc(50% - 24px)" : undefined}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("roles.labels.members")}
                 </Typography>
