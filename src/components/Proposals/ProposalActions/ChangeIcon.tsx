@@ -11,7 +11,7 @@ const ChangeIcon = ({ changeType, sx, ...boxProps }: Props) => {
   const theme = useTheme();
 
   const boxStyles: SxProps = {
-    backgroundColor: changeType === ChangeType.Add ? "#324135" : "#3f302f",
+    backgroundColor: changeType === ChangeType.Add ? "#324135" : "#472927",
     borderColor: theme.palette.background.paper,
     borderRadius: 1,
     borderStyle: "solid",
@@ -23,7 +23,7 @@ const ChangeIcon = ({ changeType, sx, ...boxProps }: Props) => {
   };
 
   const iconStyles: SxProps = {
-    color: changeType === ChangeType.Add ? "#47FF7A" : "#FF4E4E",
+    color: changeType === ChangeType.Add ? "#47FF7A" : "#ff2727",
     position: "absolute",
     top: 2,
     left: 2.1,
