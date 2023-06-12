@@ -15,7 +15,8 @@ export const BLURPLE_BUTTON_COLORS = {
   },
 };
 
-const Button = styled(MuiButton)(() => ({
+const Button = styled(MuiButton)(({ theme }) => ({
+  color: theme.palette.common.white,
   fontFamily: "Inter Bold",
   letterSpacing: "0.2px",
   textTransform: "none",

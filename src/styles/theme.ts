@@ -110,6 +110,22 @@ const theme = createTheme(initialTheme, {
       },
     },
 
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: initialTheme.palette.text.secondary,
+        },
+      },
+    },
+
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: initialTheme.palette.text.secondary,
+        },
+      },
+    },
+
     MuiTab: {
       styleOverrides: {
         root: {

@@ -1,6 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { ArrowDropDown } from "@mui/icons-material";
-import { Button, IconButton, SxProps } from "@mui/material";
+import { Button, IconButton, SxProps, useTheme } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
@@ -13,12 +13,6 @@ import Link from "../Shared/Link";
 import SearchBar from "../Shared/SearchBar";
 import UserAvatar from "../Users/UserAvatar";
 import TopNavDropdown from "./TopNavDropdown";
-
-const PROFILE_BUTTON_STYLES: SxProps = {
-  fontSize: 17,
-  fontWeight: "bold",
-  textTransform: "none",
-};
 
 const TOP_NAV_STYLES: SxProps = {
   flexGrow: 1,
@@ -46,6 +40,7 @@ const TopNavDesktop = () => {
   });
 
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const me = meData?.me;
   const isFirstUser = isFirstUserData?.isFirstUser;
@@ -53,6 +48,13 @@ const TopNavDesktop = () => {
   const signUpPath = isFirstUser
     ? NavigationPaths.SignUp
     : `/signup/${inviteToken}`;
+
+  const profileButtonStyles: SxProps = {
+    color: theme.palette.text.primary,
+    fontSize: 17,
+    fontWeight: "bold",
+    textTransform: "none",
+  };
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -68,7 +70,7 @@ const TopNavDesktop = () => {
           <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
-              sx={PROFILE_BUTTON_STYLES}
+              sx={profileButtonStyles}
             >
               <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
               {me.name}
@@ -77,10 +79,10 @@ const TopNavDesktop = () => {
 
           <IconButton
             aria-label={t("labels.menuButton")}
-            edge="end"
             onClick={handleMenuButtonClick}
+            edge="end"
           >
-            <ArrowDropDown />
+            <ArrowDropDown sx={{ color: theme.palette.text.primary }} />
           </IconButton>
 
           <TopNavDropdown
