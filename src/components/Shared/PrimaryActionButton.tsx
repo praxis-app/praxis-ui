@@ -11,7 +11,7 @@ export const BLURPLE_BUTTON_COLORS = {
     backgroundColor: Blurple.Hover,
   },
   "&:disabled": {
-    backgroundColor: Blurple.Disabled,
+    backgroundColor: "#505051",
   },
 };
 
