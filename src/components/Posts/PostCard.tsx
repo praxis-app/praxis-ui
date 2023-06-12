@@ -8,6 +8,7 @@ import {
   styled,
   SxProps,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -70,6 +71,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const { id, body, images, user, group, createdAt } = post;
   const me = data && data.me;
@@ -117,7 +119,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
             </Typography>
           </Link>
         )}
-        <Box fontSize={14}>
+        <Box fontSize={14} sx={{ color: theme.palette.text.secondary }}>
           <Link
             href={userProfilePath}
             sx={showGroup ? { color: "inherit" } : undefined}
