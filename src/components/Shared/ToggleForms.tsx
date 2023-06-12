@@ -26,7 +26,8 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   },
 }));
 
-const ToggleButton = styled(MuiToggleButton)(() => ({
+const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
+  color: theme.palette.text.secondary,
   background: "#303233",
   transition: "0.2s",
   "&:hover": {
