@@ -131,7 +131,7 @@ const ProposalActionRole = ({
     marginTop: 0.4,
   };
   const changeStyles: SxProps = {
-    borderColor: theme.palette.primary.light,
+    borderColor: theme.palette.divider,
     borderRadius: 1,
     borderStyle: "solid",
     borderWidth: 1,

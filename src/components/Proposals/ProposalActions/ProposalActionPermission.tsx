@@ -32,7 +32,7 @@ const ProposalActionPermission = ({
   const isChangingRole = actionType === ProposalActionType.ChangeRole;
 
   const permissionStyles: SxProps = {
-    borderColor: theme.palette.primary.light,
+    borderColor: theme.palette.divider,
     borderRadius: 1,
     borderStyle: isChangingRole ? "solid" : undefined,
     borderWidth: isChangingRole ? 1 : undefined,
