@@ -104,7 +104,7 @@ const theme = createTheme(initialTheme, {
           "&.Mui-selected": {
             color: initialTheme.palette.action.active,
           },
-          color: grey[500],
+          color: initialTheme.palette.text.secondary,
           transition: "background-color 0.2s",
         },
       },
