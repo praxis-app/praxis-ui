@@ -1,10 +1,10 @@
 import { ApolloCache, FetchResult } from "@apollo/client";
-import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { DeletePostMutation, useDeletePostMutation } from "../../apollo/gen";
 import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
+import DeleteButton from "../Shared/DeleteButton";
 
 export const removePost =
   (postId: number) =>
@@ -49,15 +49,9 @@ const DeletePostButton = ({ postId }: Props) => {
     handleClick();
 
   return (
-    <Button
-      color="error"
-      onClick={handleClickWithConfirm}
-      sx={{ marginTop: 1.5 }}
-      variant="outlined"
-      fullWidth
-    >
-      {t("actions.delete")}
-    </Button>
+    <DeleteButton onClick={handleClickWithConfirm}>
+      {t("posts.actions.deletePost")}
+    </DeleteButton>
   );
 };
 
