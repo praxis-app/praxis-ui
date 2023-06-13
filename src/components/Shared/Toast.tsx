@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
-import { Alert, Snackbar, useTheme } from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { Alert, IconButton, Snackbar, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toastVar } from "../../apollo/cache";
 
@@ -29,6 +30,10 @@ const Toast = () => {
     setOpen(false);
   };
 
+  if (!toastNotification) {
+    return null;
+  }
+
   return (
     <Snackbar
       anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
@@ -37,12 +42,19 @@ const Toast = () => {
       open={open}
     >
       <Alert
-        onClose={handleClose}
-        severity={toastNotification?.status}
+        action={
+          <IconButton size="small" onClick={handleClose}>
+            <Close
+              fontSize="small"
+              sx={{ color: theme.palette.primary.main }}
+            />
+          </IconButton>
+        }
+        severity={toastNotification.status}
         sx={{ color: theme.palette.text.primary }}
         variant="filled"
       >
-        {toastNotification?.title}
+        {toastNotification.title}
       </Alert>
     </Snackbar>
   );
