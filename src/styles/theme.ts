@@ -92,8 +92,12 @@ const theme = createTheme(initialTheme, {
       styleOverrides: {
         root: {
           backgroundColor: initialTheme.palette.background.paper,
-          borderTop: `1px solid ${initialTheme.palette.background.secondary}`,
+          borderTop: `1px solid ${initialTheme.palette.background.default}`,
           height: 70,
+
+          [initialTheme.breakpoints.up("md")]: {
+            borderTop: `1px solid ${initialTheme.palette.divider}`,
+          },
         },
       },
     },

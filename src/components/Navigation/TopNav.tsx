@@ -29,7 +29,9 @@ const TopNav = ({ appBarProps }: Props) => {
 
   const appBarStyles: SxProps = {
     background: theme.palette.background.paper,
-    borderBottom: `1px solid ${theme.palette.background.secondary}`,
+    borderBottom: `1px solid ${
+      isDesktop ? theme.palette.divider : theme.palette.background.default
+    }`,
     boxShadow: "none",
     transition: "none",
   };
