@@ -1,5 +1,5 @@
 import { Assignment } from "@mui/icons-material";
-import { Box, MenuItem, styled, TableRow } from "@mui/material";
+import { Box, MenuItem, SxProps, TableRow } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
@@ -14,24 +14,17 @@ import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
-import SharedTableCell from "../Shared/TableCell";
 import UserAvatar from "../Users/UserAvatar";
 import { removeServerInvite } from "./ServerInviteCard";
-
-const TableCell = styled(SharedTableCell)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  borderColor: theme.palette.divider,
-}));
+import { TableCell } from "./ServerInviteTable";
 
 interface Props {
-  isLast: boolean;
   me: ServerInvitesQuery["me"];
   serverInvite: ServerInviteCardFragment;
 }
 
 const ServerInviteRow = ({
   serverInvite: { id, user, token, uses, maxUses, expiresAt },
-  isLast,
   me,
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -45,6 +38,12 @@ const ServerInviteRow = ({
   const canManageInvites = me?.serverPermissions.includes(
     ServerPermissions.ManageInvites
   );
+
+  const tableRowStyles: SxProps = {
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  };
 
   const handleDelete = async () =>
     await deleteInvite({
@@ -68,31 +67,25 @@ const ServerInviteRow = ({
   };
 
   return (
-    <TableRow>
-      <TableCell isLast={isLast}>
+    <TableRow sx={tableRowStyles}>
+      <TableCell>
         <Link href={getUserProfilePath(user.name)} sx={{ display: "flex" }}>
           <UserAvatar user={user} size={24} sx={{ marginRight: 1.5 }} />
           <Box marginTop={0.25}>{user.name}</Box>
         </Link>
       </TableCell>
 
-      <TableCell
-        isLast={isLast}
-        onClick={handleCopyLink}
-        sx={{ cursor: "pointer" }}
-      >
+      <TableCell onClick={handleCopyLink} sx={{ cursor: "pointer" }}>
         {token}
       </TableCell>
 
-      <TableCell isLast={isLast}>
-        {uses + (maxUses ? `/${maxUses}` : "")}
-      </TableCell>
+      <TableCell>{uses + (maxUses ? `/${maxUses}` : "")}</TableCell>
 
-      <TableCell isLast={isLast}>
+      <TableCell>
         {expiresAt ? timeFromNow(expiresAt) : t("time.infinity")}
       </TableCell>
 
-      <TableCell isLast={isLast}>
+      <TableCell>
         <ItemMenu
           itemId={id}
           anchorEl={menuAnchorEl}

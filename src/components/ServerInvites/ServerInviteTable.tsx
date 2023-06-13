@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { ServerInviteCardFragment, ServerInvitesQuery } from "../../apollo/gen";
 import ServerInviteRow from "../../components/ServerInvites/ServerInviteRow";
 
-const TableCell = styled(MuiTableCell)(({ theme }) => ({
+export const TableCell = styled(MuiTableCell)(({ theme }) => ({
   color: theme.palette.text.primary,
   borderColor: theme.palette.divider,
 }));
@@ -36,12 +36,11 @@ const ServerInviteTable = ({ serverInvites, me }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {serverInvites.map((serverInvite, index) => (
+          {serverInvites.map((serverInvite) => (
             <ServerInviteRow
-              isLast={index + 1 === serverInvites.length}
               key={serverInvite.id}
-              me={me}
               serverInvite={serverInvite}
+              me={me}
             />
           ))}
         </TableBody>
