@@ -19,7 +19,8 @@ import UserAvatar from "../Users/UserAvatar";
 import { removeServerInvite } from "./ServerInviteCard";
 
 const TableCell = styled(SharedTableCell)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.primary,
+  borderColor: theme.palette.divider,
 }));
 
 interface Props {

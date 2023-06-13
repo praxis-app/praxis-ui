@@ -12,7 +12,8 @@ import { ServerInviteCardFragment, ServerInvitesQuery } from "../../apollo/gen";
 import ServerInviteRow from "../../components/ServerInvites/ServerInviteRow";
 
 const TableCell = styled(MuiTableCell)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.primary,
+  borderColor: theme.palette.divider,
 }));
 
 interface Props {
