@@ -2,8 +2,8 @@ import { grey } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 export enum Blurple {
-  Primary = "#5A65EA",
-  Hover = "#505AD0",
+  Primary = "#687CD4",
+  Hover = "#5969CB",
 }
 
 declare module "@mui/material/styles/createPalette" {
