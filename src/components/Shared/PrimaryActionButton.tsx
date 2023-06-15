@@ -5,7 +5,7 @@ import Spinner from "./Spinner";
 export const BLURPLE_BUTTON_COLORS = {
   backgroundColor: Blurple.Primary,
   "&:active": {
-    backgroundColor: Blurple.Active,
+    backgroundColor: Blurple.Primary,
   },
   "&:hover": {
     backgroundColor: Blurple.Hover,
