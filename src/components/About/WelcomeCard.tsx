@@ -42,7 +42,9 @@ const WelcomeCard = () => {
       {inviteToken && (
         <CardActions>
           <Link href={signUpPath}>
-            <Button>{t("users.actions.signUp")}</Button>
+            <Button sx={{ color: "text.primary" }}>
+              {t("users.actions.signUp")}
+            </Button>
           </Link>
         </CardActions>
       )}

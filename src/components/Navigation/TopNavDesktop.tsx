@@ -95,12 +95,18 @@ const TopNavDesktop = () => {
 
       {!isLoggedIn && (
         <Flex>
-          <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
+          <Button
+            onClick={() => redirectTo(NavigationPaths.LogIn)}
+            sx={{ color: "text.primary" }}
+          >
             {t("users.actions.logIn")}
           </Button>
 
           {(inviteToken || isFirstUser) && (
-            <Button onClick={() => redirectTo(signUpPath)}>
+            <Button
+              onClick={() => redirectTo(signUpPath)}
+              sx={{ color: "text.primary" }}
+            >
               {t("users.actions.signUp")}
             </Button>
           )}
