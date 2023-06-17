@@ -149,7 +149,7 @@ const theme = createTheme(initialTheme, {
     MuiInput: {
       styleOverrides: {
         root: {
-          color: "#cacaca",
+          color: DarkMode.Placebo,
         },
         underline: {
           "&:before": {
