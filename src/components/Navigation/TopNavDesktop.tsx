@@ -1,6 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { ArrowDropDown } from "@mui/icons-material";
-import { Button, IconButton, SxProps, useTheme } from "@mui/material";
+import { Button, IconButton, SxProps } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
@@ -20,11 +20,16 @@ const TOP_NAV_STYLES: SxProps = {
   height: 41.75,
   marginLeft: 3,
 };
-
 const USER_AVATAR_STYLES: SxProps = {
   marginRight: 1.3,
   height: 24,
   width: 24,
+};
+const PROFILE_BTN_STYLES: SxProps = {
+  color: "text.primary",
+  fontSize: 17,
+  fontWeight: "bold",
+  textTransform: "none",
 };
 
 const TopNavDesktop = () => {
@@ -40,7 +45,6 @@ const TopNavDesktop = () => {
   });
 
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const me = meData?.me;
   const isFirstUser = isFirstUserData?.isFirstUser;
@@ -48,13 +52,6 @@ const TopNavDesktop = () => {
   const signUpPath = isFirstUser
     ? NavigationPaths.SignUp
     : `/signup/${inviteToken}`;
-
-  const profileButtonStyles: SxProps = {
-    color: theme.palette.text.primary,
-    fontSize: 17,
-    fontWeight: "bold",
-    textTransform: "none",
-  };
 
   const handleMenuButtonClick = (event: MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(event.currentTarget);
@@ -70,7 +67,7 @@ const TopNavDesktop = () => {
           <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
-              sx={profileButtonStyles}
+              sx={PROFILE_BTN_STYLES}
             >
               <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
               {me.name}
@@ -82,7 +79,7 @@ const TopNavDesktop = () => {
             onClick={handleMenuButtonClick}
             edge="end"
           >
-            <ArrowDropDown sx={{ color: theme.palette.text.primary }} />
+            <ArrowDropDown sx={{ color: "text.primary" }} />
           </IconButton>
 
           <TopNavDropdown
