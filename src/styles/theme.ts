@@ -1,6 +1,14 @@
 import { grey } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
+export enum DarkMode {
+  Placebo = "#e4e6ea",
+  Casper = "#b1b3b8",
+  DeadPixel = "#3a3b3c",
+  Nero = "#242526",
+  PianoBlack = "#18191a",
+}
+
 export enum Blurple {
   Primary = "#687CD4",
   Hover = "#5969CB",
@@ -20,18 +28,18 @@ const initialTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#e4e6ea",
+      main: DarkMode.Placebo,
     },
     text: {
-      primary: "#e4e6ea",
-      secondary: "#b1b3b8",
+      primary: DarkMode.Placebo,
+      secondary: DarkMode.Casper,
     },
     background: {
-      default: "#18191a",
-      paper: "#242526",
-      secondary: "#3a3b3c",
+      default: DarkMode.PianoBlack,
+      paper: DarkMode.Nero,
+      secondary: DarkMode.DeadPixel,
     },
-    divider: "#3a3b3c",
+    divider: DarkMode.DeadPixel,
   },
 });
 
