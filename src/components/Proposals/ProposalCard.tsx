@@ -7,7 +7,6 @@ import {
   CardProps,
   styled,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -69,7 +68,6 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
 
   const { asPath } = useRouter();
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const { action, body, createdAt, group, id, images, user, voteCount, stage } =
     proposal;
@@ -134,7 +132,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
             </Typography>
           </Link>
         )}
-        <Box fontSize={14} sx={{ color: theme.palette.text.secondary }}>
+        <Box fontSize={14} sx={{ color: "text.secondary" }}>
           <Link
             href={userProfilePath}
             sx={showGroup ? { color: "inherit" } : undefined}
