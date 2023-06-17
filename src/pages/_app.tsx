@@ -8,7 +8,7 @@ import AuthWrapper from "../components/Auth/AuthWrapper";
 import Layout from "../components/_App/Layout";
 import "../i18n/i18n.config";
 import theme from "../styles/theme";
-import "../styles/styles.css";
+import "../styles/globals.css";
 import { initAxe } from "../utils/common.utils";
 
 const clientSideEmotionCache = createCache({ key: "css" });
