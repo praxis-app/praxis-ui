@@ -8,7 +8,6 @@ import {
   SxProps,
   Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { KeyboardEvent, ReactNode } from "react";
 import { KeyCodes } from "../../constants/common.constants";
@@ -39,7 +38,6 @@ const Modal = ({
   topGap,
 }: Props) => {
   const isDesktop = useIsDesktop();
-  const theme = useTheme();
 
   const titleStyles: SxProps = {
     flex: 1,
@@ -72,16 +70,13 @@ const Modal = ({
           edge="start"
           onClick={onClose}
         >
-          <Close sx={{ color: theme.palette.primary.main }} />
+          <Close sx={{ color: "primary.main" }} />
         </IconButton>
         <Typography component="div" sx={titleStyles} variant="h6">
           {title}
         </Typography>
         {actionLabel && (
-          <Button
-            sx={{ color: theme.palette.primary.main }}
-            onClick={closingAction}
-          >
+          <Button sx={{ color: "primary.main" }} onClick={closingAction}>
             {actionLabel}
           </Button>
         )}
