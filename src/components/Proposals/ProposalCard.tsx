@@ -132,7 +132,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
             </Typography>
           </Link>
         )}
-        <Box fontSize={14}>
+        <Box fontSize={14} sx={{ color: "text.secondary" }}>
           <Link
             href={userProfilePath}
             sx={showGroup ? { color: "inherit" } : undefined}

@@ -2,18 +2,14 @@
 
 import { Button as MuiButton, ButtonProps, styled } from "@mui/material";
 
-const Button = styled(MuiButton)(() => ({
-  backgroundColor: "#373737",
+const Button = styled(MuiButton)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
   borderRadius: 8,
-  color: "tomato",
-
-  "&:hover": {
-    backgroundColor: "#3c3c3c",
-  },
+  color: "#f44336",
 }));
 
 const DeleteButton = ({ children, ...buttonProps }: ButtonProps) => (
-  <Button variant="text" color="primary" fullWidth {...buttonProps}>
+  <Button variant="text" fullWidth {...buttonProps}>
     {children}
   </Button>
 );

@@ -14,23 +14,22 @@ import SearchBar from "../Shared/SearchBar";
 import UserAvatar from "../Users/UserAvatar";
 import TopNavDropdown from "./TopNavDropdown";
 
-const PROFILE_BUTTON_STYLES: SxProps = {
-  fontSize: 17,
-  fontWeight: "bold",
-  textTransform: "none",
-};
-
 const TOP_NAV_STYLES: SxProps = {
   flexGrow: 1,
   justifyContent: "space-between",
   height: 41.75,
   marginLeft: 3,
 };
-
 const USER_AVATAR_STYLES: SxProps = {
   marginRight: 1.3,
   height: 24,
   width: 24,
+};
+const PROFILE_BTN_STYLES: SxProps = {
+  color: "text.primary",
+  fontSize: 17,
+  fontWeight: "bold",
+  textTransform: "none",
 };
 
 const TopNavDesktop = () => {
@@ -68,7 +67,7 @@ const TopNavDesktop = () => {
           <Link href={userProfilePath}>
             <Button
               aria-label={t("navigation.profile")}
-              sx={PROFILE_BUTTON_STYLES}
+              sx={PROFILE_BTN_STYLES}
             >
               <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
               {me.name}
@@ -77,10 +76,10 @@ const TopNavDesktop = () => {
 
           <IconButton
             aria-label={t("labels.menuButton")}
-            edge="end"
             onClick={handleMenuButtonClick}
+            edge="end"
           >
-            <ArrowDropDown />
+            <ArrowDropDown sx={{ color: "text.primary" }} />
           </IconButton>
 
           <TopNavDropdown
@@ -93,12 +92,18 @@ const TopNavDesktop = () => {
 
       {!isLoggedIn && (
         <Flex>
-          <Button onClick={() => redirectTo(NavigationPaths.LogIn)}>
+          <Button
+            onClick={() => redirectTo(NavigationPaths.LogIn)}
+            sx={{ color: "text.primary" }}
+          >
             {t("users.actions.logIn")}
           </Button>
 
           {(inviteToken || isFirstUser) && (
-            <Button onClick={() => redirectTo(signUpPath)}>
+            <Button
+              onClick={() => redirectTo(signUpPath)}
+              sx={{ color: "text.primary" }}
+            >
               {t("users.actions.signUp")}
             </Button>
           )}

@@ -5,17 +5,18 @@ import Spinner from "./Spinner";
 export const BLURPLE_BUTTON_COLORS = {
   backgroundColor: Blurple.Primary,
   "&:active": {
-    backgroundColor: Blurple.Active,
+    backgroundColor: Blurple.Primary,
   },
   "&:hover": {
     backgroundColor: Blurple.Hover,
   },
   "&:disabled": {
-    backgroundColor: Blurple.Disabled,
+    backgroundColor: "#505051",
   },
 };
 
-const Button = styled(MuiButton)(() => ({
+const Button = styled(MuiButton)(({ theme }) => ({
+  color: theme.palette.common.white,
   fontFamily: "Inter Bold",
   letterSpacing: "0.2px",
   textTransform: "none",

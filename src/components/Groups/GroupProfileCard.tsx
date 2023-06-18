@@ -44,9 +44,6 @@ const NameText = styled(Typography)(() => ({
   fontFamily: "Inter Bold",
   marginBottom: 7.5,
 }));
-const DetailsBox = styled(Box)(({ theme }) => ({
-  color: theme.palette.primary.main,
-}));
 const CardHeader = styled(MuiCardHeader)(() => ({
   marginTop: 7.5,
   paddingBottom: 0,
@@ -187,7 +184,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
           {name}
         </NameText>
 
-        <DetailsBox fontSize={isAboveSmall ? undefined : 15}>
+        <Box fontSize={isAboveSmall ? undefined : 15}>
           <Link href={"/"} disabled>
             {settings.isPublic ? (
               <>
@@ -216,7 +213,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
               </Link>
             </>
           )}
-        </DetailsBox>
+        </Box>
 
         {isLoggedIn && !isAboveSmall && (
           <Flex sx={{ justifyContent: "right", marginTop: 2 }}>

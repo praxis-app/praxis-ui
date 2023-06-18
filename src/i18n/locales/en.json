@@ -183,13 +183,16 @@
   },
 
   "posts": {
-    "form": {
-      "body": "Body"
+    "actions": {
+      "deletePost": "Delete Post"
     },
     "labels": {
       "addImages": "Add images",
       "addPost": "Add post",
       "posts": "Posts"
+    },
+    "form": {
+      "body": "Body"
     }
   },
 

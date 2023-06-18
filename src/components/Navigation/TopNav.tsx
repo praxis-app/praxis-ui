@@ -28,7 +28,10 @@ const TopNav = ({ appBarProps }: Props) => {
   const theme = useTheme();
 
   const appBarStyles: SxProps = {
-    background: theme.palette.background.navigation,
+    background: theme.palette.background.paper,
+    borderBottom: isDesktop
+      ? `1px solid ${theme.palette.divider}`
+      : `0.1px solid ${theme.palette.background.default}`,
     boxShadow: "none",
     transition: "none",
   };
@@ -39,8 +42,8 @@ const TopNav = ({ appBarProps }: Props) => {
     fontFamily: "Inter Extra Bold",
     fontSize: isDesktop ? 24 : 18,
     letterSpacing: 0.25,
-    textTransform: "none",
     minWidth: "75px",
+    textTransform: "none",
   };
 
   const desktopToolbarStyles: SxProps = {

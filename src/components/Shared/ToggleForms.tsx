@@ -26,20 +26,21 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   },
 }));
 
-const ToggleButton = styled(MuiToggleButton)(() => ({
-  background: "#555555",
+const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  background: "#303233",
   transition: "0.2s",
   "&:hover": {
-    backgroundColor: "#555555",
+    backgroundColor: "#303233",
     opacity: 0.85,
   },
 }));
 
 const INACTIVE_BTN_STYLES = {
-  color: "#3c3c3c",
-  backgroundColor: "#616161",
+  color: "#242526",
+  backgroundColor: "#494c4d",
   "&:hover": {
-    backgroundColor: "#616161",
+    backgroundColor: "#494c4d",
   },
 };
 

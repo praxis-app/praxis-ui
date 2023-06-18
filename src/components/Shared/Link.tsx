@@ -1,4 +1,4 @@
-import { Link as MuiLink, SxProps, useTheme } from "@mui/material";
+import { Link as MuiLink, SxProps } from "@mui/material";
 import NextLink, { LinkProps } from "next/link";
 import { ReactNode } from "react";
 
@@ -9,24 +9,20 @@ interface Props extends LinkProps {
   sx?: SxProps;
 }
 
-const Link = ({ href, children, sx, disabled, ...linkProps }: Props) => {
-  const theme = useTheme();
-
-  return (
-    <NextLink href={href} {...linkProps} passHref>
-      <MuiLink
-        href={href}
-        sx={{
-          color: theme.palette.primary.main,
-          pointerEvents: disabled ? "none" : undefined,
-          textDecoration: "none",
-          ...sx,
-        }}
-      >
-        {children}
-      </MuiLink>
-    </NextLink>
-  );
-};
+const Link = ({ href, children, sx, disabled, ...linkProps }: Props) => (
+  <NextLink href={href} {...linkProps} passHref>
+    <MuiLink
+      href={href}
+      sx={{
+        color: "text.primary",
+        pointerEvents: disabled ? "none" : undefined,
+        textDecoration: "none",
+        ...sx,
+      }}
+    >
+      {children}
+    </MuiLink>
+  </NextLink>
+);
 
 export default Link;

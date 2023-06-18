@@ -39,7 +39,7 @@ const ListItemText = styled(MuiListItemText, {
 }));
 
 const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
-  borderRadius: 9999,
+  borderRadius: "6px",
   color: theme.palette.text.primary,
 }));
 

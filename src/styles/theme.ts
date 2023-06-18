@@ -1,16 +1,22 @@
 import { grey } from "@mui/material/colors";
-import { createTheme, Theme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+
+export enum DarkMode {
+  Placebo = "#e4e6ea",
+  Casper = "#b1b3b8",
+  DeadPixel = "#3a3b3c",
+  Nero = "#242526",
+  PianoBlack = "#18191a",
+}
 
 export enum Blurple {
-  Active = "#4666A8",
-  Disabled = "#4C5B91",
-  Hover = "#637DC9",
-  Primary = "#7289DA",
+  Primary = "#687CD4",
+  Hover = "#5969CB",
 }
 
 declare module "@mui/material/styles/createPalette" {
   interface TypeBackground {
-    navigation: string;
+    secondary: string;
   }
 }
 
@@ -22,21 +28,22 @@ const initialTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: grey[100],
+      main: DarkMode.Placebo,
     },
     text: {
-      secondary: "#bdbdbd",
+      primary: DarkMode.Placebo,
+      secondary: DarkMode.Casper,
     },
     background: {
-      default: "#323232",
-      paper: "#424242",
-      navigation: "#1e1e1e",
+      default: DarkMode.PianoBlack,
+      paper: DarkMode.Nero,
+      secondary: DarkMode.DeadPixel,
     },
-    divider: "rgba(255, 255, 255, 0.15)",
+    divider: DarkMode.DeadPixel,
   },
 });
 
-const theme: Theme = createTheme(initialTheme, {
+const theme = createTheme(initialTheme, {
   components: {
     MuiContainer: {
       styleOverrides: {
@@ -72,7 +79,6 @@ const theme: Theme = createTheme(initialTheme, {
       styleOverrides: {
         root: {
           backgroundImage: "none",
-          color: initialTheme.palette.text.secondary,
         },
         rounded: {
           borderRadius: 8,
@@ -91,8 +97,13 @@ const theme: Theme = createTheme(initialTheme, {
     MuiBottomNavigation: {
       styleOverrides: {
         root: {
-          backgroundColor: initialTheme.palette.background.navigation,
+          backgroundColor: initialTheme.palette.background.paper,
+          borderTop: `0.1px solid ${initialTheme.palette.background.default}`,
           height: 70,
+
+          [initialTheme.breakpoints.up("md")]: {
+            borderTop: `1px solid ${initialTheme.palette.divider}`,
+          },
         },
       },
     },
@@ -103,8 +114,24 @@ const theme: Theme = createTheme(initialTheme, {
           "&.Mui-selected": {
             color: initialTheme.palette.action.active,
           },
-          color: grey[500],
+          color: initialTheme.palette.text.secondary,
           transition: "background-color 0.2s",
+        },
+      },
+    },
+
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: initialTheme.palette.text.secondary,
+        },
+      },
+    },
+
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: initialTheme.palette.text.secondary,
         },
       },
     },
@@ -119,18 +146,10 @@ const theme: Theme = createTheme(initialTheme, {
       },
     },
 
-    MuiMenuItem: {
-      styleOverrides: {
-        root: {
-          color: initialTheme.palette.primary.main,
-        },
-      },
-    },
-
     MuiInput: {
       styleOverrides: {
         root: {
-          color: "#cacaca",
+          color: DarkMode.Placebo,
         },
         underline: {
           "&:before": {

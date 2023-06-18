@@ -70,18 +70,13 @@ const Modal = ({
           edge="start"
           onClick={onClose}
         >
-          <Close />
+          <Close sx={{ color: "primary.main" }} />
         </IconButton>
-        <Typography
-          color="primary"
-          component="div"
-          sx={titleStyles}
-          variant="h6"
-        >
+        <Typography component="div" sx={titleStyles} variant="h6">
           {title}
         </Typography>
         {actionLabel && (
-          <Button color="primary" onClick={closingAction}>
+          <Button sx={{ color: "primary.main" }} onClick={closingAction}>
             {actionLabel}
           </Button>
         )}
