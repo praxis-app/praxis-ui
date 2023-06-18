@@ -80,7 +80,7 @@ const ProposalCardFooter = ({ proposal, currentUserId }: Props) => {
       >
         <CardFooterButton
           onClick={handleVoteButtonClick}
-          sx={voteByCurrentUser ? { color: Blurple.Primary } : {}}
+          sx={voteByCurrentUser ? { color: Blurple.Marina } : {}}
           disabled={isDisabled}
         >
           <HowToVote sx={ICON_STYLES} />

@@ -3,15 +3,18 @@ import { createTheme } from "@mui/material/styles";
 
 export enum DarkMode {
   Placebo = "#e4e6ea",
+  NimbusCloud = "#d3d5d9",
   Casper = "#b1b3b8",
+  Liver = "#505051",
   DeadPixel = "#3a3b3c",
+  PhantomShip = "#303233",
   Nero = "#242526",
   PianoBlack = "#18191a",
 }
 
 export enum Blurple {
-  Primary = "#687CD4",
-  Hover = "#5969CB",
+  Marina = "#687CD4",
+  SavoryBlue = "#5969CB",
 }
 
 declare module "@mui/material/styles/createPalette" {

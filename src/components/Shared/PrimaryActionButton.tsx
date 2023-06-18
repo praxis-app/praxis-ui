@@ -1,21 +1,18 @@
 import { Button as MuiButton, ButtonProps, styled } from "@mui/material";
-import { Blurple } from "../../styles/theme";
+import { Blurple, DarkMode } from "../../styles/theme";
 import Spinner from "./Spinner";
 
-export const BLURPLE_BUTTON_COLORS = {
-  backgroundColor: Blurple.Primary,
+const Button = styled(MuiButton)(({ theme }) => ({
+  backgroundColor: Blurple.Marina,
   "&:active": {
-    backgroundColor: Blurple.Primary,
+    backgroundColor: Blurple.Marina,
   },
   "&:hover": {
-    backgroundColor: Blurple.Hover,
+    backgroundColor: Blurple.SavoryBlue,
   },
   "&:disabled": {
-    backgroundColor: "#505051",
+    backgroundColor: DarkMode.Liver,
   },
-};
-
-const Button = styled(MuiButton)(({ theme }) => ({
   color: theme.palette.common.white,
   fontFamily: "Inter Bold",
   letterSpacing: "0.2px",
@@ -24,7 +21,6 @@ const Button = styled(MuiButton)(({ theme }) => ({
   padding: "0 15px",
   minWidth: 85,
   height: 38,
-  ...BLURPLE_BUTTON_COLORS,
 }));
 
 interface Props extends ButtonProps {

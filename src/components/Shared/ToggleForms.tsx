@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { ToggleFormsFragment } from "../../apollo/gen";
+import { DarkMode } from "../../styles/theme";
 import PostForm from "../Posts/PostForm";
 import ProposalForm from "../Proposals/ProposalForm";
 import Card from "./Card";
@@ -28,19 +29,19 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
 
 const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
   color: theme.palette.text.secondary,
-  background: "#303233",
+  background: DarkMode.PhantomShip,
   transition: "0.2s",
   "&:hover": {
-    backgroundColor: "#303233",
+    backgroundColor: DarkMode.PhantomShip,
     opacity: 0.85,
   },
 }));
 
 const INACTIVE_BTN_STYLES = {
-  color: "#242526",
-  backgroundColor: "#494c4d",
+  color: DarkMode.Nero,
+  backgroundColor: DarkMode.Liver,
   "&:hover": {
-    backgroundColor: "#494c4d",
+    backgroundColor: DarkMode.Liver,
   },
 };
 

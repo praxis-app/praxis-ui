@@ -45,7 +45,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
     isLikedByMe && !isLoading
       ? {
           ...ICON_STYLES,
-          color: Blurple.Primary,
+          color: Blurple.Marina,
         }
       : ICON_STYLES;
 
@@ -88,7 +88,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
 
       <CardActions sx={{ justifyContent: "space-around" }}>
         <CardFooterButton
-          sx={isLikedByMe ? { color: Blurple.Primary } : {}}
+          sx={isLikedByMe ? { color: Blurple.Marina } : {}}
           disabled={isLoading}
           onClick={handleLikeButtonClick}
         >
