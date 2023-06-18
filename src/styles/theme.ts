@@ -7,6 +7,7 @@ export enum DarkMode {
   Casper = "#b1b3b8",
   Liver = "#505051",
   DeadPixel = "#3a3b3c",
+  PhantomShip = "#303233",
   Nero = "#242526",
   PianoBlack = "#18191a",
 }
