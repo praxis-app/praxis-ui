@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material/styles";
 
 export enum DarkMode {
   Placebo = "#e4e6ea",
+  NimbusCloud = "#d3d5d9",
   Casper = "#b1b3b8",
   Liver = "#505051",
   DeadPixel = "#3a3b3c",

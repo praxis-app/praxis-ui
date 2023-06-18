@@ -5,13 +5,22 @@ import {
   ThumbsUpDown,
   ThumbUp,
 } from "@mui/icons-material";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, styled, Tab as MuiTab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { VoteFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
+import { DarkMode } from "../../styles/theme";
 import Modal from "../Shared/Modal";
 import VoteList from "./VoteList";
+
+const Tab = styled(MuiTab)(({ theme }) => ({
+  color: DarkMode.NimbusCloud,
+
+  "&.Mui-selected": {
+    color: theme.palette.text.primary,
+  },
+}));
 
 interface Props {
   open: boolean;
@@ -80,7 +89,7 @@ const VotesModal = ({
   return (
     <Modal
       appBarContent={renderAppBarContent()}
-      contentStyles={{ backgroundColor: "#323232", paddingTop: 5 }}
+      contentStyles={{ paddingTop: 5 }}
       onClose={onClose}
       open={open}
       topGap={isDesktop ? undefined : "18vh"}
