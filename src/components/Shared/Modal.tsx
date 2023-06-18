@@ -95,7 +95,7 @@ const Modal = ({
       // Required for desktop
       onClose={onClose}
     >
-      <AppBar sx={{ position: "relative", backgroundColor: Blurple.Primary }}>
+      <AppBar sx={{ position: "relative", backgroundColor: Blurple.Marina }}>
         {renderAppBarContent()}
       </AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>

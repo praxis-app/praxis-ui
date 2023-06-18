@@ -3,12 +3,12 @@ import { Blurple, DarkMode } from "../../styles/theme";
 import Spinner from "./Spinner";
 
 export const BLURPLE_BUTTON_COLORS = {
-  backgroundColor: Blurple.Primary,
+  backgroundColor: Blurple.Marina,
   "&:active": {
-    backgroundColor: Blurple.Primary,
+    backgroundColor: Blurple.Marina,
   },
   "&:hover": {
-    backgroundColor: Blurple.Hover,
+    backgroundColor: Blurple.SavoryBlue,
   },
   "&:disabled": {
     backgroundColor: DarkMode.Liver,

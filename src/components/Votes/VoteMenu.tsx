@@ -53,7 +53,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
     if (!voteByCurrentUser || voteByCurrentUser.voteType !== voteType) {
       return;
     }
-    return { color: Blurple.Primary };
+    return { color: Blurple.Marina };
   };
 
   const handleCompleted = async (

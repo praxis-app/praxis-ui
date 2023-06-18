@@ -9,7 +9,7 @@ import Flex from "../Shared/Flex";
 import VotesPopover from "./VotesPopover";
 
 export const BASE_BADGE_STYLES: SxProps = {
-  backgroundColor: Blurple.Primary,
+  backgroundColor: Blurple.Marina,
   borderRadius: "50%",
   display: "inline-flex",
   justifyContent: "center",

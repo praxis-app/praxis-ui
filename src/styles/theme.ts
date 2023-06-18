@@ -11,8 +11,8 @@ export enum DarkMode {
 }
 
 export enum Blurple {
-  Primary = "#687CD4",
-  Hover = "#5969CB",
+  Marina = "#687CD4",
+  SavoryBlue = "#5969CB",
 }
 
 declare module "@mui/material/styles/createPalette" {
