@@ -81,6 +81,7 @@ const GroupSettingsForm = ({ group }: Props) => {
               <Select
                 name="privacy"
                 onChange={handleChange}
+                sx={{ color: theme.palette.text.secondary }}
                 value={values.privacy}
                 variant="standard"
                 disableUnderline
