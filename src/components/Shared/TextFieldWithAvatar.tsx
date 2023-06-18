@@ -8,7 +8,6 @@ const InputBase = styled(MuiInputBase)<InputBaseProps>(({ theme }) => ({
   marginLeft: 12,
   "& .MuiInputBase-input": {
     fontSize: 21,
-    color: "#cacaca",
     "&::placeholder": {
       color: theme.palette.primary.light,
     },

@@ -1,5 +1,5 @@
 import { Button as MuiButton, ButtonProps, styled } from "@mui/material";
-import { Blurple } from "../../styles/theme";
+import { Blurple, DarkMode } from "../../styles/theme";
 import Spinner from "./Spinner";
 
 export const BLURPLE_BUTTON_COLORS = {
@@ -11,7 +11,7 @@ export const BLURPLE_BUTTON_COLORS = {
     backgroundColor: Blurple.Hover,
   },
   "&:disabled": {
-    backgroundColor: "#505051",
+    backgroundColor: DarkMode.Liver,
   },
 };
 
