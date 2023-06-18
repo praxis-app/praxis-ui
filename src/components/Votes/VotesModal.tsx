@@ -14,12 +14,8 @@ import { DarkMode } from "../../styles/theme";
 import Modal from "../Shared/Modal";
 import VoteList from "./VoteList";
 
-const Tab = styled(MuiTab)(({ theme }) => ({
+const Tab = styled(MuiTab)(() => ({
   color: DarkMode.NimbusCloud,
-
-  "&.Mui-selected": {
-    color: theme.palette.text.primary,
-  },
 }));
 
 interface Props {
