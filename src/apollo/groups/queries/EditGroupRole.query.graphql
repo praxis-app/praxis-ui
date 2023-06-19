@@ -1,5 +1,5 @@
 query EditGroupRole($id: Int!) {
-  role(id: $id) {
+  groupRole(id: $id) {
     ...EditRoleTabs
 
     group {
