@@ -499,9 +499,9 @@ export type Query = {
   proposals: Array<Proposal>;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
-  role: Role;
   serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
+  serverRole: Role;
   serverRoles: Array<Role>;
   user: User;
   users: Array<User>;
@@ -531,12 +531,12 @@ export type QueryProposalArgs = {
   id: Scalars["Int"];
 };
 
-export type QueryRoleArgs = {
-  id: Scalars["Int"];
-};
-
 export type QueryServerInviteArgs = {
   token: Scalars["String"];
+};
+
+export type QueryServerRoleArgs = {
+  id: Scalars["Int"];
 };
 
 export type QueryUserArgs = {
@@ -2508,7 +2508,7 @@ export type EditServerRoleQueryVariables = Exact<{
 
 export type EditServerRoleQuery = {
   __typename?: "Query";
-  role: {
+  serverRole: {
     __typename?: "Role";
     id: number;
     name: string;
@@ -2535,38 +2535,6 @@ export type EditServerRoleQuery = {
     }>;
   };
   me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
-};
-
-export type RoleByRoleIdQueryVariables = Exact<{
-  id: Scalars["Int"];
-}>;
-
-export type RoleByRoleIdQuery = {
-  __typename?: "Query";
-  role: {
-    __typename?: "Role";
-    id: number;
-    name: string;
-    color: string;
-    permissions: Array<{
-      __typename?: "Permission";
-      id: number;
-      name: string;
-      enabled: boolean;
-    }>;
-    members: Array<{
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    }>;
-    availableUsersToAdd: Array<{
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    }>;
-  };
 };
 
 export type RolesByGroupIdQueryVariables = Exact<{
@@ -6537,7 +6505,7 @@ export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {
-    role(id: $id) {
+    serverRole(id: $id) {
       ...EditRoleTabs
     }
     me {
@@ -6597,77 +6565,6 @@ export type EditServerRoleLazyQueryHookResult = ReturnType<
 export type EditServerRoleQueryResult = Apollo.QueryResult<
   EditServerRoleQuery,
   EditServerRoleQueryVariables
->;
-export const RoleByRoleIdDocument = gql`
-  query RoleByRoleId($id: Int!) {
-    role(id: $id) {
-      id
-      name
-      color
-      permissions {
-        ...PermissionToggle
-      }
-      members {
-        ...UserAvatar
-      }
-      availableUsersToAdd {
-        ...UserAvatar
-      }
-    }
-  }
-  ${PermissionToggleFragmentDoc}
-  ${UserAvatarFragmentDoc}
-`;
-
-/**
- * __useRoleByRoleIdQuery__
- *
- * To run a query within a React component, call `useRoleByRoleIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useRoleByRoleIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRoleByRoleIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRoleByRoleIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    RoleByRoleIdQuery,
-    RoleByRoleIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RoleByRoleIdQuery, RoleByRoleIdQueryVariables>(
-    RoleByRoleIdDocument,
-    options
-  );
-}
-export function useRoleByRoleIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    RoleByRoleIdQuery,
-    RoleByRoleIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RoleByRoleIdQuery, RoleByRoleIdQueryVariables>(
-    RoleByRoleIdDocument,
-    options
-  );
-}
-export type RoleByRoleIdQueryHookResult = ReturnType<
-  typeof useRoleByRoleIdQuery
->;
-export type RoleByRoleIdLazyQueryHookResult = ReturnType<
-  typeof useRoleByRoleIdLazyQuery
->;
-export type RoleByRoleIdQueryResult = Apollo.QueryResult<
-  RoleByRoleIdQuery,
-  RoleByRoleIdQueryVariables
 >;
 export const RolesByGroupIdDocument = gql`
   query RolesByGroupId($id: Int!) {

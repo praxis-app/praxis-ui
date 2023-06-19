@@ -23,7 +23,7 @@ const EditServerRole: NextPage = () => {
   const { t } = useTranslation();
 
   const me = data?.me;
-  const role = data?.role;
+  const role = data?.serverRole;
   const canManageRoles = me?.serverPermissions.includes(
     ServerPermissions.ManageRoles
   );

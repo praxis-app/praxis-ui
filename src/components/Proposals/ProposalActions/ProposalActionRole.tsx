@@ -15,7 +15,7 @@ import {
   ProposalActionRoleFragment,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
-  useRoleByRoleIdLazyQuery,
+  useGroupRoleByRoleIdLazyQuery,
   useUsersByIdsLazyQuery,
 } from "../../../apollo/gen";
 import { ChangeType } from "../../../constants/common.constants";
@@ -56,7 +56,7 @@ const ProposalActionRole = ({
       loading: selectedRoleLoading,
       error: selectedRoleError,
     },
-  ] = useRoleByRoleIdLazyQuery();
+  ] = useGroupRoleByRoleIdLazyQuery();
 
   const [
     getSelectedUsers,
@@ -98,7 +98,7 @@ const ProposalActionRole = ({
   }
 
   const { name, color, permissions, members } = role;
-  const roleToChange = "role" in role ? role.role : selectedRoleData?.role;
+  const roleToChange = "role" in role ? role.role : selectedRoleData?.groupRole;
 
   const oldName =
     ratified && "oldName" in role ? role.oldName : roleToChange?.name;

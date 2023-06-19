@@ -317,9 +317,9 @@ type Query {
   proposals: [Proposal!]!
   publicGroups: [Group!]!
   publicGroupsFeed: [FeedItem!]!
-  role(id: Int!): Role!
   serverInvite(token: String!): ServerInvite!
   serverInvites: [ServerInvite!]!
+  serverRole(id: Int!): Role!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
   users: [User!]!
