@@ -47,12 +47,13 @@ const AddRoleMemberTab = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { asPath } = useRouter();
-  const isGroupPage = asPath.includes(NavigationPaths.Groups);
-  const [updateRole] = (
-    isGroupPage ? useUpdateGroupRoleMutation : useUpdateServerRoleMutation
-  )();
-
   const { t } = useTranslation();
+
+  const [updateRole] = (
+    asPath.includes(NavigationPaths.Groups)
+      ? useUpdateGroupRoleMutation
+      : useUpdateServerRoleMutation
+  )();
 
   const addCircleStyles = {
     fontSize: 23,
