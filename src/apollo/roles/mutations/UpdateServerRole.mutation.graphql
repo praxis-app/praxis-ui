@@ -1,4 +1,4 @@
-mutation UpdateRole($roleData: UpdateRoleInput!) {
+mutation UpdateServerRole($roleData: UpdateRoleInput!) {
   updateServerRole(roleData: $roleData) {
     role {
       ...Role
@@ -11,10 +11,6 @@ mutation UpdateRole($roleData: UpdateRoleInput!) {
       }
       availableUsersToAdd {
         ...UserAvatar
-      }
-      group {
-        id
-        myPermissions
       }
     }
 

@@ -11,13 +11,16 @@
 
 import { Box, BoxProps } from "@mui/material";
 import { FieldArray, Form, Formik, FormikHelpers } from "formik";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   PermissionInput,
   PermissionToggleFragment,
-  useUpdateRoleMutation,
+  useUpdateGroupRoleMutation,
+  useUpdateServerRoleMutation,
 } from "../../apollo/gen";
+import { NavigationPaths } from "../../constants/common.constants";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import PermissionToggle from "./PermissionToggle";
@@ -32,7 +35,12 @@ interface Props extends BoxProps {
 }
 
 const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
-  const [updateRole] = useUpdateRoleMutation();
+  const { asPath } = useRouter();
+  const isGroupPage = asPath.includes(NavigationPaths.Groups);
+  const [updateRole] = (
+    isGroupPage ? useUpdateGroupRoleMutation : useUpdateServerRoleMutation
+  )();
+
   const { t } = useTranslation();
 
   const initialValues: PermissionsFormValues = {

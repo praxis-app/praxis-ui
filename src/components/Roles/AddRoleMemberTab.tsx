@@ -6,13 +6,16 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   AddRoleMemberTabFragment,
   UserAvatarFragment,
-  useUpdateRoleMutation,
+  useUpdateGroupRoleMutation,
+  useUpdateServerRoleMutation,
 } from "../../apollo/gen";
+import { NavigationPaths } from "../../constants/common.constants";
 import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";
 import AddRoleMemberOption from "./AddRoleMemberOption";
@@ -42,7 +45,12 @@ const AddRoleMemberTab = ({
 }: Props) => {
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updateRole] = useUpdateRoleMutation();
+
+  const { asPath } = useRouter();
+  const isGroupPage = asPath.includes(NavigationPaths.Groups);
+  const [updateRole] = (
+    isGroupPage ? useUpdateGroupRoleMutation : useUpdateServerRoleMutation
+  )();
 
   const { t } = useTranslation();
 

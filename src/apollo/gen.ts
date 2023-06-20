@@ -883,6 +883,37 @@ export type CreateGroupMutation = {
   };
 };
 
+export type CreateGroupRoleMutationVariables = Exact<{
+  roleData: CreateGroupRoleInput;
+}>;
+
+export type CreateGroupRoleMutation = {
+  __typename?: "Mutation";
+  createGroupRole: {
+    __typename?: "CreateRolePayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        roles: Array<{
+          __typename?: "Role";
+          id: number;
+          name: string;
+          color: string;
+          memberCount: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
+        }>;
+      } | null;
+    };
+  };
+};
+
 export type CreateMemberRequestMutationVariables = Exact<{
   groupId: Scalars["Int"];
 }>;
@@ -950,6 +981,48 @@ export type UpdateGroupMutation = {
   };
 };
 
+export type UpdateGroupRoleMutationVariables = Exact<{
+  roleData: UpdateRoleInput;
+}>;
+
+export type UpdateGroupRoleMutation = {
+  __typename?: "Mutation";
+  updateGroupRole: {
+    __typename?: "UpdateRolePayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      name: string;
+      color: string;
+      memberCount: number;
+      permissions: Array<{
+        __typename?: "Permission";
+        id: number;
+        name: string;
+        enabled: boolean;
+      }>;
+      members: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: Array<string>;
+        name: string;
+      } | null;
+    };
+  };
+};
+
 export type UpdateGroupSettingsMutationVariables = Exact<{
   groupConfigData: UpdateGroupConfigInput;
   isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
@@ -969,37 +1042,6 @@ export type UpdateGroupSettingsMutation = {
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       members: Array<{ __typename?: "User"; id: number }>;
-    };
-  };
-};
-
-export type CreateGroupRoleMutationVariables = Exact<{
-  roleData: CreateGroupRoleInput;
-}>;
-
-export type CreateGroupRoleMutation = {
-  __typename?: "Mutation";
-  createGroupRole: {
-    __typename?: "CreateRolePayload";
-    role: {
-      __typename?: "Role";
-      id: number;
-      name: string;
-      color: string;
-      memberCount: number;
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        roles: Array<{
-          __typename?: "Role";
-          id: number;
-          name: string;
-          color: string;
-          memberCount: number;
-          group?: { __typename?: "Group"; id: number; name: string } | null;
-        }>;
-      } | null;
     };
   };
 };
@@ -2498,11 +2540,11 @@ export type DeleteRoleMemberMutation = {
   };
 };
 
-export type UpdateRoleMutationVariables = Exact<{
+export type UpdateServerRoleMutationVariables = Exact<{
   roleData: UpdateRoleInput;
 }>;
 
-export type UpdateRoleMutation = {
+export type UpdateServerRoleMutation = {
   __typename?: "Mutation";
   updateServerRole: {
     __typename?: "UpdateRolePayload";
@@ -2530,12 +2572,7 @@ export type UpdateRoleMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group?: {
-        __typename?: "Group";
-        id: number;
-        myPermissions: Array<string>;
-        name: string;
-      } | null;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
@@ -4208,6 +4245,65 @@ export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<
   CreateGroupMutation,
   CreateGroupMutationVariables
 >;
+export const CreateGroupRoleDocument = gql`
+  mutation CreateGroupRole($roleData: CreateGroupRoleInput!) {
+    createGroupRole(roleData: $roleData) {
+      role {
+        ...Role
+        group {
+          id
+          roles {
+            ...Role
+          }
+        }
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+`;
+export type CreateGroupRoleMutationFn = Apollo.MutationFunction<
+  CreateGroupRoleMutation,
+  CreateGroupRoleMutationVariables
+>;
+
+/**
+ * __useCreateGroupRoleMutation__
+ *
+ * To run a mutation, you first call `useCreateGroupRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGroupRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGroupRoleMutation, { data, loading, error }] = useCreateGroupRoleMutation({
+ *   variables: {
+ *      roleData: // value for 'roleData'
+ *   },
+ * });
+ */
+export function useCreateGroupRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateGroupRoleMutation,
+    CreateGroupRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateGroupRoleMutation,
+    CreateGroupRoleMutationVariables
+  >(CreateGroupRoleDocument, options);
+}
+export type CreateGroupRoleMutationHookResult = ReturnType<
+  typeof useCreateGroupRoleMutation
+>;
+export type CreateGroupRoleMutationResult =
+  Apollo.MutationResult<CreateGroupRoleMutation>;
+export type CreateGroupRoleMutationOptions = Apollo.BaseMutationOptions<
+  CreateGroupRoleMutation,
+  CreateGroupRoleMutationVariables
+>;
 export const CreateMemberRequestDocument = gql`
   mutation CreateMemberRequest($groupId: Int!) {
     createMemberRequest(groupId: $groupId) {
@@ -4466,6 +4562,75 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutation,
   UpdateGroupMutationVariables
 >;
+export const UpdateGroupRoleDocument = gql`
+  mutation UpdateGroupRole($roleData: UpdateRoleInput!) {
+    updateGroupRole(roleData: $roleData) {
+      role {
+        ...Role
+        permissions {
+          ...PermissionToggle
+        }
+        members {
+          ...RoleMember
+        }
+        availableUsersToAdd {
+          ...UserAvatar
+        }
+        group {
+          id
+          myPermissions
+        }
+      }
+    }
+  }
+  ${RoleFragmentDoc}
+  ${PermissionToggleFragmentDoc}
+  ${RoleMemberFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+export type UpdateGroupRoleMutationFn = Apollo.MutationFunction<
+  UpdateGroupRoleMutation,
+  UpdateGroupRoleMutationVariables
+>;
+
+/**
+ * __useUpdateGroupRoleMutation__
+ *
+ * To run a mutation, you first call `useUpdateGroupRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGroupRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGroupRoleMutation, { data, loading, error }] = useUpdateGroupRoleMutation({
+ *   variables: {
+ *      roleData: // value for 'roleData'
+ *   },
+ * });
+ */
+export function useUpdateGroupRoleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateGroupRoleMutation,
+    UpdateGroupRoleMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateGroupRoleMutation,
+    UpdateGroupRoleMutationVariables
+  >(UpdateGroupRoleDocument, options);
+}
+export type UpdateGroupRoleMutationHookResult = ReturnType<
+  typeof useUpdateGroupRoleMutation
+>;
+export type UpdateGroupRoleMutationResult =
+  Apollo.MutationResult<UpdateGroupRoleMutation>;
+export type UpdateGroupRoleMutationOptions = Apollo.BaseMutationOptions<
+  UpdateGroupRoleMutation,
+  UpdateGroupRoleMutationVariables
+>;
 export const UpdateGroupSettingsDocument = gql`
   mutation UpdateGroupSettings(
     $groupConfigData: UpdateGroupConfigInput!
@@ -4527,65 +4692,6 @@ export type UpdateGroupSettingsMutationResult =
 export type UpdateGroupSettingsMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupSettingsMutation,
   UpdateGroupSettingsMutationVariables
->;
-export const CreateGroupRoleDocument = gql`
-  mutation CreateGroupRole($roleData: CreateGroupRoleInput!) {
-    createGroupRole(roleData: $roleData) {
-      role {
-        ...Role
-        group {
-          id
-          roles {
-            ...Role
-          }
-        }
-      }
-    }
-  }
-  ${RoleFragmentDoc}
-`;
-export type CreateGroupRoleMutationFn = Apollo.MutationFunction<
-  CreateGroupRoleMutation,
-  CreateGroupRoleMutationVariables
->;
-
-/**
- * __useCreateGroupRoleMutation__
- *
- * To run a mutation, you first call `useCreateGroupRoleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateGroupRoleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createGroupRoleMutation, { data, loading, error }] = useCreateGroupRoleMutation({
- *   variables: {
- *      roleData: // value for 'roleData'
- *   },
- * });
- */
-export function useCreateGroupRoleMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateGroupRoleMutation,
-    CreateGroupRoleMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateGroupRoleMutation,
-    CreateGroupRoleMutationVariables
-  >(CreateGroupRoleDocument, options);
-}
-export type CreateGroupRoleMutationHookResult = ReturnType<
-  typeof useCreateGroupRoleMutation
->;
-export type CreateGroupRoleMutationResult =
-  Apollo.MutationResult<CreateGroupRoleMutation>;
-export type CreateGroupRoleMutationOptions = Apollo.BaseMutationOptions<
-  CreateGroupRoleMutation,
-  CreateGroupRoleMutationVariables
 >;
 export const EditGroupDocument = gql`
   query EditGroup($name: String!) {
@@ -6522,8 +6628,8 @@ export type DeleteRoleMemberMutationOptions = Apollo.BaseMutationOptions<
   DeleteRoleMemberMutation,
   DeleteRoleMemberMutationVariables
 >;
-export const UpdateRoleDocument = gql`
-  mutation UpdateRole($roleData: UpdateRoleInput!) {
+export const UpdateServerRoleDocument = gql`
+  mutation UpdateServerRole($roleData: UpdateRoleInput!) {
     updateServerRole(roleData: $roleData) {
       role {
         ...Role
@@ -6535,10 +6641,6 @@ export const UpdateRoleDocument = gql`
         }
         availableUsersToAdd {
           ...UserAvatar
-        }
-        group {
-          id
-          myPermissions
         }
       }
       me {
@@ -6552,48 +6654,48 @@ export const UpdateRoleDocument = gql`
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
-export type UpdateRoleMutationFn = Apollo.MutationFunction<
-  UpdateRoleMutation,
-  UpdateRoleMutationVariables
+export type UpdateServerRoleMutationFn = Apollo.MutationFunction<
+  UpdateServerRoleMutation,
+  UpdateServerRoleMutationVariables
 >;
 
 /**
- * __useUpdateRoleMutation__
+ * __useUpdateServerRoleMutation__
  *
- * To run a mutation, you first call `useUpdateRoleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateRoleMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateServerRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServerRoleMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateRoleMutation, { data, loading, error }] = useUpdateRoleMutation({
+ * const [updateServerRoleMutation, { data, loading, error }] = useUpdateServerRoleMutation({
  *   variables: {
  *      roleData: // value for 'roleData'
  *   },
  * });
  */
-export function useUpdateRoleMutation(
+export function useUpdateServerRoleMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateRoleMutation,
-    UpdateRoleMutationVariables
+    UpdateServerRoleMutation,
+    UpdateServerRoleMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateRoleMutation, UpdateRoleMutationVariables>(
-    UpdateRoleDocument,
-    options
-  );
+  return Apollo.useMutation<
+    UpdateServerRoleMutation,
+    UpdateServerRoleMutationVariables
+  >(UpdateServerRoleDocument, options);
 }
-export type UpdateRoleMutationHookResult = ReturnType<
-  typeof useUpdateRoleMutation
+export type UpdateServerRoleMutationHookResult = ReturnType<
+  typeof useUpdateServerRoleMutation
 >;
-export type UpdateRoleMutationResult =
-  Apollo.MutationResult<UpdateRoleMutation>;
-export type UpdateRoleMutationOptions = Apollo.BaseMutationOptions<
-  UpdateRoleMutation,
-  UpdateRoleMutationVariables
+export type UpdateServerRoleMutationResult =
+  Apollo.MutationResult<UpdateServerRoleMutation>;
+export type UpdateServerRoleMutationOptions = Apollo.BaseMutationOptions<
+  UpdateServerRoleMutation,
+  UpdateServerRoleMutationVariables
 >;
 export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {

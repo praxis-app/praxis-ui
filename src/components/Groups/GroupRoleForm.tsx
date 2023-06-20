@@ -13,7 +13,7 @@ import { toastVar } from "../../apollo/cache";
 import {
   RoleFragment,
   useCreateGroupRoleMutation,
-  useUpdateRoleMutation,
+  useUpdateGroupRoleMutation,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
@@ -40,7 +40,7 @@ const GroupRoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
   );
   const [colorPickerKey, setColorPickerKey] = useState("");
   const [createRole] = useCreateGroupRoleMutation();
-  const [updateRole] = useUpdateRoleMutation();
+  const [updateRole] = useUpdateGroupRoleMutation();
 
   const { t } = useTranslation();
 

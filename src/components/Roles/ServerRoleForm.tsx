@@ -17,7 +17,7 @@ import {
   ServerRolesDocument,
   ServerRolesQuery,
   useCreateServerRoleMutation,
-  useUpdateRoleMutation,
+  useUpdateServerRoleMutation,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
@@ -43,7 +43,7 @@ const ServerRoleForm = ({ editRole, ...cardProps }: Props) => {
   );
   const [colorPickerKey, setColorPickerKey] = useState("");
   const [createRole] = useCreateServerRoleMutation();
-  const [updateRole] = useUpdateRoleMutation();
+  const [updateRole] = useUpdateServerRoleMutation();
 
   const { t } = useTranslation();
 
