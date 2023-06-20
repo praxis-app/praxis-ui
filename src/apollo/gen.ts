@@ -245,10 +245,10 @@ export type Mutation = {
   unfollowUser: Scalars["Boolean"];
   updateGroup: UpdateGroupPayload;
   updateGroupConfig: UpdateGroupPayload;
-  updateGroupRole: UpdateRolePayload;
+  updateGroupRole: UpdateGroupRolePayload;
   updatePost: UpdatePostPayload;
   updateProposal: UpdateProposalPayload;
-  updateServerRole: UpdateRolePayload;
+  updateServerRole: UpdateServerRolePayload;
   updateUser: UpdateUserPayload;
   updateVote: UpdateVotePayload;
 };
@@ -628,6 +628,11 @@ export type UpdateGroupPayload = {
   group: Group;
 };
 
+export type UpdateGroupRolePayload = {
+  __typename?: "UpdateGroupRolePayload";
+  role: Role;
+};
+
 export type UpdatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
@@ -659,8 +664,8 @@ export type UpdateRoleInput = {
   selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 
-export type UpdateRolePayload = {
-  __typename?: "UpdateRolePayload";
+export type UpdateServerRolePayload = {
+  __typename?: "UpdateServerRolePayload";
   me: User;
   role: Role;
 };
@@ -988,7 +993,7 @@ export type UpdateGroupRoleMutationVariables = Exact<{
 export type UpdateGroupRoleMutation = {
   __typename?: "Mutation";
   updateGroupRole: {
-    __typename?: "UpdateRolePayload";
+    __typename?: "UpdateGroupRolePayload";
     role: {
       __typename?: "Role";
       id: number;
@@ -2547,7 +2552,7 @@ export type UpdateServerRoleMutationVariables = Exact<{
 export type UpdateServerRoleMutation = {
   __typename?: "Mutation";
   updateServerRole: {
-    __typename?: "UpdateRolePayload";
+    __typename?: "UpdateServerRolePayload";
     role: {
       __typename?: "Role";
       id: number;

@@ -203,10 +203,10 @@ type Mutation {
   unfollowUser(id: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
-  updateGroupRole(roleData: UpdateRoleInput!): UpdateRolePayload!
+  updateGroupRole(roleData: UpdateRoleInput!): UpdateGroupRolePayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
-  updateServerRole(roleData: UpdateRoleInput!): UpdateRolePayload!
+  updateServerRole(roleData: UpdateRoleInput!): UpdateServerRolePayload!
   updateUser(userData: UpdateUserInput!): UpdateUserPayload!
   updateVote(voteData: UpdateVoteInput!): UpdateVotePayload!
 }
@@ -388,6 +388,10 @@ type UpdateGroupPayload {
   group: Group!
 }
 
+type UpdateGroupRolePayload {
+  role: Role!
+}
+
 input UpdatePostInput {
   body: String
   id: Int!
@@ -417,7 +421,7 @@ input UpdateRoleInput {
   selectedUserIds: [Int!]
 }
 
-type UpdateRolePayload {
+type UpdateServerRolePayload {
   me: User!
   role: Role!
 }
