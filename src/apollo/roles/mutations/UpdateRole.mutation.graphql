@@ -1,5 +1,5 @@
 mutation UpdateRole($roleData: UpdateRoleInput!) {
-  updateRole(roleData: $roleData) {
+  updateServerRole(roleData: $roleData) {
     role {
       ...Role
 

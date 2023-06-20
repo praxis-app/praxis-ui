@@ -12,11 +12,11 @@ import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  CreateRoleInput,
+  CreateServerRoleInput,
   RoleFragment,
   ServerRolesDocument,
   ServerRolesQuery,
-  useCreateRoleMutation,
+  useCreateServerRoleMutation,
   useUpdateRoleMutation,
 } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
@@ -35,15 +35,14 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   editRole?: RoleFragment;
-  groupId?: number;
 }
 
-const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
+const ServerRoleForm = ({ editRole, ...cardProps }: Props) => {
   const [color, setColor] = useState(
     editRole ? editRole.color : DEFAULT_ROLE_COLOR
   );
   const [colorPickerKey, setColorPickerKey] = useState("");
-  const [createRole] = useCreateRoleMutation();
+  const [createRole] = useCreateServerRoleMutation();
   const [updateRole] = useUpdateRoleMutation();
 
   const { t } = useTranslation();
@@ -53,19 +52,22 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
   };
 
   const handleCreate = async (
-    formValues: Omit<CreateRoleInput, "color">,
-    { setSubmitting, resetForm }: FormikHelpers<Omit<CreateRoleInput, "color">>
+    formValues: Omit<CreateServerRoleInput, "color">,
+    {
+      setSubmitting,
+      resetForm,
+    }: FormikHelpers<Omit<CreateServerRoleInput, "color">>
   ) =>
     await createRole({
       variables: {
-        roleData: { color, groupId, ...formValues },
+        roleData: { color, ...formValues },
       },
       update(cache, { data }) {
-        if (!data || groupId) {
+        if (!data) {
           return;
         }
         const {
-          createRole: { role },
+          createServerRole: { role },
         } = data;
         cache.updateQuery<ServerRolesQuery>(
           { query: ServerRolesDocument },
@@ -83,8 +85,8 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
     });
 
   const handleSubmit = async (
-    formValues: Omit<CreateRoleInput, "color">,
-    formHelpers: FormikHelpers<Omit<CreateRoleInput, "color">>
+    formValues: Omit<CreateServerRoleInput, "color">,
+    formHelpers: FormikHelpers<Omit<CreateServerRoleInput, "color">>
   ) => {
     try {
       if (editRole) {
@@ -122,7 +124,7 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
   const isSubmitButtonDisabled = ({
     dirty,
     isSubmitting,
-  }: FormikProps<Omit<CreateRoleInput, "color">>) => {
+  }: FormikProps<Omit<CreateServerRoleInput, "color">>) => {
     if (isSubmitting) {
       return true;
     }
@@ -172,4 +174,4 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
   );
 };
 
-export default RoleForm;
+export default ServerRoleForm;

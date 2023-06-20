@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
 import { useServerRolesQuery } from "../../apollo/gen";
-import RoleForm from "../../components/Roles/RoleForm";
+import ServerRoleForm from "../../components/Roles/ServerRoleForm";
 import RoleList from "../../components/Roles/RoleList";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -30,7 +30,7 @@ const ServerRoles: NextPage = () => {
     <>
       <LevelOneHeading header>{t("roles.headers.serverRoles")}</LevelOneHeading>
 
-      <RoleForm />
+      <ServerRoleForm />
       {roles && <RoleList roles={roles} />}
     </>
   );
