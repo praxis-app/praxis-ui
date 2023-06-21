@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useGroupRolesQuery } from "../../../../apollo/gen";
-import RoleForm from "../../../../components/Roles/RoleForm";
+import GroupRoleForm from "../../../../components/Groups/GroupRoleForm";
 import RoleList from "../../../../components/Roles/RoleList";
 import Breadcrumbs from "../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../components/Shared/ProgressBar";
@@ -59,7 +59,7 @@ const GroupRoles: NextPage = () => {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <RoleForm groupId={group?.id} />
+      {group && <GroupRoleForm groupId={group.id} />}
       {roles && <RoleList roles={roles} />}
     </>
   );

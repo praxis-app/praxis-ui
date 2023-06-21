@@ -8,7 +8,7 @@ import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import AddRoleMemberTab from "./AddRoleMemberTab";
 import DeleteRoleButton from "./DeleteRoleButton";
 import PermissionsForm from "./PermissionsForm";
-import RoleForm from "./RoleForm";
+import ServerRoleForm from "./ServerRoleForm";
 
 interface Props {
   role: EditRoleTabsFragment;
@@ -70,7 +70,7 @@ const EditRoleTabs = ({ role }: Props) => {
 
       {tab === 0 && (
         <>
-          <RoleForm editRole={role} />
+          <ServerRoleForm editRole={role} />
           <DeleteRoleButton role={role} />
         </>
       )}
