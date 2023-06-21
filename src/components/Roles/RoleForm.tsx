@@ -21,15 +21,21 @@ const CardContent = styled(MuiCardContent)(() => ({
   },
 }));
 
+interface InitialValues {
+  name: string;
+}
+
+type HandleSubmit = (
+  formValues: InitialValues,
+  formHelpers: FormikHelpers<InitialValues>
+) => Promise<void>;
+
 interface Props extends CardProps {
   color: string;
   colorPickerKey: string;
   editRole?: RoleFragment;
-  handleSubmit(
-    formValues: { name: string },
-    formHelpers: FormikHelpers<{ name: string }>
-  ): Promise<void>;
-  initialValues: { name: string };
+  handleSubmit: HandleSubmit;
+  initialValues: InitialValues;
   setColor(color: string): void;
 }
 
@@ -56,7 +62,7 @@ const RoleForm = ({
   const isSubmitButtonDisabled = ({
     dirty,
     isSubmitting,
-  }: FormikProps<typeof initialValues>) => {
+  }: FormikProps<InitialValues>) => {
     if (isSubmitting) {
       return true;
     }
