@@ -36,12 +36,13 @@ interface Props extends BoxProps {
 
 const PermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
   const { asPath } = useRouter();
-  const isGroupPage = asPath.includes(NavigationPaths.Groups);
-  const [updateRole] = (
-    isGroupPage ? useUpdateGroupRoleMutation : useUpdateServerRoleMutation
-  )();
-
   const { t } = useTranslation();
+
+  const [updateRole] = (
+    asPath.includes(NavigationPaths.Groups)
+      ? useUpdateGroupRoleMutation
+      : useUpdateServerRoleMutation
+  )();
 
   const initialValues: PermissionsFormValues = {
     permissions: [],
