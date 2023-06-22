@@ -1,13 +1,19 @@
 import { Reference } from "@apollo/client";
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   RoleMemberFragment,
-  useDeleteRoleMemberMutation,
+  useDeleteGroupRoleMemberMutation,
+  useDeleteServerRoleMemberMutation,
 } from "../../apollo/gen";
-import { FORBIDDEN, TypeNames } from "../../constants/common.constants";
+import {
+  FORBIDDEN,
+  NavigationPaths,
+  TypeNames,
+} from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -26,23 +32,37 @@ interface Props {
 }
 
 const RoleMember = ({ roleMember, roleId }: Props) => {
-  const [deleteRoleMember] = useDeleteRoleMemberMutation();
+  const { asPath } = useRouter();
   const { t } = useTranslation();
+
+  const [deleteRoleMember] = (
+    asPath.includes(NavigationPaths.Groups)
+      ? useDeleteGroupRoleMemberMutation
+      : useDeleteServerRoleMemberMutation
+  )();
 
   const userProfilePath = getUserProfilePath(roleMember.name);
 
   const handleDelete = async () =>
     await deleteRoleMember({
-      variables: { roleMemberData: { roleId, userId: roleMember.id } },
+      variables: {
+        roleMemberData: {
+          userId: roleMember.id,
+          roleId,
+        },
+      },
       update(cache, { data }) {
         if (!data) {
           return;
         }
+        const deleteRoleMember =
+          "deleteGroupRoleMember" in data
+            ? data.deleteGroupRoleMember
+            : data.deleteServerRoleMember;
         const {
-          deleteRoleMember: {
-            role: { availableUsersToAdd },
-          },
-        } = data;
+          role: { availableUsersToAdd },
+        } = deleteRoleMember;
+
         cache.modify({
           id: cache.identify({ id: roleId, __typename: TypeNames.Role }),
           fields: {
