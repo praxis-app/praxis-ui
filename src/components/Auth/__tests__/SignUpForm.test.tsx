@@ -13,10 +13,7 @@ jest.mock("react-i18next", () => ({
 
 jest.mock("../../../apollo/gen", () => ({
   useSignUpMutation: jest.fn(),
-
-  cache: {
-    writeQuery: jest.fn(),
-  },
+  cache: { writeQuery: jest.fn() },
 }));
 
 jest.mock("next/router", () => ({
@@ -35,6 +32,10 @@ URL.createObjectURL = jest.fn();
 
 describe("SignUpForm", () => {
   it("should show submit button as disabled when no field is entered", async () => {
+    const mockedSignUpMutation = jest.fn();
+    mockedSignUpMutation.mockImplementationOnce(() => Promise.resolve());
+    (useSignUpMutation as jest.Mock).mockReturnValue([mockedSignUpMutation]);
+
     render(
       <MockedProvider>
         <SignUpForm />
