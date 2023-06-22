@@ -184,13 +184,14 @@ type Mutation {
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteGroupRole(id: Int!): Boolean!
+  deleteGroupRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteImage(id: Int!): Boolean!
   deleteLike(likeData: DeleteLikeInput!): Boolean!
   deletePost(id: Int!): Boolean!
   deleteProposal(id: Int!): Boolean!
-  deleteRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteServerInvite(id: Int!): Boolean!
   deleteServerRole(id: Int!): Boolean!
+  deleteServerRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!

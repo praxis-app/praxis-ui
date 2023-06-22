@@ -226,13 +226,14 @@ export type Mutation = {
   createVote: CreateVotePayload;
   deleteGroup: Scalars["Boolean"];
   deleteGroupRole: Scalars["Boolean"];
+  deleteGroupRoleMember: DeleteRoleMemberPayload;
   deleteImage: Scalars["Boolean"];
   deleteLike: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
   deleteProposal: Scalars["Boolean"];
-  deleteRoleMember: DeleteRoleMemberPayload;
   deleteServerInvite: Scalars["Boolean"];
   deleteServerRole: Scalars["Boolean"];
+  deleteServerRoleMember: DeleteRoleMemberPayload;
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
@@ -305,6 +306,10 @@ export type MutationDeleteGroupRoleArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationDeleteGroupRoleMemberArgs = {
+  roleMemberData: DeleteRoleMemberInput;
+};
+
 export type MutationDeleteImageArgs = {
   id: Scalars["Int"];
 };
@@ -321,16 +326,16 @@ export type MutationDeleteProposalArgs = {
   id: Scalars["Int"];
 };
 
-export type MutationDeleteRoleMemberArgs = {
-  roleMemberData: DeleteRoleMemberInput;
-};
-
 export type MutationDeleteServerInviteArgs = {
   id: Scalars["Int"];
 };
 
 export type MutationDeleteServerRoleArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationDeleteServerRoleMemberArgs = {
+  roleMemberData: DeleteRoleMemberInput;
 };
 
 export type MutationDeleteUserArgs = {
@@ -957,6 +962,32 @@ export type DeleteGroupRoleMutationVariables = Exact<{
 export type DeleteGroupRoleMutation = {
   __typename?: "Mutation";
   deleteGroupRole: boolean;
+};
+
+export type DeleteGroupRoleMemberMutationVariables = Exact<{
+  roleMemberData: DeleteRoleMemberInput;
+}>;
+
+export type DeleteGroupRoleMemberMutation = {
+  __typename?: "Mutation";
+  deleteGroupRoleMember: {
+    __typename?: "DeleteRoleMemberPayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: Array<string>;
+      } | null;
+    };
+  };
 };
 
 export type DenyMemberRequestMutationVariables = Exact<{
@@ -2519,32 +2550,6 @@ export type CreateServerRoleMutation = {
   };
 };
 
-export type DeleteRoleMemberMutationVariables = Exact<{
-  roleMemberData: DeleteRoleMemberInput;
-}>;
-
-export type DeleteRoleMemberMutation = {
-  __typename?: "Mutation";
-  deleteRoleMember: {
-    __typename?: "DeleteRoleMemberPayload";
-    role: {
-      __typename?: "Role";
-      availableUsersToAdd: Array<{
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      }>;
-      group?: {
-        __typename?: "Group";
-        id: number;
-        myPermissions: Array<string>;
-      } | null;
-    };
-    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
-  };
-};
-
 export type DeleteServerRoleMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -2552,6 +2557,28 @@ export type DeleteServerRoleMutationVariables = Exact<{
 export type DeleteServerRoleMutation = {
   __typename?: "Mutation";
   deleteServerRole: boolean;
+};
+
+export type DeleteServerRoleMemberMutationVariables = Exact<{
+  roleMemberData: DeleteRoleMemberInput;
+}>;
+
+export type DeleteServerRoleMemberMutation = {
+  __typename?: "Mutation";
+  deleteServerRoleMember: {
+    __typename?: "DeleteRoleMemberPayload";
+    role: {
+      __typename?: "Role";
+      id: number;
+      availableUsersToAdd: Array<{
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      }>;
+    };
+    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+  };
 };
 
 export type UpdateServerRoleMutationVariables = Exact<{
@@ -4473,6 +4500,66 @@ export type DeleteGroupRoleMutationResult =
 export type DeleteGroupRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteGroupRoleMutation,
   DeleteGroupRoleMutationVariables
+>;
+export const DeleteGroupRoleMemberDocument = gql`
+  mutation DeleteGroupRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+    deleteGroupRoleMember(roleMemberData: $roleMemberData) {
+      role {
+        id
+        availableUsersToAdd {
+          ...UserAvatar
+        }
+        group {
+          id
+          myPermissions
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type DeleteGroupRoleMemberMutationFn = Apollo.MutationFunction<
+  DeleteGroupRoleMemberMutation,
+  DeleteGroupRoleMemberMutationVariables
+>;
+
+/**
+ * __useDeleteGroupRoleMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteGroupRoleMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGroupRoleMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGroupRoleMemberMutation, { data, loading, error }] = useDeleteGroupRoleMemberMutation({
+ *   variables: {
+ *      roleMemberData: // value for 'roleMemberData'
+ *   },
+ * });
+ */
+export function useDeleteGroupRoleMemberMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteGroupRoleMemberMutation,
+    DeleteGroupRoleMemberMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteGroupRoleMemberMutation,
+    DeleteGroupRoleMemberMutationVariables
+  >(DeleteGroupRoleMemberDocument, options);
+}
+export type DeleteGroupRoleMemberMutationHookResult = ReturnType<
+  typeof useDeleteGroupRoleMemberMutation
+>;
+export type DeleteGroupRoleMemberMutationResult =
+  Apollo.MutationResult<DeleteGroupRoleMemberMutation>;
+export type DeleteGroupRoleMemberMutationOptions = Apollo.BaseMutationOptions<
+  DeleteGroupRoleMemberMutation,
+  DeleteGroupRoleMemberMutationVariables
 >;
 export const DenyMemberRequestDocument = gql`
   mutation DenyMemberRequest($id: Int!) {
@@ -6579,69 +6666,6 @@ export type CreateServerRoleMutationOptions = Apollo.BaseMutationOptions<
   CreateServerRoleMutation,
   CreateServerRoleMutationVariables
 >;
-export const DeleteRoleMemberDocument = gql`
-  mutation DeleteRoleMember($roleMemberData: DeleteRoleMemberInput!) {
-    deleteRoleMember(roleMemberData: $roleMemberData) {
-      role {
-        availableUsersToAdd {
-          ...UserAvatar
-        }
-        group {
-          id
-          myPermissions
-        }
-      }
-      me {
-        id
-        serverPermissions
-      }
-    }
-  }
-  ${UserAvatarFragmentDoc}
-`;
-export type DeleteRoleMemberMutationFn = Apollo.MutationFunction<
-  DeleteRoleMemberMutation,
-  DeleteRoleMemberMutationVariables
->;
-
-/**
- * __useDeleteRoleMemberMutation__
- *
- * To run a mutation, you first call `useDeleteRoleMemberMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRoleMemberMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteRoleMemberMutation, { data, loading, error }] = useDeleteRoleMemberMutation({
- *   variables: {
- *      roleMemberData: // value for 'roleMemberData'
- *   },
- * });
- */
-export function useDeleteRoleMemberMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteRoleMemberMutation,
-    DeleteRoleMemberMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteRoleMemberMutation,
-    DeleteRoleMemberMutationVariables
-  >(DeleteRoleMemberDocument, options);
-}
-export type DeleteRoleMemberMutationHookResult = ReturnType<
-  typeof useDeleteRoleMemberMutation
->;
-export type DeleteRoleMemberMutationResult =
-  Apollo.MutationResult<DeleteRoleMemberMutation>;
-export type DeleteRoleMemberMutationOptions = Apollo.BaseMutationOptions<
-  DeleteRoleMemberMutation,
-  DeleteRoleMemberMutationVariables
->;
 export const DeleteServerRoleDocument = gql`
   mutation DeleteServerRole($id: Int!) {
     deleteServerRole(id: $id)
@@ -6689,6 +6713,66 @@ export type DeleteServerRoleMutationResult =
 export type DeleteServerRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteServerRoleMutation,
   DeleteServerRoleMutationVariables
+>;
+export const DeleteServerRoleMemberDocument = gql`
+  mutation DeleteServerRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+    deleteServerRoleMember(roleMemberData: $roleMemberData) {
+      role {
+        id
+        availableUsersToAdd {
+          ...UserAvatar
+        }
+      }
+      me {
+        id
+        serverPermissions
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type DeleteServerRoleMemberMutationFn = Apollo.MutationFunction<
+  DeleteServerRoleMemberMutation,
+  DeleteServerRoleMemberMutationVariables
+>;
+
+/**
+ * __useDeleteServerRoleMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteServerRoleMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteServerRoleMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteServerRoleMemberMutation, { data, loading, error }] = useDeleteServerRoleMemberMutation({
+ *   variables: {
+ *      roleMemberData: // value for 'roleMemberData'
+ *   },
+ * });
+ */
+export function useDeleteServerRoleMemberMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteServerRoleMemberMutation,
+    DeleteServerRoleMemberMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteServerRoleMemberMutation,
+    DeleteServerRoleMemberMutationVariables
+  >(DeleteServerRoleMemberDocument, options);
+}
+export type DeleteServerRoleMemberMutationHookResult = ReturnType<
+  typeof useDeleteServerRoleMemberMutation
+>;
+export type DeleteServerRoleMemberMutationResult =
+  Apollo.MutationResult<DeleteServerRoleMemberMutation>;
+export type DeleteServerRoleMemberMutationOptions = Apollo.BaseMutationOptions<
+  DeleteServerRoleMemberMutation,
+  DeleteServerRoleMemberMutationVariables
 >;
 export const UpdateServerRoleDocument = gql`
   mutation UpdateServerRole($roleData: UpdateRoleInput!) {
