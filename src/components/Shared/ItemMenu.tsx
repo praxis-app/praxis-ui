@@ -4,7 +4,7 @@ import { Delete, Edit, MoreHoriz } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, SxProps } from "@mui/material";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { isRenderable, redirectTo } from "../../utils/common.utils";
+import { redirectTo } from "../../utils/common.utils";
 import GhostButton from "./GhostButton";
 
 interface Props {
@@ -38,7 +38,7 @@ const ItemMenu = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  if (!canUpdate && !canDelete && !isRenderable(children)) {
+  if (!canUpdate && !canDelete && !children) {
     return null;
   }
 

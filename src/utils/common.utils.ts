@@ -8,6 +8,8 @@ import { Environments, SCROLL_DURATION } from "../constants/common.constants";
 /**
  * Returns whether or not a given node can be successfully rendered.
  * Useful for checking whether a component has been passed any children.
+ *
+ * TODO: Determine whether this is still needed for ItemMenu
  */
 export const isRenderable = (node: ReactNode): boolean => {
   switch (typeof node) {
