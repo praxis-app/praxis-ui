@@ -7,6 +7,7 @@ import {
   ToggleButtonGroup as MuiToggleButtonGroup,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ToggleFormsFragment } from "../../apollo/gen";
 import { DarkMode } from "../../styles/theme";
 import PostForm from "../Posts/PostForm";
@@ -52,6 +53,7 @@ interface Props {
 
 const ToggleForms = ({ groupId, me }: Props) => {
   const [showProposalForm, setShowProposalForm] = useState(false);
+  const { t } = useTranslation();
 
   const { joinedGroups } = me;
   const hasGroups = !!joinedGroups.length;
@@ -75,12 +77,14 @@ const ToggleForms = ({ groupId, me }: Props) => {
       >
         <ToggleButton
           sx={showProposalForm ? INACTIVE_BTN_STYLES : {}}
+          aria-label={t("labels.toggleButton")}
           value={false}
         >
           <PostAdd />
         </ToggleButton>
         <ToggleButton
           sx={showProposalForm ? {} : INACTIVE_BTN_STYLES}
+          aria-label={t("labels.toggleButton")}
           value={true}
         >
           <EmojiPeople />

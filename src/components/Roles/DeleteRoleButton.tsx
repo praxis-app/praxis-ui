@@ -1,11 +1,13 @@
 import produce from "immer";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   DeleteRoleButtonFragment,
   ServerRolesDocument,
   ServerRolesQuery,
-  useDeleteRoleMutation,
+  useDeleteGroupRoleMutation,
+  useDeleteServerRoleMutation,
 } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
@@ -16,8 +18,14 @@ interface Props {
 }
 
 const DeleteRoleButton = ({ role: { id, group, __typename } }: Props) => {
-  const [deleteRole] = useDeleteRoleMutation();
+  const { asPath } = useRouter();
   const { t } = useTranslation();
+
+  const [deleteRole] = (
+    asPath.includes(NavigationPaths.Groups)
+      ? useDeleteGroupRoleMutation
+      : useDeleteServerRoleMutation
+  )();
 
   const handleClick = async () => {
     const groupRolesPath = `${NavigationPaths.Groups}/${group?.name}/roles`;

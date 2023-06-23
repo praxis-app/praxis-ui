@@ -24,7 +24,7 @@ const EditGroupRole: NextPage = () => {
     variables: { id },
     skip: !id,
   });
-  const role = data?.role;
+  const role = data?.groupRole;
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();

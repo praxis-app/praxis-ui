@@ -1,5 +1,5 @@
-query RoleByRoleId($id: Int!) {
-  role(id: $id) {
+query GroupRoleByRoleId($id: Int!) {
+  groupRole(id: $id) {
     id
     name
     color

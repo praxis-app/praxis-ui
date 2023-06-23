@@ -12,6 +12,12 @@ type CreateGroupPayload {
   group: Group!
 }
 
+input CreateGroupRoleInput {
+  color: String!
+  groupId: Int!
+  name: String!
+}
+
 input CreateLikeInput {
   postId: Int
 }
@@ -45,12 +51,6 @@ type CreateProposalPayload {
   proposal: Proposal!
 }
 
-input CreateRoleInput {
-  color: String!
-  groupId: Int
-  name: String!
-}
-
 type CreateRolePayload {
   role: Role!
 }
@@ -62,6 +62,11 @@ input CreateServerInviteInput {
 
 type CreateServerInvitePayload {
   serverInvite: ServerInvite!
+}
+
+input CreateServerRoleInput {
+  color: String!
+  name: String!
 }
 
 input CreateVoteInput {
@@ -169,21 +174,24 @@ type Mutation {
   approveMemberRequest(id: Int!): ApproveMemberRequestPayload!
   cancelMemberRequest(id: Int!): Boolean!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
+  createGroupRole(roleData: CreateGroupRoleInput!): CreateRolePayload!
   createLike(likeData: CreateLikeInput!): CreateLikePayload!
   createMemberRequest(groupId: Int!): CreateMemberRequestPayload!
   createPost(postData: CreatePostInput!): CreatePostPayload!
   createProposal(proposalData: CreateProposalInput!): CreateProposalPayload!
-  createRole(roleData: CreateRoleInput!): CreateRolePayload!
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
+  createServerRole(roleData: CreateServerRoleInput!): CreateRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
+  deleteGroupRole(id: Int!): Boolean!
+  deleteGroupRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteImage(id: Int!): Boolean!
   deleteLike(likeData: DeleteLikeInput!): Boolean!
   deletePost(id: Int!): Boolean!
   deleteProposal(id: Int!): Boolean!
-  deleteRole(id: Int!): Boolean!
-  deleteRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteServerInvite(id: Int!): Boolean!
+  deleteServerRole(id: Int!): Boolean!
+  deleteServerRoleMember(roleMemberData: DeleteRoleMemberInput!): DeleteRoleMemberPayload!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!
@@ -196,9 +204,10 @@ type Mutation {
   unfollowUser(id: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
+  updateGroupRole(roleData: UpdateRoleInput!): UpdateGroupRolePayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
-  updateRole(roleData: UpdateRoleInput!): UpdateRolePayload!
+  updateServerRole(roleData: UpdateRoleInput!): UpdateServerRolePayload!
   updateUser(userData: UpdateUserInput!): UpdateUserPayload!
   updateVote(voteData: UpdateVoteInput!): UpdateVotePayload!
 }
@@ -306,6 +315,7 @@ input ProposalActionRoleMemberInput {
 type Query {
   authCheck: Boolean!
   group(id: Int, name: String): Group!
+  groupRole(id: Int!): Role!
   groups: [Group!]!
   isFirstUser: Boolean!
   me: User!
@@ -316,9 +326,9 @@ type Query {
   proposals: [Proposal!]!
   publicGroups: [Group!]!
   publicGroupsFeed: [FeedItem!]!
-  role(id: Int!): Role!
   serverInvite(token: String!): ServerInvite!
   serverInvites: [ServerInvite!]!
+  serverRole(id: Int!): Role!
   serverRoles: [Role!]!
   user(id: Int, name: String): User!
   users: [User!]!
@@ -379,6 +389,10 @@ type UpdateGroupPayload {
   group: Group!
 }
 
+type UpdateGroupRolePayload {
+  role: Role!
+}
+
 input UpdatePostInput {
   body: String
   id: Int!
@@ -408,7 +422,7 @@ input UpdateRoleInput {
   selectedUserIds: [Int!]
 }
 
-type UpdateRolePayload {
+type UpdateServerRolePayload {
   me: User!
   role: Role!
 }

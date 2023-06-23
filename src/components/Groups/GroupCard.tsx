@@ -125,7 +125,15 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
     const canManageRoles = myPermissions?.includes(
       GroupPermissions.ManageRoles
     );
-    if (!canDeleteGroup && !canUpdateGroup && !canManageRoles) {
+    const canManageSettings = myPermissions?.includes(
+      GroupPermissions.ManageSettings
+    );
+    if (
+      !canDeleteGroup &&
+      !canUpdateGroup &&
+      !canManageRoles &&
+      !canManageSettings
+    ) {
       return null;
     }
 
@@ -140,10 +148,12 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         editPath={editGroupPath}
         setAnchorEl={setMenuAnchorEl}
       >
-        <MenuItem onClick={handleSettingsButtonClick}>
-          <Settings fontSize="small" sx={{ marginRight: 1 }} />
-          {t("groups.labels.settings")}
-        </MenuItem>
+        {canManageSettings && (
+          <MenuItem onClick={handleSettingsButtonClick}>
+            <Settings fontSize="small" sx={{ marginRight: 1 }} />
+            {t("groups.labels.settings")}
+          </MenuItem>
+        )}
         {canManageRoles && (
           <MenuItem onClick={handleRolesButtonClick}>
             <AccountBox fontSize="small" sx={{ marginRight: 1 }} />

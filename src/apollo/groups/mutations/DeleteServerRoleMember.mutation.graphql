@@ -1,0 +1,14 @@
+mutation DeleteGroupRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+  deleteGroupRoleMember(roleMemberData: $roleMemberData) {
+    role {
+      id
+      availableUsersToAdd {
+        ...UserAvatar
+      }
+      group {
+        id
+        myPermissions
+      }
+    }
+  }
+}

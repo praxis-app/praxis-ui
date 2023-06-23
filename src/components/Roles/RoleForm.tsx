@@ -6,22 +6,10 @@ import {
   styled,
 } from "@mui/material";
 import { Form, Formik, FormikHelpers, FormikProps } from "formik";
-import produce from "immer";
-import { useState } from "react";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import { toastVar } from "../../apollo/cache";
-import {
-  CreateRoleInput,
-  RoleFragment,
-  ServerRolesDocument,
-  ServerRolesQuery,
-  useCreateRoleMutation,
-  useUpdateRoleMutation,
-} from "../../apollo/gen";
+import { RoleFragment } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
-import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
-import { getRandomString } from "../../utils/common.utils";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
@@ -33,82 +21,34 @@ const CardContent = styled(MuiCardContent)(() => ({
   },
 }));
 
-interface Props extends CardProps {
-  editRole?: RoleFragment;
-  groupId?: number;
+interface InitialValues {
+  name: string;
 }
 
-const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
-  const [color, setColor] = useState(
-    editRole ? editRole.color : DEFAULT_ROLE_COLOR
-  );
-  const [colorPickerKey, setColorPickerKey] = useState("");
-  const [createRole] = useCreateRoleMutation();
-  const [updateRole] = useUpdateRoleMutation();
+type HandleSubmit = (
+  formValues: InitialValues,
+  formHelpers: FormikHelpers<InitialValues>
+) => Promise<void>;
 
+interface Props extends CardProps {
+  color: string;
+  colorPickerKey: string;
+  editRole?: RoleFragment;
+  handleSubmit: HandleSubmit;
+  initialValues: InitialValues;
+  setColor(color: string): void;
+}
+
+const RoleForm = ({
+  color,
+  colorPickerKey,
+  editRole,
+  handleSubmit,
+  initialValues,
+  setColor,
+  ...cardProps
+}: Props) => {
   const { t } = useTranslation();
-
-  const initialValues = {
-    name: editRole ? editRole.name : "",
-  };
-
-  const handleCreate = async (
-    formValues: Omit<CreateRoleInput, "color">,
-    { setSubmitting, resetForm }: FormikHelpers<Omit<CreateRoleInput, "color">>
-  ) =>
-    await createRole({
-      variables: {
-        roleData: { color, groupId, ...formValues },
-      },
-      update(cache, { data }) {
-        if (!data || groupId) {
-          return;
-        }
-        const {
-          createRole: { role },
-        } = data;
-        cache.updateQuery<ServerRolesQuery>(
-          { query: ServerRolesDocument },
-          (postsData) =>
-            produce(postsData, (draft) => {
-              draft?.serverRoles.unshift(role);
-            })
-        );
-      },
-      onCompleted() {
-        setColor(DEFAULT_ROLE_COLOR);
-        setSubmitting(false);
-        resetForm();
-      },
-    });
-
-  const handleSubmit = async (
-    formValues: Omit<CreateRoleInput, "color">,
-    formHelpers: FormikHelpers<Omit<CreateRoleInput, "color">>
-  ) => {
-    try {
-      if (editRole) {
-        await updateRole({
-          variables: {
-            roleData: {
-              id: editRole.id,
-              ...formValues,
-              color,
-            },
-          },
-        });
-        return;
-      }
-      await handleCreate(formValues, formHelpers);
-    } catch (err) {
-      toastVar({
-        status: "error",
-        title: String(err),
-      });
-    } finally {
-      setColorPickerKey(getRandomString());
-    }
-  };
 
   const handleChangeComplete = (color: ColorResult) => setColor(color.hex);
 
@@ -122,7 +62,7 @@ const RoleForm = ({ editRole, groupId, ...cardProps }: Props) => {
   const isSubmitButtonDisabled = ({
     dirty,
     isSubmitting,
-  }: FormikProps<Omit<CreateRoleInput, "color">>) => {
+  }: FormikProps<InitialValues>) => {
     if (isSubmitting) {
       return true;
     }

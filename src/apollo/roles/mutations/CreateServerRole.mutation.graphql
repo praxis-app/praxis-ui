@@ -1,0 +1,7 @@
+mutation CreateServerRole($roleData: CreateServerRoleInput!) {
+  createServerRole(roleData: $roleData) {
+    role {
+      ...Role
+    }
+  }
+}

@@ -22,8 +22,8 @@ import {
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
   useGroupMembersByGroupIdLazyQuery,
+  useGroupRoleByRoleIdLazyQuery,
   useGroupRolesByGroupIdLazyQuery,
-  useRoleByRoleIdLazyQuery,
 } from "../../../apollo/gen";
 import { FieldNames } from "../../../constants/common.constants";
 import {
@@ -99,7 +99,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       loading: selectedRoleLoading,
       error: selectedRoleError,
     },
-  ] = useRoleByRoleIdLazyQuery();
+  ] = useGroupRoleByRoleIdLazyQuery();
 
   const { t } = useTranslation();
 
@@ -121,7 +121,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   }, [groupId, isChangeRole, isCreateRole, getGroupMembers, getGroupRoles]);
 
   const roles = groupRolesData?.group.roles;
-  const selectedRole = selectedRoleData?.role;
+  const selectedRole = selectedRoleData?.groupRole;
 
   const permissions =
     selectedRole?.permissions || initPermissions(GroupPermissions);
@@ -173,9 +173,9 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     (event: SelectChangeEvent<number>, _: ReactNode) => {
       getSelectedRole({
         variables: { id: +event.target.value },
-        onCompleted({ role }) {
-          setColor(role.color);
-          setFieldValue("name", role.name);
+        onCompleted({ groupRole }) {
+          setColor(groupRole.color);
+          setFieldValue("name", groupRole.name);
         },
       });
       handleChange(event as ChangeEvent);
