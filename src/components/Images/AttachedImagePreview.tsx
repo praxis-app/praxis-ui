@@ -53,6 +53,7 @@ const AttachedImagePreview = ({
   return (
     <Box
       aria-label={t("images.labels.attachedImagePreview")}
+      role="img"
       sx={{
         marginTop: 2,
         display: "flex",
