@@ -140,7 +140,11 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     const canManageRoles = myPermissions?.includes(
       GroupPermissions.ManageRoles
     );
-    const showMenuButton = canDeleteGroup || canUpdateGroup || canManageRoles;
+    const canManageSettings = myPermissions?.includes(
+      GroupPermissions.ManageSettings
+    );
+    const showMenuButton =
+      canDeleteGroup || canUpdateGroup || canManageRoles || canManageSettings;
 
     return (
       <>
@@ -159,10 +163,12 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
             setAnchorEl={setMenuAnchorEl}
             variant="ghost"
           >
-            <MenuItem onClick={handleSettingsButtonClick}>
-              <Settings fontSize="small" sx={{ marginRight: 1 }} />
-              {t("groups.labels.settings")}
-            </MenuItem>
+            {canManageSettings && (
+              <MenuItem onClick={handleSettingsButtonClick}>
+                <Settings fontSize="small" sx={{ marginRight: 1 }} />
+                {t("groups.labels.settings")}
+              </MenuItem>
+            )}
             {canManageRoles && (
               <MenuItem onClick={handleRolesButtonClick}>
                 <AccountBox fontSize="small" sx={{ marginRight: 1 }} />
