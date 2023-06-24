@@ -2,7 +2,7 @@ import { FormikHelpers } from "formik";
 import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
-  RoleFragment,
+  GroupRoleFragment,
   useCreateGroupRoleMutation,
   useUpdateGroupRoleMutation,
 } from "../../apollo/gen";
@@ -11,7 +11,7 @@ import { getRandomString } from "../../utils/common.utils";
 import RoleForm from "../Roles/RoleForm";
 
 interface Props {
-  editRole?: RoleFragment;
+  editRole?: GroupRoleFragment;
   groupId: number;
 }
 
