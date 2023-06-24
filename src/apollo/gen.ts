@@ -49,6 +49,11 @@ export type CreateGroupRoleInput = {
   name: Scalars["String"];
 };
 
+export type CreateGroupRolePayload = {
+  __typename?: "CreateGroupRolePayload";
+  groupRole: GroupRole;
+};
+
 export type CreateLikeInput = {
   postId?: InputMaybe<Scalars["Int"]>;
 };
@@ -86,11 +91,6 @@ export type CreateProposalPayload = {
   proposal: Proposal;
 };
 
-export type CreateRolePayload = {
-  __typename?: "CreateRolePayload";
-  role: Role;
-};
-
 export type CreateServerInviteInput = {
   expiresAt?: InputMaybe<Scalars["DateTime"]>;
   maxUses?: InputMaybe<Scalars["Int"]>;
@@ -106,6 +106,11 @@ export type CreateServerRoleInput = {
   name: Scalars["String"];
 };
 
+export type CreateServerRolePayload = {
+  __typename?: "CreateServerRolePayload";
+  serverRole: ServerRole;
+};
+
 export type CreateVoteInput = {
   proposalId: Scalars["Int"];
   voteType: Scalars["String"];
@@ -116,19 +121,29 @@ export type CreateVotePayload = {
   vote: Vote;
 };
 
-export type DeleteLikeInput = {
-  postId?: InputMaybe<Scalars["Int"]>;
-};
-
-export type DeleteRoleMemberInput = {
+export type DeleteGroupRoleMemberInput = {
   roleId: Scalars["Int"];
   userId: Scalars["Int"];
 };
 
-export type DeleteRoleMemberPayload = {
-  __typename?: "DeleteRoleMemberPayload";
+export type DeleteGroupRoleMemberPayload = {
+  __typename?: "DeleteGroupRoleMemberPayload";
+  groupRole: GroupRole;
+};
+
+export type DeleteLikeInput = {
+  postId?: InputMaybe<Scalars["Int"]>;
+};
+
+export type DeleteServerRoleMemberInput = {
+  roleId: Scalars["Int"];
+  userId: Scalars["Int"];
+};
+
+export type DeleteServerRoleMemberPayload = {
+  __typename?: "DeleteServerRoleMemberPayload";
   me: User;
-  role: Role;
+  serverRole: ServerRole;
 };
 
 export type FeedItem = Post | Proposal;
@@ -155,7 +170,7 @@ export type Group = {
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
-  roles: Array<Role>;
+  roles: Array<GroupRole>;
   settings: GroupConfig;
   updatedAt: Scalars["DateTime"];
 };
@@ -167,6 +182,48 @@ export type GroupConfig = {
   id: Scalars["Int"];
   isPublic: Scalars["Boolean"];
   updatedAt: Scalars["DateTime"];
+};
+
+export type GroupRole = {
+  __typename?: "GroupRole";
+  availableUsersToAdd: Array<User>;
+  color: Scalars["String"];
+  group: Group;
+  id: Scalars["Int"];
+  memberCount: Scalars["Int"];
+  members: Array<User>;
+  name: Scalars["String"];
+  permissions: GroupRolePermission;
+  proposalActionRoles: Array<ProposalActionRole>;
+};
+
+export type GroupRolePermission = {
+  __typename?: "GroupRolePermission";
+  approveMemberRequests: Scalars["Boolean"];
+  createEvents: Scalars["Boolean"];
+  deleteGroup: Scalars["Boolean"];
+  groupRole: GroupRole;
+  id: Scalars["Int"];
+  manageComments: Scalars["Boolean"];
+  manageEvents: Scalars["Boolean"];
+  managePosts: Scalars["Boolean"];
+  manageRoles: Scalars["Boolean"];
+  manageSettings: Scalars["Boolean"];
+  removeMembers: Scalars["Boolean"];
+  updateGroup: Scalars["Boolean"];
+};
+
+export type GroupRolePermissionInput = {
+  approveMemberRequests?: InputMaybe<Scalars["Boolean"]>;
+  createEvents?: InputMaybe<Scalars["Boolean"]>;
+  deleteGroup?: InputMaybe<Scalars["Boolean"]>;
+  manageComments?: InputMaybe<Scalars["Boolean"]>;
+  manageEvents?: InputMaybe<Scalars["Boolean"]>;
+  managePosts?: InputMaybe<Scalars["Boolean"]>;
+  manageRoles?: InputMaybe<Scalars["Boolean"]>;
+  manageSettings?: InputMaybe<Scalars["Boolean"]>;
+  removeMembers?: InputMaybe<Scalars["Boolean"]>;
+  updateGroup?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type Image = {
@@ -216,24 +273,24 @@ export type Mutation = {
   approveMemberRequest: ApproveMemberRequestPayload;
   cancelMemberRequest: Scalars["Boolean"];
   createGroup: CreateGroupPayload;
-  createGroupRole: CreateRolePayload;
+  createGroupRole: CreateGroupRolePayload;
   createLike: CreateLikePayload;
   createMemberRequest: CreateMemberRequestPayload;
   createPost: CreatePostPayload;
   createProposal: CreateProposalPayload;
   createServerInvite: CreateServerInvitePayload;
-  createServerRole: CreateRolePayload;
+  createServerRole: CreateServerRolePayload;
   createVote: CreateVotePayload;
   deleteGroup: Scalars["Boolean"];
   deleteGroupRole: Scalars["Boolean"];
-  deleteGroupRoleMember: DeleteRoleMemberPayload;
+  deleteGroupRoleMember: DeleteGroupRoleMemberPayload;
   deleteImage: Scalars["Boolean"];
   deleteLike: Scalars["Boolean"];
   deletePost: Scalars["Boolean"];
   deleteProposal: Scalars["Boolean"];
   deleteServerInvite: Scalars["Boolean"];
   deleteServerRole: Scalars["Boolean"];
-  deleteServerRoleMember: DeleteRoleMemberPayload;
+  deleteServerRoleMember: DeleteServerRoleMemberPayload;
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
   denyMemberRequest: Scalars["Boolean"];
@@ -307,7 +364,7 @@ export type MutationDeleteGroupRoleArgs = {
 };
 
 export type MutationDeleteGroupRoleMemberArgs = {
-  roleMemberData: DeleteRoleMemberInput;
+  roleMemberData: DeleteGroupRoleMemberInput;
 };
 
 export type MutationDeleteImageArgs = {
@@ -335,7 +392,7 @@ export type MutationDeleteServerRoleArgs = {
 };
 
 export type MutationDeleteServerRoleMemberArgs = {
-  roleMemberData: DeleteRoleMemberInput;
+  roleMemberData: DeleteServerRoleMemberInput;
 };
 
 export type MutationDeleteUserArgs = {
@@ -379,7 +436,7 @@ export type MutationUpdateGroupConfigArgs = {
 };
 
 export type MutationUpdateGroupRoleArgs = {
-  roleData: UpdateRoleInput;
+  roleData: UpdateGroupRoleInput;
 };
 
 export type MutationUpdatePostArgs = {
@@ -391,7 +448,7 @@ export type MutationUpdateProposalArgs = {
 };
 
 export type MutationUpdateServerRoleArgs = {
-  roleData: UpdateRoleInput;
+  roleData: UpdateServerRoleInput;
 };
 
 export type MutationUpdateUserArgs = {
@@ -400,19 +457,6 @@ export type MutationUpdateUserArgs = {
 
 export type MutationUpdateVoteArgs = {
   voteData: UpdateVoteInput;
-};
-
-export type Permission = {
-  __typename?: "Permission";
-  enabled: Scalars["Boolean"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
-  role: Role;
-};
-
-export type PermissionInput = {
-  enabled: Scalars["Boolean"];
-  name: Scalars["String"];
 };
 
 export type Post = {
@@ -467,30 +511,38 @@ export type ProposalActionInput = {
 
 export type ProposalActionPermission = {
   __typename?: "ProposalActionPermission";
-  enabled: Scalars["Boolean"];
+  approveMemberRequests: Scalars["Boolean"];
+  createEvents: Scalars["Boolean"];
+  deleteGroup: Scalars["Boolean"];
   id: Scalars["Int"];
-  name: Scalars["String"];
+  manageComments: Scalars["Boolean"];
+  manageEvents: Scalars["Boolean"];
+  managePosts: Scalars["Boolean"];
+  manageRoles: Scalars["Boolean"];
+  manageSettings: Scalars["Boolean"];
+  removeMembers: Scalars["Boolean"];
   role: ProposalActionRole;
+  updateGroup: Scalars["Boolean"];
 };
 
 export type ProposalActionRole = {
   __typename?: "ProposalActionRole";
   color?: Maybe<Scalars["String"]>;
+  groupRole?: Maybe<GroupRole>;
   id: Scalars["Int"];
   members?: Maybe<Array<ProposalActionRoleMember>>;
   name?: Maybe<Scalars["String"]>;
   oldColor?: Maybe<Scalars["String"]>;
   oldName?: Maybe<Scalars["String"]>;
-  permissions?: Maybe<Array<ProposalActionPermission>>;
+  permissions: ProposalActionPermission;
   proposalAction: ProposalAction;
-  role?: Maybe<Role>;
 };
 
 export type ProposalActionRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
   members?: InputMaybe<Array<ProposalActionRoleMemberInput>>;
   name?: InputMaybe<Scalars["String"]>;
-  permissions?: InputMaybe<Array<PermissionInput>>;
+  permissions?: InputMaybe<GroupRolePermissionInput>;
   roleToUpdateId?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -513,7 +565,8 @@ export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
   group: Group;
-  groupRole: Role;
+  groupRole: GroupRole;
+  groupRoles: Array<GroupRole>;
   groups: Array<Group>;
   isFirstUser: Scalars["Boolean"];
   me: User;
@@ -526,8 +579,8 @@ export type Query = {
   publicGroupsFeed: Array<FeedItem>;
   serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
-  serverRole: Role;
-  serverRoles: Array<Role>;
+  serverRole: ServerRole;
+  serverRoles: Array<ServerRole>;
   user: User;
   users: Array<User>;
   usersByIds: Array<User>;
@@ -577,19 +630,6 @@ export type QueryVoteArgs = {
   id: Scalars["Int"];
 };
 
-export type Role = {
-  __typename?: "Role";
-  availableUsersToAdd: Array<User>;
-  color: Scalars["String"];
-  group?: Maybe<Group>;
-  id: Scalars["Int"];
-  memberCount: Scalars["Int"];
-  members: Array<User>;
-  name: Scalars["String"];
-  permissions: Array<Permission>;
-  proposalActionRoles: Array<ProposalActionRole>;
-};
-
 export type ServerInvite = {
   __typename?: "ServerInvite";
   createdAt: Scalars["DateTime"];
@@ -600,6 +640,40 @@ export type ServerInvite = {
   updatedAt: Scalars["DateTime"];
   user: User;
   uses: Scalars["Int"];
+};
+
+export type ServerRole = {
+  __typename?: "ServerRole";
+  availableUsersToAdd: Array<User>;
+  color: Scalars["String"];
+  id: Scalars["Int"];
+  memberCount: Scalars["Int"];
+  members: Array<User>;
+  name: Scalars["String"];
+  permissions: ServerRolePermission;
+};
+
+export type ServerRolePermission = {
+  __typename?: "ServerRolePermission";
+  createInvites: Scalars["Boolean"];
+  id: Scalars["Int"];
+  manageComments: Scalars["Boolean"];
+  manageEvents: Scalars["Boolean"];
+  manageInvites: Scalars["Boolean"];
+  managePosts: Scalars["Boolean"];
+  manageRoles: Scalars["Boolean"];
+  removeMembers: Scalars["Boolean"];
+  serverRole: ServerRole;
+};
+
+export type ServerRolePermissionInput = {
+  banMembers: Scalars["Boolean"];
+  createInvites: Scalars["Boolean"];
+  manageComments: Scalars["Boolean"];
+  manageEvents: Scalars["Boolean"];
+  manageInvites: Scalars["Boolean"];
+  managePosts: Scalars["Boolean"];
+  manageRoles: Scalars["Boolean"];
 };
 
 export type SignUpInput = {
@@ -633,9 +707,17 @@ export type UpdateGroupPayload = {
   group: Group;
 };
 
+export type UpdateGroupRoleInput = {
+  color?: InputMaybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  name?: InputMaybe<Scalars["String"]>;
+  permission?: InputMaybe<GroupRolePermissionInput>;
+  selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
+};
+
 export type UpdateGroupRolePayload = {
   __typename?: "UpdateGroupRolePayload";
-  role: Role;
+  groupRole: GroupRole;
 };
 
 export type UpdatePostInput = {
@@ -661,18 +743,18 @@ export type UpdateProposalPayload = {
   proposal: Proposal;
 };
 
-export type UpdateRoleInput = {
+export type UpdateServerRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
   name?: InputMaybe<Scalars["String"]>;
-  permissions?: InputMaybe<Array<PermissionInput>>;
+  permissions?: InputMaybe<ServerRolePermissionInput>;
   selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 
 export type UpdateServerRolePayload = {
   __typename?: "UpdateServerRolePayload";
   me: User;
-  role: Role;
+  serverRole: ServerRole;
 };
 
 export type UpdateUserInput = {
@@ -785,6 +867,58 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
+export type AddGroupRoleMemberTabFragment = {
+  __typename?: "GroupRole";
+  id: number;
+  members: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  }>;
+};
+
+export type DeleteGroupRoleButtonFragment = {
+  __typename?: "GroupRole";
+  id: number;
+  group: { __typename?: "Group"; id: number; name: string };
+};
+
+export type EditGroupRoleTabsFragment = {
+  __typename?: "GroupRole";
+  id: number;
+  name: string;
+  color: string;
+  memberCount: number;
+  permissions: {
+    __typename?: "GroupRolePermission";
+    id: number;
+    approveMemberRequests: boolean;
+    createEvents: boolean;
+    deleteGroup: boolean;
+    manageComments: boolean;
+    manageEvents: boolean;
+    managePosts: boolean;
+    manageRoles: boolean;
+    manageSettings: boolean;
+    removeMembers: boolean;
+    updateGroup: boolean;
+  };
+  availableUsersToAdd: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  }>;
+  group: { __typename?: "Group"; id: number; name: string };
+  members: Array<{
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  }>;
+};
+
 export type GroupAvatarFragment = {
   __typename?: "Group";
   id: number;
@@ -827,6 +961,30 @@ export type GroupProfileCardFragment = {
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
   settings: { __typename?: "GroupConfig"; isPublic: boolean };
+};
+
+export type GroupRoleFragment = {
+  __typename?: "GroupRole";
+  id: number;
+  name: string;
+  color: string;
+  memberCount: number;
+  group: { __typename?: "Group"; id: number; name: string };
+};
+
+export type GroupRolePermissionsFragment = {
+  __typename?: "GroupRolePermission";
+  id: number;
+  approveMemberRequests: boolean;
+  createEvents: boolean;
+  deleteGroup: boolean;
+  manageComments: boolean;
+  manageEvents: boolean;
+  managePosts: boolean;
+  manageRoles: boolean;
+  manageSettings: boolean;
+  removeMembers: boolean;
+  updateGroup: boolean;
 };
 
 export type GroupSettingsFormFragment = {
@@ -900,26 +1058,26 @@ export type CreateGroupRoleMutationVariables = Exact<{
 export type CreateGroupRoleMutation = {
   __typename?: "Mutation";
   createGroupRole: {
-    __typename?: "CreateRolePayload";
-    role: {
-      __typename?: "Role";
+    __typename?: "CreateGroupRolePayload";
+    groupRole: {
+      __typename?: "GroupRole";
       id: number;
       name: string;
       color: string;
       memberCount: number;
-      group?: {
+      group: {
         __typename?: "Group";
         id: number;
         name: string;
         roles: Array<{
-          __typename?: "Role";
+          __typename?: "GroupRole";
           id: number;
           name: string;
           color: string;
           memberCount: number;
-          group?: { __typename?: "Group"; id: number; name: string } | null;
+          group: { __typename?: "Group"; id: number; name: string };
         }>;
-      } | null;
+      };
     };
   };
 };
@@ -965,15 +1123,15 @@ export type DeleteGroupRoleMutation = {
 };
 
 export type DeleteGroupRoleMemberMutationVariables = Exact<{
-  roleMemberData: DeleteRoleMemberInput;
+  roleMemberData: DeleteGroupRoleMemberInput;
 }>;
 
 export type DeleteGroupRoleMemberMutation = {
   __typename?: "Mutation";
   deleteGroupRoleMember: {
-    __typename?: "DeleteRoleMemberPayload";
-    role: {
-      __typename?: "Role";
+    __typename?: "DeleteGroupRoleMemberPayload";
+    groupRole: {
+      __typename?: "GroupRole";
       id: number;
       availableUsersToAdd: Array<{
         __typename?: "User";
@@ -981,11 +1139,7 @@ export type DeleteGroupRoleMemberMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group?: {
-        __typename?: "Group";
-        id: number;
-        myPermissions: Array<string>;
-      } | null;
+      group: { __typename?: "Group"; id: number; myPermissions: Array<string> };
     };
   };
 };
@@ -1027,25 +1181,33 @@ export type UpdateGroupMutation = {
 };
 
 export type UpdateGroupRoleMutationVariables = Exact<{
-  roleData: UpdateRoleInput;
+  roleData: UpdateGroupRoleInput;
 }>;
 
 export type UpdateGroupRoleMutation = {
   __typename?: "Mutation";
   updateGroupRole: {
     __typename?: "UpdateGroupRolePayload";
-    role: {
-      __typename?: "Role";
+    groupRole: {
+      __typename?: "GroupRole";
       id: number;
       name: string;
       color: string;
       memberCount: number;
-      permissions: Array<{
-        __typename?: "Permission";
+      permissions: {
+        __typename?: "GroupRolePermission";
         id: number;
-        name: string;
-        enabled: boolean;
-      }>;
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       members: Array<{
         __typename?: "User";
         id: number;
@@ -1058,12 +1220,12 @@ export type UpdateGroupRoleMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group?: {
+      group: {
         __typename?: "Group";
         id: number;
         myPermissions: Array<string>;
         name: string;
-      } | null;
+      };
     };
   };
 };
@@ -1113,23 +1275,31 @@ export type EditGroupRoleQueryVariables = Exact<{
 export type EditGroupRoleQuery = {
   __typename?: "Query";
   groupRole: {
-    __typename?: "Role";
+    __typename?: "GroupRole";
     id: number;
     name: string;
     color: string;
     memberCount: number;
-    group?: {
+    group: {
       __typename?: "Group";
       id: number;
       myPermissions: Array<string>;
       name: string;
-    } | null;
-    permissions: Array<{
-      __typename?: "Permission";
+    };
+    permissions: {
+      __typename?: "GroupRolePermission";
       id: number;
-      name: string;
-      enabled: boolean;
-    }>;
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     availableUsersToAdd: Array<{
       __typename?: "User";
       id: number;
@@ -1244,12 +1414,20 @@ export type GroupProfileQuery = {
               color?: string | null;
               oldName?: string | null;
               oldColor?: string | null;
-              permissions?: Array<{
+              permissions: {
                 __typename?: "ProposalActionPermission";
                 id: number;
-                name: string;
-                enabled: boolean;
-              }> | null;
+                approveMemberRequests: boolean;
+                createEvents: boolean;
+                deleteGroup: boolean;
+                manageComments: boolean;
+                manageEvents: boolean;
+                managePosts: boolean;
+                manageRoles: boolean;
+                manageSettings: boolean;
+                removeMembers: boolean;
+                updateGroup: boolean;
+              };
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
                 id: number;
@@ -1261,8 +1439,8 @@ export type GroupProfileQuery = {
                   profilePicture: { __typename?: "Image"; id: number };
                 };
               }> | null;
-              role?: {
-                __typename?: "Role";
+              groupRole?: {
+                __typename?: "GroupRole";
                 id: number;
                 name: string;
                 color: string;
@@ -1314,16 +1492,24 @@ export type GroupRoleByRoleIdQueryVariables = Exact<{
 export type GroupRoleByRoleIdQuery = {
   __typename?: "Query";
   groupRole: {
-    __typename?: "Role";
+    __typename?: "GroupRole";
     id: number;
     name: string;
     color: string;
-    permissions: Array<{
-      __typename?: "Permission";
+    permissions: {
+      __typename?: "GroupRolePermission";
       id: number;
-      name: string;
-      enabled: boolean;
-    }>;
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     members: Array<{
       __typename?: "User";
       id: number;
@@ -1350,12 +1536,12 @@ export type GroupRolesQuery = {
     id: number;
     myPermissions: Array<string>;
     roles: Array<{
-      __typename?: "Role";
+      __typename?: "GroupRole";
       id: number;
       name: string;
       color: string;
       memberCount: number;
-      group?: { __typename?: "Group"; id: number; name: string } | null;
+      group: { __typename?: "Group"; id: number; name: string };
     }>;
   };
 };
@@ -1369,7 +1555,7 @@ export type GroupRolesByGroupIdQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    roles: Array<{ __typename?: "Role"; id: number; name: string }>;
+    roles: Array<{ __typename?: "GroupRole"; id: number; name: string }>;
   };
 };
 
@@ -1514,12 +1700,20 @@ export type PublicGroupsFeedQuery = {
             color?: string | null;
             oldName?: string | null;
             oldColor?: string | null;
-            permissions?: Array<{
+            permissions: {
               __typename?: "ProposalActionPermission";
               id: number;
-              name: string;
-              enabled: boolean;
-            }> | null;
+              approveMemberRequests: boolean;
+              createEvents: boolean;
+              deleteGroup: boolean;
+              manageComments: boolean;
+              manageEvents: boolean;
+              managePosts: boolean;
+              manageRoles: boolean;
+              manageSettings: boolean;
+              removeMembers: boolean;
+              updateGroup: boolean;
+            };
             members?: Array<{
               __typename?: "ProposalActionRoleMember";
               id: number;
@@ -1531,8 +1725,8 @@ export type PublicGroupsFeedQuery = {
                 profilePicture: { __typename?: "Image"; id: number };
               };
             }> | null;
-            role?: {
-              __typename?: "Role";
+            groupRole?: {
+              __typename?: "GroupRole";
               id: number;
               name: string;
               color: string;
@@ -1719,12 +1913,20 @@ type FeedItem_Proposal_Fragment = {
       color?: string | null;
       oldName?: string | null;
       oldColor?: string | null;
-      permissions?: Array<{
+      permissions: {
         __typename?: "ProposalActionPermission";
         id: number;
-        name: string;
-        enabled: boolean;
-      }> | null;
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
         id: number;
@@ -1736,8 +1938,8 @@ type FeedItem_Proposal_Fragment = {
           profilePicture: { __typename?: "Image"; id: number };
         };
       }> | null;
-      role?: {
-        __typename?: "Role";
+      groupRole?: {
+        __typename?: "GroupRole";
         id: number;
         name: string;
         color: string;
@@ -1974,12 +2176,20 @@ export type ProposalActionFragment = {
     color?: string | null;
     oldName?: string | null;
     oldColor?: string | null;
-    permissions?: Array<{
+    permissions: {
       __typename?: "ProposalActionPermission";
       id: number;
-      name: string;
-      enabled: boolean;
-    }> | null;
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     members?: Array<{
       __typename?: "ProposalActionRoleMember";
       id: number;
@@ -1991,8 +2201,8 @@ export type ProposalActionFragment = {
         profilePicture: { __typename?: "Image"; id: number };
       };
     }> | null;
-    role?: {
-      __typename?: "Role";
+    groupRole?: {
+      __typename?: "GroupRole";
       id: number;
       name: string;
       color: string;
@@ -2003,8 +2213,16 @@ export type ProposalActionFragment = {
 export type ProposalActionPermissionFragment = {
   __typename?: "ProposalActionPermission";
   id: number;
-  name: string;
-  enabled: boolean;
+  approveMemberRequests: boolean;
+  createEvents: boolean;
+  deleteGroup: boolean;
+  manageComments: boolean;
+  manageEvents: boolean;
+  managePosts: boolean;
+  manageRoles: boolean;
+  manageSettings: boolean;
+  removeMembers: boolean;
+  updateGroup: boolean;
 };
 
 export type ProposalActionRoleFragment = {
@@ -2014,12 +2232,20 @@ export type ProposalActionRoleFragment = {
   color?: string | null;
   oldName?: string | null;
   oldColor?: string | null;
-  permissions?: Array<{
+  permissions: {
     __typename?: "ProposalActionPermission";
     id: number;
-    name: string;
-    enabled: boolean;
-  }> | null;
+    approveMemberRequests: boolean;
+    createEvents: boolean;
+    deleteGroup: boolean;
+    manageComments: boolean;
+    manageEvents: boolean;
+    managePosts: boolean;
+    manageRoles: boolean;
+    manageSettings: boolean;
+    removeMembers: boolean;
+    updateGroup: boolean;
+  };
   members?: Array<{
     __typename?: "ProposalActionRoleMember";
     id: number;
@@ -2031,8 +2257,8 @@ export type ProposalActionRoleFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }> | null;
-  role?: {
-    __typename?: "Role";
+  groupRole?: {
+    __typename?: "GroupRole";
     id: number;
     name: string;
     color: string;
@@ -2076,12 +2302,20 @@ export type ProposalCardFragment = {
       color?: string | null;
       oldName?: string | null;
       oldColor?: string | null;
-      permissions?: Array<{
+      permissions: {
         __typename?: "ProposalActionPermission";
         id: number;
-        name: string;
-        enabled: boolean;
-      }> | null;
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
         id: number;
@@ -2093,8 +2327,8 @@ export type ProposalCardFragment = {
           profilePicture: { __typename?: "Image"; id: number };
         };
       }> | null;
-      role?: {
-        __typename?: "Role";
+      groupRole?: {
+        __typename?: "GroupRole";
         id: number;
         name: string;
         color: string;
@@ -2201,12 +2435,20 @@ export type CreateProposalMutation = {
           color?: string | null;
           oldName?: string | null;
           oldColor?: string | null;
-          permissions?: Array<{
+          permissions: {
             __typename?: "ProposalActionPermission";
             id: number;
-            name: string;
-            enabled: boolean;
-          }> | null;
+            approveMemberRequests: boolean;
+            createEvents: boolean;
+            deleteGroup: boolean;
+            manageComments: boolean;
+            manageEvents: boolean;
+            managePosts: boolean;
+            manageRoles: boolean;
+            manageSettings: boolean;
+            removeMembers: boolean;
+            updateGroup: boolean;
+          };
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
             id: number;
@@ -2218,8 +2460,8 @@ export type CreateProposalMutation = {
               profilePicture: { __typename?: "Image"; id: number };
             };
           }> | null;
-          role?: {
-            __typename?: "Role";
+          groupRole?: {
+            __typename?: "GroupRole";
             id: number;
             name: string;
             color: string;
@@ -2298,12 +2540,20 @@ export type UpdateProposalMutation = {
           color?: string | null;
           oldName?: string | null;
           oldColor?: string | null;
-          permissions?: Array<{
+          permissions: {
             __typename?: "ProposalActionPermission";
             id: number;
-            name: string;
-            enabled: boolean;
-          }> | null;
+            approveMemberRequests: boolean;
+            createEvents: boolean;
+            deleteGroup: boolean;
+            manageComments: boolean;
+            manageEvents: boolean;
+            managePosts: boolean;
+            manageRoles: boolean;
+            manageSettings: boolean;
+            removeMembers: boolean;
+            updateGroup: boolean;
+          };
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
             id: number;
@@ -2315,8 +2565,8 @@ export type UpdateProposalMutation = {
               profilePicture: { __typename?: "Image"; id: number };
             };
           }> | null;
-          role?: {
-            __typename?: "Role";
+          groupRole?: {
+            __typename?: "GroupRole";
             id: number;
             name: string;
             color: string;
@@ -2411,12 +2661,20 @@ export type ProposalQuery = {
         color?: string | null;
         oldName?: string | null;
         oldColor?: string | null;
-        permissions?: Array<{
+        permissions: {
           __typename?: "ProposalActionPermission";
           id: number;
-          name: string;
-          enabled: boolean;
-        }> | null;
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
         members?: Array<{
           __typename?: "ProposalActionRoleMember";
           id: number;
@@ -2428,8 +2686,8 @@ export type ProposalQuery = {
             profilePicture: { __typename?: "Image"; id: number };
           };
         }> | null;
-        role?: {
-          __typename?: "Role";
+        groupRole?: {
+          __typename?: "GroupRole";
           id: number;
           name: string;
           color: string;
@@ -2464,8 +2722,8 @@ export type ProposalQuery = {
   };
 };
 
-export type AddRoleMemberTabFragment = {
-  __typename?: "Role";
+export type AddServerRoleMemberTabFragment = {
+  __typename?: "ServerRole";
   id: number;
   members: Array<{
     __typename?: "User";
@@ -2475,53 +2733,35 @@ export type AddRoleMemberTabFragment = {
   }>;
 };
 
-export type DeleteRoleButtonFragment = {
-  __typename?: "Role";
-  id: number;
-  group?: { __typename?: "Group"; id: number; name: string } | null;
-};
-
-export type EditRoleTabsFragment = {
-  __typename?: "Role";
+export type EditServerRoleTabsFragment = {
+  __typename?: "ServerRole";
   id: number;
   name: string;
   color: string;
   memberCount: number;
-  permissions: Array<{
-    __typename?: "Permission";
+  permissions: {
+    __typename?: "ServerRolePermission";
     id: number;
-    name: string;
-    enabled: boolean;
-  }>;
+    createInvites: boolean;
+    manageComments: boolean;
+    manageEvents: boolean;
+    manageInvites: boolean;
+    managePosts: boolean;
+    manageRoles: boolean;
+    removeMembers: boolean;
+  };
   availableUsersToAdd: Array<{
     __typename?: "User";
     id: number;
     name: string;
     profilePicture: { __typename?: "Image"; id: number };
   }>;
-  group?: { __typename?: "Group"; id: number; name: string } | null;
   members: Array<{
     __typename?: "User";
     id: number;
     name: string;
     profilePicture: { __typename?: "Image"; id: number };
   }>;
-};
-
-export type PermissionToggleFragment = {
-  __typename?: "Permission";
-  id: number;
-  name: string;
-  enabled: boolean;
-};
-
-export type RoleFragment = {
-  __typename?: "Role";
-  id: number;
-  name: string;
-  color: string;
-  memberCount: number;
-  group?: { __typename?: "Group"; id: number; name: string } | null;
 };
 
 export type RoleMemberFragment = {
@@ -2531,6 +2771,26 @@ export type RoleMemberFragment = {
   profilePicture: { __typename?: "Image"; id: number };
 };
 
+export type ServerRoleFragment = {
+  __typename?: "ServerRole";
+  id: number;
+  name: string;
+  color: string;
+  memberCount: number;
+};
+
+export type ServerRolePermissionsFragment = {
+  __typename?: "ServerRolePermission";
+  id: number;
+  createInvites: boolean;
+  manageComments: boolean;
+  manageEvents: boolean;
+  manageInvites: boolean;
+  managePosts: boolean;
+  manageRoles: boolean;
+  removeMembers: boolean;
+};
+
 export type CreateServerRoleMutationVariables = Exact<{
   roleData: CreateServerRoleInput;
 }>;
@@ -2538,14 +2798,13 @@ export type CreateServerRoleMutationVariables = Exact<{
 export type CreateServerRoleMutation = {
   __typename?: "Mutation";
   createServerRole: {
-    __typename?: "CreateRolePayload";
-    role: {
-      __typename?: "Role";
+    __typename?: "CreateServerRolePayload";
+    serverRole: {
+      __typename?: "ServerRole";
       id: number;
       name: string;
       color: string;
       memberCount: number;
-      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
   };
 };
@@ -2560,15 +2819,15 @@ export type DeleteServerRoleMutation = {
 };
 
 export type DeleteServerRoleMemberMutationVariables = Exact<{
-  roleMemberData: DeleteRoleMemberInput;
+  roleMemberData: DeleteServerRoleMemberInput;
 }>;
 
 export type DeleteServerRoleMemberMutation = {
   __typename?: "Mutation";
   deleteServerRoleMember: {
-    __typename?: "DeleteRoleMemberPayload";
-    role: {
-      __typename?: "Role";
+    __typename?: "DeleteServerRoleMemberPayload";
+    serverRole: {
+      __typename?: "ServerRole";
       id: number;
       availableUsersToAdd: Array<{
         __typename?: "User";
@@ -2582,25 +2841,30 @@ export type DeleteServerRoleMemberMutation = {
 };
 
 export type UpdateServerRoleMutationVariables = Exact<{
-  roleData: UpdateRoleInput;
+  roleData: UpdateServerRoleInput;
 }>;
 
 export type UpdateServerRoleMutation = {
   __typename?: "Mutation";
   updateServerRole: {
     __typename?: "UpdateServerRolePayload";
-    role: {
-      __typename?: "Role";
+    serverRole: {
+      __typename?: "ServerRole";
       id: number;
       name: string;
       color: string;
       memberCount: number;
-      permissions: Array<{
-        __typename?: "Permission";
+      permissions: {
+        __typename?: "ServerRolePermission";
         id: number;
-        name: string;
-        enabled: boolean;
-      }>;
+        createInvites: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        manageInvites: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        removeMembers: boolean;
+      };
       members: Array<{
         __typename?: "User";
         id: number;
@@ -2613,7 +2877,6 @@ export type UpdateServerRoleMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
     me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
   };
@@ -2626,24 +2889,28 @@ export type EditServerRoleQueryVariables = Exact<{
 export type EditServerRoleQuery = {
   __typename?: "Query";
   serverRole: {
-    __typename?: "Role";
+    __typename?: "ServerRole";
     id: number;
     name: string;
     color: string;
     memberCount: number;
-    permissions: Array<{
-      __typename?: "Permission";
+    permissions: {
+      __typename?: "ServerRolePermission";
       id: number;
-      name: string;
-      enabled: boolean;
-    }>;
+      createInvites: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      manageInvites: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      removeMembers: boolean;
+    };
     availableUsersToAdd: Array<{
       __typename?: "User";
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
     }>;
-    group?: { __typename?: "Group"; id: number; name: string } | null;
     members: Array<{
       __typename?: "User";
       id: number;
@@ -2664,24 +2931,32 @@ export type RolesByGroupIdQuery = {
     __typename?: "Group";
     id: number;
     roles: Array<{
-      __typename?: "Role";
+      __typename?: "GroupRole";
       id: number;
       name: string;
       color: string;
       memberCount: number;
-      permissions: Array<{
-        __typename?: "Permission";
+      permissions: {
+        __typename?: "GroupRolePermission";
         id: number;
-        name: string;
-        enabled: boolean;
-      }>;
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       availableUsersToAdd: Array<{
         __typename?: "User";
         id: number;
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group?: { __typename?: "Group"; id: number; name: string } | null;
+      group: { __typename?: "Group"; id: number; name: string };
       members: Array<{
         __typename?: "User";
         id: number;
@@ -2697,12 +2972,11 @@ export type ServerRolesQueryVariables = Exact<{ [key: string]: never }>;
 export type ServerRolesQuery = {
   __typename?: "Query";
   serverRoles: Array<{
-    __typename?: "Role";
+    __typename?: "ServerRole";
     id: number;
     name: string;
     color: string;
     memberCount: number;
-    group?: { __typename?: "Group"; id: number; name: string } | null;
   }>;
 };
 
@@ -2851,12 +3125,20 @@ export type FollowUserMutation = {
                 color?: string | null;
                 oldName?: string | null;
                 oldColor?: string | null;
-                permissions?: Array<{
+                permissions: {
                   __typename?: "ProposalActionPermission";
                   id: number;
-                  name: string;
-                  enabled: boolean;
-                }> | null;
+                  approveMemberRequests: boolean;
+                  createEvents: boolean;
+                  deleteGroup: boolean;
+                  manageComments: boolean;
+                  manageEvents: boolean;
+                  managePosts: boolean;
+                  manageRoles: boolean;
+                  manageSettings: boolean;
+                  removeMembers: boolean;
+                  updateGroup: boolean;
+                };
                 members?: Array<{
                   __typename?: "ProposalActionRoleMember";
                   id: number;
@@ -2868,8 +3150,8 @@ export type FollowUserMutation = {
                     profilePicture: { __typename?: "Image"; id: number };
                   };
                 }> | null;
-                role?: {
-                  __typename?: "Role";
+                groupRole?: {
+                  __typename?: "GroupRole";
                   id: number;
                   name: string;
                   color: string;
@@ -3090,12 +3372,20 @@ export type HomeFeedQuery = {
               color?: string | null;
               oldName?: string | null;
               oldColor?: string | null;
-              permissions?: Array<{
+              permissions: {
                 __typename?: "ProposalActionPermission";
                 id: number;
-                name: string;
-                enabled: boolean;
-              }> | null;
+                approveMemberRequests: boolean;
+                createEvents: boolean;
+                deleteGroup: boolean;
+                manageComments: boolean;
+                manageEvents: boolean;
+                managePosts: boolean;
+                manageRoles: boolean;
+                manageSettings: boolean;
+                removeMembers: boolean;
+                updateGroup: boolean;
+              };
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
                 id: number;
@@ -3107,8 +3397,8 @@ export type HomeFeedQuery = {
                   profilePicture: { __typename?: "Image"; id: number };
                 };
               }> | null;
-              role?: {
-                __typename?: "Role";
+              groupRole?: {
+                __typename?: "GroupRole";
                 id: number;
                 name: string;
                 color: string;
@@ -3228,12 +3518,20 @@ export type UserProfileQuery = {
               color?: string | null;
               oldName?: string | null;
               oldColor?: string | null;
-              permissions?: Array<{
+              permissions: {
                 __typename?: "ProposalActionPermission";
                 id: number;
-                name: string;
-                enabled: boolean;
-              }> | null;
+                approveMemberRequests: boolean;
+                createEvents: boolean;
+                deleteGroup: boolean;
+                manageComments: boolean;
+                manageEvents: boolean;
+                managePosts: boolean;
+                manageRoles: boolean;
+                manageSettings: boolean;
+                removeMembers: boolean;
+                updateGroup: boolean;
+              };
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
                 id: number;
@@ -3245,8 +3543,8 @@ export type UserProfileQuery = {
                   profilePicture: { __typename?: "Image"; id: number };
                 };
               }> | null;
-              role?: {
-                __typename?: "Role";
+              groupRole?: {
+                __typename?: "GroupRole";
                 id: number;
                 name: string;
                 color: string;
@@ -3431,6 +3729,85 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const GroupRoleFragmentDoc = gql`
+  fragment GroupRole on GroupRole {
+    id
+    name
+    color
+    memberCount
+    group {
+      id
+      name
+    }
+  }
+`;
+export const UserAvatarFragmentDoc = gql`
+  fragment UserAvatar on User {
+    id
+    name
+    profilePicture {
+      id
+    }
+  }
+`;
+export const RoleMemberFragmentDoc = gql`
+  fragment RoleMember on User {
+    id
+    ...UserAvatar
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export const AddGroupRoleMemberTabFragmentDoc = gql`
+  fragment AddGroupRoleMemberTab on GroupRole {
+    id
+    members {
+      ...RoleMember
+    }
+  }
+  ${RoleMemberFragmentDoc}
+`;
+export const DeleteGroupRoleButtonFragmentDoc = gql`
+  fragment DeleteGroupRoleButton on GroupRole {
+    id
+    group {
+      id
+      name
+    }
+  }
+`;
+export const GroupRolePermissionsFragmentDoc = gql`
+  fragment GroupRolePermissions on GroupRolePermission {
+    id
+    approveMemberRequests
+    createEvents
+    deleteGroup
+    manageComments
+    manageEvents
+    managePosts
+    manageRoles
+    manageSettings
+    removeMembers
+    updateGroup
+  }
+`;
+export const EditGroupRoleTabsFragmentDoc = gql`
+  fragment EditGroupRoleTabs on GroupRole {
+    ...GroupRole
+    ...AddGroupRoleMemberTab
+    ...DeleteGroupRoleButton
+    permissions {
+      ...GroupRolePermissions
+    }
+    availableUsersToAdd {
+      ...UserAvatar
+    }
+  }
+  ${GroupRoleFragmentDoc}
+  ${AddGroupRoleMemberTabFragmentDoc}
+  ${DeleteGroupRoleButtonFragmentDoc}
+  ${GroupRolePermissionsFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
 export const GroupAvatarFragmentDoc = gql`
   fragment GroupAvatar on Group {
     id
@@ -3457,15 +3834,6 @@ export const GroupFormFragmentDoc = gql`
     id
     name
     description
-  }
-`;
-export const UserAvatarFragmentDoc = gql`
-  fragment UserAvatar on User {
-    id
-    name
-    profilePicture {
-      id
-    }
   }
 `;
 export const FollowButtonFragmentDoc = gql`
@@ -3572,8 +3940,16 @@ export const PostCardFragmentDoc = gql`
 export const ProposalActionPermissionFragmentDoc = gql`
   fragment ProposalActionPermission on ProposalActionPermission {
     id
-    name
-    enabled
+    approveMemberRequests
+    createEvents
+    deleteGroup
+    manageComments
+    manageEvents
+    managePosts
+    manageRoles
+    manageSettings
+    removeMembers
+    updateGroup
   }
 `;
 export const ProposalActionRoleMemberFragmentDoc = gql`
@@ -3599,7 +3975,7 @@ export const ProposalActionRoleFragmentDoc = gql`
     members {
       ...ProposalActionRoleMember
     }
-    role {
+    groupRole {
       id
       name
       color
@@ -3757,27 +4133,16 @@ export const ProposalFormFragmentDoc = gql`
   }
   ${AttachedImageFragmentDoc}
 `;
-export const RoleFragmentDoc = gql`
-  fragment Role on Role {
+export const ServerRoleFragmentDoc = gql`
+  fragment ServerRole on ServerRole {
     id
     name
     color
     memberCount
-    group {
-      id
-      name
-    }
   }
 `;
-export const RoleMemberFragmentDoc = gql`
-  fragment RoleMember on User {
-    id
-    ...UserAvatar
-  }
-  ${UserAvatarFragmentDoc}
-`;
-export const AddRoleMemberTabFragmentDoc = gql`
-  fragment AddRoleMemberTab on Role {
+export const AddServerRoleMemberTabFragmentDoc = gql`
+  fragment AddServerRoleMemberTab on ServerRole {
     id
     members {
       ...RoleMember
@@ -3785,38 +4150,32 @@ export const AddRoleMemberTabFragmentDoc = gql`
   }
   ${RoleMemberFragmentDoc}
 `;
-export const DeleteRoleButtonFragmentDoc = gql`
-  fragment DeleteRoleButton on Role {
+export const ServerRolePermissionsFragmentDoc = gql`
+  fragment ServerRolePermissions on ServerRolePermission {
     id
-    group {
-      id
-      name
-    }
+    createInvites
+    manageComments
+    manageEvents
+    manageInvites
+    managePosts
+    manageRoles
+    removeMembers
   }
 `;
-export const PermissionToggleFragmentDoc = gql`
-  fragment PermissionToggle on Permission {
-    id
-    name
-    enabled
-  }
-`;
-export const EditRoleTabsFragmentDoc = gql`
-  fragment EditRoleTabs on Role {
-    ...Role
-    ...AddRoleMemberTab
-    ...DeleteRoleButton
+export const EditServerRoleTabsFragmentDoc = gql`
+  fragment EditServerRoleTabs on ServerRole {
+    ...ServerRole
+    ...AddServerRoleMemberTab
     permissions {
-      ...PermissionToggle
+      ...ServerRolePermissions
     }
     availableUsersToAdd {
       ...UserAvatar
     }
   }
-  ${RoleFragmentDoc}
-  ${AddRoleMemberTabFragmentDoc}
-  ${DeleteRoleButtonFragmentDoc}
-  ${PermissionToggleFragmentDoc}
+  ${ServerRoleFragmentDoc}
+  ${AddServerRoleMemberTabFragmentDoc}
+  ${ServerRolePermissionsFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const EditProfileFormFragmentDoc = gql`
@@ -4289,18 +4648,18 @@ export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<
 export const CreateGroupRoleDocument = gql`
   mutation CreateGroupRole($roleData: CreateGroupRoleInput!) {
     createGroupRole(roleData: $roleData) {
-      role {
-        ...Role
+      groupRole {
+        ...GroupRole
         group {
           id
           roles {
-            ...Role
+            ...GroupRole
           }
         }
       }
     }
   }
-  ${RoleFragmentDoc}
+  ${GroupRoleFragmentDoc}
 `;
 export type CreateGroupRoleMutationFn = Apollo.MutationFunction<
   CreateGroupRoleMutation,
@@ -4502,9 +4861,9 @@ export type DeleteGroupRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteGroupRoleMutationVariables
 >;
 export const DeleteGroupRoleMemberDocument = gql`
-  mutation DeleteGroupRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+  mutation DeleteGroupRoleMember($roleMemberData: DeleteGroupRoleMemberInput!) {
     deleteGroupRoleMember(roleMemberData: $roleMemberData) {
-      role {
+      groupRole {
         id
         availableUsersToAdd {
           ...UserAvatar
@@ -4712,12 +5071,12 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutationVariables
 >;
 export const UpdateGroupRoleDocument = gql`
-  mutation UpdateGroupRole($roleData: UpdateRoleInput!) {
+  mutation UpdateGroupRole($roleData: UpdateGroupRoleInput!) {
     updateGroupRole(roleData: $roleData) {
-      role {
-        ...Role
+      groupRole {
+        ...GroupRole
         permissions {
-          ...PermissionToggle
+          ...GroupRolePermissions
         }
         members {
           ...RoleMember
@@ -4732,8 +5091,8 @@ export const UpdateGroupRoleDocument = gql`
       }
     }
   }
-  ${RoleFragmentDoc}
-  ${PermissionToggleFragmentDoc}
+  ${GroupRoleFragmentDoc}
+  ${GroupRolePermissionsFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
@@ -4900,14 +5259,14 @@ export type EditGroupQueryResult = Apollo.QueryResult<
 export const EditGroupRoleDocument = gql`
   query EditGroupRole($id: Int!) {
     groupRole(id: $id) {
-      ...EditRoleTabs
+      ...EditGroupRoleTabs
       group {
         id
         myPermissions
       }
     }
   }
-  ${EditRoleTabsFragmentDoc}
+  ${EditGroupRoleTabsFragmentDoc}
 `;
 
 /**
@@ -5164,7 +5523,7 @@ export const GroupRoleByRoleIdDocument = gql`
       name
       color
       permissions {
-        ...PermissionToggle
+        ...GroupRolePermissions
       }
       members {
         ...UserAvatar
@@ -5174,7 +5533,7 @@ export const GroupRoleByRoleIdDocument = gql`
       }
     }
   }
-  ${PermissionToggleFragmentDoc}
+  ${GroupRolePermissionsFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 
@@ -5234,11 +5593,11 @@ export const GroupRolesDocument = gql`
       id
       myPermissions
       roles {
-        ...Role
+        ...GroupRole
       }
     }
   }
-  ${RoleFragmentDoc}
+  ${GroupRoleFragmentDoc}
 `;
 
 /**
@@ -6616,12 +6975,12 @@ export type ProposalQueryResult = Apollo.QueryResult<
 export const CreateServerRoleDocument = gql`
   mutation CreateServerRole($roleData: CreateServerRoleInput!) {
     createServerRole(roleData: $roleData) {
-      role {
-        ...Role
+      serverRole {
+        ...ServerRole
       }
     }
   }
-  ${RoleFragmentDoc}
+  ${ServerRoleFragmentDoc}
 `;
 export type CreateServerRoleMutationFn = Apollo.MutationFunction<
   CreateServerRoleMutation,
@@ -6715,9 +7074,11 @@ export type DeleteServerRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteServerRoleMutationVariables
 >;
 export const DeleteServerRoleMemberDocument = gql`
-  mutation DeleteServerRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+  mutation DeleteServerRoleMember(
+    $roleMemberData: DeleteServerRoleMemberInput!
+  ) {
     deleteServerRoleMember(roleMemberData: $roleMemberData) {
-      role {
+      serverRole {
         id
         availableUsersToAdd {
           ...UserAvatar
@@ -6775,12 +7136,12 @@ export type DeleteServerRoleMemberMutationOptions = Apollo.BaseMutationOptions<
   DeleteServerRoleMemberMutationVariables
 >;
 export const UpdateServerRoleDocument = gql`
-  mutation UpdateServerRole($roleData: UpdateRoleInput!) {
+  mutation UpdateServerRole($roleData: UpdateServerRoleInput!) {
     updateServerRole(roleData: $roleData) {
-      role {
-        ...Role
+      serverRole {
+        ...ServerRole
         permissions {
-          ...PermissionToggle
+          ...ServerRolePermissions
         }
         members {
           ...RoleMember
@@ -6795,8 +7156,8 @@ export const UpdateServerRoleDocument = gql`
       }
     }
   }
-  ${RoleFragmentDoc}
-  ${PermissionToggleFragmentDoc}
+  ${ServerRoleFragmentDoc}
+  ${ServerRolePermissionsFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
@@ -6846,14 +7207,14 @@ export type UpdateServerRoleMutationOptions = Apollo.BaseMutationOptions<
 export const EditServerRoleDocument = gql`
   query EditServerRole($id: Int!) {
     serverRole(id: $id) {
-      ...EditRoleTabs
+      ...EditServerRoleTabs
     }
     me {
       id
       serverPermissions
     }
   }
-  ${EditRoleTabsFragmentDoc}
+  ${EditServerRoleTabsFragmentDoc}
 `;
 
 /**
@@ -6911,11 +7272,11 @@ export const RolesByGroupIdDocument = gql`
     group(id: $id) {
       id
       roles {
-        ...EditRoleTabs
+        ...EditGroupRoleTabs
       }
     }
   }
-  ${EditRoleTabsFragmentDoc}
+  ${EditGroupRoleTabsFragmentDoc}
 `;
 
 /**
@@ -6971,10 +7332,10 @@ export type RolesByGroupIdQueryResult = Apollo.QueryResult<
 export const ServerRolesDocument = gql`
   query ServerRoles {
     serverRoles {
-      ...Role
+      ...ServerRole
     }
   }
-  ${RoleFragmentDoc}
+  ${ServerRoleFragmentDoc}
 `;
 
 /**

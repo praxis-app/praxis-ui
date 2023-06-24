@@ -4,7 +4,7 @@ query GroupRoles($name: String!) {
     myPermissions
 
     roles {
-      ...Role
+      ...GroupRole
     }
   }
 }

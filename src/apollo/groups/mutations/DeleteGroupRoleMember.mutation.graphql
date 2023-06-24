@@ -1,6 +1,6 @@
-mutation DeleteGroupRoleMember($roleMemberData: DeleteRoleMemberInput!) {
+mutation DeleteGroupRoleMember($roleMemberData: DeleteGroupRoleMemberInput!) {
   deleteGroupRoleMember(roleMemberData: $roleMemberData) {
-    role {
+    groupRole {
       id
       availableUsersToAdd {
         ...UserAvatar

@@ -1,10 +1,10 @@
-mutation UpdateServerRole($roleData: UpdateRoleInput!) {
+mutation UpdateServerRole($roleData: UpdateServerRoleInput!) {
   updateServerRole(roleData: $roleData) {
-    role {
-      ...Role
+    serverRole {
+      ...ServerRole
 
       permissions {
-        ...PermissionToggle
+        ...ServerRolePermissions
       }
       members {
         ...RoleMember

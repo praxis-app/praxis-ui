@@ -2,7 +2,7 @@ query RolesByGroupId($id: Int!) {
   group(id: $id) {
     id
     roles {
-      ...EditRoleTabs
+      ...EditGroupRoleTabs
     }
   }
 }

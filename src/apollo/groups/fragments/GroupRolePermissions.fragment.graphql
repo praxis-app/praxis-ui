@@ -1,4 +1,4 @@
-fragment ProposalActionPermission on ProposalActionPermission {
+fragment GroupRolePermissions on GroupRolePermission {
   id
   approveMemberRequests
   createEvents

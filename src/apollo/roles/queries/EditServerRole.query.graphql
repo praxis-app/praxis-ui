@@ -1,6 +1,6 @@
 query EditServerRole($id: Int!) {
   serverRole(id: $id) {
-    ...EditRoleTabs
+    ...EditServerRoleTabs
   }
   me {
     id

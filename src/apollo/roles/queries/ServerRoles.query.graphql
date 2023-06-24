@@ -1,5 +1,5 @@
 query ServerRoles {
   serverRoles {
-    ...Role
+    ...ServerRole
   }
 }

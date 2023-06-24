@@ -1,12 +1,12 @@
 mutation CreateGroupRole($roleData: CreateGroupRoleInput!) {
   createGroupRole(roleData: $roleData) {
-    role {
-      ...Role
+    groupRole {
+      ...GroupRole
 
       group {
         id
         roles {
-          ...Role
+          ...GroupRole
         }
       }
     }
