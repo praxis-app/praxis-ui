@@ -8,7 +8,7 @@ import {
 import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import { RoleFragment } from "../../apollo/gen";
+import { GroupRoleFragment, ServerRoleFragment } from "../../apollo/gen";
 import { FieldNames } from "../../constants/common.constants";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";
@@ -33,7 +33,7 @@ type HandleSubmit = (
 interface Props extends CardProps {
   color: string;
   colorPickerKey: string;
-  editRole?: RoleFragment;
+  editRole?: ServerRoleFragment | GroupRoleFragment;
   handleSubmit: HandleSubmit;
   initialValues: InitialValues;
   setColor(color: string): void;
