@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateServerRoleInput,
-  RoleFragment,
+  ServerRoleFragment,
   ServerRolesDocument,
   ServerRolesQuery,
   useCreateServerRoleMutation,
@@ -15,7 +15,7 @@ import { getRandomString } from "../../utils/common.utils";
 import RoleForm from "./RoleForm";
 
 interface Props {
-  editRole?: RoleFragment;
+  editRole?: ServerRoleFragment;
 }
 
 const ServerRoleForm = ({ editRole }: Props) => {
@@ -46,13 +46,13 @@ const ServerRoleForm = ({ editRole }: Props) => {
           return;
         }
         const {
-          createServerRole: { role },
+          createServerRole: { serverRole },
         } = data;
         cache.updateQuery<ServerRolesQuery>(
           { query: ServerRolesDocument },
           (postsData) =>
             produce(postsData, (draft) => {
-              draft?.serverRoles.unshift(role);
+              draft?.serverRoles.unshift(serverRole);
             })
         );
       },
