@@ -22,7 +22,6 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { GroupPermissions } from "../../constants/role.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
@@ -135,8 +134,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     const deletePostPrompt = t("prompts.deleteItem", { itemType: "post" });
 
     const canManagePosts =
-      me?.serverPermissions.managePosts ||
-      group?.myPermissions?.includes(GroupPermissions.ManagePosts);
+      me?.serverPermissions.managePosts || group?.myPermissions?.managePosts;
     const canDelete = canManagePosts || isMe;
 
     return (
