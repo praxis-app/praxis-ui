@@ -5,7 +5,7 @@ query EditServerRole($id: Int!) {
   me {
     id
     serverPermissions {
-      ...UserServerPermissions
+      ...ServerPermissions
     }
   }
 }

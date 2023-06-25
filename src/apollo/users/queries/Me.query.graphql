@@ -4,7 +4,7 @@ query Me {
     ...UserAvatar
 
     serverPermissions {
-      ...UserServerPermissions
+      ...ServerPermissions
     }
     joinedGroups {
       id

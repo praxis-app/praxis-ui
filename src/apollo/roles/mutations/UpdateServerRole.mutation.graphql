@@ -17,7 +17,7 @@ mutation UpdateServerRole($roleData: UpdateServerRoleInput!) {
     me {
       id
       serverPermissions {
-        ...UserServerPermissions
+        ...ServerPermissions
       }
     }
   }

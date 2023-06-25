@@ -398,6 +398,16 @@ type ServerInvite {
   uses: Int!
 }
 
+type ServerPermissions {
+  createInvites: Boolean!
+  manageComments: Boolean!
+  manageEvents: Boolean!
+  manageInvites: Boolean!
+  managePosts: Boolean!
+  manageRoles: Boolean!
+  removeMembers: Boolean!
+}
+
 type ServerRole {
   availableUsersToAdd: [User!]!
   color: String!
@@ -548,18 +558,8 @@ type User {
   profileFeed: [FeedItem!]!
   profilePicture: Image!
   proposals: [Proposal!]!
-  serverPermissions: UserServerPermissions!
+  serverPermissions: ServerPermissions!
   updatedAt: DateTime!
-}
-
-type UserServerPermissions {
-  createInvites: Boolean!
-  manageComments: Boolean!
-  manageEvents: Boolean!
-  manageInvites: Boolean!
-  managePosts: Boolean!
-  manageRoles: Boolean!
-  removeMembers: Boolean!
 }
 
 type Vote {

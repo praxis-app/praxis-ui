@@ -1,4 +1,4 @@
-fragment UserServerPermissions on UserServerPermissions {
+fragment ServerPermissions on ServerPermissions {
   createInvites
   manageComments
   manageEvents

@@ -5,7 +5,7 @@ mutation Login($input: LoginInput!) {
       ...UserAvatar
 
       serverPermissions {
-        ...UserServerPermissions
+        ...ServerPermissions
       }
 
       joinedGroups {

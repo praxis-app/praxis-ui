@@ -4,6 +4,6 @@ fragment TopNavDropdown on User {
   id
   name
   serverPermissions {
-    ...UserServerPermissions
+    ...ServerPermissions
   }
 }
