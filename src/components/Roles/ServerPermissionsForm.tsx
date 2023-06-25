@@ -24,12 +24,12 @@ import ServerPermissionToggle from "./ServerPermissionToggle";
 
 // TODO: Determine if there's a better way to store and iterate over permission names
 export const SERVER_PERMISSION_NAMES: (keyof ServerRolePermissionInput)[] = [
+  "managePosts",
+  "manageRoles",
+  "manageInvites",
   "createInvites",
   "manageComments",
   "manageEvents",
-  "manageInvites",
-  "managePosts",
-  "manageRoles",
   "removeMembers",
 ];
 
