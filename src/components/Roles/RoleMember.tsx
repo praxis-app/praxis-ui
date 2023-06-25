@@ -55,13 +55,11 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
         if (!data) {
           return;
         }
-        const deleteRoleMember =
+        const role =
           "deleteGroupRoleMember" in data
-            ? data.deleteGroupRoleMember
-            : data.deleteServerRoleMember;
-        const {
-          role: { availableUsersToAdd },
-        } = deleteRoleMember;
+            ? data.deleteGroupRoleMember.groupRole
+            : data.deleteServerRoleMember.serverRole;
+        const { availableUsersToAdd } = role;
 
         cache.modify({
           id: cache.identify({ id: roleId, __typename: TypeNames.Role }),
