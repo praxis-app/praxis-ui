@@ -444,13 +444,13 @@ type ServerRolePermission {
 }
 
 input ServerRolePermissionInput {
-  banMembers: Boolean!
-  createInvites: Boolean!
-  manageComments: Boolean!
-  manageEvents: Boolean!
-  manageInvites: Boolean!
-  managePosts: Boolean!
-  manageRoles: Boolean!
+  createInvites: Boolean
+  manageComments: Boolean
+  manageEvents: Boolean
+  manageInvites: Boolean
+  managePosts: Boolean
+  manageRoles: Boolean
+  removeMembers: Boolean
 }
 
 input SignUpInput {

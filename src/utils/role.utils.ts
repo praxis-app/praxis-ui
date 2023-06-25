@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { Namespace, TFunction } from "react-i18next";
 import {
   GroupPermissions,
@@ -12,78 +13,71 @@ interface PermissionText {
   inDev?: boolean;
 }
 
-export const getPermissionText = (
-  name: string,
-  t: TFunction<Namespace<"ns1">, undefined>
-): PermissionText => {
+export const getPermissionText = (name: string): PermissionText => {
+  const _t: TFunction<Namespace<"ns1">, undefined> = t;
   switch (name) {
-    case GroupPermissions.ApproveMemberRequests:
+    case "approveMemberRequests":
       return {
-        displayName: t("permissions.names.approveMemberRequests"),
-        description: t("permissions.descriptions.approveMemberRequests"),
+        displayName: _t("permissions.names.approveMemberRequests"),
+        description: _t("permissions.descriptions.approveMemberRequests"),
       };
-    case GroupPermissions.UpdateGroup:
+    case "updateGroup":
       return {
-        displayName: t("permissions.names.updateGroup"),
-        description: t("permissions.descriptions.updateGroup"),
+        displayName: _t("permissions.names.updateGroup"),
+        description: _t("permissions.descriptions.updateGroup"),
       };
-    case GroupPermissions.DeleteGroup:
+    case "deleteGroup":
       return {
-        displayName: t("permissions.names.deleteGroup"),
-        description: t("permissions.descriptions.deleteGroup"),
+        displayName: _t("permissions.names.deleteGroup"),
+        description: _t("permissions.descriptions.deleteGroup"),
       };
-    case GroupPermissions.ManageSettings:
+    case "manageSettings":
       return {
-        displayName: t("permissions.names.manageSettings"),
-        description: t("permissions.descriptions.manageGroupSettings"),
+        displayName: _t("permissions.names.manageSettings"),
+        description: _t("permissions.descriptions.manageGroupSettings"),
       };
-    case GroupPermissions.CreateEvents:
+    case "createEvents":
       return {
-        displayName: t("permissions.names.createEvents"),
-        description: t("permissions.descriptions.createEvents"),
+        displayName: _t("permissions.names.createEvents"),
+        description: _t("permissions.descriptions.createEvents"),
         inDev: true,
       };
-    case ServerPermissions.CreateInvites:
+    case "createInvites":
       return {
-        displayName: t("permissions.names.createInvites"),
-        description: t("permissions.descriptions.createInvites"),
+        displayName: _t("permissions.names.createInvites"),
+        description: _t("permissions.descriptions.createInvites"),
       };
-    case GroupPermissions.ManageComments:
-    case ServerPermissions.ManageComments:
+    case "manageComments":
       return {
-        displayName: t("permissions.names.manageComments"),
-        description: t("permissions.descriptions.manageComments"),
+        displayName: _t("permissions.names.manageComments"),
+        description: _t("permissions.descriptions.manageComments"),
         inDev: true,
       };
-    case GroupPermissions.ManageEvents:
-    case ServerPermissions.ManageEvents:
+    case "manageEvents":
       return {
-        displayName: t("permissions.names.manageEvents"),
-        description: t("permissions.descriptions.manageEvents"),
+        displayName: _t("permissions.names.manageEvents"),
+        description: _t("permissions.descriptions.manageEvents"),
         inDev: true,
       };
-    case ServerPermissions.ManageInvites:
+    case "manageInvites":
       return {
-        displayName: t("permissions.names.manageInvites"),
-        description: t("permissions.descriptions.manageInvites"),
+        displayName: _t("permissions.names.manageInvites"),
+        description: _t("permissions.descriptions.manageInvites"),
       };
-    case GroupPermissions.ManagePosts:
-    case ServerPermissions.ManagePosts:
+    case "managePosts":
       return {
-        displayName: t("permissions.names.managePosts"),
-        description: t("permissions.descriptions.managePosts"),
+        displayName: _t("permissions.names.managePosts"),
+        description: _t("permissions.descriptions.managePosts"),
       };
-    case GroupPermissions.ManageRoles:
-    case ServerPermissions.ManageRoles:
+    case "manageRoles":
       return {
-        displayName: t("permissions.names.manageRoles"),
-        description: t("permissions.descriptions.manageRoles"),
+        displayName: _t("permissions.names.manageRoles"),
+        description: _t("permissions.descriptions.manageRoles"),
       };
-    case GroupPermissions.BanMembers:
-    case ServerPermissions.BanMembers:
+    case "removeMembers":
       return {
-        displayName: t("permissions.names.banMembers"),
-        description: t("permissions.descriptions.banMembers"),
+        displayName: _t("permissions.names.banMembers"),
+        description: _t("permissions.descriptions.banMembers"),
         inDev: true,
       };
     default:

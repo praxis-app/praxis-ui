@@ -692,13 +692,13 @@ export type ServerRolePermission = {
 };
 
 export type ServerRolePermissionInput = {
-  banMembers: Scalars["Boolean"];
-  createInvites: Scalars["Boolean"];
-  manageComments: Scalars["Boolean"];
-  manageEvents: Scalars["Boolean"];
-  manageInvites: Scalars["Boolean"];
-  managePosts: Scalars["Boolean"];
-  manageRoles: Scalars["Boolean"];
+  createInvites?: InputMaybe<Scalars["Boolean"]>;
+  manageComments?: InputMaybe<Scalars["Boolean"]>;
+  manageEvents?: InputMaybe<Scalars["Boolean"]>;
+  manageInvites?: InputMaybe<Scalars["Boolean"]>;
+  managePosts?: InputMaybe<Scalars["Boolean"]>;
+  manageRoles?: InputMaybe<Scalars["Boolean"]>;
+  removeMembers?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type SignUpInput = {
