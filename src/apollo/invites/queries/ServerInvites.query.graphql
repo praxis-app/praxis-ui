@@ -4,6 +4,8 @@ query ServerInvites {
   }
   me {
     id
-    serverPermissions
+    serverPermissions {
+      ...UserServerPermissions
+    }
   }
 }

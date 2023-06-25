@@ -548,8 +548,18 @@ type User {
   profileFeed: [FeedItem!]!
   profilePicture: Image!
   proposals: [Proposal!]!
-  serverPermissions: [String!]!
+  serverPermissions: UserServerPermissions!
   updatedAt: DateTime!
+}
+
+type UserServerPermissions {
+  createInvites: Boolean!
+  manageComments: Boolean!
+  manageEvents: Boolean!
+  manageInvites: Boolean!
+  managePosts: Boolean!
+  manageRoles: Boolean!
+  removeMembers: Boolean!
 }
 
 type Vote {

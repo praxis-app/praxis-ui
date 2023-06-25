@@ -1,0 +1,9 @@
+fragment UserServerPermissions on UserServerPermissions {
+  createInvites
+  manageComments
+  manageEvents
+  manageInvites
+  managePosts
+  manageRoles
+  removeMembers
+}

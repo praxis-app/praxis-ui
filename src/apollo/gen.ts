@@ -800,8 +800,19 @@ export type User = {
   profileFeed: Array<FeedItem>;
   profilePicture: Image;
   proposals: Array<Proposal>;
-  serverPermissions: Array<Scalars["String"]>;
+  serverPermissions: UserServerPermissions;
   updatedAt: Scalars["DateTime"];
+};
+
+export type UserServerPermissions = {
+  __typename?: "UserServerPermissions";
+  createInvites: Scalars["Boolean"];
+  manageComments: Scalars["Boolean"];
+  manageEvents: Scalars["Boolean"];
+  manageInvites: Scalars["Boolean"];
+  managePosts: Scalars["Boolean"];
+  manageRoles: Scalars["Boolean"];
+  removeMembers: Scalars["Boolean"];
 };
 
 export type Vote = {
@@ -829,8 +840,17 @@ export type LoginMutation = {
     user: {
       __typename?: "User";
       id: number;
-      serverPermissions: Array<string>;
       name: string;
+      serverPermissions: {
+        __typename?: "UserServerPermissions";
+        createInvites: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        manageInvites: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        removeMembers: boolean;
+      };
       joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
     };
@@ -855,8 +875,17 @@ export type SignUpMutation = {
     user: {
       __typename?: "User";
       id: number;
-      serverPermissions: Array<string>;
       name: string;
+      serverPermissions: {
+        __typename?: "UserServerPermissions";
+        createInvites: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        manageInvites: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        removeMembers: boolean;
+      };
       joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
       profilePicture: { __typename?: "Image"; id: number };
     };
@@ -1853,7 +1882,20 @@ export type ServerInvitesQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+  me: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "UserServerPermissions";
+      createInvites: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      manageInvites: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      removeMembers: boolean;
+    };
+  };
 };
 
 export type DeleteLikeMutationVariables = Exact<{
@@ -2836,7 +2878,20 @@ export type DeleteServerRoleMemberMutation = {
         profilePicture: { __typename?: "Image"; id: number };
       }>;
     };
-    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+    me: {
+      __typename?: "User";
+      id: number;
+      serverPermissions: {
+        __typename?: "UserServerPermissions";
+        createInvites: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        manageInvites: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        removeMembers: boolean;
+      };
+    };
   };
 };
 
@@ -2878,7 +2933,20 @@ export type UpdateServerRoleMutation = {
         profilePicture: { __typename?: "Image"; id: number };
       }>;
     };
-    me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+    me: {
+      __typename?: "User";
+      id: number;
+      serverPermissions: {
+        __typename?: "UserServerPermissions";
+        createInvites: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        manageInvites: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        removeMembers: boolean;
+      };
+    };
   };
 };
 
@@ -2918,7 +2986,20 @@ export type EditServerRoleQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
-  me: { __typename?: "User"; id: number; serverPermissions: Array<string> };
+  me: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "UserServerPermissions";
+      createInvites: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      manageInvites: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      removeMembers: boolean;
+    };
+  };
 };
 
 export type RolesByGroupIdQueryVariables = Exact<{
@@ -3013,7 +3094,16 @@ export type TopNavDropdownFragment = {
   __typename?: "User";
   id: number;
   name: string;
-  serverPermissions: Array<string>;
+  serverPermissions: {
+    __typename?: "UserServerPermissions";
+    createInvites: boolean;
+    manageComments: boolean;
+    manageEvents: boolean;
+    manageInvites: boolean;
+    managePosts: boolean;
+    manageRoles: boolean;
+    removeMembers: boolean;
+  };
 };
 
 export type UserAvatarFragment = {
@@ -3034,6 +3124,17 @@ export type UserProfileCardFragment = {
   isFollowedByMe: boolean;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   profilePicture: { __typename?: "Image"; id: number };
+};
+
+export type UserServerPermissionsFragment = {
+  __typename?: "UserServerPermissions";
+  createInvites: boolean;
+  manageComments: boolean;
+  manageEvents: boolean;
+  manageInvites: boolean;
+  managePosts: boolean;
+  manageRoles: boolean;
+  removeMembers: boolean;
 };
 
 export type FollowUserMutationVariables = Exact<{
@@ -3447,8 +3548,17 @@ export type MeQuery = {
   me: {
     __typename?: "User";
     id: number;
-    serverPermissions: Array<string>;
     name: string;
+    serverPermissions: {
+      __typename?: "UserServerPermissions";
+      createInvites: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      manageInvites: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      removeMembers: boolean;
+    };
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
   };
@@ -4209,12 +4319,26 @@ export const ToggleFormsFragmentDoc = gql`
     }
   }
 `;
+export const UserServerPermissionsFragmentDoc = gql`
+  fragment UserServerPermissions on UserServerPermissions {
+    createInvites
+    manageComments
+    manageEvents
+    manageInvites
+    managePosts
+    manageRoles
+    removeMembers
+  }
+`;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
     id
     name
-    serverPermissions
+    serverPermissions {
+      ...UserServerPermissions
+    }
   }
+  ${UserServerPermissionsFragmentDoc}
 `;
 export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
@@ -4282,7 +4406,9 @@ export const LoginDocument = gql`
       user {
         id
         ...UserAvatar
-        serverPermissions
+        serverPermissions {
+          ...UserServerPermissions
+        }
         joinedGroups {
           id
           name
@@ -4291,6 +4417,7 @@ export const LoginDocument = gql`
     }
   }
   ${UserAvatarFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 export type LoginMutationFn = Apollo.MutationFunction<
   LoginMutation,
@@ -4385,7 +4512,9 @@ export const SignUpDocument = gql`
       user {
         id
         ...UserAvatar
-        serverPermissions
+        serverPermissions {
+          ...UserServerPermissions
+        }
         joinedGroups {
           id
           name
@@ -4394,6 +4523,7 @@ export const SignUpDocument = gql`
     }
   }
   ${UserAvatarFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 export type SignUpMutationFn = Apollo.MutationFunction<
   SignUpMutation,
@@ -6279,10 +6409,13 @@ export const ServerInvitesDocument = gql`
     }
     me {
       id
-      serverPermissions
+      serverPermissions {
+        ...UserServerPermissions
+      }
     }
   }
   ${ServerInviteCardFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 
 /**
@@ -7086,11 +7219,14 @@ export const DeleteServerRoleMemberDocument = gql`
       }
       me {
         id
-        serverPermissions
+        serverPermissions {
+          ...UserServerPermissions
+        }
       }
     }
   }
   ${UserAvatarFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 export type DeleteServerRoleMemberMutationFn = Apollo.MutationFunction<
   DeleteServerRoleMemberMutation,
@@ -7152,7 +7288,9 @@ export const UpdateServerRoleDocument = gql`
       }
       me {
         id
-        serverPermissions
+        serverPermissions {
+          ...UserServerPermissions
+        }
       }
     }
   }
@@ -7160,6 +7298,7 @@ export const UpdateServerRoleDocument = gql`
   ${ServerRolePermissionsFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 export type UpdateServerRoleMutationFn = Apollo.MutationFunction<
   UpdateServerRoleMutation,
@@ -7211,10 +7350,13 @@ export const EditServerRoleDocument = gql`
     }
     me {
       id
-      serverPermissions
+      serverPermissions {
+        ...UserServerPermissions
+      }
     }
   }
   ${EditServerRoleTabsFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 
 /**
@@ -7861,7 +8003,9 @@ export const MeDocument = gql`
     me {
       id
       ...UserAvatar
-      serverPermissions
+      serverPermissions {
+        ...UserServerPermissions
+      }
       joinedGroups {
         id
         name
@@ -7869,6 +8013,7 @@ export const MeDocument = gql`
     }
   }
   ${UserAvatarFragmentDoc}
+  ${UserServerPermissionsFragmentDoc}
 `;
 
 /**
