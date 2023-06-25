@@ -10,7 +10,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  AddRoleMemberTabFragment,
+  AddGroupRoleMemberTabFragment,
+  AddServerRoleMemberTabFragment,
   UserAvatarFragment,
   useUpdateGroupRoleMutation,
   useUpdateServerRoleMutation,
@@ -36,7 +37,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props {
   availableUsersToAdd: UserAvatarFragment[];
-  role: AddRoleMemberTabFragment;
+  role: AddServerRoleMemberTabFragment | AddGroupRoleMemberTabFragment;
 }
 
 const AddRoleMemberTab = ({
