@@ -23,20 +23,23 @@ const ServerPermissionToggle = ({
   setFieldValue,
 }: Props) => {
   const { displayName, description, inDev } = getPermissionText(permissionName);
-
   if (inDev) {
     return null;
   }
 
-  const isEnabled = permissions[permissionName];
   const permissionInput = formValues[permissionName];
-  const checked = !!(permissionInput !== undefined
+  const isEnabled = permissions[permissionName];
+  const isChecked = !!(permissionInput !== undefined
     ? permissionInput
     : isEnabled);
 
   const handleSwitchChange = ({
     target: { checked },
   }: ChangeEvent<HTMLInputElement>) => {
+    if (!checked && isEnabled) {
+      setFieldValue(permissionName, false);
+      return;
+    }
     if (checked === isEnabled) {
       setFieldValue(permissionName, undefined);
       return;
@@ -55,9 +58,9 @@ const ServerPermissionToggle = ({
       </Box>
 
       <Switch
-        checked={checked}
         inputProps={{ "aria-label": displayName || t("labels.switch") }}
         onChange={handleSwitchChange}
+        checked={isChecked}
       />
     </Flex>
   );
