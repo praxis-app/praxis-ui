@@ -9,7 +9,6 @@ import EditRoleTabs from "../../../components/Roles/EditRoleTabs";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
-import { ServerPermissions } from "../../../constants/role.constants";
 import { isDeniedAccess } from "../../../utils/error.utils";
 
 const EditServerRole: NextPage = () => {
@@ -24,11 +23,8 @@ const EditServerRole: NextPage = () => {
 
   const me = data?.me;
   const role = data?.serverRole;
-  const canManageRoles = me?.serverPermissions.includes(
-    ServerPermissions.ManageRoles
-  );
 
-  if (isDeniedAccess(error) || (me && !canManageRoles)) {
+  if (isDeniedAccess(error) || (me && !me.serverPermissions.manageRoles)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 
