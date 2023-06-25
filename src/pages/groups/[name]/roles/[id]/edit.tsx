@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useEditGroupRoleQuery } from "../../../../../apollo/gen";
-import EditRoleTabs from "../../../../../components/Roles/EditRoleTabs";
+import EditGroupRoleTabs from "../../../../../components/Groups/EditGroupRoleTabs";
 import Breadcrumbs from "../../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../../components/Shared/ProgressBar";
 import {
@@ -67,7 +67,7 @@ const EditGroupRole: NextPage = () => {
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
-      <EditRoleTabs role={role} />
+      <EditGroupRoleTabs role={role} />
     </>
   );
 };

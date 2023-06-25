@@ -736,7 +736,7 @@ export type UpdateGroupRoleInput = {
   color?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
   name?: InputMaybe<Scalars["String"]>;
-  permission?: InputMaybe<GroupRolePermissionInput>;
+  permissions?: InputMaybe<GroupRolePermissionInput>;
   selectedUserIds?: InputMaybe<Array<Scalars["Int"]>>;
 };
 

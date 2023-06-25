@@ -486,7 +486,7 @@ input UpdateGroupRoleInput {
   color: String
   id: Int!
   name: String
-  permission: GroupRolePermissionInput
+  permissions: GroupRolePermissionInput
   selectedUserIds: [Int!]
 }
 

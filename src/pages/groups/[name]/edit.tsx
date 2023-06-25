@@ -10,7 +10,6 @@ import GroupForm from "../../../components/Groups/GroupForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
-import { GroupPermissions } from "../../../constants/role.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupPath } from "../../../utils/group.utils";
 
@@ -38,7 +37,7 @@ const EditGroup: NextPage = () => {
     return null;
   }
 
-  if (!group.myPermissions?.includes(GroupPermissions.UpdateGroup)) {
+  if (!group.myPermissions?.updateGroup) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
   }
 
