@@ -84,6 +84,8 @@ const ServerPermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
               />
             ))}
 
+            {JSON.stringify(values)}
+
             <Flex justifyContent="end" sx={{ marginTop: 6 }}>
               <PrimaryActionButton
                 disabled={isSubmitting || !dirty}
