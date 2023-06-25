@@ -31,7 +31,6 @@ import {
   useMeQuery,
 } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
-import { ServerPermissions } from "../../constants/role.constants";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
@@ -87,18 +86,8 @@ const NavDrawer = () => {
       const { me } = meData;
       const userProfilePath = getUserProfilePath(me.name);
 
-      const canBanUsers = me.serverPermissions.includes(
-        ServerPermissions.BanMembers
-      );
-      const canManageRoles = me.serverPermissions.includes(
-        ServerPermissions.ManageRoles
-      );
-      const canCreateInvites = me.serverPermissions.includes(
-        ServerPermissions.CreateInvites
-      );
-      const canManageInvites = me.serverPermissions.includes(
-        ServerPermissions.ManageInvites
-      );
+      const { removeMembers, manageRoles, createInvites, manageInvites } =
+        me.serverPermissions;
 
       return (
         <>
@@ -109,7 +98,7 @@ const NavDrawer = () => {
             <ListItemText primary={me.name} />
           </ListItemButton>
 
-          {canManageRoles && (
+          {manageRoles && (
             <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
               <ListItemIcon>
                 <AccountBox />
@@ -118,7 +107,7 @@ const NavDrawer = () => {
             </ListItemButton>
           )}
 
-          {canBanUsers && (
+          {removeMembers && (
             <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
               <ListItemIcon>
                 <UsersIcon />
@@ -127,7 +116,7 @@ const NavDrawer = () => {
             </ListItemButton>
           )}
 
-          {(canCreateInvites || canManageInvites) && (
+          {(createInvites || manageInvites) && (
             <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
               <ListItemIcon>
                 <InvitesIcon />
