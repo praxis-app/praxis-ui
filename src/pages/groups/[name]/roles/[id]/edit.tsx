@@ -11,7 +11,6 @@ import {
   NavigationPaths,
   TruncationSizes,
 } from "../../../../../constants/common.constants";
-import { GroupPermissions } from "../../../../../constants/role.constants";
 import { useIsDesktop } from "../../../../../hooks/common.hooks";
 import { isDeniedAccess } from "../../../../../utils/error.utils";
 import { getGroupPath } from "../../../../../utils/group.utils";
@@ -29,11 +28,9 @@ const EditGroupRole: NextPage = () => {
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  const canManageRoles = role?.group?.myPermissions?.includes(
-    GroupPermissions.ManageRoles
-  );
   const groupPath = getGroupPath(name);
   const groupRolesPath = `${groupPath}${NavigationPaths.Roles}`;
+  const canManageRoles = role?.group?.myPermissions?.manageRoles;
 
   if (isDeniedAccess(error) || (role && !canManageRoles)) {
     return <Typography>{t("prompts.permissionDenied")}</Typography>;
