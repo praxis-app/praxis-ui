@@ -4,7 +4,9 @@ query EditGroupRole($id: Int!) {
 
     group {
       id
-      myPermissions
+      myPermissions {
+        ...GroupPermissions
+      }
     }
   }
 }

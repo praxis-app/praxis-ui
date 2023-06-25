@@ -14,7 +14,9 @@ mutation UpdateGroupRole($roleData: UpdateGroupRoleInput!) {
       }
       group {
         id
-        myPermissions
+        myPermissions {
+          ...GroupPermissions
+        }
       }
     }
   }

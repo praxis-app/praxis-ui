@@ -2,10 +2,11 @@ mutation CreateGroup($groupData: CreateGroupInput!) {
   createGroup(groupData: $groupData) {
     group {
       ...GroupAvatar
-
       description
-      myPermissions
 
+      myPermissions {
+        ...GroupPermissions
+      }
       members {
         id
       }

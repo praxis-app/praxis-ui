@@ -128,7 +128,7 @@ type Group {
   memberRequestCount: Int
   memberRequests: [MemberRequest!]
   members: [User!]!
-  myPermissions: [String!]!
+  myPermissions: GroupPermissions!
   name: String!
   posts: [Post!]!
   proposals: [Proposal!]!
@@ -143,6 +143,19 @@ type GroupConfig {
   id: Int!
   isPublic: Boolean!
   updatedAt: DateTime!
+}
+
+type GroupPermissions {
+  approveMemberRequests: Boolean!
+  createEvents: Boolean!
+  deleteGroup: Boolean!
+  manageComments: Boolean!
+  manageEvents: Boolean!
+  managePosts: Boolean!
+  manageRoles: Boolean!
+  manageSettings: Boolean!
+  removeMembers: Boolean!
+  updateGroup: Boolean!
 }
 
 type GroupRole {

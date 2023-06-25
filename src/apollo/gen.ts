@@ -166,7 +166,7 @@ export type Group = {
   memberRequestCount?: Maybe<Scalars["Int"]>;
   memberRequests?: Maybe<Array<MemberRequest>>;
   members: Array<User>;
-  myPermissions: Array<Scalars["String"]>;
+  myPermissions: GroupPermissions;
   name: Scalars["String"];
   posts: Array<Post>;
   proposals: Array<Proposal>;
@@ -182,6 +182,20 @@ export type GroupConfig = {
   id: Scalars["Int"];
   isPublic: Scalars["Boolean"];
   updatedAt: Scalars["DateTime"];
+};
+
+export type GroupPermissions = {
+  __typename?: "GroupPermissions";
+  approveMemberRequests: Scalars["Boolean"];
+  createEvents: Scalars["Boolean"];
+  deleteGroup: Scalars["Boolean"];
+  manageComments: Scalars["Boolean"];
+  manageEvents: Scalars["Boolean"];
+  managePosts: Scalars["Boolean"];
+  manageRoles: Scalars["Boolean"];
+  manageSettings: Scalars["Boolean"];
+  removeMembers: Scalars["Boolean"];
+  updateGroup: Scalars["Boolean"];
 };
 
 export type GroupRole = {
@@ -959,10 +973,22 @@ export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
   memberRequestCount?: number | null;
-  myPermissions?: Array<string>;
   id: number;
   name: string;
   members: Array<{ __typename?: "User"; id: number }>;
+  myPermissions?: {
+    __typename?: "GroupPermissions";
+    approveMemberRequests: boolean;
+    createEvents: boolean;
+    deleteGroup: boolean;
+    manageComments: boolean;
+    manageEvents: boolean;
+    managePosts: boolean;
+    manageRoles: boolean;
+    manageSettings: boolean;
+    removeMembers: boolean;
+    updateGroup: boolean;
+  };
   coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
@@ -981,12 +1007,38 @@ export type GroupMemberFragment = {
   profilePicture: { __typename?: "Image"; id: number };
 };
 
+export type GroupPermissionsFragment = {
+  __typename?: "GroupPermissions";
+  approveMemberRequests: boolean;
+  createEvents: boolean;
+  deleteGroup: boolean;
+  manageComments: boolean;
+  manageEvents: boolean;
+  managePosts: boolean;
+  manageRoles: boolean;
+  manageSettings: boolean;
+  removeMembers: boolean;
+  updateGroup: boolean;
+};
+
 export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
   memberRequestCount?: number | null;
-  myPermissions?: Array<string>;
+  myPermissions?: {
+    __typename?: "GroupPermissions";
+    approveMemberRequests: boolean;
+    createEvents: boolean;
+    deleteGroup: boolean;
+    manageComments: boolean;
+    manageEvents: boolean;
+    managePosts: boolean;
+    manageRoles: boolean;
+    manageSettings: boolean;
+    removeMembers: boolean;
+    updateGroup: boolean;
+  };
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   members: Array<{ __typename?: "User"; id: number }>;
   settings: { __typename?: "GroupConfig"; isPublic: boolean };
@@ -1071,9 +1123,21 @@ export type CreateGroupMutation = {
     group: {
       __typename?: "Group";
       description: string;
-      myPermissions: Array<string>;
       id: number;
       name: string;
+      myPermissions: {
+        __typename?: "GroupPermissions";
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       members: Array<{ __typename?: "User"; id: number }>;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     };
@@ -1168,7 +1232,23 @@ export type DeleteGroupRoleMemberMutation = {
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
       }>;
-      group: { __typename?: "Group"; id: number; myPermissions: Array<string> };
+      group: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
+      };
     };
   };
 };
@@ -1252,8 +1332,20 @@ export type UpdateGroupRoleMutation = {
       group: {
         __typename?: "Group";
         id: number;
-        myPermissions: Array<string>;
         name: string;
+        myPermissions: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
       };
     };
   };
@@ -1273,9 +1365,21 @@ export type UpdateGroupSettingsMutation = {
       id: number;
       name: string;
       memberRequestCount?: number | null;
-      myPermissions?: Array<string>;
       description: string;
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       members: Array<{ __typename?: "User"; id: number }>;
     };
@@ -1290,10 +1394,22 @@ export type EditGroupQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
-    myPermissions: Array<string>;
     id: number;
     name: string;
     description: string;
+    myPermissions: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
   };
 };
 
@@ -1312,8 +1428,20 @@ export type EditGroupRoleQuery = {
     group: {
       __typename?: "Group";
       id: number;
-      myPermissions: Array<string>;
       name: string;
+      myPermissions: {
+        __typename?: "GroupPermissions";
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
     };
     permissions: {
       __typename?: "GroupRolePermission";
@@ -1394,7 +1522,6 @@ export type GroupProfileQuery = {
     id: number;
     name: string;
     memberRequestCount?: number | null;
-    myPermissions?: Array<string>;
     feed: Array<
       | {
           __typename?: "Post";
@@ -1412,9 +1539,21 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions?: Array<string>;
             id: number;
             name: string;
+            myPermissions?: {
+              __typename?: "GroupPermissions";
+              approveMemberRequests: boolean;
+              createEvents: boolean;
+              deleteGroup: boolean;
+              manageComments: boolean;
+              manageEvents: boolean;
+              managePosts: boolean;
+              manageRoles: boolean;
+              manageSettings: boolean;
+              removeMembers: boolean;
+              updateGroup: boolean;
+            };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
         }
@@ -1503,6 +1642,19 @@ export type GroupProfileQuery = {
           }>;
         }
     >;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     members: Array<{ __typename?: "User"; id: number }>;
     settings: { __typename?: "GroupConfig"; isPublic: boolean };
@@ -1563,7 +1715,19 @@ export type GroupRolesQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    myPermissions: Array<string>;
+    myPermissions: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     roles: Array<{
       __typename?: "GroupRole";
       id: number;
@@ -1597,7 +1761,19 @@ export type GroupSettingsQuery = {
   group: {
     __typename?: "Group";
     id: number;
-    myPermissions: Array<string>;
+    myPermissions: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
   };
 };
@@ -1612,10 +1788,22 @@ export type GroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount?: number | null;
-    myPermissions?: Array<string>;
     id: number;
     name: string;
     members: Array<{ __typename?: "User"; id: number }>;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
   me: { __typename?: "User"; id: number };
@@ -1667,10 +1855,22 @@ export type PublicGroupsQuery = {
     __typename?: "Group";
     description: string;
     memberRequestCount?: number | null;
-    myPermissions?: Array<string>;
     id: number;
     name: string;
     members: Array<{ __typename?: "User"; id: number }>;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   }>;
 };
@@ -1698,9 +1898,21 @@ export type PublicGroupsFeedQuery = {
         };
         group?: {
           __typename?: "Group";
-          myPermissions?: Array<string>;
           id: number;
           name: string;
+          myPermissions?: {
+            __typename?: "GroupPermissions";
+            approveMemberRequests: boolean;
+            createEvents: boolean;
+            deleteGroup: boolean;
+            manageComments: boolean;
+            manageEvents: boolean;
+            managePosts: boolean;
+            manageRoles: boolean;
+            manageSettings: boolean;
+            removeMembers: boolean;
+            updateGroup: boolean;
+          };
           coverPhoto?: { __typename?: "Image"; id: number } | null;
         } | null;
       }
@@ -1923,9 +2135,21 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions?: Array<string>;
     id: number;
     name: string;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
 };
@@ -2035,9 +2259,21 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
-    myPermissions?: Array<string>;
     id: number;
     name: string;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      approveMemberRequests: boolean;
+      createEvents: boolean;
+      deleteGroup: boolean;
+      manageComments: boolean;
+      manageEvents: boolean;
+      managePosts: boolean;
+      manageRoles: boolean;
+      manageSettings: boolean;
+      removeMembers: boolean;
+      updateGroup: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
 };
@@ -2081,9 +2317,21 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions?: Array<string>;
         id: number;
         name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     };
@@ -2146,9 +2394,21 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions?: Array<string>;
         id: number;
         name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     };
@@ -2192,9 +2452,21 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
-      myPermissions?: Array<string>;
       id: number;
       name: string;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
   };
@@ -3195,9 +3467,21 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
-              myPermissions?: Array<string>;
               id: number;
               name: string;
+              myPermissions?: {
+                __typename?: "GroupPermissions";
+                approveMemberRequests: boolean;
+                createEvents: boolean;
+                deleteGroup: boolean;
+                manageComments: boolean;
+                manageEvents: boolean;
+                managePosts: boolean;
+                manageRoles: boolean;
+                manageSettings: boolean;
+                removeMembers: boolean;
+                updateGroup: boolean;
+              };
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
           }
@@ -3363,9 +3647,21 @@ export type EditUserQuery = {
       };
       group?: {
         __typename?: "Group";
-        myPermissions?: Array<string>;
         id: number;
         name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
     }>;
@@ -3442,9 +3738,21 @@ export type HomeFeedQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions?: Array<string>;
             id: number;
             name: string;
+            myPermissions?: {
+              __typename?: "GroupPermissions";
+              approveMemberRequests: boolean;
+              createEvents: boolean;
+              deleteGroup: boolean;
+              manageComments: boolean;
+              manageEvents: boolean;
+              managePosts: boolean;
+              manageRoles: boolean;
+              manageSettings: boolean;
+              removeMembers: boolean;
+              updateGroup: boolean;
+            };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
         }
@@ -3597,9 +3905,21 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
-            myPermissions?: Array<string>;
             id: number;
             name: string;
+            myPermissions?: {
+              __typename?: "GroupPermissions";
+              approveMemberRequests: boolean;
+              createEvents: boolean;
+              deleteGroup: boolean;
+              manageComments: boolean;
+              manageEvents: boolean;
+              managePosts: boolean;
+              manageRoles: boolean;
+              manageSettings: boolean;
+              removeMembers: boolean;
+              updateGroup: boolean;
+            };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
         }
@@ -3927,17 +4247,34 @@ export const GroupAvatarFragmentDoc = gql`
     }
   }
 `;
+export const GroupPermissionsFragmentDoc = gql`
+  fragment GroupPermissions on GroupPermissions {
+    approveMemberRequests
+    createEvents
+    deleteGroup
+    manageComments
+    manageEvents
+    managePosts
+    manageRoles
+    manageSettings
+    removeMembers
+    updateGroup
+  }
+`;
 export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
     memberRequestCount @include(if: $isLoggedIn)
-    myPermissions @include(if: $isLoggedIn)
     members {
       id
     }
+    myPermissions @include(if: $isLoggedIn) {
+      ...GroupPermissions
+    }
   }
   ${GroupAvatarFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 export const GroupFormFragmentDoc = gql`
   fragment GroupForm on Group {
@@ -3966,7 +4303,9 @@ export const GroupProfileCardFragmentDoc = gql`
     id
     name
     memberRequestCount @include(if: $isLoggedIn)
-    myPermissions @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn) {
+      ...GroupPermissions
+    }
     coverPhoto {
       id
     }
@@ -3977,6 +4316,7 @@ export const GroupProfileCardFragmentDoc = gql`
       isPublic
     }
   }
+  ${GroupPermissionsFragmentDoc}
 `;
 export const GroupSettingsFormFragmentDoc = gql`
   fragment GroupSettingsForm on Group {
@@ -4038,13 +4378,16 @@ export const PostCardFragmentDoc = gql`
     }
     group {
       ...GroupAvatar
-      myPermissions @include(if: $isLoggedIn)
+      myPermissions @include(if: $isLoggedIn) {
+        ...GroupPermissions
+      }
     }
     ...PostCardFooter
   }
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
 export const ProposalActionPermissionFragmentDoc = gql`
@@ -4723,7 +5066,9 @@ export const CreateGroupDocument = gql`
       group {
         ...GroupAvatar
         description
-        myPermissions
+        myPermissions {
+          ...GroupPermissions
+        }
         members {
           id
         }
@@ -4731,6 +5076,7 @@ export const CreateGroupDocument = gql`
     }
   }
   ${GroupAvatarFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 export type CreateGroupMutationFn = Apollo.MutationFunction<
   CreateGroupMutation,
@@ -5000,12 +5346,15 @@ export const DeleteGroupRoleMemberDocument = gql`
         }
         group {
           id
-          myPermissions
+          myPermissions {
+            ...GroupPermissions
+          }
         }
       }
     }
   }
   ${UserAvatarFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 export type DeleteGroupRoleMemberMutationFn = Apollo.MutationFunction<
   DeleteGroupRoleMemberMutation,
@@ -5216,7 +5565,9 @@ export const UpdateGroupRoleDocument = gql`
         }
         group {
           id
-          myPermissions
+          myPermissions {
+            ...GroupPermissions
+          }
         }
       }
     }
@@ -5225,6 +5576,7 @@ export const UpdateGroupRoleDocument = gql`
   ${GroupRolePermissionsFragmentDoc}
   ${RoleMemberFragmentDoc}
   ${UserAvatarFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 export type UpdateGroupRoleMutationFn = Apollo.MutationFunction<
   UpdateGroupRoleMutation,
@@ -5335,10 +5687,13 @@ export const EditGroupDocument = gql`
   query EditGroup($name: String!) {
     group(name: $name) {
       ...GroupForm
-      myPermissions
+      myPermissions {
+        ...GroupPermissions
+      }
     }
   }
   ${GroupFormFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 
 /**
@@ -5392,11 +5747,14 @@ export const EditGroupRoleDocument = gql`
       ...EditGroupRoleTabs
       group {
         id
-        myPermissions
+        myPermissions {
+          ...GroupPermissions
+        }
       }
     }
   }
   ${EditGroupRoleTabsFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 
 /**
@@ -5721,12 +6079,15 @@ export const GroupRolesDocument = gql`
   query GroupRoles($name: String!) {
     group(name: $name) {
       id
-      myPermissions
+      myPermissions {
+        ...GroupPermissions
+      }
       roles {
         ...GroupRole
       }
     }
   }
+  ${GroupPermissionsFragmentDoc}
   ${GroupRoleFragmentDoc}
 `;
 
@@ -5844,11 +6205,14 @@ export const GroupSettingsDocument = gql`
   query GroupSettings($name: String!) {
     group(name: $name) {
       id
-      myPermissions
       ...GroupSettingsForm
+      myPermissions {
+        ...GroupPermissions
+      }
     }
   }
   ${GroupSettingsFormFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
 `;
 
 /**
