@@ -21,6 +21,7 @@ import {
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
+import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupPermissionsForm";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -98,7 +99,8 @@ const ProposalActionRole = ({
   }
 
   const { name, color, permissions, members } = role;
-  const roleToChange = "role" in role ? role.role : selectedRoleData?.groupRole;
+  const roleToChange =
+    "groupRole" in role ? role.groupRole : selectedRoleData?.groupRole;
 
   const oldName =
     ratified && "oldName" in role ? role.oldName : roleToChange?.name;
@@ -108,6 +110,10 @@ const ProposalActionRole = ({
   const isRoleChange = actionType === ProposalActionType.ChangeRole;
   const isChangingName = isRoleChange && name && name !== oldName;
   const isChangingColor = isRoleChange && color && color !== oldColor;
+
+  const includesPermissions =
+    permissions &&
+    Object.values(permissions).some((value) => typeof value === "boolean");
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -157,7 +163,7 @@ const ProposalActionRole = ({
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
-          {!isRoleChange && !members?.length && !permissions?.length && (
+          {!isRoleChange && !members?.length && !includesPermissions && (
             <Typography>
               {t("proposals.prompts.emptyPermsAndMembers")}
             </Typography>
@@ -256,23 +262,24 @@ const ProposalActionRole = ({
               </>
             )}
 
-            {!!permissions?.length && (
+            {includesPermissions && (
               <Grid item xs={!isRoleChange ? 5 : 6}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("permissions.labels.permissions")}
                 </Typography>
 
-                {permissions.map((permission) => (
+                {GROUP_PERMISSION_NAMES.map((permissionName) => (
                   <ProposalActionPermission
+                    key={permissionName}
                     actionType={actionType}
-                    permission={permission}
-                    key={permission.name}
+                    permissionName={permissionName}
+                    permissions={permissions}
                   />
                 ))}
               </Grid>
             )}
 
-            {!isRoleChange && !!(permissions?.length && members?.length) && (
+            {!isRoleChange && !!(includesPermissions && members?.length) && (
               <Grid item xs={isDesktop ? 1.25 : 12}>
                 <Divider
                   orientation={isDesktop ? "vertical" : "horizontal"}

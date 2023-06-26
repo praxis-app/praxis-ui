@@ -1,8 +1,7 @@
 import { CheckBox } from "@mui/icons-material";
 import { SxProps, Typography, useTheme } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import {
-  PermissionInput,
+  GroupRolePermissionInput,
   ProposalActionPermissionFragment,
 } from "../../../apollo/gen";
 import { ChangeType } from "../../../constants/common.constants";
@@ -18,18 +17,20 @@ const CHECK_BOX_ICON_STYLES: SxProps = {
 
 interface Props {
   actionType: ProposalActionType;
-  permission: ProposalActionPermissionFragment | PermissionInput;
+  permissionName: keyof GroupRolePermissionInput;
+  permissions: ProposalActionPermissionFragment | GroupRolePermissionInput;
 }
 
 const ProposalActionPermission = ({
-  permission: { name, enabled },
+  permissionName,
+  permissions,
   actionType,
 }: Props) => {
-  const { t } = useTranslation();
   const theme = useTheme();
 
-  const { displayName } = getPermissionText(name, t);
+  const { displayName } = getPermissionText(permissionName);
   const isChangingRole = actionType === ProposalActionType.ChangeRole;
+  const isEnabled = permissions[permissionName];
 
   const permissionStyles: SxProps = {
     borderColor: theme.palette.divider,
@@ -50,7 +51,7 @@ const ProposalActionPermission = ({
     >
       {isChangingRole ? (
         <ChangeIcon
-          changeType={enabled ? ChangeType.Add : ChangeType.Remove}
+          changeType={isEnabled ? ChangeType.Add : ChangeType.Remove}
           sx={{ marginRight: "1ch" }}
           component="span"
         />
