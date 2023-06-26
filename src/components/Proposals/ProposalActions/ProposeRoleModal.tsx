@@ -7,7 +7,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { FieldArray, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import {
   ChangeEvent,
   ReactNode,
@@ -18,7 +18,7 @@ import {
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
 import {
-  PermissionInput,
+  GroupRolePermissionInput,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
   useGroupMembersByGroupIdLazyQuery,
@@ -31,12 +31,7 @@ import {
   ProposalActionType,
   ProposeRoleModalFieldName,
 } from "../../../constants/proposal.constants";
-import {
-  DEFAULT_ROLE_COLOR,
-  GroupPermissions,
-} from "../../../constants/role.constants";
-import { initPermissions } from "../../../utils/role.utils";
-import PermissionToggle from "../../Roles/PermissionToggle";
+import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -51,7 +46,7 @@ import ProposeRoleMemberOption from "./ProposeRoleMemberOption";
 
 export interface ProposeRoleModalValues {
   name: string;
-  permissions: PermissionInput[];
+  permissions: GroupRolePermissionInput;
   roleId: number | "";
 }
 
@@ -123,8 +118,8 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const roles = groupRolesData?.group.roles;
   const selectedRole = selectedRoleData?.groupRole;
 
-  const permissions =
-    selectedRole?.permissions || initPermissions(GroupPermissions);
+  // const permissions =
+  //   selectedRole?.permissions || initPermissions(GroupPermissions);
 
   const members = selectedRole
     ? [...selectedRole.members, ...selectedRole.availableUsersToAdd]
@@ -137,7 +132,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const initialValues: ProposalActionRoleInput = {
     name: "",
-    permissions: [],
+    permissions: {},
   };
 
   const title = isCreateRole
@@ -155,11 +150,16 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       if (!selectedRole) {
         return true;
       }
+      const includesPermissions =
+        values.permissions &&
+        Object.values(values.permissions).some(
+          (value) => typeof value === "boolean"
+        );
       const dirty =
+        includesPermissions ||
+        selectedMembers.length ||
         color !== selectedRole.color ||
-        values.name !== selectedRole.name ||
-        values.permissions?.length ||
-        selectedMembers.length;
+        values.name !== selectedRole.name;
       return !dirty;
     }
     return !values.name;
@@ -263,19 +263,16 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                      <FieldArray
-                        name={ProposeRoleModalFieldName.Permissions}
-                        render={(arrayHelpers) =>
-                          permissions.map((permission) => (
-                            <PermissionToggle
-                              key={permission.name}
-                              arrayHelpers={arrayHelpers}
-                              permission={permission}
-                              values={values}
-                            />
-                          ))
-                        }
-                      />
+                      {/* TODO: Uncomment when ready */}
+                      {/* {GROUP_PERMISSION_NAMES.map((permissionName) => (
+                        <GroupPermissionToggle
+                          key={permissionName}
+                          permissionName={permissionName}
+                          setFieldValue={setFieldValue}
+                          permissions={permissions}
+                          formValues={values}
+                        />
+                      ))} */}
                     </AccordionDetails>
                   </Accordion>
 
