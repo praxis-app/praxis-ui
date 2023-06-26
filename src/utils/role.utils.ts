@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import { Namespace, TFunction } from "react-i18next";
+import { GroupPermissionsFragment } from "../apollo/gen";
 import {
   GroupPermissions,
   ServerPermissions,
@@ -96,3 +97,18 @@ export const initPermissions = (
     enabled,
     name,
   }));
+
+export const initGroupRolePermissions = (
+  enabled = false
+): Omit<GroupPermissionsFragment, "__typename"> => ({
+  approveMemberRequests: enabled,
+  createEvents: enabled,
+  deleteGroup: enabled,
+  manageComments: enabled,
+  manageEvents: enabled,
+  managePosts: enabled,
+  manageRoles: enabled,
+  manageSettings: enabled,
+  removeMembers: enabled,
+  updateGroup: enabled,
+});
