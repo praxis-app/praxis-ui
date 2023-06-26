@@ -118,6 +118,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
   const roles = groupRolesData?.group.roles;
   const selectedRole = selectedRoleData?.groupRole;
 
+  // TODO: Update to use new permissions setup
   // const permissions =
   //   selectedRole?.permissions || initPermissions(GroupPermissions);
 
