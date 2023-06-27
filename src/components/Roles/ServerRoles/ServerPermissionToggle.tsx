@@ -4,10 +4,10 @@ import { ChangeEvent } from "react";
 import {
   ServerRolePermissionInput,
   ServerRolePermissionsFragment,
-} from "../../apollo/gen";
-import theme from "../../styles/theme";
-import { getPermissionText } from "../../utils/role.utils";
-import Flex from "../Shared/Flex";
+} from "../../../apollo/gen";
+import theme from "../../../styles/theme";
+import { getPermissionText } from "../../../utils/role.utils";
+import Flex from "../../Shared/Flex";
 
 interface Props {
   formValues: ServerRolePermissionInput;

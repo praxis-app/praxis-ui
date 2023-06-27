@@ -1,14 +1,17 @@
 import produce from "immer";
 import { useTranslation } from "react-i18next";
-import { toastVar } from "../../apollo/cache";
+import { toastVar } from "../../../apollo/cache";
 import {
   ServerRolesDocument,
   ServerRolesQuery,
   useDeleteServerRoleMutation,
-} from "../../apollo/gen";
-import { NavigationPaths, TypeNames } from "../../constants/common.constants";
-import { redirectTo } from "../../utils/common.utils";
-import DeleteButton from "../Shared/DeleteButton";
+} from "../../../apollo/gen";
+import {
+  NavigationPaths,
+  TypeNames,
+} from "../../../constants/common.constants";
+import { redirectTo } from "../../../utils/common.utils";
+import DeleteButton from "../../Shared/DeleteButton";
 
 interface Props {
   roleId: number;
