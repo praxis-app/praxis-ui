@@ -18,22 +18,10 @@ import {
   GroupRolePermissionsFragment,
   useUpdateGroupRoleMutation,
 } from "../../../apollo/gen";
+import { GROUP_PERMISSION_NAMES } from "../../../constants/role.constants";
 import Flex from "../../Shared/Flex";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 import GroupPermissionToggle from "./GroupPermissionToggle";
-
-// TODO: Determine if there's a better way to store and iterate over permission names
-export const GROUP_PERMISSION_NAMES: (keyof GroupRolePermissionInput)[] = [
-  "approveMemberRequests",
-  "deleteGroup",
-  "manageComments",
-  "manageEvents",
-  "managePosts",
-  "manageRoles",
-  "manageSettings",
-  "removeMembers",
-  "updateGroup",
-];
 
 interface Props extends BoxProps {
   permissions: GroupRolePermissionsFragment;
