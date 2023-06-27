@@ -1,9 +1,7 @@
-# TODO: Determine if all user permissions are needed below
-
 fragment TopNavDropdown on User {
   id
   name
   serverPermissions {
-    ...ServerPermissions
+    manageRoles
   }
 }

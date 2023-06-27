@@ -326,18 +326,18 @@ input ProposalActionInput {
 }
 
 type ProposalActionPermission {
-  approveMemberRequests: Boolean!
-  createEvents: Boolean!
-  deleteGroup: Boolean!
+  approveMemberRequests: Boolean
+  createEvents: Boolean
+  deleteGroup: Boolean
   id: Int!
-  manageComments: Boolean!
-  manageEvents: Boolean!
-  managePosts: Boolean!
-  manageRoles: Boolean!
-  manageSettings: Boolean!
-  removeMembers: Boolean!
+  manageComments: Boolean
+  manageEvents: Boolean
+  managePosts: Boolean
+  manageRoles: Boolean
+  manageSettings: Boolean
+  removeMembers: Boolean
   role: ProposalActionRole!
-  updateGroup: Boolean!
+  updateGroup: Boolean
 }
 
 type ProposalActionRole {

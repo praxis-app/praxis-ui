@@ -525,18 +525,18 @@ export type ProposalActionInput = {
 
 export type ProposalActionPermission = {
   __typename?: "ProposalActionPermission";
-  approveMemberRequests: Scalars["Boolean"];
-  createEvents: Scalars["Boolean"];
-  deleteGroup: Scalars["Boolean"];
+  approveMemberRequests?: Maybe<Scalars["Boolean"]>;
+  createEvents?: Maybe<Scalars["Boolean"]>;
+  deleteGroup?: Maybe<Scalars["Boolean"]>;
   id: Scalars["Int"];
-  manageComments: Scalars["Boolean"];
-  manageEvents: Scalars["Boolean"];
-  managePosts: Scalars["Boolean"];
-  manageRoles: Scalars["Boolean"];
-  manageSettings: Scalars["Boolean"];
-  removeMembers: Scalars["Boolean"];
+  manageComments?: Maybe<Scalars["Boolean"]>;
+  manageEvents?: Maybe<Scalars["Boolean"]>;
+  managePosts?: Maybe<Scalars["Boolean"]>;
+  manageRoles?: Maybe<Scalars["Boolean"]>;
+  manageSettings?: Maybe<Scalars["Boolean"]>;
+  removeMembers?: Maybe<Scalars["Boolean"]>;
   role: ProposalActionRole;
-  updateGroup: Scalars["Boolean"];
+  updateGroup?: Maybe<Scalars["Boolean"]>;
 };
 
 export type ProposalActionRole = {
@@ -1585,16 +1585,16 @@ export type GroupProfileQuery = {
               permissions: {
                 __typename?: "ProposalActionPermission";
                 id: number;
-                approveMemberRequests: boolean;
-                createEvents: boolean;
-                deleteGroup: boolean;
-                manageComments: boolean;
-                manageEvents: boolean;
-                managePosts: boolean;
-                manageRoles: boolean;
-                manageSettings: boolean;
-                removeMembers: boolean;
-                updateGroup: boolean;
+                approveMemberRequests?: boolean | null;
+                createEvents?: boolean | null;
+                deleteGroup?: boolean | null;
+                manageComments?: boolean | null;
+                manageEvents?: boolean | null;
+                managePosts?: boolean | null;
+                manageRoles?: boolean | null;
+                manageSettings?: boolean | null;
+                removeMembers?: boolean | null;
+                updateGroup?: boolean | null;
               };
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
@@ -1944,16 +1944,16 @@ export type PublicGroupsFeedQuery = {
             permissions: {
               __typename?: "ProposalActionPermission";
               id: number;
-              approveMemberRequests: boolean;
-              createEvents: boolean;
-              deleteGroup: boolean;
-              manageComments: boolean;
-              manageEvents: boolean;
-              managePosts: boolean;
-              manageRoles: boolean;
-              manageSettings: boolean;
-              removeMembers: boolean;
-              updateGroup: boolean;
+              approveMemberRequests?: boolean | null;
+              createEvents?: boolean | null;
+              deleteGroup?: boolean | null;
+              manageComments?: boolean | null;
+              manageEvents?: boolean | null;
+              managePosts?: boolean | null;
+              manageRoles?: boolean | null;
+              manageSettings?: boolean | null;
+              removeMembers?: boolean | null;
+              updateGroup?: boolean | null;
             };
             members?: Array<{
               __typename?: "ProposalActionRoleMember";
@@ -2182,16 +2182,16 @@ type FeedItem_Proposal_Fragment = {
       permissions: {
         __typename?: "ProposalActionPermission";
         id: number;
-        approveMemberRequests: boolean;
-        createEvents: boolean;
-        deleteGroup: boolean;
-        manageComments: boolean;
-        manageEvents: boolean;
-        managePosts: boolean;
-        manageRoles: boolean;
-        manageSettings: boolean;
-        removeMembers: boolean;
-        updateGroup: boolean;
+        approveMemberRequests?: boolean | null;
+        createEvents?: boolean | null;
+        deleteGroup?: boolean | null;
+        manageComments?: boolean | null;
+        manageEvents?: boolean | null;
+        managePosts?: boolean | null;
+        manageRoles?: boolean | null;
+        manageSettings?: boolean | null;
+        removeMembers?: boolean | null;
+        updateGroup?: boolean | null;
       };
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
@@ -2493,16 +2493,16 @@ export type ProposalActionFragment = {
     permissions: {
       __typename?: "ProposalActionPermission";
       id: number;
-      approveMemberRequests: boolean;
-      createEvents: boolean;
-      deleteGroup: boolean;
-      manageComments: boolean;
-      manageEvents: boolean;
-      managePosts: boolean;
-      manageRoles: boolean;
-      manageSettings: boolean;
-      removeMembers: boolean;
-      updateGroup: boolean;
+      approveMemberRequests?: boolean | null;
+      createEvents?: boolean | null;
+      deleteGroup?: boolean | null;
+      manageComments?: boolean | null;
+      manageEvents?: boolean | null;
+      managePosts?: boolean | null;
+      manageRoles?: boolean | null;
+      manageSettings?: boolean | null;
+      removeMembers?: boolean | null;
+      updateGroup?: boolean | null;
     };
     members?: Array<{
       __typename?: "ProposalActionRoleMember";
@@ -2527,16 +2527,16 @@ export type ProposalActionFragment = {
 export type ProposalActionPermissionFragment = {
   __typename?: "ProposalActionPermission";
   id: number;
-  approveMemberRequests: boolean;
-  createEvents: boolean;
-  deleteGroup: boolean;
-  manageComments: boolean;
-  manageEvents: boolean;
-  managePosts: boolean;
-  manageRoles: boolean;
-  manageSettings: boolean;
-  removeMembers: boolean;
-  updateGroup: boolean;
+  approveMemberRequests?: boolean | null;
+  createEvents?: boolean | null;
+  deleteGroup?: boolean | null;
+  manageComments?: boolean | null;
+  manageEvents?: boolean | null;
+  managePosts?: boolean | null;
+  manageRoles?: boolean | null;
+  manageSettings?: boolean | null;
+  removeMembers?: boolean | null;
+  updateGroup?: boolean | null;
 };
 
 export type ProposalActionRoleFragment = {
@@ -2549,16 +2549,16 @@ export type ProposalActionRoleFragment = {
   permissions: {
     __typename?: "ProposalActionPermission";
     id: number;
-    approveMemberRequests: boolean;
-    createEvents: boolean;
-    deleteGroup: boolean;
-    manageComments: boolean;
-    manageEvents: boolean;
-    managePosts: boolean;
-    manageRoles: boolean;
-    manageSettings: boolean;
-    removeMembers: boolean;
-    updateGroup: boolean;
+    approveMemberRequests?: boolean | null;
+    createEvents?: boolean | null;
+    deleteGroup?: boolean | null;
+    manageComments?: boolean | null;
+    manageEvents?: boolean | null;
+    managePosts?: boolean | null;
+    manageRoles?: boolean | null;
+    manageSettings?: boolean | null;
+    removeMembers?: boolean | null;
+    updateGroup?: boolean | null;
   };
   members?: Array<{
     __typename?: "ProposalActionRoleMember";
@@ -2619,16 +2619,16 @@ export type ProposalCardFragment = {
       permissions: {
         __typename?: "ProposalActionPermission";
         id: number;
-        approveMemberRequests: boolean;
-        createEvents: boolean;
-        deleteGroup: boolean;
-        manageComments: boolean;
-        manageEvents: boolean;
-        managePosts: boolean;
-        manageRoles: boolean;
-        manageSettings: boolean;
-        removeMembers: boolean;
-        updateGroup: boolean;
+        approveMemberRequests?: boolean | null;
+        createEvents?: boolean | null;
+        deleteGroup?: boolean | null;
+        manageComments?: boolean | null;
+        manageEvents?: boolean | null;
+        managePosts?: boolean | null;
+        manageRoles?: boolean | null;
+        manageSettings?: boolean | null;
+        removeMembers?: boolean | null;
+        updateGroup?: boolean | null;
       };
       members?: Array<{
         __typename?: "ProposalActionRoleMember";
@@ -2752,16 +2752,16 @@ export type CreateProposalMutation = {
           permissions: {
             __typename?: "ProposalActionPermission";
             id: number;
-            approveMemberRequests: boolean;
-            createEvents: boolean;
-            deleteGroup: boolean;
-            manageComments: boolean;
-            manageEvents: boolean;
-            managePosts: boolean;
-            manageRoles: boolean;
-            manageSettings: boolean;
-            removeMembers: boolean;
-            updateGroup: boolean;
+            approveMemberRequests?: boolean | null;
+            createEvents?: boolean | null;
+            deleteGroup?: boolean | null;
+            manageComments?: boolean | null;
+            manageEvents?: boolean | null;
+            managePosts?: boolean | null;
+            manageRoles?: boolean | null;
+            manageSettings?: boolean | null;
+            removeMembers?: boolean | null;
+            updateGroup?: boolean | null;
           };
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
@@ -2857,16 +2857,16 @@ export type UpdateProposalMutation = {
           permissions: {
             __typename?: "ProposalActionPermission";
             id: number;
-            approveMemberRequests: boolean;
-            createEvents: boolean;
-            deleteGroup: boolean;
-            manageComments: boolean;
-            manageEvents: boolean;
-            managePosts: boolean;
-            manageRoles: boolean;
-            manageSettings: boolean;
-            removeMembers: boolean;
-            updateGroup: boolean;
+            approveMemberRequests?: boolean | null;
+            createEvents?: boolean | null;
+            deleteGroup?: boolean | null;
+            manageComments?: boolean | null;
+            manageEvents?: boolean | null;
+            managePosts?: boolean | null;
+            manageRoles?: boolean | null;
+            manageSettings?: boolean | null;
+            removeMembers?: boolean | null;
+            updateGroup?: boolean | null;
           };
           members?: Array<{
             __typename?: "ProposalActionRoleMember";
@@ -2978,16 +2978,16 @@ export type ProposalQuery = {
         permissions: {
           __typename?: "ProposalActionPermission";
           id: number;
-          approveMemberRequests: boolean;
-          createEvents: boolean;
-          deleteGroup: boolean;
-          manageComments: boolean;
-          manageEvents: boolean;
-          managePosts: boolean;
-          manageRoles: boolean;
-          manageSettings: boolean;
-          removeMembers: boolean;
-          updateGroup: boolean;
+          approveMemberRequests?: boolean | null;
+          createEvents?: boolean | null;
+          deleteGroup?: boolean | null;
+          manageComments?: boolean | null;
+          manageEvents?: boolean | null;
+          managePosts?: boolean | null;
+          manageRoles?: boolean | null;
+          manageSettings?: boolean | null;
+          removeMembers?: boolean | null;
+          updateGroup?: boolean | null;
         };
         members?: Array<{
           __typename?: "ProposalActionRoleMember";
@@ -3377,16 +3377,7 @@ export type TopNavDropdownFragment = {
   __typename?: "User";
   id: number;
   name: string;
-  serverPermissions: {
-    __typename?: "ServerPermissions";
-    createInvites: boolean;
-    manageComments: boolean;
-    manageEvents: boolean;
-    manageInvites: boolean;
-    managePosts: boolean;
-    manageRoles: boolean;
-    removeMembers: boolean;
-  };
+  serverPermissions: { __typename?: "ServerPermissions"; manageRoles: boolean };
 };
 
 export type UserAvatarFragment = {
@@ -3513,16 +3504,16 @@ export type FollowUserMutation = {
                 permissions: {
                   __typename?: "ProposalActionPermission";
                   id: number;
-                  approveMemberRequests: boolean;
-                  createEvents: boolean;
-                  deleteGroup: boolean;
-                  manageComments: boolean;
-                  manageEvents: boolean;
-                  managePosts: boolean;
-                  manageRoles: boolean;
-                  manageSettings: boolean;
-                  removeMembers: boolean;
-                  updateGroup: boolean;
+                  approveMemberRequests?: boolean | null;
+                  createEvents?: boolean | null;
+                  deleteGroup?: boolean | null;
+                  manageComments?: boolean | null;
+                  manageEvents?: boolean | null;
+                  managePosts?: boolean | null;
+                  manageRoles?: boolean | null;
+                  manageSettings?: boolean | null;
+                  removeMembers?: boolean | null;
+                  updateGroup?: boolean | null;
                 };
                 members?: Array<{
                   __typename?: "ProposalActionRoleMember";
@@ -3784,16 +3775,16 @@ export type HomeFeedQuery = {
               permissions: {
                 __typename?: "ProposalActionPermission";
                 id: number;
-                approveMemberRequests: boolean;
-                createEvents: boolean;
-                deleteGroup: boolean;
-                manageComments: boolean;
-                manageEvents: boolean;
-                managePosts: boolean;
-                manageRoles: boolean;
-                manageSettings: boolean;
-                removeMembers: boolean;
-                updateGroup: boolean;
+                approveMemberRequests?: boolean | null;
+                createEvents?: boolean | null;
+                deleteGroup?: boolean | null;
+                manageComments?: boolean | null;
+                manageEvents?: boolean | null;
+                managePosts?: boolean | null;
+                manageRoles?: boolean | null;
+                manageSettings?: boolean | null;
+                removeMembers?: boolean | null;
+                updateGroup?: boolean | null;
               };
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
@@ -3951,16 +3942,16 @@ export type UserProfileQuery = {
               permissions: {
                 __typename?: "ProposalActionPermission";
                 id: number;
-                approveMemberRequests: boolean;
-                createEvents: boolean;
-                deleteGroup: boolean;
-                manageComments: boolean;
-                manageEvents: boolean;
-                managePosts: boolean;
-                manageRoles: boolean;
-                manageSettings: boolean;
-                removeMembers: boolean;
-                updateGroup: boolean;
+                approveMemberRequests?: boolean | null;
+                createEvents?: boolean | null;
+                deleteGroup?: boolean | null;
+                manageComments?: boolean | null;
+                manageEvents?: boolean | null;
+                managePosts?: boolean | null;
+                manageRoles?: boolean | null;
+                manageSettings?: boolean | null;
+                removeMembers?: boolean | null;
+                updateGroup?: boolean | null;
               };
               members?: Array<{
                 __typename?: "ProposalActionRoleMember";
@@ -4631,6 +4622,17 @@ export const EditServerRoleTabsFragmentDoc = gql`
   ${ServerRolePermissionsFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
+export const ServerPermissionsFragmentDoc = gql`
+  fragment ServerPermissions on ServerPermissions {
+    createInvites
+    manageComments
+    manageEvents
+    manageInvites
+    managePosts
+    manageRoles
+    removeMembers
+  }
+`;
 export const EditProfileFormFragmentDoc = gql`
   fragment EditProfileForm on User {
     id
@@ -4662,26 +4664,14 @@ export const ToggleFormsFragmentDoc = gql`
     }
   }
 `;
-export const ServerPermissionsFragmentDoc = gql`
-  fragment ServerPermissions on ServerPermissions {
-    createInvites
-    manageComments
-    manageEvents
-    manageInvites
-    managePosts
-    manageRoles
-    removeMembers
-  }
-`;
 export const TopNavDropdownFragmentDoc = gql`
   fragment TopNavDropdown on User {
     id
     name
     serverPermissions {
-      ...ServerPermissions
+      manageRoles
     }
   }
-  ${ServerPermissionsFragmentDoc}
 `;
 export const UserProfileCardFragmentDoc = gql`
   fragment UserProfileCard on User {
