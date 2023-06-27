@@ -1,10 +1,6 @@
 import { t } from "i18next";
 import { Namespace, TFunction } from "react-i18next";
 import { GroupPermissionsFragment } from "../apollo/gen";
-import {
-  GroupPermissions,
-  ServerPermissions,
-} from "../constants/role.constants";
 
 interface PermissionText {
   displayName: string | null;
@@ -89,15 +85,6 @@ export const getPermissionText = (name: string): PermissionText => {
   }
 };
 
-export const initPermissions = (
-  permission: typeof ServerPermissions | typeof GroupPermissions,
-  enabled = false
-) =>
-  Object.values(permission).map((name: string) => ({
-    enabled,
-    name,
-  }));
-
 export const initGroupRolePermissions = (
   enabled = false
 ): Omit<GroupPermissionsFragment, "__typename"> => ({
@@ -112,3 +99,8 @@ export const initGroupRolePermissions = (
   removeMembers: enabled,
   updateGroup: enabled,
 });
+
+export const cleanPermissions = <T>(object: T): Partial<T> =>
+  Object.entries(object)
+    .filter(([_, value]) => typeof value === "boolean")
+    .reduce((result, [key, value]) => ({ ...result, [key]: value }), {});

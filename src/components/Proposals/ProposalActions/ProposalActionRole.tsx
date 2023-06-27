@@ -21,7 +21,8 @@ import {
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
-import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupRoles/GroupPermissionsForm";
+import { getTypedKeys } from "../../../utils/common.utils";
+import { cleanPermissions } from "../../../utils/role.utils";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -111,9 +112,9 @@ const ProposalActionRole = ({
   const isChangingName = isRoleChange && name && name !== oldName;
   const isChangingColor = isRoleChange && color && color !== oldColor;
 
-  const includesPermissions =
-    permissions &&
-    Object.values(permissions).some((value) => typeof value === "boolean");
+  const includedPermissions = cleanPermissions(permissions) || {};
+  const includedPermissionNames = getTypedKeys(includedPermissions);
+  const includesPermissions = !!includedPermissionNames.length;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -268,18 +269,18 @@ const ProposalActionRole = ({
                   {t("permissions.labels.permissions")}
                 </Typography>
 
-                {GROUP_PERMISSION_NAMES.map((permissionName) => (
+                {includedPermissionNames.map((permissionName) => (
                   <ProposalActionPermission
                     key={permissionName}
                     actionType={actionType}
                     permissionName={permissionName}
-                    permissions={permissions}
+                    permissions={includedPermissions}
                   />
                 ))}
               </Grid>
             )}
 
-            {!isRoleChange && !!(includesPermissions && members?.length) && (
+            {!isRoleChange && includesPermissions && !!members?.length && (
               <Grid item xs={isDesktop ? 1.25 : 12}>
                 <Divider
                   orientation={isDesktop ? "vertical" : "horizontal"}
