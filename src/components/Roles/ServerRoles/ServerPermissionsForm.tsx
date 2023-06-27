@@ -1,14 +1,3 @@
-/**
- * TODO: Add remaining functionality - below is a WIP
- *
- * Permissions that still need to be implemented fully:
- * - Ban Members
- * - Create Invites
- * - Manage Comments
- * - Manage Events
- * - Manage Invites
- */
-
 import { Box, BoxProps } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
@@ -22,7 +11,6 @@ import Flex from "../../Shared/Flex";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 import ServerPermissionToggle from "./ServerPermissionToggle";
 
-// TODO: Determine if there's a better way to store and iterate over permission names
 export const SERVER_PERMISSION_NAMES: (keyof ServerRolePermissionInput)[] = [
   "managePosts",
   "manageRoles",
