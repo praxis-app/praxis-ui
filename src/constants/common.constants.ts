@@ -24,7 +24,7 @@ export enum NavigationPaths {
 }
 
 export enum TypeNames {
-  GrouoRole = "GroupRole",
+  GroupRole = "GroupRole",
   Group = "Group",
   GroupMember = "GroupMember",
   Image = "Image",

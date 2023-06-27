@@ -37,13 +37,14 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
+  const isGroupRole = asPath.includes(NavigationPaths.Groups);
+  const userProfilePath = getUserProfilePath(roleMember.name);
+
   const [deleteRoleMember] = (
-    asPath.includes(NavigationPaths.Groups)
+    isGroupRole
       ? useDeleteGroupRoleMemberMutation
       : useDeleteServerRoleMemberMutation
   )();
-
-  const userProfilePath = getUserProfilePath(roleMember.name);
 
   const handleDelete = async () =>
     await deleteRoleMember({
@@ -64,7 +65,12 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
         const { availableUsersToAdd } = role;
 
         cache.modify({
-          id: cache.identify({ id: roleId, __typename: TypeNames.ServerRole }),
+          id: cache.identify({
+            id: roleId,
+            __typename: isGroupRole
+              ? TypeNames.GroupRole
+              : TypeNames.ServerRole,
+          }),
           fields: {
             members(existingRefs: Reference[], { readField }) {
               return existingRefs.filter(
