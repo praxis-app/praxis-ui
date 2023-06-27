@@ -3,10 +3,8 @@
  *
  * Permissions that still need to be implemented fully:
  * - Ban Members
- * - Create Invites
  * - Manage Comments
  * - Manage Events
- * - Manage Invites
  */
 
 import { Box, BoxProps } from "@mui/material";
