@@ -21,7 +21,7 @@ import {
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
-import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupPermissionsForm";
+import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupRoles/GroupPermissionsForm";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,

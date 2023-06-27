@@ -12,14 +12,14 @@
 import { Box, BoxProps } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
-import { toastVar } from "../../apollo/cache";
+import { toastVar } from "../../../apollo/cache";
 import {
   GroupRolePermissionInput,
   GroupRolePermissionsFragment,
   useUpdateGroupRoleMutation,
-} from "../../apollo/gen";
-import Flex from "../Shared/Flex";
-import PrimaryActionButton from "../Shared/PrimaryActionButton";
+} from "../../../apollo/gen";
+import Flex from "../../Shared/Flex";
+import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 import GroupPermissionToggle from "./GroupPermissionToggle";
 
 // TODO: Determine if there's a better way to store and iterate over permission names

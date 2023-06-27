@@ -1,14 +1,14 @@
 import { FormikHelpers } from "formik";
 import { useState } from "react";
-import { toastVar } from "../../apollo/cache";
+import { toastVar } from "../../../apollo/cache";
 import {
   GroupRoleFragment,
   useCreateGroupRoleMutation,
   useUpdateGroupRoleMutation,
-} from "../../apollo/gen";
-import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
-import { getRandomString } from "../../utils/common.utils";
-import RoleForm from "../Roles/RoleForm";
+} from "../../../apollo/gen";
+import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
+import { getRandomString } from "../../../utils/common.utils";
+import RoleForm from "../../Roles/RoleForm";
 
 interface Props {
   editRole?: GroupRoleFragment;

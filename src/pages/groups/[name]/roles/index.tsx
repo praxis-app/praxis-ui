@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useGroupRolesQuery } from "../../../../apollo/gen";
-import GroupRoleForm from "../../../../components/Groups/GroupRoleForm";
+import GroupRoleForm from "../../../../components/Groups/GroupRoles/GroupRoleForm";
 import RoleList from "../../../../components/Roles/RoleList";
 import Breadcrumbs from "../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../components/Shared/ProgressBar";

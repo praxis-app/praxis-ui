@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useEditGroupRoleQuery } from "../../../../../apollo/gen";
-import EditGroupRoleTabs from "../../../../../components/Groups/EditGroupRoleTabs";
+import EditGroupRoleTabs from "../../../../../components/Groups/GroupRoles/EditGroupRoleTabs";
 import Breadcrumbs from "../../../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../../../components/Shared/ProgressBar";
 import {

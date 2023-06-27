@@ -33,7 +33,7 @@ import {
 } from "../../../constants/proposal.constants";
 import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
 import { initGroupRolePermissions } from "../../../utils/role.utils";
-import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupPermissionsForm";
+import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupRoles/GroupPermissionsForm";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
