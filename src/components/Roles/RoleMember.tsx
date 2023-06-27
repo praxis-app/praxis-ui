@@ -1,5 +1,3 @@
-// TODO: Refactor to accomodate both server and group roles
-
 import { Reference } from "@apollo/client";
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
