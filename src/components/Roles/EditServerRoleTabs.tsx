@@ -6,7 +6,7 @@ import { EditServerRoleTabsFragment } from "../../apollo/gen";
 import { EditRoleTabNames } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import AddRoleMemberTab from "./AddRoleMemberTab";
-import DeleteRoleButton from "./DeleteRoleButton";
+import DeleteServerRoleButton from "./DeleteServerRoleButton";
 import ServerPermissionsForm from "./ServerPermissionsForm";
 import ServerRoleForm from "./ServerRoleForm";
 
@@ -71,7 +71,7 @@ const EditServerRoleTabs = ({ role }: Props) => {
       {tab === 0 && (
         <>
           <ServerRoleForm editRole={role} />
-          <DeleteRoleButton role={role} />
+          <DeleteServerRoleButton roleId={role.id} />
         </>
       )}
 

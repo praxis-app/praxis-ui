@@ -6,7 +6,7 @@ import { EditGroupRoleTabsFragment } from "../../apollo/gen";
 import { EditRoleTabNames } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import AddRoleMemberTab from "../Roles/AddRoleMemberTab";
-import DeleteRoleButton from "../Roles/DeleteRoleButton";
+import DeleteGroupRoleButton from "./DeleteGroupRoleButton";
 import GroupPermissionsForm from "./GroupPermissionsForm";
 import GroupRoleForm from "./GroupRoleForm";
 
@@ -71,7 +71,7 @@ const EditGroupRoleTabs = ({ role }: Props) => {
       {tab === 0 && (
         <>
           <GroupRoleForm editRole={role} groupId={role.group.id} />
-          <DeleteRoleButton role={role} />
+          <DeleteGroupRoleButton role={role} />
         </>
       )}
 

@@ -1,3 +1,5 @@
+// TODO: Refactor to accomodate both server and group roles
+
 import { Reference } from "@apollo/client";
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
@@ -62,7 +64,7 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
         const { availableUsersToAdd } = role;
 
         cache.modify({
-          id: cache.identify({ id: roleId, __typename: TypeNames.Role }),
+          id: cache.identify({ id: roleId, __typename: TypeNames.ServerRole }),
           fields: {
             members(existingRefs: Reference[], { readField }) {
               return existingRefs.filter(
