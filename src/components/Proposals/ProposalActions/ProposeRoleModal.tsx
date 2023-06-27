@@ -32,6 +32,8 @@ import {
   ProposeRoleModalFieldName,
 } from "../../../constants/proposal.constants";
 import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
+import { initGroupRolePermissions } from "../../../utils/role.utils";
+import { GROUP_PERMISSION_NAMES } from "../../Groups/GroupPermissionsForm";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -42,6 +44,7 @@ import Modal from "../../Shared/Modal";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 import ProgressBar from "../../Shared/ProgressBar";
 import { TextField } from "../../Shared/TextField";
+import ProposePermissionToggle from "./ProposePermissionToggle";
 import ProposeRoleMemberOption from "./ProposeRoleMemberOption";
 
 export interface ProposeRoleModalValues {
@@ -117,10 +120,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const roles = groupRolesData?.group.roles;
   const selectedRole = selectedRoleData?.groupRole;
-
-  // TODO: Update to use new permissions setup
-  // const permissions =
-  //   selectedRole?.permissions || initPermissions(GroupPermissions);
+  const permissions = selectedRole?.permissions || initGroupRolePermissions();
 
   const members = selectedRole
     ? [...selectedRole.members, ...selectedRole.availableUsersToAdd]
@@ -264,16 +264,15 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                      {/* TODO: Uncomment when ready */}
-                      {/* {GROUP_PERMISSION_NAMES.map((permissionName) => (
-                        <GroupPermissionToggle
+                      {GROUP_PERMISSION_NAMES.map((permissionName) => (
+                        <ProposePermissionToggle
                           key={permissionName}
                           permissionName={permissionName}
                           setFieldValue={setFieldValue}
                           permissions={permissions}
                           formValues={values}
                         />
-                      ))} */}
+                      ))}
                     </AccordionDetails>
                   </Accordion>
 
