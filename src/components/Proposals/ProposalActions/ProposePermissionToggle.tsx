@@ -39,15 +39,17 @@ const ProposePermissionToggle = ({
   const handleSwitchChange = ({
     target: { checked },
   }: ChangeEvent<HTMLInputElement>) => {
+    const field = `permissions.${permissionName}`;
+
     if (!checked && isEnabled) {
-      setFieldValue(permissionName, false);
+      setFieldValue(field, false);
       return;
     }
     if (checked === isEnabled) {
-      setFieldValue(permissionName, undefined);
+      setFieldValue(field, undefined);
       return;
     }
-    setFieldValue(permissionName, true);
+    setFieldValue(field, true);
   };
 
   return (
