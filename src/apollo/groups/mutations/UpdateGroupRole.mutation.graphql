@@ -1,5 +1,5 @@
-mutation UpdateGroupRole($roleData: UpdateGroupRoleInput!) {
-  updateGroupRole(roleData: $roleData) {
+mutation UpdateGroupRole($groupRoleData: UpdateGroupRoleInput!) {
+  updateGroupRole(groupRoleData: $groupRoleData) {
     groupRole {
       ...GroupRole
 

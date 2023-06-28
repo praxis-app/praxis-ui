@@ -39,7 +39,7 @@ const GroupPermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
     try {
       updateRole({
         variables: {
-          roleData: {
+          groupRoleData: {
             id: roleId,
             permissions,
           },

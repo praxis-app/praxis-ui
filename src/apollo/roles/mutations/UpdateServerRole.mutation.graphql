@@ -1,5 +1,5 @@
-mutation UpdateServerRole($roleData: UpdateServerRoleInput!) {
-  updateServerRole(roleData: $roleData) {
+mutation UpdateServerRole($serverRoleData: UpdateServerRoleInput!) {
+  updateServerRole(serverRoleData: $serverRoleData) {
     serverRole {
       ...ServerRole
 

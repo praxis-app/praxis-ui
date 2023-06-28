@@ -240,13 +240,13 @@ type Mutation {
   approveMemberRequest(id: Int!): ApproveMemberRequestPayload!
   cancelMemberRequest(id: Int!): Boolean!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
-  createGroupRole(roleData: CreateGroupRoleInput!): CreateGroupRolePayload!
+  createGroupRole(groupRoleData: CreateGroupRoleInput!): CreateGroupRolePayload!
   createLike(likeData: CreateLikeInput!): CreateLikePayload!
   createMemberRequest(groupId: Int!): CreateMemberRequestPayload!
   createPost(postData: CreatePostInput!): CreatePostPayload!
   createProposal(proposalData: CreateProposalInput!): CreateProposalPayload!
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
-  createServerRole(roleData: CreateServerRoleInput!): CreateServerRolePayload!
+  createServerRole(serverRoleData: CreateServerRoleInput!): CreateServerRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteGroupRole(id: Int!): Boolean!
@@ -270,10 +270,10 @@ type Mutation {
   unfollowUser(id: Int!): Boolean!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
-  updateGroupRole(roleData: UpdateGroupRoleInput!): UpdateGroupRolePayload!
+  updateGroupRole(groupRoleData: UpdateGroupRoleInput!): UpdateGroupRolePayload!
   updatePost(postData: UpdatePostInput!): UpdatePostPayload!
   updateProposal(proposalData: UpdateProposalInput!): UpdateProposalPayload!
-  updateServerRole(roleData: UpdateServerRoleInput!): UpdateServerRolePayload!
+  updateServerRole(serverRoleData: UpdateServerRoleInput!): UpdateServerRolePayload!
   updateUser(userData: UpdateUserInput!): UpdateUserPayload!
   updateVote(voteData: UpdateVoteInput!): UpdateVotePayload!
 }

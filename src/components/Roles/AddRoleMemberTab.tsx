@@ -47,14 +47,11 @@ const AddRoleMemberTab = ({
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [updateGroupRole] = useUpdateGroupRoleMutation();
+  const [updateServerRole] = useUpdateServerRoleMutation();
+
   const { asPath } = useRouter();
   const { t } = useTranslation();
-
-  const [updateRole] = (
-    asPath.includes(NavigationPaths.Groups)
-      ? useUpdateGroupRoleMutation
-      : useUpdateServerRoleMutation
-  )();
 
   const addCircleStyles = {
     fontSize: 23,
@@ -64,16 +61,27 @@ const AddRoleMemberTab = ({
   const handleAddMembersCardClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleSubmit = async () =>
-    await updateRole({
-      variables: {
-        roleData: { id, selectedUserIds },
-      },
-      onCompleted() {
-        handleCloseModal();
-        setSelectedUserIds([]);
-      },
+  const onCompleted = () => {
+    handleCloseModal();
+    setSelectedUserIds([]);
+  };
+
+  const handleSubmit = async () => {
+    const isGroupRole = asPath.includes(NavigationPaths.Groups);
+    const roleData = { id, selectedUserIds };
+
+    if (isGroupRole) {
+      await updateGroupRole({
+        variables: { groupRoleData: roleData },
+        onCompleted,
+      });
+      return;
+    }
+    await updateServerRole({
+      variables: { serverRoleData: roleData },
+      onCompleted,
     });
+  };
 
   return (
     <>

@@ -39,7 +39,7 @@ const ServerPermissionsForm = ({ permissions, roleId, ...boxProps }: Props) => {
     try {
       updateRole({
         variables: {
-          roleData: {
+          serverRoleData: {
             id: roleId,
             permissions,
           },

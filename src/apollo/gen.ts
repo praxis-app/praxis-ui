@@ -338,7 +338,7 @@ export type MutationCreateGroupArgs = {
 };
 
 export type MutationCreateGroupRoleArgs = {
-  roleData: CreateGroupRoleInput;
+  groupRoleData: CreateGroupRoleInput;
 };
 
 export type MutationCreateLikeArgs = {
@@ -362,7 +362,7 @@ export type MutationCreateServerInviteArgs = {
 };
 
 export type MutationCreateServerRoleArgs = {
-  roleData: CreateServerRoleInput;
+  serverRoleData: CreateServerRoleInput;
 };
 
 export type MutationCreateVoteArgs = {
@@ -450,7 +450,7 @@ export type MutationUpdateGroupConfigArgs = {
 };
 
 export type MutationUpdateGroupRoleArgs = {
-  roleData: UpdateGroupRoleInput;
+  groupRoleData: UpdateGroupRoleInput;
 };
 
 export type MutationUpdatePostArgs = {
@@ -462,7 +462,7 @@ export type MutationUpdateProposalArgs = {
 };
 
 export type MutationUpdateServerRoleArgs = {
-  roleData: UpdateServerRoleInput;
+  serverRoleData: UpdateServerRoleInput;
 };
 
 export type MutationUpdateUserArgs = {
@@ -1145,7 +1145,7 @@ export type CreateGroupMutation = {
 };
 
 export type CreateGroupRoleMutationVariables = Exact<{
-  roleData: CreateGroupRoleInput;
+  groupRoleData: CreateGroupRoleInput;
 }>;
 
 export type CreateGroupRoleMutation = {
@@ -1290,7 +1290,7 @@ export type UpdateGroupMutation = {
 };
 
 export type UpdateGroupRoleMutationVariables = Exact<{
-  roleData: UpdateGroupRoleInput;
+  groupRoleData: UpdateGroupRoleInput;
 }>;
 
 export type UpdateGroupRoleMutation = {
@@ -3117,7 +3117,7 @@ export type ServerRolePermissionsFragment = {
 };
 
 export type CreateServerRoleMutationVariables = Exact<{
-  roleData: CreateServerRoleInput;
+  serverRoleData: CreateServerRoleInput;
 }>;
 
 export type CreateServerRoleMutation = {
@@ -3179,7 +3179,7 @@ export type DeleteServerRoleMemberMutation = {
 };
 
 export type UpdateServerRoleMutationVariables = Exact<{
-  roleData: UpdateServerRoleInput;
+  serverRoleData: UpdateServerRoleInput;
 }>;
 
 export type UpdateServerRoleMutation = {
@@ -5112,8 +5112,8 @@ export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<
   CreateGroupMutationVariables
 >;
 export const CreateGroupRoleDocument = gql`
-  mutation CreateGroupRole($roleData: CreateGroupRoleInput!) {
-    createGroupRole(roleData: $roleData) {
+  mutation CreateGroupRole($groupRoleData: CreateGroupRoleInput!) {
+    createGroupRole(groupRoleData: $groupRoleData) {
       groupRole {
         ...GroupRole
         group {
@@ -5145,7 +5145,7 @@ export type CreateGroupRoleMutationFn = Apollo.MutationFunction<
  * @example
  * const [createGroupRoleMutation, { data, loading, error }] = useCreateGroupRoleMutation({
  *   variables: {
- *      roleData: // value for 'roleData'
+ *      groupRoleData: // value for 'groupRoleData'
  *   },
  * });
  */
@@ -5540,8 +5540,8 @@ export type UpdateGroupMutationOptions = Apollo.BaseMutationOptions<
   UpdateGroupMutationVariables
 >;
 export const UpdateGroupRoleDocument = gql`
-  mutation UpdateGroupRole($roleData: UpdateGroupRoleInput!) {
-    updateGroupRole(roleData: $roleData) {
+  mutation UpdateGroupRole($groupRoleData: UpdateGroupRoleInput!) {
+    updateGroupRole(groupRoleData: $groupRoleData) {
       groupRole {
         ...GroupRole
         permissions {
@@ -5586,7 +5586,7 @@ export type UpdateGroupRoleMutationFn = Apollo.MutationFunction<
  * @example
  * const [updateGroupRoleMutation, { data, loading, error }] = useUpdateGroupRoleMutation({
  *   variables: {
- *      roleData: // value for 'roleData'
+ *      groupRoleData: // value for 'groupRoleData'
  *   },
  * });
  */
@@ -7460,8 +7460,8 @@ export type ProposalQueryResult = Apollo.QueryResult<
   ProposalQueryVariables
 >;
 export const CreateServerRoleDocument = gql`
-  mutation CreateServerRole($roleData: CreateServerRoleInput!) {
-    createServerRole(roleData: $roleData) {
+  mutation CreateServerRole($serverRoleData: CreateServerRoleInput!) {
+    createServerRole(serverRoleData: $serverRoleData) {
       serverRole {
         ...ServerRole
       }
@@ -7487,7 +7487,7 @@ export type CreateServerRoleMutationFn = Apollo.MutationFunction<
  * @example
  * const [createServerRoleMutation, { data, loading, error }] = useCreateServerRoleMutation({
  *   variables: {
- *      roleData: // value for 'roleData'
+ *      serverRoleData: // value for 'serverRoleData'
  *   },
  * });
  */
@@ -7626,8 +7626,8 @@ export type DeleteServerRoleMemberMutationOptions = Apollo.BaseMutationOptions<
   DeleteServerRoleMemberMutationVariables
 >;
 export const UpdateServerRoleDocument = gql`
-  mutation UpdateServerRole($roleData: UpdateServerRoleInput!) {
-    updateServerRole(roleData: $roleData) {
+  mutation UpdateServerRole($serverRoleData: UpdateServerRoleInput!) {
+    updateServerRole(serverRoleData: $serverRoleData) {
       serverRole {
         ...ServerRole
         permissions {
@@ -7672,7 +7672,7 @@ export type UpdateServerRoleMutationFn = Apollo.MutationFunction<
  * @example
  * const [updateServerRoleMutation, { data, loading, error }] = useUpdateServerRoleMutation({
  *   variables: {
- *      roleData: // value for 'roleData'
+ *      serverRoleData: // value for 'serverRoleData'
  *   },
  * });
  */

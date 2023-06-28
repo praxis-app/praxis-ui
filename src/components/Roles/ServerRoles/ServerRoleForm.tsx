@@ -39,7 +39,7 @@ const ServerRoleForm = ({ editRole }: Props) => {
   ) =>
     await createRole({
       variables: {
-        roleData: { color, ...formValues },
+        serverRoleData: { color, ...formValues },
       },
       update(cache, { data }) {
         if (!data) {
@@ -71,7 +71,7 @@ const ServerRoleForm = ({ editRole }: Props) => {
       if (editRole) {
         await updateRole({
           variables: {
-            roleData: {
+            serverRoleData: {
               id: editRole.id,
               ...formValues,
               color,

@@ -33,7 +33,7 @@ const GroupRoleForm = ({ editRole, groupId }: Props) => {
   ) =>
     await createRole({
       variables: {
-        roleData: { color, groupId, ...formValues },
+        groupRoleData: { color, groupId, ...formValues },
       },
       onCompleted() {
         setColor(DEFAULT_ROLE_COLOR);
@@ -50,7 +50,7 @@ const GroupRoleForm = ({ editRole, groupId }: Props) => {
       if (editRole) {
         await updateRole({
           variables: {
-            roleData: {
+            groupRoleData: {
               id: editRole.id,
               ...formValues,
               color,
