@@ -5,7 +5,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useEditServerRoleQuery } from "../../../apollo/gen";
-import EditServerRoleTabs from "../../../components/Roles/ServerRoles/EditServerRoleTabs";
+import EditRoleTabs from "../../../components/Roles/EditRoleTabs";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../../constants/common.constants";
@@ -54,7 +54,7 @@ const EditServerRole: NextPage = () => {
         ]}
       />
 
-      <EditServerRoleTabs role={role} />
+      <EditRoleTabs role={role} />
     </>
   );
 };

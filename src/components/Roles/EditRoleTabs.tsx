@@ -2,24 +2,32 @@ import { Card, Tab, Tabs } from "@mui/material";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { EditServerRoleTabsFragment } from "../../../apollo/gen";
-import { EditRoleTabNames } from "../../../constants/role.constants";
-import { useAboveBreakpoint } from "../../../hooks/common.hooks";
-import AddRoleMemberTab from "../AddRoleMemberTab";
-import DeleteServerRoleButton from "./DeleteServerRoleButton";
-import ServerPermissionsForm from "./ServerPermissionsForm";
-import ServerRoleForm from "./ServerRoleForm";
+import {
+  EditGroupRoleTabsFragment,
+  EditServerRoleTabsFragment,
+} from "../../apollo/gen";
+import { EditRoleTabNames } from "../../constants/role.constants";
+import { useAboveBreakpoint } from "../../hooks/common.hooks";
+import DeleteGroupRoleButton from "../Groups/GroupRoles/DeleteGroupRoleButton";
+import GroupPermissionsForm from "../Groups/GroupRoles/GroupPermissionsForm";
+import GroupRoleForm from "../Groups/GroupRoles/GroupRoleForm";
+import AddRoleMemberTab from "./AddRoleMemberTab";
+import DeleteServerRoleButton from "./ServerRoles/DeleteServerRoleButton";
+import ServerPermissionsForm from "./ServerRoles/ServerPermissionsForm";
+import ServerRoleForm from "./ServerRoles/ServerRoleForm";
 
 interface Props {
-  role: EditServerRoleTabsFragment;
+  role: EditServerRoleTabsFragment | EditGroupRoleTabsFragment;
 }
 
-const EditServerRoleTabs = ({ role }: Props) => {
+const EditRoleTabs = ({ role }: Props) => {
   const [tab, setTab] = useState(0);
-  const { query, replace } = useRouter();
 
+  const { query, replace } = useRouter();
   const { t } = useTranslation();
   const isAboveSmall = useAboveBreakpoint("sm");
+
+  const isGroupRole = "group" in role;
 
   useEffect(() => {
     if (query.tab === EditRoleTabNames.Permissions) {
@@ -70,17 +78,31 @@ const EditServerRoleTabs = ({ role }: Props) => {
 
       {tab === 0 && (
         <>
-          <ServerRoleForm editRole={role} />
-          <DeleteServerRoleButton roleId={role.id} />
+          {isGroupRole ? (
+            <GroupRoleForm editRole={role} groupId={role.group.id} />
+          ) : (
+            <ServerRoleForm editRole={role} />
+          )}
+          {isGroupRole ? (
+            <DeleteGroupRoleButton role={role} />
+          ) : (
+            <DeleteServerRoleButton roleId={role.id} />
+          )}
         </>
       )}
 
-      {tab === 1 && (
-        <ServerPermissionsForm
-          permissions={role.permissions}
-          roleId={role.id}
-        />
-      )}
+      {tab === 1 &&
+        (isGroupRole ? (
+          <GroupPermissionsForm
+            permissions={role.permissions}
+            roleId={role.id}
+          />
+        ) : (
+          <ServerPermissionsForm
+            permissions={role.permissions}
+            roleId={role.id}
+          />
+        ))}
 
       {tab === 2 && (
         <AddRoleMemberTab
@@ -92,4 +114,4 @@ const EditServerRoleTabs = ({ role }: Props) => {
   );
 };
 
-export default EditServerRoleTabs;
+export default EditRoleTabs;
