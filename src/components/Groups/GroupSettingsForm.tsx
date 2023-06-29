@@ -27,7 +27,9 @@ interface Props {
 }
 
 const GroupSettingsForm = ({ group }: Props) => {
-  const [updateSettings] = useUpdateGroupSettingsMutation();
+  const [updateSettings] = useUpdateGroupSettingsMutation({
+    errorPolicy: "all",
+  });
   const { t } = useTranslation();
   const theme = useTheme();
 
