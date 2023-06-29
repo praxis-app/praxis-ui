@@ -3342,6 +3342,14 @@ export type ServerRolesQuery = {
     color: string;
     memberCount: number;
   }>;
+  me: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "ServerPermissions";
+      manageRoles: boolean;
+    };
+  };
 };
 
 export type EditProfileFormFragment = {
@@ -7829,6 +7837,12 @@ export const ServerRolesDocument = gql`
   query ServerRoles {
     serverRoles {
       ...ServerRole
+    }
+    me {
+      id
+      serverPermissions {
+        manageRoles
+      }
     }
   }
   ${ServerRoleFragmentDoc}
