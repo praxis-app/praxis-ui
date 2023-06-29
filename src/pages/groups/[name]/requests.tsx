@@ -16,6 +16,7 @@ import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
+import { isDeniedAccess } from "../../../utils/error.utils";
 import { getGroupPath } from "../../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -35,6 +36,10 @@ const MemberRequests: NextPage = () => {
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
+
+  if (isDeniedAccess(error)) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
 
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
