@@ -100,7 +100,11 @@ export const initGroupRolePermissions = (
   updateGroup: enabled,
 });
 
-export const cleanPermissions = <T>(object: T): Partial<T> =>
-  Object.entries(object)
+export const cleanPermissions = <T>(object: T): Partial<T> => {
+  if (!object) {
+    return {};
+  }
+  return Object.entries(object)
     .filter(([_, value]) => typeof value === "boolean")
     .reduce((result, [key, value]) => ({ ...result, [key]: value }), {});
+};
