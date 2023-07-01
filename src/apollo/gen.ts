@@ -122,7 +122,7 @@ export type CreateVotePayload = {
 };
 
 export type DeleteGroupRoleMemberInput = {
-  roleId: Scalars["Int"];
+  groupRoleId: Scalars["Int"];
   userId: Scalars["Int"];
 };
 
@@ -136,7 +136,7 @@ export type DeleteLikeInput = {
 };
 
 export type DeleteServerRoleMemberInput = {
-  roleId: Scalars["Int"];
+  serverRoleId: Scalars["Int"];
   userId: Scalars["Int"];
 };
 
@@ -378,7 +378,7 @@ export type MutationDeleteGroupRoleArgs = {
 };
 
 export type MutationDeleteGroupRoleMemberArgs = {
-  roleMemberData: DeleteGroupRoleMemberInput;
+  groupRoleMemberData: DeleteGroupRoleMemberInput;
 };
 
 export type MutationDeleteImageArgs = {
@@ -406,7 +406,7 @@ export type MutationDeleteServerRoleArgs = {
 };
 
 export type MutationDeleteServerRoleMemberArgs = {
-  roleMemberData: DeleteServerRoleMemberInput;
+  serverRoleMemberData: DeleteServerRoleMemberInput;
 };
 
 export type MutationDeleteUserArgs = {
@@ -1216,7 +1216,7 @@ export type DeleteGroupRoleMutation = {
 };
 
 export type DeleteGroupRoleMemberMutationVariables = Exact<{
-  roleMemberData: DeleteGroupRoleMemberInput;
+  groupRoleMemberData: DeleteGroupRoleMemberInput;
 }>;
 
 export type DeleteGroupRoleMemberMutation = {
@@ -3144,7 +3144,7 @@ export type DeleteServerRoleMutation = {
 };
 
 export type DeleteServerRoleMemberMutationVariables = Exact<{
-  roleMemberData: DeleteServerRoleMemberInput;
+  serverRoleMemberData: DeleteServerRoleMemberInput;
 }>;
 
 export type DeleteServerRoleMemberMutation = {
@@ -5335,8 +5335,10 @@ export type DeleteGroupRoleMutationOptions = Apollo.BaseMutationOptions<
   DeleteGroupRoleMutationVariables
 >;
 export const DeleteGroupRoleMemberDocument = gql`
-  mutation DeleteGroupRoleMember($roleMemberData: DeleteGroupRoleMemberInput!) {
-    deleteGroupRoleMember(roleMemberData: $roleMemberData) {
+  mutation DeleteGroupRoleMember(
+    $groupRoleMemberData: DeleteGroupRoleMemberInput!
+  ) {
+    deleteGroupRoleMember(groupRoleMemberData: $groupRoleMemberData) {
       groupRole {
         id
         availableUsersToAdd {
@@ -5372,7 +5374,7 @@ export type DeleteGroupRoleMemberMutationFn = Apollo.MutationFunction<
  * @example
  * const [deleteGroupRoleMemberMutation, { data, loading, error }] = useDeleteGroupRoleMemberMutation({
  *   variables: {
- *      roleMemberData: // value for 'roleMemberData'
+ *      groupRoleMemberData: // value for 'groupRoleMemberData'
  *   },
  * });
  */
@@ -7570,9 +7572,9 @@ export type DeleteServerRoleMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const DeleteServerRoleMemberDocument = gql`
   mutation DeleteServerRoleMember(
-    $roleMemberData: DeleteServerRoleMemberInput!
+    $serverRoleMemberData: DeleteServerRoleMemberInput!
   ) {
-    deleteServerRoleMember(roleMemberData: $roleMemberData) {
+    deleteServerRoleMember(serverRoleMemberData: $serverRoleMemberData) {
       serverRole {
         id
         availableUsersToAdd {
@@ -7608,7 +7610,7 @@ export type DeleteServerRoleMemberMutationFn = Apollo.MutationFunction<
  * @example
  * const [deleteServerRoleMemberMutation, { data, loading, error }] = useDeleteServerRoleMemberMutation({
  *   variables: {
- *      roleMemberData: // value for 'roleMemberData'
+ *      serverRoleMemberData: // value for 'serverRoleMemberData'
  *   },
  * });
  */

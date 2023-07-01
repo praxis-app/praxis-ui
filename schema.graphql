@@ -88,7 +88,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 input DeleteGroupRoleMemberInput {
-  roleId: Int!
+  groupRoleId: Int!
   userId: Int!
 }
 
@@ -101,7 +101,7 @@ input DeleteLikeInput {
 }
 
 input DeleteServerRoleMemberInput {
-  roleId: Int!
+  serverRoleId: Int!
   userId: Int!
 }
 
@@ -250,14 +250,14 @@ type Mutation {
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteGroup(id: Int!): Boolean!
   deleteGroupRole(id: Int!): Boolean!
-  deleteGroupRoleMember(roleMemberData: DeleteGroupRoleMemberInput!): DeleteGroupRoleMemberPayload!
+  deleteGroupRoleMember(groupRoleMemberData: DeleteGroupRoleMemberInput!): DeleteGroupRoleMemberPayload!
   deleteImage(id: Int!): Boolean!
   deleteLike(likeData: DeleteLikeInput!): Boolean!
   deletePost(id: Int!): Boolean!
   deleteProposal(id: Int!): Boolean!
   deleteServerInvite(id: Int!): Boolean!
   deleteServerRole(id: Int!): Boolean!
-  deleteServerRoleMember(roleMemberData: DeleteServerRoleMemberInput!): DeleteServerRoleMemberPayload!
+  deleteServerRoleMember(serverRoleMemberData: DeleteServerRoleMemberInput!): DeleteServerRoleMemberPayload!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
   denyMemberRequest(id: Int!): Boolean!

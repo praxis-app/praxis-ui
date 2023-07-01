@@ -1,19 +1,18 @@
-import { Reference } from "@apollo/client";
+// TODO: Determine whether to split RoleMember between server and group
+
+import { ApolloCache, ApolloError, Reference } from "@apollo/client";
 import { RemoveCircle } from "@mui/icons-material";
 import { IconButton, styled, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
+  DeleteServerRoleMemberMutation,
   RoleMemberFragment,
   useDeleteGroupRoleMemberMutation,
   useDeleteServerRoleMemberMutation,
 } from "../../apollo/gen";
-import {
-  FORBIDDEN,
-  NavigationPaths,
-  TypeNames,
-} from "../../constants/common.constants";
+import { FORBIDDEN, NavigationPaths } from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";
@@ -25,6 +24,9 @@ const OuterFlex = styled(Flex)(() => ({
     marginBottom: 0,
   },
 }));
+
+type AvailableUsersToAdd =
+  DeleteServerRoleMemberMutation["deleteServerRoleMember"]["serverRole"]["availableUsersToAdd"];
 
 interface Props {
   roleMember: RoleMemberFragment;
@@ -38,62 +40,92 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
   const isGroupRole = asPath.includes(NavigationPaths.Groups);
   const userProfilePath = getUserProfilePath(roleMember.name);
 
-  const [deleteRoleMember] = (
-    isGroupRole
-      ? useDeleteGroupRoleMemberMutation
-      : useDeleteServerRoleMemberMutation
-  )();
+  const [deleteServerRoleMember] = useDeleteServerRoleMemberMutation();
+  const [deleteGroupRoleMember] = useDeleteGroupRoleMemberMutation();
 
-  const handleDelete = async () =>
-    await deleteRoleMember({
+  const updateCache = (
+    cache: ApolloCache<any>,
+    availableUsersToAdd: AvailableUsersToAdd,
+    __typename?: string
+  ) => {
+    cache.modify({
+      id: cache.identify({ id: roleId, __typename }),
+      fields: {
+        members(existingRefs: Reference[], { readField }) {
+          return existingRefs.filter(
+            (ref) => readField("id", ref) !== roleMember.id
+          );
+        },
+        availableUsersToAdd(_, { toReference }) {
+          return availableUsersToAdd.map((user) => toReference(user));
+        },
+        memberCount(existingCount: number) {
+          return existingCount - 1;
+        },
+      },
+    });
+  };
+
+  const handleError = (error: ApolloError) =>
+    toastVar({
+      status: "error",
+      title:
+        error.message === FORBIDDEN
+          ? t("prompts.permissionDenied")
+          : error.message,
+    });
+
+  const handleDeleteServerRoleMember = async () =>
+    await deleteServerRoleMember({
       variables: {
-        roleMemberData: {
+        serverRoleMemberData: {
           userId: roleMember.id,
-          roleId,
+          serverRoleId: roleId,
         },
       },
       update(cache, { data }) {
         if (!data) {
           return;
         }
-        const role =
-          "deleteGroupRoleMember" in data
-            ? data.deleteGroupRoleMember.groupRole
-            : data.deleteServerRoleMember.serverRole;
-        const { availableUsersToAdd } = role;
-
-        cache.modify({
-          id: cache.identify({
-            id: roleId,
-            __typename: isGroupRole
-              ? TypeNames.GroupRole
-              : TypeNames.ServerRole,
-          }),
-          fields: {
-            members(existingRefs: Reference[], { readField }) {
-              return existingRefs.filter(
-                (ref) => readField("id", ref) !== roleMember.id
-              );
-            },
-            availableUsersToAdd(_, { toReference }) {
-              return availableUsersToAdd.map((user) => toReference(user));
-            },
-            memberCount(existingCount: number) {
-              return existingCount - 1;
-            },
+        const {
+          deleteServerRoleMember: {
+            serverRole: { availableUsersToAdd, __typename },
           },
-        });
+        } = data;
+        updateCache(cache, availableUsersToAdd, __typename);
       },
-      onError(error) {
-        toastVar({
-          status: "error",
-          title:
-            error.message === FORBIDDEN
-              ? t("prompts.permissionDenied")
-              : error.message,
-        });
-      },
+      onError: handleError,
     });
+
+  const handleDeleteGroupRoleMember = async () =>
+    await deleteGroupRoleMember({
+      variables: {
+        groupRoleMemberData: {
+          userId: roleMember.id,
+          groupRoleId: roleId,
+        },
+      },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        const {
+          deleteGroupRoleMember: {
+            groupRole: { availableUsersToAdd, __typename },
+          },
+        } = data;
+        updateCache(cache, availableUsersToAdd, __typename);
+      },
+      onError: handleError,
+    });
+
+  const handleDelete = async () => {
+    if (isGroupRole) {
+      await handleDeleteGroupRoleMember();
+      return;
+    }
+    await handleDeleteServerRoleMember();
+  };
 
   const handleClickWithConfirm = () =>
     window.confirm(t("prompts.removeItem", { itemType: "role member" })) &&

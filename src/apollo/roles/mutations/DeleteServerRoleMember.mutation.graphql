@@ -1,5 +1,7 @@
-mutation DeleteServerRoleMember($roleMemberData: DeleteServerRoleMemberInput!) {
-  deleteServerRoleMember(roleMemberData: $roleMemberData) {
+mutation DeleteServerRoleMember(
+  $serverRoleMemberData: DeleteServerRoleMemberInput!
+) {
+  deleteServerRoleMember(serverRoleMemberData: $serverRoleMemberData) {
     serverRole {
       id
       availableUsersToAdd {
