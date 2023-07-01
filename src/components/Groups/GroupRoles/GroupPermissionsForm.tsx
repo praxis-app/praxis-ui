@@ -2,9 +2,9 @@
  * TODO: Add remaining functionality - below is a WIP
  *
  * Permissions that still need to be implemented fully:
- * - Ban Members
- * - Manage Comments
  * - Manage Events
+ * - Manage Comments
+ * - Remove Members
  */
 
 import { Box, BoxProps } from "@mui/material";
