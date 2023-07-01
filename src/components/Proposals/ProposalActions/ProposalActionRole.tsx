@@ -114,7 +114,7 @@ const ProposalActionRole = ({
 
   const includedPermissions = cleanPermissions(permissions) || {};
   const includedPermissionNames = getTypedKeys(includedPermissions);
-  const includesPermissions = !!includedPermissionNames.length;
+  const hasPermissions = !!includedPermissionNames.length;
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
@@ -164,7 +164,7 @@ const ProposalActionRole = ({
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2 : 3 }}>
-          {!isRoleChange && !members?.length && !includesPermissions && (
+          {!isRoleChange && !members?.length && !hasPermissions && (
             <Typography>
               {t("proposals.prompts.emptyPermsAndMembers")}
             </Typography>
@@ -263,7 +263,7 @@ const ProposalActionRole = ({
               </>
             )}
 
-            {includesPermissions && (
+            {hasPermissions && (
               <Grid item xs={!isRoleChange ? 5 : 6}>
                 <Typography fontFamily="Inter Bold" fontSize={15} gutterBottom>
                   {t("permissions.labels.permissions")}
@@ -280,7 +280,7 @@ const ProposalActionRole = ({
               </Grid>
             )}
 
-            {!isRoleChange && includesPermissions && !!members?.length && (
+            {!isRoleChange && hasPermissions && !!members?.length && (
               <Grid item xs={isDesktop ? 1.25 : 12}>
                 <Divider
                   orientation={isDesktop ? "vertical" : "horizontal"}
