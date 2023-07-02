@@ -1,5 +1,0 @@
-fragment PermissionToggle on Permission {
-  id
-  name
-  enabled
-}

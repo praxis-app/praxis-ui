@@ -8,7 +8,6 @@ import {
   ServerInvitesQuery,
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
-import { ServerPermissions } from "../../constants/role.constants";
 import { copyInviteLink } from "../../utils/server-invite.utils";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -35,9 +34,6 @@ const ServerInviteRow = ({
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
   });
-  const canManageInvites = me?.serverPermissions.includes(
-    ServerPermissions.ManageInvites
-  );
 
   const tableRowStyles: SxProps = {
     "&:last-child td, &:last-child th": {
@@ -66,6 +62,14 @@ const ServerInviteRow = ({
     setMenuAnchorEl(null);
   };
 
+  if (!me) {
+    return null;
+  }
+
+  const {
+    serverPermissions: { manageInvites },
+  } = me;
+
   return (
     <TableRow sx={tableRowStyles}>
       <TableCell>
@@ -89,10 +93,10 @@ const ServerInviteRow = ({
         <ItemMenu
           itemId={id}
           anchorEl={menuAnchorEl}
-          setAnchorEl={setMenuAnchorEl}
-          canDelete={canManageInvites}
+          canDelete={manageInvites}
           deleteItem={handleDelete}
           deletePrompt={deleteInvitePrompt}
+          setAnchorEl={setMenuAnchorEl}
           prependChildren
         >
           <MenuItem onClick={handleCopyLink}>

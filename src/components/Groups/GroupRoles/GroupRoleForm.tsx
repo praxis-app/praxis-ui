@@ -1,17 +1,17 @@
 import { FormikHelpers } from "formik";
 import { useState } from "react";
-import { toastVar } from "../../apollo/cache";
+import { toastVar } from "../../../apollo/cache";
 import {
-  RoleFragment,
+  GroupRoleFragment,
   useCreateGroupRoleMutation,
   useUpdateGroupRoleMutation,
-} from "../../apollo/gen";
-import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
-import { getRandomString } from "../../utils/common.utils";
-import RoleForm from "../Roles/RoleForm";
+} from "../../../apollo/gen";
+import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
+import { getRandomString } from "../../../utils/common.utils";
+import RoleForm from "../../Roles/RoleForm";
 
 interface Props {
-  editRole?: RoleFragment;
+  editRole?: GroupRoleFragment;
   groupId: number;
 }
 
@@ -33,7 +33,7 @@ const GroupRoleForm = ({ editRole, groupId }: Props) => {
   ) =>
     await createRole({
       variables: {
-        roleData: { color, groupId, ...formValues },
+        groupRoleData: { color, groupId, ...formValues },
       },
       onCompleted() {
         setColor(DEFAULT_ROLE_COLOR);
@@ -50,7 +50,7 @@ const GroupRoleForm = ({ editRole, groupId }: Props) => {
       if (editRole) {
         await updateRole({
           variables: {
-            roleData: {
+            groupRoleData: {
               id: editRole.id,
               ...formValues,
               color,

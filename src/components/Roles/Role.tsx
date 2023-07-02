@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { RoleFragment } from "../../apollo/gen";
+import { GroupRoleFragment, ServerRoleFragment } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
 import { getGroupPath } from "../../utils/group.utils";
 import Flex from "../Shared/Flex";
@@ -15,17 +15,15 @@ import Link from "../Shared/Link";
 
 interface Props {
   gutterBottom?: boolean;
-  role: RoleFragment;
+  role: GroupRoleFragment | ServerRoleFragment;
 }
 
-const Role = ({
-  role: { id, name, color, memberCount, group },
-  gutterBottom,
-}: Props) => {
+const Role = ({ role, gutterBottom }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const groupPath = group ? getGroupPath(group.name) : "";
+  const { id, name, color, memberCount } = role;
+  const groupPath = "group" in role ? getGroupPath(role.group.name) : "";
   const editRolePath = `${groupPath}${NavigationPaths.Roles}/${id}/edit`;
 
   const actionAreaStyles = {

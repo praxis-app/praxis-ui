@@ -8,7 +8,6 @@ import {
 } from "../../apollo/cache";
 import { TopNavDropdownFragment, useLogOutMutation } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
-import { ServerPermissions } from "../../constants/role.constants";
 import { inDevToast, redirectTo } from "../../utils/common.utils";
 
 export const handleLogOutComplete = () => {
@@ -38,10 +37,6 @@ const TopNavDropdown = ({
 }: Props) => {
   const [logOut] = useLogOutMutation();
   const { t } = useTranslation();
-
-  const canManageRoles = serverPermissions.includes(
-    ServerPermissions.ManageRoles
-  );
 
   const handleLogOutButtonClick = () =>
     window.confirm(t("users.prompts.logOut")) &&
@@ -83,7 +78,7 @@ const TopNavDropdown = ({
         {t("navigation.preferences")}
       </MenuItem>
 
-      {canManageRoles && (
+      {serverPermissions.manageRoles && (
         <MenuItem onClick={handleRolesButtonClick}>
           <AccountBox {...ICON_PROPS} />
           {t("roles.actions.manageRoles")}

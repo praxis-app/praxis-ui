@@ -1,46 +1,50 @@
 import { Box, Switch, Typography } from "@mui/material";
-import { FieldArrayRenderProps } from "formik";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
 import {
-  PermissionInput,
-  PermissionToggleFragment,
-  ProposalActionRoleInput,
+  GroupRolePermissionInput,
+  ServerRolePermissionInput,
 } from "../../apollo/gen";
 import theme from "../../styles/theme";
 import { getPermissionText } from "../../utils/role.utils";
 import Flex from "../Shared/Flex";
-import { PermissionsFormValues } from "./PermissionsForm";
 
 interface Props {
-  arrayHelpers: FieldArrayRenderProps;
-  permission: PermissionToggleFragment | PermissionInput;
-  values: PermissionsFormValues | ProposalActionRoleInput;
+  permissionName:
+    | keyof ServerRolePermissionInput
+    | keyof GroupRolePermissionInput;
+  setFieldValue(field: string, value?: boolean): void;
+  permissionInput?: boolean | null;
+  isEnabled: boolean;
 }
 
 const PermissionToggle = ({
-  permission: { enabled, name },
-  arrayHelpers,
-  values,
+  permissionName,
+  setFieldValue,
+  permissionInput,
+  isEnabled,
 }: Props) => {
-  const { displayName, description, inDev } = getPermissionText(name, t);
+  const { displayName, description, inDev } = getPermissionText(permissionName);
   if (inDev) {
     return null;
   }
 
-  const permissionInput = values.permissions?.find((p) => p.name === name);
-  const checked =
-    permissionInput !== undefined ? permissionInput.enabled : enabled;
+  const isChecked = !!(permissionInput !== undefined
+    ? permissionInput
+    : isEnabled);
 
-  const handleChange = ({
+  const handleSwitchChange = ({
     target: { checked },
   }: ChangeEvent<HTMLInputElement>) => {
-    if (checked === enabled) {
-      const index = values.permissions?.findIndex((p) => p.name === name);
-      index !== undefined && arrayHelpers.remove(index);
+    if (!checked && isEnabled) {
+      setFieldValue(permissionName, false);
       return;
     }
-    arrayHelpers.push({ name, enabled: checked });
+    if (checked === isEnabled) {
+      setFieldValue(permissionName, undefined);
+      return;
+    }
+    setFieldValue(permissionName, true);
   };
 
   return (
@@ -54,9 +58,9 @@ const PermissionToggle = ({
       </Box>
 
       <Switch
-        checked={checked}
         inputProps={{ "aria-label": displayName || t("labels.switch") }}
-        onChange={handleChange}
+        onChange={handleSwitchChange}
+        checked={isChecked}
       />
     </Flex>
   );

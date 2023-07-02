@@ -1,10 +1,11 @@
 query GroupRoles($name: String!) {
   group(name: $name) {
     id
-    myPermissions
-
+    myPermissions {
+      ...GroupPermissions
+    }
     roles {
-      ...Role
+      ...GroupRole
     }
   }
 }

@@ -1,5 +1,13 @@
 fragment ProposalActionPermission on ProposalActionPermission {
   id
-  name
-  enabled
+  approveMemberRequests
+  createEvents
+  deleteGroup
+  manageComments
+  manageEvents
+  managePosts
+  manageRoles
+  manageSettings
+  removeMembers
+  updateGroup
 }

@@ -5,7 +5,7 @@ query GroupRoleByRoleId($id: Int!) {
     color
 
     permissions {
-      ...PermissionToggle
+      ...GroupRolePermissions
     }
 
     members {

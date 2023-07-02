@@ -1,5 +1,5 @@
 import { Card, CardContent as MuiCardContent, styled } from "@mui/material";
-import { RoleFragment } from "../../apollo/gen";
+import { GroupRoleFragment, ServerRoleFragment } from "../../apollo/gen";
 import Role from "../../components/Roles/Role";
 
 const CardContent = styled(MuiCardContent)(() => ({
@@ -10,7 +10,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props {
-  roles: RoleFragment[];
+  roles: ServerRoleFragment[] | GroupRoleFragment[];
 }
 
 const RoleList = ({ roles }: Props) => (

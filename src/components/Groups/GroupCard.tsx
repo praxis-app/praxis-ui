@@ -26,7 +26,6 @@ import {
   NavigationPaths,
   TypeNames,
 } from "../../constants/common.constants";
-import { GroupPermissions } from "../../constants/role.constants";
 import { redirectTo } from "../../utils/common.utils";
 import {
   getEditGroupPath,
@@ -87,10 +86,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   const currentMember = isLoggedIn
     ? members.find((member) => currentUserId === member.id)
     : undefined;
-
-  const canApproveMemberRequests = myPermissions?.includes(
-    GroupPermissions.ApproveMemberRequests
-  );
+  const canApproveMemberRequests = myPermissions?.approveMemberRequests;
 
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
@@ -116,18 +112,10 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
   };
 
   const renderItemMenu = () => {
-    const canDeleteGroup = myPermissions?.includes(
-      GroupPermissions.DeleteGroup
-    );
-    const canUpdateGroup = myPermissions?.includes(
-      GroupPermissions.UpdateGroup
-    );
-    const canManageRoles = myPermissions?.includes(
-      GroupPermissions.ManageRoles
-    );
-    const canManageSettings = myPermissions?.includes(
-      GroupPermissions.ManageSettings
-    );
+    const canDeleteGroup = myPermissions?.deleteGroup;
+    const canUpdateGroup = myPermissions?.updateGroup;
+    const canManageRoles = myPermissions?.manageRoles;
+    const canManageSettings = myPermissions?.manageSettings;
     if (
       !canDeleteGroup &&
       !canUpdateGroup &&

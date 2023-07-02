@@ -1,3 +1,5 @@
+// TODO: Rename as component and fragment as GroupMemberRequest
+
 import { ApolloCache, Reference } from "@apollo/client";
 import { Box, Button, styled, Typography } from "@mui/material";
 import produce from "immer";
@@ -116,10 +118,13 @@ const RequestToJoin = ({
       </Link>
 
       <Box>
-        <Button onClick={handleApproveButtonClick}>
+        <Button
+          sx={{ color: "text.primary" }}
+          onClick={handleApproveButtonClick}
+        >
           {t("groups.actions.approve")}
         </Button>
-        <Button onClick={handleDenyButtonClick}>
+        <Button sx={{ color: "text.primary" }} onClick={handleDenyButtonClick}>
           {t("groups.actions.deny")}
         </Button>
       </Box>

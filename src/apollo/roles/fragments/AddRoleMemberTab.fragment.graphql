@@ -1,6 +1,0 @@
-fragment AddRoleMemberTab on Role {
-  id
-  members {
-    ...RoleMember
-  }
-}

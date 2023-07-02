@@ -11,7 +11,9 @@ fragment PostCard on Post {
   }
   group {
     ...GroupAvatar
-    myPermissions @include(if: $isLoggedIn)
+    myPermissions @include(if: $isLoggedIn) {
+      ...GroupPermissions
+    }
   }
 
   ...PostCardFooter

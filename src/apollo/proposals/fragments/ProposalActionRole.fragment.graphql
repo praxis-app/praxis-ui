@@ -13,7 +13,7 @@ fragment ProposalActionRole on ProposalActionRole {
     ...ProposalActionRoleMember
   }
 
-  role {
+  groupRole {
     id
     name
     color

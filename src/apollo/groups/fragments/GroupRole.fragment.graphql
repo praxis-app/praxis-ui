@@ -1,4 +1,4 @@
-fragment Role on Role {
+fragment GroupRole on GroupRole {
   id
   name
   color

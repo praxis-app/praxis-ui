@@ -7,7 +7,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { FieldArray, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import {
   ChangeEvent,
   ReactNode,
@@ -18,7 +18,7 @@ import {
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
 import {
-  PermissionInput,
+  GroupRolePermissionInput,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
   useGroupMembersByGroupIdLazyQuery,
@@ -33,10 +33,9 @@ import {
 } from "../../../constants/proposal.constants";
 import {
   DEFAULT_ROLE_COLOR,
-  GroupPermissions,
+  GROUP_PERMISSION_NAMES,
 } from "../../../constants/role.constants";
-import { initPermissions } from "../../../utils/role.utils";
-import PermissionToggle from "../../Roles/PermissionToggle";
+import { initGroupRolePermissions } from "../../../utils/role.utils";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -47,11 +46,12 @@ import Modal from "../../Shared/Modal";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 import ProgressBar from "../../Shared/ProgressBar";
 import { TextField } from "../../Shared/TextField";
+import ProposePermissionToggle from "./ProposePermissionToggle";
 import ProposeRoleMemberOption from "./ProposeRoleMemberOption";
 
 export interface ProposeRoleModalValues {
   name: string;
-  permissions: PermissionInput[];
+  permissions: GroupRolePermissionInput;
   roleId: number | "";
 }
 
@@ -122,9 +122,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const roles = groupRolesData?.group.roles;
   const selectedRole = selectedRoleData?.groupRole;
-
-  const permissions =
-    selectedRole?.permissions || initPermissions(GroupPermissions);
+  const permissions = selectedRole?.permissions || initGroupRolePermissions();
 
   const members = selectedRole
     ? [...selectedRole.members, ...selectedRole.availableUsersToAdd]
@@ -137,7 +135,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
 
   const initialValues: ProposalActionRoleInput = {
     name: "",
-    permissions: [],
+    permissions: {},
   };
 
   const title = isCreateRole
@@ -155,11 +153,16 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
       if (!selectedRole) {
         return true;
       }
+      const includesPermissions =
+        values.permissions &&
+        Object.values(values.permissions).some(
+          (value) => typeof value === "boolean"
+        );
       const dirty =
+        includesPermissions ||
+        selectedMembers.length ||
         color !== selectedRole.color ||
-        values.name !== selectedRole.name ||
-        values.permissions?.length ||
-        selectedMembers.length;
+        values.name !== selectedRole.name;
       return !dirty;
     }
     return !values.name;
@@ -263,19 +266,15 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                      <FieldArray
-                        name={ProposeRoleModalFieldName.Permissions}
-                        render={(arrayHelpers) =>
-                          permissions.map((permission) => (
-                            <PermissionToggle
-                              key={permission.name}
-                              arrayHelpers={arrayHelpers}
-                              permission={permission}
-                              values={values}
-                            />
-                          ))
-                        }
-                      />
+                      {GROUP_PERMISSION_NAMES.map((permissionName) => (
+                        <ProposePermissionToggle
+                          key={permissionName}
+                          permissionName={permissionName}
+                          setFieldValue={setFieldValue}
+                          permissions={permissions}
+                          formValues={values}
+                        />
+                      ))}
                     </AccordionDetails>
                   </Accordion>
 

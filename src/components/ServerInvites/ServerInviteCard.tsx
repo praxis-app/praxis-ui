@@ -21,7 +21,6 @@ import {
   useDeleteServerInviteMutation,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
-import { ServerPermissions } from "../../constants/role.constants";
 import { copyInviteLink } from "../../utils/server-invite.utils";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -76,9 +75,7 @@ const ServerInviteCard = ({
   const deleteInvitePrompt = t("prompts.deleteItem", {
     itemType: "invite link",
   });
-  const canManageInvites = me?.serverPermissions.includes(
-    ServerPermissions.ManageInvites
-  );
+  const canManageInvites = me?.serverPermissions.manageInvites;
 
   const handleDelete = async () =>
     await deleteInvite({
@@ -127,10 +124,10 @@ const ServerInviteCard = ({
           <ItemMenu
             itemId={id}
             anchorEl={menuAnchorEl}
-            setAnchorEl={setMenuAnchorEl}
             canDelete={canManageInvites}
             deleteItem={handleDelete}
             deletePrompt={deleteInvitePrompt}
+            setAnchorEl={setMenuAnchorEl}
             prependChildren
           >
             <MenuItem onClick={handleCopyLink}>

@@ -1,21 +1,21 @@
 import { FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
-import { toastVar } from "../../apollo/cache";
+import { toastVar } from "../../../apollo/cache";
 import {
   CreateServerRoleInput,
-  RoleFragment,
+  ServerRoleFragment,
   ServerRolesDocument,
   ServerRolesQuery,
   useCreateServerRoleMutation,
   useUpdateServerRoleMutation,
-} from "../../apollo/gen";
-import { DEFAULT_ROLE_COLOR } from "../../constants/role.constants";
-import { getRandomString } from "../../utils/common.utils";
-import RoleForm from "./RoleForm";
+} from "../../../apollo/gen";
+import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
+import { getRandomString } from "../../../utils/common.utils";
+import RoleForm from "../RoleForm";
 
 interface Props {
-  editRole?: RoleFragment;
+  editRole?: ServerRoleFragment;
 }
 
 const ServerRoleForm = ({ editRole }: Props) => {
@@ -39,20 +39,20 @@ const ServerRoleForm = ({ editRole }: Props) => {
   ) =>
     await createRole({
       variables: {
-        roleData: { color, ...formValues },
+        serverRoleData: { color, ...formValues },
       },
       update(cache, { data }) {
         if (!data) {
           return;
         }
         const {
-          createServerRole: { role },
+          createServerRole: { serverRole },
         } = data;
         cache.updateQuery<ServerRolesQuery>(
           { query: ServerRolesDocument },
           (postsData) =>
             produce(postsData, (draft) => {
-              draft?.serverRoles.unshift(role);
+              draft?.serverRoles.unshift(serverRole);
             })
         );
       },
@@ -71,7 +71,7 @@ const ServerRoleForm = ({ editRole }: Props) => {
       if (editRole) {
         await updateRole({
           variables: {
-            roleData: {
+            serverRoleData: {
               id: editRole.id,
               ...formValues,
               color,

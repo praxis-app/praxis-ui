@@ -1,27 +1,18 @@
+import { GroupRolePermissionInput } from "../apollo/gen";
+
 export const DEFAULT_ROLE_COLOR = "#f44336";
 
-export enum ServerPermissions {
-  BanMembers = "ban-members",
-  CreateInvites = "create-invites",
-  ManageComments = "manage-comments",
-  ManageEvents = "manage-events",
-  ManageInvites = "manage-invites",
-  ManagePosts = "manage-posts",
-  ManageRoles = "manage-roles",
-}
-
-export enum GroupPermissions {
-  ApproveMemberRequests = "approve-group-member-requests",
-  BanMembers = "ban-group-members",
-  CreateEvents = "create-group-events",
-  DeleteGroup = "delete-group",
-  UpdateGroup = "update-group",
-  ManageComments = "manage-group-comments",
-  ManageEvents = "manage-group-events",
-  ManagePosts = "manage-group-posts",
-  ManageRoles = "manage-group-roles",
-  ManageSettings = "manage-group-settings",
-}
+export const GROUP_PERMISSION_NAMES: (keyof GroupRolePermissionInput)[] = [
+  "managePosts",
+  "manageSettings",
+  "manageRoles",
+  "updateGroup",
+  "deleteGroup",
+  "manageComments",
+  "manageEvents",
+  "removeMembers",
+  "approveMemberRequests",
+];
 
 export enum EditRoleTabNames {
   Permissions = "permissions",

@@ -2,9 +2,9 @@ import { useReactiveVar } from "@apollo/client";
 import {
   AccountBox as RolesIcon,
   EventNote as EventsIcon,
-  Link as InvitesIcon,
   Group as GroupsIcon,
   Home as HomeIcon,
+  Link as InvitesIcon,
   SupervisedUserCircle as UsersIcon,
 } from "@mui/icons-material";
 import {
@@ -20,7 +20,6 @@ import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useMeQuery } from "../../apollo/gen";
 import { NavigationPaths } from "../../constants/common.constants";
-import { ServerPermissions } from "../../constants/role.constants";
 import Link from "../Shared/Link";
 
 interface ListItemTextProps extends MuiListItemTextProps {
@@ -57,18 +56,10 @@ const LeftNav = () => {
   const { t } = useTranslation();
 
   const me = data?.me;
-  const canBanUsers = me?.serverPermissions.includes(
-    ServerPermissions.BanMembers
-  );
-  const canManageRoles = me?.serverPermissions.includes(
-    ServerPermissions.ManageRoles
-  );
-  const canCreateInvites = me?.serverPermissions.includes(
-    ServerPermissions.CreateInvites
-  );
-  const canManageInvites = me?.serverPermissions.includes(
-    ServerPermissions.ManageInvites
-  );
+  const canBanUsers = me?.serverPermissions.removeMembers;
+  const canManageRoles = me?.serverPermissions.manageRoles;
+  const canCreateInvites = me?.serverPermissions.createInvites;
+  const canManageInvites = me?.serverPermissions.manageInvites;
 
   const listStyles: SxProps = {
     position: "fixed",

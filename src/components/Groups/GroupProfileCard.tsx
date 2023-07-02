@@ -24,7 +24,6 @@ import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
 } from "../../constants/common.constants";
-import { GroupPermissions } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import {
@@ -79,9 +78,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     settings,
   } = group;
 
-  const canApproveMemberRequests = myPermissions?.includes(
-    GroupPermissions.ApproveMemberRequests
-  );
+  const canApproveMemberRequests = myPermissions?.approveMemberRequests;
   const showCardHeader = isLoggedIn && isAboveSmall;
 
   const groupPath = getGroupPath(name);
@@ -131,18 +128,11 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   };
 
   const renderCardActions = () => {
-    const canDeleteGroup = myPermissions?.includes(
-      GroupPermissions.DeleteGroup
-    );
-    const canUpdateGroup = myPermissions?.includes(
-      GroupPermissions.UpdateGroup
-    );
-    const canManageRoles = myPermissions?.includes(
-      GroupPermissions.ManageRoles
-    );
-    const canManageSettings = myPermissions?.includes(
-      GroupPermissions.ManageSettings
-    );
+    const canDeleteGroup = myPermissions?.deleteGroup;
+    const canManageRoles = myPermissions?.manageRoles;
+    const canManageSettings = myPermissions?.manageSettings;
+    const canUpdateGroup = myPermissions?.updateGroup;
+
     const showMenuButton =
       canDeleteGroup || canUpdateGroup || canManageRoles || canManageSettings;
 
