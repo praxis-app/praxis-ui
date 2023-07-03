@@ -259,6 +259,7 @@
 
   "events": {
     "headers": {
+      "discoverEvents": "Discover Events",
       "planEvents": "Plan Events"
     },
     "tips": {

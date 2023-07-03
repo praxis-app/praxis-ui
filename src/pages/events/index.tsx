@@ -1,36 +1,39 @@
 // TODO: Add basic functionality for events - below is a WIP
 
-import {
-  Card,
-  CardContent as MuiCardContent,
-  CardHeader,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
-
-const CardContent = styled(MuiCardContent)(() => ({
-  "&:last-child": {
-    paddingBottom: 12,
-  },
-}));
+import { useEventsQuery } from "../../apollo/gen";
+import Event from "../../components/Events/Event";
+import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import ProgressBar from "../../components/Shared/ProgressBar";
 
 const EventsIndex: NextPage = () => {
+  const { data, loading, error } = useEventsQuery();
   const { t } = useTranslation();
 
+  if (error) {
+    return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+  }
+
+  if (loading) {
+    return <ProgressBar />;
+  }
+
+  if (!data) {
+    return null;
+  }
+
   return (
-    <Card>
-      <CardHeader
-        title={t("events.headers.planEvents")}
-        sx={{ paddingBottom: 0.75 }}
-      />
-      <CardContent>
-        <Typography gutterBottom>{t("events.tips.planEvents")}</Typography>
-        <Typography gutterBottom>{t("events.tips.proposedEvents")}</Typography>
-        <Typography gutterBottom>{t("prompts.inDev")}</Typography>
-      </CardContent>
-    </Card>
+    <>
+      <LevelOneHeading header>
+        {t("events.headers.discoverEvents")}
+      </LevelOneHeading>
+
+      {data.events.map((event) => (
+        <Event key={event.id} event={event} />
+      ))}
+    </>
   );
 };
 

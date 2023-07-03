@@ -991,6 +991,25 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
+export type EventFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  description: string;
+};
+
+export type EventsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type EventsQuery = {
+  __typename?: "Query";
+  events: Array<{
+    __typename?: "Event";
+    id: number;
+    name: string;
+    description: string;
+  }>;
+};
+
 export type AddGroupRoleMemberTabFragment = {
   __typename?: "GroupRole";
   id: number;
@@ -4239,6 +4258,13 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const EventFragmentDoc = gql`
+  fragment Event on Event {
+    id
+    name
+    description
+  }
+`;
 export const GroupRoleFragmentDoc = gql`
   fragment GroupRole on GroupRole {
     id
@@ -5036,6 +5062,54 @@ export type AuthCheckLazyQueryHookResult = ReturnType<
 export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQuery,
   AuthCheckQueryVariables
+>;
+export const EventsDocument = gql`
+  query Events {
+    events {
+      ...Event
+    }
+  }
+  ${EventFragmentDoc}
+`;
+
+/**
+ * __useEventsQuery__
+ *
+ * To run a query within a React component, call `useEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEventsQuery(
+  baseOptions?: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EventsQuery, EventsQueryVariables>(
+    EventsDocument,
+    options
+  );
+}
+export function useEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<EventsQuery, EventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EventsQuery, EventsQueryVariables>(
+    EventsDocument,
+    options
+  );
+}
+export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
+export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
+export type EventsQueryResult = Apollo.QueryResult<
+  EventsQuery,
+  EventsQueryVariables
 >;
 export const ApproveGroupMemberRequestDocument = gql`
   mutation ApproveGroupMemberRequest($id: Int!) {
