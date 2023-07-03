@@ -1,4 +1,4 @@
-type ApproveMemberRequestPayload {
+type ApproveGroupMemberRequestPayload {
   groupMember: User!
 }
 
@@ -6,6 +6,10 @@ input CreateGroupInput {
   coverPhoto: Upload
   description: String!
   name: String!
+}
+
+type CreateGroupMemberRequestPayload {
+  groupMemberRequest: GroupMemberRequest!
 }
 
 type CreateGroupPayload {
@@ -28,10 +32,6 @@ input CreateLikeInput {
 
 type CreateLikePayload {
   like: Like!
-}
-
-type CreateMemberRequestPayload {
-  memberRequest: MemberRequest!
 }
 
 input CreatePostInput {
@@ -126,7 +126,7 @@ type Group {
   isJoinedByMe: Boolean!
   memberCount: Int!
   memberRequestCount: Int
-  memberRequests: [MemberRequest!]
+  memberRequests: [GroupMemberRequest!]
   members: [User!]!
   myPermissions: GroupPermissions!
   name: String!
@@ -143,6 +143,14 @@ type GroupConfig {
   id: Int!
   isPublic: Boolean!
   updatedAt: DateTime!
+}
+
+type GroupMemberRequest {
+  createdAt: DateTime!
+  group: Group!
+  id: Int!
+  updatedAt: DateTime!
+  user: User!
 }
 
 type GroupPermissions {
@@ -228,21 +236,13 @@ type LoginPayload {
   user: User!
 }
 
-type MemberRequest {
-  createdAt: DateTime!
-  group: Group!
-  id: Int!
-  updatedAt: DateTime!
-  user: User!
-}
-
 type Mutation {
-  approveMemberRequest(id: Int!): ApproveMemberRequestPayload!
-  cancelMemberRequest(id: Int!): Boolean!
+  approveGroupMemberRequest(id: Int!): ApproveGroupMemberRequestPayload!
+  cancelGroupMemberRequest(id: Int!): Boolean!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
+  createGroupMemberRequest(groupId: Int!): CreateGroupMemberRequestPayload!
   createGroupRole(groupRoleData: CreateGroupRoleInput!): CreateGroupRolePayload!
   createLike(likeData: CreateLikeInput!): CreateLikePayload!
-  createMemberRequest(groupId: Int!): CreateMemberRequestPayload!
   createPost(postData: CreatePostInput!): CreatePostPayload!
   createProposal(proposalData: CreateProposalInput!): CreateProposalPayload!
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
@@ -260,7 +260,7 @@ type Mutation {
   deleteServerRoleMember(serverRoleMemberData: DeleteServerRoleMemberInput!): DeleteServerRoleMemberPayload!
   deleteUser(id: Int!): Boolean!
   deleteVote(id: Int!): Boolean!
-  denyMemberRequest(id: Int!): Boolean!
+  denyGroupMemberRequest(id: Int!): Boolean!
   followUser(id: Int!): FollowUserPayload!
   leaveGroup(id: Int!): Boolean!
   logOut: Boolean!
@@ -377,12 +377,12 @@ input ProposalActionRoleMemberInput {
 type Query {
   authCheck: Boolean!
   group(id: Int, name: String): Group!
+  groupMemberRequest(groupId: Int!): GroupMemberRequest
   groupRole(id: Int!): GroupRole!
   groupRoles: [GroupRole!]!
   groups: [Group!]!
   isFirstUser: Boolean!
   me: User!
-  memberRequest(groupId: Int!): MemberRequest
   post(id: Int!): Post!
   posts: [Post!]!
   proposal(id: Int!): Proposal!

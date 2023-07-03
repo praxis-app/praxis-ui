@@ -27,8 +27,8 @@ export type Scalars = {
   Upload: any;
 };
 
-export type ApproveMemberRequestPayload = {
-  __typename?: "ApproveMemberRequestPayload";
+export type ApproveGroupMemberRequestPayload = {
+  __typename?: "ApproveGroupMemberRequestPayload";
   groupMember: User;
 };
 
@@ -36,6 +36,11 @@ export type CreateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
   name: Scalars["String"];
+};
+
+export type CreateGroupMemberRequestPayload = {
+  __typename?: "CreateGroupMemberRequestPayload";
+  groupMemberRequest: GroupMemberRequest;
 };
 
 export type CreateGroupPayload = {
@@ -61,11 +66,6 @@ export type CreateLikeInput = {
 export type CreateLikePayload = {
   __typename?: "CreateLikePayload";
   like: Like;
-};
-
-export type CreateMemberRequestPayload = {
-  __typename?: "CreateMemberRequestPayload";
-  memberRequest: MemberRequest;
 };
 
 export type CreatePostInput = {
@@ -164,7 +164,7 @@ export type Group = {
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
   memberRequestCount?: Maybe<Scalars["Int"]>;
-  memberRequests?: Maybe<Array<MemberRequest>>;
+  memberRequests?: Maybe<Array<GroupMemberRequest>>;
   members: Array<User>;
   myPermissions: GroupPermissions;
   name: Scalars["String"];
@@ -182,6 +182,15 @@ export type GroupConfig = {
   id: Scalars["Int"];
   isPublic: Scalars["Boolean"];
   updatedAt: Scalars["DateTime"];
+};
+
+export type GroupMemberRequest = {
+  __typename?: "GroupMemberRequest";
+  createdAt: Scalars["DateTime"];
+  group: Group;
+  id: Scalars["Int"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
 };
 
 export type GroupPermissions = {
@@ -273,23 +282,14 @@ export type LoginPayload = {
   user: User;
 };
 
-export type MemberRequest = {
-  __typename?: "MemberRequest";
-  createdAt: Scalars["DateTime"];
-  group: Group;
-  id: Scalars["Int"];
-  updatedAt: Scalars["DateTime"];
-  user: User;
-};
-
 export type Mutation = {
   __typename?: "Mutation";
-  approveMemberRequest: ApproveMemberRequestPayload;
-  cancelMemberRequest: Scalars["Boolean"];
+  approveGroupMemberRequest: ApproveGroupMemberRequestPayload;
+  cancelGroupMemberRequest: Scalars["Boolean"];
   createGroup: CreateGroupPayload;
+  createGroupMemberRequest: CreateGroupMemberRequestPayload;
   createGroupRole: CreateGroupRolePayload;
   createLike: CreateLikePayload;
-  createMemberRequest: CreateMemberRequestPayload;
   createPost: CreatePostPayload;
   createProposal: CreateProposalPayload;
   createServerInvite: CreateServerInvitePayload;
@@ -307,7 +307,7 @@ export type Mutation = {
   deleteServerRoleMember: DeleteServerRoleMemberPayload;
   deleteUser: Scalars["Boolean"];
   deleteVote: Scalars["Boolean"];
-  denyMemberRequest: Scalars["Boolean"];
+  denyGroupMemberRequest: Scalars["Boolean"];
   followUser: FollowUserPayload;
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
@@ -325,16 +325,20 @@ export type Mutation = {
   updateVote: UpdateVotePayload;
 };
 
-export type MutationApproveMemberRequestArgs = {
+export type MutationApproveGroupMemberRequestArgs = {
   id: Scalars["Int"];
 };
 
-export type MutationCancelMemberRequestArgs = {
+export type MutationCancelGroupMemberRequestArgs = {
   id: Scalars["Int"];
 };
 
 export type MutationCreateGroupArgs = {
   groupData: CreateGroupInput;
+};
+
+export type MutationCreateGroupMemberRequestArgs = {
+  groupId: Scalars["Int"];
 };
 
 export type MutationCreateGroupRoleArgs = {
@@ -343,10 +347,6 @@ export type MutationCreateGroupRoleArgs = {
 
 export type MutationCreateLikeArgs = {
   likeData: CreateLikeInput;
-};
-
-export type MutationCreateMemberRequestArgs = {
-  groupId: Scalars["Int"];
 };
 
 export type MutationCreatePostArgs = {
@@ -417,7 +417,7 @@ export type MutationDeleteVoteArgs = {
   id: Scalars["Int"];
 };
 
-export type MutationDenyMemberRequestArgs = {
+export type MutationDenyGroupMemberRequestArgs = {
   id: Scalars["Int"];
 };
 
@@ -579,12 +579,12 @@ export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
   group: Group;
+  groupMemberRequest?: Maybe<GroupMemberRequest>;
   groupRole: GroupRole;
   groupRoles: Array<GroupRole>;
   groups: Array<Group>;
   isFirstUser: Scalars["Boolean"];
   me: User;
-  memberRequest?: Maybe<MemberRequest>;
   post: Post;
   posts: Array<Post>;
   proposal: Proposal;
@@ -607,12 +607,12 @@ export type QueryGroupArgs = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
-export type QueryGroupRoleArgs = {
-  id: Scalars["Int"];
+export type QueryGroupMemberRequestArgs = {
+  groupId: Scalars["Int"];
 };
 
-export type QueryMemberRequestArgs = {
-  groupId: Scalars["Int"];
+export type QueryGroupRoleArgs = {
+  id: Scalars["Int"];
 };
 
 export type QueryPostArgs = {
@@ -1074,8 +1074,8 @@ export type GroupSettingsFormFragment = {
   settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
 };
 
-export type RequestToJoinFragment = {
-  __typename?: "MemberRequest";
+export type MemberRequestFragment = {
+  __typename?: "GroupMemberRequest";
   id: number;
   user: {
     __typename?: "User";
@@ -1086,14 +1086,14 @@ export type RequestToJoinFragment = {
   group: { __typename?: "Group"; id: number };
 };
 
-export type ApproveMemberRequestMutationVariables = Exact<{
+export type ApproveGroupMemberRequestMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type ApproveMemberRequestMutation = {
+export type ApproveGroupMemberRequestMutation = {
   __typename?: "Mutation";
-  approveMemberRequest: {
-    __typename?: "ApproveMemberRequestPayload";
+  approveGroupMemberRequest: {
+    __typename?: "ApproveGroupMemberRequestPayload";
     groupMember: {
       __typename?: "User";
       id: number;
@@ -1103,13 +1103,13 @@ export type ApproveMemberRequestMutation = {
   };
 };
 
-export type CancelMemberRequestMutationVariables = Exact<{
+export type CancelGroupMemberRequestMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type CancelMemberRequestMutation = {
+export type CancelGroupMemberRequestMutation = {
   __typename?: "Mutation";
-  cancelMemberRequest: boolean;
+  cancelGroupMemberRequest: boolean;
 };
 
 export type CreateGroupMutationVariables = Exact<{
@@ -1144,6 +1144,28 @@ export type CreateGroupMutation = {
   };
 };
 
+export type CreateGroupMemberRequestMutationVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type CreateGroupMemberRequestMutation = {
+  __typename?: "Mutation";
+  createGroupMemberRequest: {
+    __typename?: "CreateGroupMemberRequestPayload";
+    groupMemberRequest: {
+      __typename?: "GroupMemberRequest";
+      id: number;
+      group: { __typename?: "Group"; id: number; name: string };
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    };
+  };
+};
+
 export type CreateGroupRoleMutationVariables = Exact<{
   groupRoleData: CreateGroupRoleInput;
 }>;
@@ -1170,28 +1192,6 @@ export type CreateGroupRoleMutation = {
           memberCount: number;
           group: { __typename?: "Group"; id: number; name: string };
         }>;
-      };
-    };
-  };
-};
-
-export type CreateMemberRequestMutationVariables = Exact<{
-  groupId: Scalars["Int"];
-}>;
-
-export type CreateMemberRequestMutation = {
-  __typename?: "Mutation";
-  createMemberRequest: {
-    __typename?: "CreateMemberRequestPayload";
-    memberRequest: {
-      __typename?: "MemberRequest";
-      id: number;
-      group: { __typename?: "Group"; id: number; name: string };
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
       };
     };
   };
@@ -1253,13 +1253,13 @@ export type DeleteGroupRoleMemberMutation = {
   };
 };
 
-export type DenyMemberRequestMutationVariables = Exact<{
+export type DenyGroupMemberRequestMutationVariables = Exact<{
   id: Scalars["Int"];
 }>;
 
-export type DenyMemberRequestMutation = {
+export type DenyGroupMemberRequestMutation = {
   __typename?: "Mutation";
-  denyMemberRequest: boolean;
+  denyGroupMemberRequest: boolean;
 };
 
 export type LeaveGroupMutationVariables = Exact<{
@@ -1470,6 +1470,19 @@ export type EditGroupRoleQuery = {
       profilePicture: { __typename?: "Image"; id: number };
     }>;
   };
+};
+
+export type GroupMemberRequestQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type GroupMemberRequestQuery = {
+  __typename?: "Query";
+  groupMemberRequest?: {
+    __typename?: "GroupMemberRequest";
+    id: number;
+    user: { __typename?: "User"; id: number };
+  } | null;
 };
 
 export type GroupMembersQueryVariables = Exact<{
@@ -1809,19 +1822,6 @@ export type GroupsQuery = {
   me: { __typename?: "User"; id: number };
 };
 
-export type MemberRequestQueryVariables = Exact<{
-  groupId: Scalars["Int"];
-}>;
-
-export type MemberRequestQuery = {
-  __typename?: "Query";
-  memberRequest?: {
-    __typename?: "MemberRequest";
-    id: number;
-    user: { __typename?: "User"; id: number };
-  } | null;
-};
-
 export type MemberRequestsQueryVariables = Exact<{
   groupName: Scalars["String"];
 }>;
@@ -1832,7 +1832,7 @@ export type MemberRequestsQuery = {
     __typename?: "Group";
     id: number;
     memberRequests?: Array<{
-      __typename?: "MemberRequest";
+      __typename?: "GroupMemberRequest";
       id: number;
       user: {
         __typename?: "User";
@@ -4326,8 +4326,8 @@ export const GroupSettingsFormFragmentDoc = gql`
     }
   }
 `;
-export const RequestToJoinFragmentDoc = gql`
-  fragment RequestToJoin on MemberRequest {
+export const MemberRequestFragmentDoc = gql`
+  fragment MemberRequest on GroupMemberRequest {
     id
     user {
       ...UserAvatar
@@ -4956,9 +4956,9 @@ export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQuery,
   AuthCheckQueryVariables
 >;
-export const ApproveMemberRequestDocument = gql`
-  mutation ApproveMemberRequest($id: Int!) {
-    approveMemberRequest(id: $id) {
+export const ApproveGroupMemberRequestDocument = gql`
+  mutation ApproveGroupMemberRequest($id: Int!) {
+    approveGroupMemberRequest(id: $id) {
       groupMember {
         id
         ...UserAvatar
@@ -4967,97 +4967,99 @@ export const ApproveMemberRequestDocument = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export type ApproveMemberRequestMutationFn = Apollo.MutationFunction<
-  ApproveMemberRequestMutation,
-  ApproveMemberRequestMutationVariables
+export type ApproveGroupMemberRequestMutationFn = Apollo.MutationFunction<
+  ApproveGroupMemberRequestMutation,
+  ApproveGroupMemberRequestMutationVariables
 >;
 
 /**
- * __useApproveMemberRequestMutation__
+ * __useApproveGroupMemberRequestMutation__
  *
- * To run a mutation, you first call `useApproveMemberRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useApproveMemberRequestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useApproveGroupMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApproveGroupMemberRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [approveMemberRequestMutation, { data, loading, error }] = useApproveMemberRequestMutation({
+ * const [approveGroupMemberRequestMutation, { data, loading, error }] = useApproveGroupMemberRequestMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useApproveMemberRequestMutation(
+export function useApproveGroupMemberRequestMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    ApproveMemberRequestMutation,
-    ApproveMemberRequestMutationVariables
+    ApproveGroupMemberRequestMutation,
+    ApproveGroupMemberRequestMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    ApproveMemberRequestMutation,
-    ApproveMemberRequestMutationVariables
-  >(ApproveMemberRequestDocument, options);
+    ApproveGroupMemberRequestMutation,
+    ApproveGroupMemberRequestMutationVariables
+  >(ApproveGroupMemberRequestDocument, options);
 }
-export type ApproveMemberRequestMutationHookResult = ReturnType<
-  typeof useApproveMemberRequestMutation
+export type ApproveGroupMemberRequestMutationHookResult = ReturnType<
+  typeof useApproveGroupMemberRequestMutation
 >;
-export type ApproveMemberRequestMutationResult =
-  Apollo.MutationResult<ApproveMemberRequestMutation>;
-export type ApproveMemberRequestMutationOptions = Apollo.BaseMutationOptions<
-  ApproveMemberRequestMutation,
-  ApproveMemberRequestMutationVariables
->;
-export const CancelMemberRequestDocument = gql`
-  mutation CancelMemberRequest($id: Int!) {
-    cancelMemberRequest(id: $id)
+export type ApproveGroupMemberRequestMutationResult =
+  Apollo.MutationResult<ApproveGroupMemberRequestMutation>;
+export type ApproveGroupMemberRequestMutationOptions =
+  Apollo.BaseMutationOptions<
+    ApproveGroupMemberRequestMutation,
+    ApproveGroupMemberRequestMutationVariables
+  >;
+export const CancelGroupMemberRequestDocument = gql`
+  mutation CancelGroupMemberRequest($id: Int!) {
+    cancelGroupMemberRequest(id: $id)
   }
 `;
-export type CancelMemberRequestMutationFn = Apollo.MutationFunction<
-  CancelMemberRequestMutation,
-  CancelMemberRequestMutationVariables
+export type CancelGroupMemberRequestMutationFn = Apollo.MutationFunction<
+  CancelGroupMemberRequestMutation,
+  CancelGroupMemberRequestMutationVariables
 >;
 
 /**
- * __useCancelMemberRequestMutation__
+ * __useCancelGroupMemberRequestMutation__
  *
- * To run a mutation, you first call `useCancelMemberRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCancelMemberRequestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCancelGroupMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelGroupMemberRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [cancelMemberRequestMutation, { data, loading, error }] = useCancelMemberRequestMutation({
+ * const [cancelGroupMemberRequestMutation, { data, loading, error }] = useCancelGroupMemberRequestMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useCancelMemberRequestMutation(
+export function useCancelGroupMemberRequestMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CancelMemberRequestMutation,
-    CancelMemberRequestMutationVariables
+    CancelGroupMemberRequestMutation,
+    CancelGroupMemberRequestMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CancelMemberRequestMutation,
-    CancelMemberRequestMutationVariables
-  >(CancelMemberRequestDocument, options);
+    CancelGroupMemberRequestMutation,
+    CancelGroupMemberRequestMutationVariables
+  >(CancelGroupMemberRequestDocument, options);
 }
-export type CancelMemberRequestMutationHookResult = ReturnType<
-  typeof useCancelMemberRequestMutation
+export type CancelGroupMemberRequestMutationHookResult = ReturnType<
+  typeof useCancelGroupMemberRequestMutation
 >;
-export type CancelMemberRequestMutationResult =
-  Apollo.MutationResult<CancelMemberRequestMutation>;
-export type CancelMemberRequestMutationOptions = Apollo.BaseMutationOptions<
-  CancelMemberRequestMutation,
-  CancelMemberRequestMutationVariables
->;
+export type CancelGroupMemberRequestMutationResult =
+  Apollo.MutationResult<CancelGroupMemberRequestMutation>;
+export type CancelGroupMemberRequestMutationOptions =
+  Apollo.BaseMutationOptions<
+    CancelGroupMemberRequestMutation,
+    CancelGroupMemberRequestMutationVariables
+  >;
 export const CreateGroupDocument = gql`
   mutation CreateGroup($groupData: CreateGroupInput!) {
     createGroup(groupData: $groupData) {
@@ -5119,6 +5121,67 @@ export type CreateGroupMutationOptions = Apollo.BaseMutationOptions<
   CreateGroupMutation,
   CreateGroupMutationVariables
 >;
+export const CreateGroupMemberRequestDocument = gql`
+  mutation CreateGroupMemberRequest($groupId: Int!) {
+    createGroupMemberRequest(groupId: $groupId) {
+      groupMemberRequest {
+        id
+        group {
+          id
+          name
+        }
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type CreateGroupMemberRequestMutationFn = Apollo.MutationFunction<
+  CreateGroupMemberRequestMutation,
+  CreateGroupMemberRequestMutationVariables
+>;
+
+/**
+ * __useCreateGroupMemberRequestMutation__
+ *
+ * To run a mutation, you first call `useCreateGroupMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGroupMemberRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGroupMemberRequestMutation, { data, loading, error }] = useCreateGroupMemberRequestMutation({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useCreateGroupMemberRequestMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateGroupMemberRequestMutation,
+    CreateGroupMemberRequestMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateGroupMemberRequestMutation,
+    CreateGroupMemberRequestMutationVariables
+  >(CreateGroupMemberRequestDocument, options);
+}
+export type CreateGroupMemberRequestMutationHookResult = ReturnType<
+  typeof useCreateGroupMemberRequestMutation
+>;
+export type CreateGroupMemberRequestMutationResult =
+  Apollo.MutationResult<CreateGroupMemberRequestMutation>;
+export type CreateGroupMemberRequestMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateGroupMemberRequestMutation,
+    CreateGroupMemberRequestMutationVariables
+  >;
 export const CreateGroupRoleDocument = gql`
   mutation CreateGroupRole($groupRoleData: CreateGroupRoleInput!) {
     createGroupRole(groupRoleData: $groupRoleData) {
@@ -5177,66 +5240,6 @@ export type CreateGroupRoleMutationResult =
 export type CreateGroupRoleMutationOptions = Apollo.BaseMutationOptions<
   CreateGroupRoleMutation,
   CreateGroupRoleMutationVariables
->;
-export const CreateMemberRequestDocument = gql`
-  mutation CreateMemberRequest($groupId: Int!) {
-    createMemberRequest(groupId: $groupId) {
-      memberRequest {
-        id
-        group {
-          id
-          name
-        }
-        user {
-          ...UserAvatar
-        }
-      }
-    }
-  }
-  ${UserAvatarFragmentDoc}
-`;
-export type CreateMemberRequestMutationFn = Apollo.MutationFunction<
-  CreateMemberRequestMutation,
-  CreateMemberRequestMutationVariables
->;
-
-/**
- * __useCreateMemberRequestMutation__
- *
- * To run a mutation, you first call `useCreateMemberRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateMemberRequestMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createMemberRequestMutation, { data, loading, error }] = useCreateMemberRequestMutation({
- *   variables: {
- *      groupId: // value for 'groupId'
- *   },
- * });
- */
-export function useCreateMemberRequestMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateMemberRequestMutation,
-    CreateMemberRequestMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateMemberRequestMutation,
-    CreateMemberRequestMutationVariables
-  >(CreateMemberRequestDocument, options);
-}
-export type CreateMemberRequestMutationHookResult = ReturnType<
-  typeof useCreateMemberRequestMutation
->;
-export type CreateMemberRequestMutationResult =
-  Apollo.MutationResult<CreateMemberRequestMutation>;
-export type CreateMemberRequestMutationOptions = Apollo.BaseMutationOptions<
-  CreateMemberRequestMutation,
-  CreateMemberRequestMutationVariables
 >;
 export const DeleteGroupDocument = gql`
   mutation DeleteGroup($id: Int!) {
@@ -5399,53 +5402,53 @@ export type DeleteGroupRoleMemberMutationOptions = Apollo.BaseMutationOptions<
   DeleteGroupRoleMemberMutation,
   DeleteGroupRoleMemberMutationVariables
 >;
-export const DenyMemberRequestDocument = gql`
-  mutation DenyMemberRequest($id: Int!) {
-    denyMemberRequest(id: $id)
+export const DenyGroupMemberRequestDocument = gql`
+  mutation DenyGroupMemberRequest($id: Int!) {
+    denyGroupMemberRequest(id: $id)
   }
 `;
-export type DenyMemberRequestMutationFn = Apollo.MutationFunction<
-  DenyMemberRequestMutation,
-  DenyMemberRequestMutationVariables
+export type DenyGroupMemberRequestMutationFn = Apollo.MutationFunction<
+  DenyGroupMemberRequestMutation,
+  DenyGroupMemberRequestMutationVariables
 >;
 
 /**
- * __useDenyMemberRequestMutation__
+ * __useDenyGroupMemberRequestMutation__
  *
- * To run a mutation, you first call `useDenyMemberRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDenyMemberRequestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDenyGroupMemberRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDenyGroupMemberRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [denyMemberRequestMutation, { data, loading, error }] = useDenyMemberRequestMutation({
+ * const [denyGroupMemberRequestMutation, { data, loading, error }] = useDenyGroupMemberRequestMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDenyMemberRequestMutation(
+export function useDenyGroupMemberRequestMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    DenyMemberRequestMutation,
-    DenyMemberRequestMutationVariables
+    DenyGroupMemberRequestMutation,
+    DenyGroupMemberRequestMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    DenyMemberRequestMutation,
-    DenyMemberRequestMutationVariables
-  >(DenyMemberRequestDocument, options);
+    DenyGroupMemberRequestMutation,
+    DenyGroupMemberRequestMutationVariables
+  >(DenyGroupMemberRequestDocument, options);
 }
-export type DenyMemberRequestMutationHookResult = ReturnType<
-  typeof useDenyMemberRequestMutation
+export type DenyGroupMemberRequestMutationHookResult = ReturnType<
+  typeof useDenyGroupMemberRequestMutation
 >;
-export type DenyMemberRequestMutationResult =
-  Apollo.MutationResult<DenyMemberRequestMutation>;
-export type DenyMemberRequestMutationOptions = Apollo.BaseMutationOptions<
-  DenyMemberRequestMutation,
-  DenyMemberRequestMutationVariables
+export type DenyGroupMemberRequestMutationResult =
+  Apollo.MutationResult<DenyGroupMemberRequestMutation>;
+export type DenyGroupMemberRequestMutationOptions = Apollo.BaseMutationOptions<
+  DenyGroupMemberRequestMutation,
+  DenyGroupMemberRequestMutationVariables
 >;
 export const LeaveGroupDocument = gql`
   mutation LeaveGroup($id: Int!) {
@@ -5806,6 +5809,67 @@ export type EditGroupRoleLazyQueryHookResult = ReturnType<
 export type EditGroupRoleQueryResult = Apollo.QueryResult<
   EditGroupRoleQuery,
   EditGroupRoleQueryVariables
+>;
+export const GroupMemberRequestDocument = gql`
+  query GroupMemberRequest($groupId: Int!) {
+    groupMemberRequest(groupId: $groupId) {
+      id
+      user {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGroupMemberRequestQuery__
+ *
+ * To run a query within a React component, call `useGroupMemberRequestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupMemberRequestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupMemberRequestQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useGroupMemberRequestQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupMemberRequestQuery,
+    GroupMemberRequestQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GroupMemberRequestQuery,
+    GroupMemberRequestQueryVariables
+  >(GroupMemberRequestDocument, options);
+}
+export function useGroupMemberRequestLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupMemberRequestQuery,
+    GroupMemberRequestQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GroupMemberRequestQuery,
+    GroupMemberRequestQueryVariables
+  >(GroupMemberRequestDocument, options);
+}
+export type GroupMemberRequestQueryHookResult = ReturnType<
+  typeof useGroupMemberRequestQuery
+>;
+export type GroupMemberRequestLazyQueryHookResult = ReturnType<
+  typeof useGroupMemberRequestLazyQuery
+>;
+export type GroupMemberRequestQueryResult = Apollo.QueryResult<
+  GroupMemberRequestQuery,
+  GroupMemberRequestQueryVariables
 >;
 export const GroupMembersDocument = gql`
   query GroupMembers($name: String!) {
@@ -6317,77 +6381,16 @@ export type GroupsQueryResult = Apollo.QueryResult<
   GroupsQuery,
   GroupsQueryVariables
 >;
-export const MemberRequestDocument = gql`
-  query MemberRequest($groupId: Int!) {
-    memberRequest(groupId: $groupId) {
-      id
-      user {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useMemberRequestQuery__
- *
- * To run a query within a React component, call `useMemberRequestQuery` and pass it any options that fit your needs.
- * When your component renders, `useMemberRequestQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMemberRequestQuery({
- *   variables: {
- *      groupId: // value for 'groupId'
- *   },
- * });
- */
-export function useMemberRequestQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    MemberRequestQuery,
-    MemberRequestQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MemberRequestQuery, MemberRequestQueryVariables>(
-    MemberRequestDocument,
-    options
-  );
-}
-export function useMemberRequestLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    MemberRequestQuery,
-    MemberRequestQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MemberRequestQuery, MemberRequestQueryVariables>(
-    MemberRequestDocument,
-    options
-  );
-}
-export type MemberRequestQueryHookResult = ReturnType<
-  typeof useMemberRequestQuery
->;
-export type MemberRequestLazyQueryHookResult = ReturnType<
-  typeof useMemberRequestLazyQuery
->;
-export type MemberRequestQueryResult = Apollo.QueryResult<
-  MemberRequestQuery,
-  MemberRequestQueryVariables
->;
 export const MemberRequestsDocument = gql`
   query MemberRequests($groupName: String!) {
     group(name: $groupName) {
       id
       memberRequests {
-        ...RequestToJoin
+        ...MemberRequest
       }
     }
   }
-  ${RequestToJoinFragmentDoc}
+  ${MemberRequestFragmentDoc}
 `;
 
 /**
