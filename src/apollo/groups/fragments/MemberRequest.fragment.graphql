@@ -1,4 +1,4 @@
-fragment RequestToJoin on MemberRequest {
+fragment MemberRequest on GroupMemberRequest {
   id
   user {
     ...UserAvatar

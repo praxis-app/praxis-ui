@@ -1,3 +1,0 @@
-mutation DenyMemberRequest($id: Int!) {
-  denyMemberRequest(id: $id)
-}

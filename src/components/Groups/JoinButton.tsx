@@ -5,16 +5,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
-  MemberRequestDocument,
-  MemberRequestQuery,
-  MemberRequestQueryVariables,
+  GroupMemberRequestDocument,
+  GroupMemberRequestQuery,
+  GroupMemberRequestQueryVariables,
   MemberRequestsDocument,
   MemberRequestsQuery,
   MemberRequestsQueryVariables,
-  useCancelMemberRequestMutation,
-  useCreateMemberRequestMutation,
+  useCancelGroupMemberRequestMutation,
+  useCreateGroupMemberRequestMutation,
+  useGroupMemberRequestQuery,
   useLeaveGroupMutation,
-  useMemberRequestQuery,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
 import GhostButton from "../Shared/GhostButton";
@@ -30,13 +30,13 @@ interface Props {
 }
 
 const JoinButton = ({ groupId, currentMemberId }: Props) => {
-  const { data, loading } = useMemberRequestQuery({
+  const { data, loading } = useGroupMemberRequestQuery({
     variables: { groupId },
   });
   const [createMemberRequest, { loading: createLoading }] =
-    useCreateMemberRequestMutation();
+    useCreateGroupMemberRequestMutation();
   const [cancelMemberRequest, { loading: cancelLoading }] =
-    useCancelMemberRequestMutation();
+    useCancelGroupMemberRequestMutation();
   const [leaveGroup, { loading: leaveGroupLoading }] = useLeaveGroupMutation();
   const [isHovering, setIsHovering] = useState(false);
 
@@ -46,7 +46,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
     return <Button disabled>{t("groups.actions.join")}</Button>;
   }
 
-  const { memberRequest } = data;
+  const { groupMemberRequest } = data;
 
   const getButtonText = () => {
     if (currentMemberId) {
@@ -55,7 +55,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
       }
       return t("groups.labels.joined");
     }
-    if (!memberRequest) {
+    if (!groupMemberRequest) {
       return t("groups.actions.join");
     }
     return t("groups.actions.cancelRequest");
@@ -69,27 +69,30 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
           return;
         }
         const {
-          createMemberRequest: { memberRequest },
+          createGroupMemberRequest: { groupMemberRequest },
         } = data;
-        cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
-          query: MemberRequestDocument,
+        cache.writeQuery<
+          GroupMemberRequestQuery,
+          GroupMemberRequestQueryVariables
+        >({
+          query: GroupMemberRequestDocument,
           variables: { groupId },
-          data: { memberRequest },
+          data: { groupMemberRequest },
         });
         cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
           {
             query: MemberRequestsDocument,
             variables: {
-              groupName: memberRequest.group.name,
+              groupName: groupMemberRequest.group.name,
             },
           },
           (memberRequestsData) =>
             produce(memberRequestsData, (draft) => {
-              draft?.group.memberRequests?.unshift(memberRequest);
+              draft?.group.memberRequests?.unshift(groupMemberRequest);
             })
         );
         cache.modify({
-          id: cache.identify(memberRequest.group),
+          id: cache.identify(groupMemberRequest.group),
           fields: {
             memberRequestCount(existingCount: number) {
               return existingCount + 1;
@@ -103,10 +106,13 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
     await cancelMemberRequest({
       variables: { id },
       update(cache) {
-        cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
-          query: MemberRequestDocument,
+        cache.writeQuery<
+          GroupMemberRequestQuery,
+          GroupMemberRequestQueryVariables
+        >({
+          query: GroupMemberRequestDocument,
           variables: { groupId },
-          data: { memberRequest: null },
+          data: { groupMemberRequest: null },
         });
         cache.evict({
           id: cache.identify({ id, __typename: TypeNames.MemberRequest }),
@@ -119,10 +125,13 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
     await leaveGroup({
       variables: { id: groupId },
       update(cache) {
-        cache.writeQuery<MemberRequestQuery, MemberRequestQueryVariables>({
-          query: MemberRequestDocument,
+        cache.writeQuery<
+          GroupMemberRequestQuery,
+          GroupMemberRequestQueryVariables
+        >({
+          query: GroupMemberRequestDocument,
           variables: { groupId },
-          data: { memberRequest: null },
+          data: { groupMemberRequest: null },
         });
         cache.modify({
           id: cache.identify({ id: groupId, __typename: TypeNames.Group }),
@@ -146,11 +155,11 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
         await handleLeave();
         return;
       }
-      if (!memberRequest) {
+      if (!groupMemberRequest) {
         await handleJoin();
         return;
       }
-      await handleCancelRequest(memberRequest.id);
+      await handleCancelRequest(groupMemberRequest.id);
     } catch (err) {
       toastVar({
         status: "error",
