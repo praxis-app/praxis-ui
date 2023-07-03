@@ -138,7 +138,7 @@ const GroupProfileCard = ({
     await redirectTo(settingsPath);
   };
 
-  const handleTabsChange = (event: React.SyntheticEvent, newValue: number) =>
+  const handleTabsChange = (_: React.SyntheticEvent, newValue: number) =>
     setTab(newValue);
 
   const renderCardActions = () => {
