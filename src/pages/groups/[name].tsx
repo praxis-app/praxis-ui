@@ -57,9 +57,16 @@ const GroupPage: NextPage = () => {
         tab={tab}
       />
 
-      {me && currentMemberId && <ToggleForms groupId={group.id} me={me} />}
+      {tab === 0 && (
+        <>
+          {me && currentMemberId && <ToggleForms groupId={group.id} me={me} />}
+          <Feed feed={group.feed} />
+        </>
+      )}
 
-      <Feed feed={group.feed} />
+      {tab === 1 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
+      {tab === 2 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
+      {tab === 3 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
     </>
   );
 };

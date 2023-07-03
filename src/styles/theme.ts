@@ -142,6 +142,9 @@ const theme = createTheme(initialTheme, {
     MuiTab: {
       styleOverrides: {
         root: {
+          fontSize: 16,
+          textTransform: "none",
+
           [initialTheme.breakpoints.up("sm")]: {
             minWidth: 160,
           },
