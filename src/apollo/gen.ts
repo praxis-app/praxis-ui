@@ -32,6 +32,22 @@ export type ApproveGroupMemberRequestPayload = {
   groupMember: User;
 };
 
+export type CreateEventInput = {
+  description: Scalars["String"];
+  endsAt?: InputMaybe<Scalars["DateTime"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
+  groupId?: InputMaybe<Scalars["Float"]>;
+  location?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online?: InputMaybe<Scalars["Boolean"]>;
+  startsAt: Scalars["DateTime"];
+};
+
+export type CreateEventPayload = {
+  __typename?: "CreateEventPayload";
+  event: Event;
+};
+
 export type CreateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
@@ -146,6 +162,33 @@ export type DeleteServerRoleMemberPayload = {
   serverRole: ServerRole;
 };
 
+export type Event = {
+  __typename?: "Event";
+  attendees: Array<EventAttendee>;
+  createdAt: Scalars["DateTime"];
+  description: Scalars["String"];
+  endsAt?: Maybe<Scalars["DateTime"]>;
+  externalLink?: Maybe<Scalars["String"]>;
+  group?: Maybe<Group>;
+  id: Scalars["Int"];
+  images: Array<Image>;
+  location?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online: Scalars["Boolean"];
+  startsAt: Scalars["DateTime"];
+  updatedAt: Scalars["DateTime"];
+};
+
+export type EventAttendee = {
+  __typename?: "EventAttendee";
+  createdAt: Scalars["DateTime"];
+  event: Event;
+  id: Scalars["Int"];
+  status: Scalars["String"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
 export type FeedItem = Post | Proposal;
 
 export type FollowUserPayload = {
@@ -159,6 +202,7 @@ export type Group = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
+  events: Array<Event>;
   feed: Array<FeedItem>;
   id: Scalars["Int"];
   isJoinedByMe: Scalars["Boolean"];
@@ -286,6 +330,7 @@ export type Mutation = {
   __typename?: "Mutation";
   approveGroupMemberRequest: ApproveGroupMemberRequestPayload;
   cancelGroupMemberRequest: Scalars["Boolean"];
+  createEvent: CreateEventPayload;
   createGroup: CreateGroupPayload;
   createGroupMemberRequest: CreateGroupMemberRequestPayload;
   createGroupRole: CreateGroupRolePayload;
@@ -295,6 +340,7 @@ export type Mutation = {
   createServerInvite: CreateServerInvitePayload;
   createServerRole: CreateServerRolePayload;
   createVote: CreateVotePayload;
+  deleteEvent: Scalars["Boolean"];
   deleteGroup: Scalars["Boolean"];
   deleteGroupRole: Scalars["Boolean"];
   deleteGroupRoleMember: DeleteGroupRoleMemberPayload;
@@ -315,6 +361,7 @@ export type Mutation = {
   refreshToken: Scalars["Boolean"];
   signUp: SignUpPayload;
   unfollowUser: Scalars["Boolean"];
+  updateEvent: UpdateEventPayload;
   updateGroup: UpdateGroupPayload;
   updateGroupConfig: UpdateGroupPayload;
   updateGroupRole: UpdateGroupRolePayload;
@@ -331,6 +378,10 @@ export type MutationApproveGroupMemberRequestArgs = {
 
 export type MutationCancelGroupMemberRequestArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationCreateEventArgs = {
+  eventData: CreateEventInput;
 };
 
 export type MutationCreateGroupArgs = {
@@ -367,6 +418,10 @@ export type MutationCreateServerRoleArgs = {
 
 export type MutationCreateVoteArgs = {
   voteData: CreateVoteInput;
+};
+
+export type MutationDeleteEventArgs = {
+  id: Scalars["Int"];
 };
 
 export type MutationDeleteGroupArgs = {
@@ -439,6 +494,10 @@ export type MutationSignUpArgs = {
 
 export type MutationUnfollowUserArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationUpdateEventArgs = {
+  eventData: UpdateEventInput;
 };
 
 export type MutationUpdateGroupArgs = {
@@ -578,6 +637,8 @@ export type ProposalActionRoleMemberInput = {
 export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
+  event: Event;
+  events: Array<Event>;
   group: Group;
   groupMemberRequest?: Maybe<GroupMemberRequest>;
   groupRole: GroupRole;
@@ -600,6 +661,10 @@ export type Query = {
   usersByIds: Array<User>;
   vote: Vote;
   votes: Array<Vote>;
+};
+
+export type QueryEventArgs = {
+  id?: InputMaybe<Scalars["Int"]>;
 };
 
 export type QueryGroupArgs = {
@@ -713,6 +778,22 @@ export type SignUpInput = {
 export type SignUpPayload = {
   __typename?: "SignUpPayload";
   user: User;
+};
+
+export type UpdateEventInput = {
+  description: Scalars["String"];
+  endsAt?: InputMaybe<Scalars["DateTime"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
+  id: Scalars["Float"];
+  location?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online?: InputMaybe<Scalars["Boolean"]>;
+  startsAt: Scalars["DateTime"];
+};
+
+export type UpdateEventPayload = {
+  __typename?: "UpdateEventPayload";
+  event: Event;
 };
 
 export type UpdateGroupConfigInput = {
