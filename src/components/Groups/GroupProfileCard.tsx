@@ -8,9 +8,12 @@ import {
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
+  Divider,
   MenuItem,
   styled,
   SxProps,
+  Tab,
+  Tabs,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -55,11 +58,19 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  group: GroupProfileCardFragment;
   currentMemberId?: number;
+  group: GroupProfileCardFragment;
+  setTab(tab: number): void;
+  tab: number;
 }
 
-const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
+const GroupProfileCard = ({
+  currentMemberId,
+  group,
+  setTab,
+  tab,
+  ...cardProps
+}: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
@@ -126,6 +137,9 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     const settingsPath = `${NavigationPaths.Groups}/${name}/settings`;
     await redirectTo(settingsPath);
   };
+
+  const handleTabsChange = (event: React.SyntheticEvent, newValue: number) =>
+    setTab(newValue);
 
   const renderCardActions = () => {
     const canDeleteGroup = myPermissions?.deleteGroup;
@@ -217,6 +231,20 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
           </Flex>
         )}
       </CardContent>
+
+      <Divider sx={{ marginX: "16px", marginBottom: 0.25 }} />
+
+      <Tabs
+        onChange={handleTabsChange}
+        textColor="inherit"
+        value={tab}
+        centered
+      >
+        <Tab label={"Feed"} />
+        <Tab label={"Proposals"} />
+        <Tab label={"Events"} />
+        <Tab label={"About"} />
+      </Tabs>
     </Card>
   );
 };

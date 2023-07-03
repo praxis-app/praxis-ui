@@ -4,6 +4,7 @@ import { useReactiveVar } from "@apollo/client";
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupProfileQuery } from "../../apollo/gen";
@@ -14,6 +15,8 @@ import ToggleForms from "../../components/Shared/ToggleForms";
 import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupPage: NextPage = () => {
+  const [tab, setTab] = useState(0);
+
   const { query } = useRouter();
   const name = String(query?.name || "");
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -47,7 +50,12 @@ const GroupPage: NextPage = () => {
 
   return (
     <>
-      <GroupProfileCard group={group} currentMemberId={currentMemberId} />
+      <GroupProfileCard
+        currentMemberId={currentMemberId}
+        group={group}
+        setTab={setTab}
+        tab={tab}
+      />
 
       {me && currentMemberId && <ToggleForms groupId={group.id} me={me} />}
 
