@@ -5,12 +5,12 @@ import { Box, Button, styled, Typography } from "@mui/material";
 import produce from "immer";
 import { useTranslation } from "react-i18next";
 import {
+  MemberRequestFragment,
   MemberRequestsDocument,
   MemberRequestsQuery,
   MemberRequestsQueryVariables,
-  RequestToJoinFragment,
-  useApproveMemberRequestMutation,
-  useDenyMemberRequestMutation,
+  useApproveGroupMemberRequestMutation,
+  useDenyGroupMemberRequestMutation,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
@@ -26,16 +26,16 @@ const Flex = styled(SharedFlex)(() => ({
 }));
 
 interface Props {
-  memberRequest: RequestToJoinFragment;
+  memberRequest: MemberRequestFragment;
   groupName: string;
 }
 
-const RequestToJoin = ({
+const MemberRequest = ({
   memberRequest: { id, user, group, __typename },
   groupName,
 }: Props) => {
-  const [approve] = useApproveMemberRequestMutation();
-  const [deny] = useDenyMemberRequestMutation();
+  const [approve] = useApproveGroupMemberRequestMutation();
+  const [deny] = useDenyGroupMemberRequestMutation();
   const { t } = useTranslation();
 
   const handleApproveButtonClick = async () =>
@@ -46,7 +46,7 @@ const RequestToJoin = ({
           return;
         }
         const {
-          approveMemberRequest: { groupMember },
+          approveGroupMemberRequest: { groupMember },
         } = data;
         cache.modify({
           id: cache.identify({ id, __typename }),
@@ -132,4 +132,4 @@ const RequestToJoin = ({
   );
 };
 
-export default RequestToJoin;
+export default MemberRequest;

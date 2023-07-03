@@ -11,7 +11,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useMemberRequestsQuery } from "../../../apollo/gen";
-import RequestToJoin from "../../../components/Groups/RequestToJoin";
+import MemberRequest from "../../../components/Groups/MemberRequest";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
@@ -75,7 +75,7 @@ const MemberRequests: NextPage = () => {
         <Card>
           <CardContent>
             {memberRequests.map((memberRequest) => (
-              <RequestToJoin
+              <MemberRequest
                 key={memberRequest.id}
                 groupName={groupName}
                 memberRequest={memberRequest}
