@@ -14,6 +14,7 @@ import {
   useCreateEventMutation,
 } from "../../apollo/gen";
 import { getRandomString } from "../../utils/common.utils";
+import { startOfNextHour } from "../../utils/time.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
@@ -44,7 +45,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
   const initialValues = {
     name: editEvent ? editEvent.name : "",
     description: editEvent ? editEvent.description : "",
-    startsAt: editEvent ? editEvent.startsAt : "",
+    startsAt: editEvent ? editEvent.startsAt : startOfNextHour(),
     location: editEvent ? editEvent.location : "",
   };
 
