@@ -3,6 +3,7 @@ type ApproveGroupMemberRequestPayload {
 }
 
 input CreateEventInput {
+  coverPhoto: Upload
   description: String!
   endsAt: DateTime
   externalLink: String
@@ -250,15 +251,16 @@ input GroupRolePermissionInput {
 
 type Image {
   createdAt: DateTime!
+  event: Event
   filename: String!
-  group: Group!
+  group: Group
   id: Int!
   imageType: String!
-  post: Post!
-  proposal: Proposal!
-  proposalAction: ProposalAction!
+  post: Post
+  proposal: Proposal
+  proposalAction: ProposalAction
   updatedAt: DateTime!
-  user: User!
+  user: User
 }
 
 type Like {
