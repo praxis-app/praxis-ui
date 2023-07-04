@@ -1,0 +1,7 @@
+fragment EventForm on Event {
+  id
+  name
+  startsAt
+  description
+  location
+}

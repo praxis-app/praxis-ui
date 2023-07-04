@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateEventInput,
-  Event,
+  EventFormFragment,
   EventsDocument,
   EventsQuery,
   useCreateEventMutation,
@@ -29,7 +29,7 @@ export enum EventFormFieldName {
 
 interface Props {
   // TODO: Replace with fragment type
-  editEvent?: Event;
+  editEvent?: EventFormFragment;
 
   groupId?: number;
 }
@@ -45,6 +45,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     name: editEvent ? editEvent.name : "",
     description: editEvent ? editEvent.description : "",
     startsAt: editEvent ? editEvent.startsAt : "",
+    location: editEvent ? editEvent.location : "",
   };
 
   const handleCreate = async (

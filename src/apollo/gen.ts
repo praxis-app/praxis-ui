@@ -1001,6 +1001,15 @@ export type EventFragment = {
   description: string;
 };
 
+export type EventFormFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  startsAt: any;
+  description: string;
+  location?: string | null;
+};
+
 export type CreateEventMutationVariables = Exact<{
   eventData: CreateEventInput;
 }>;
@@ -4301,6 +4310,15 @@ export const EventFragmentDoc = gql`
     id
     name
     description
+  }
+`;
+export const EventFormFragmentDoc = gql`
+  fragment EventForm on Event {
+    id
+    name
+    startsAt
+    description
+    location
   }
 `;
 export const GroupRoleFragmentDoc = gql`
