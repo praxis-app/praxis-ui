@@ -1600,6 +1600,7 @@ export type GroupEventsTabQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
+    name: string;
     upcomingEvents: Array<{
       __typename?: "Event";
       id: number;
@@ -6058,6 +6059,7 @@ export type EditGroupRoleQueryResult = Apollo.QueryResult<
 export const GroupEventsTabDocument = gql`
   query GroupEventsTab($groupId: Int!) {
     group(id: $groupId) {
+      name
       upcomingEvents {
         ...Event
       }

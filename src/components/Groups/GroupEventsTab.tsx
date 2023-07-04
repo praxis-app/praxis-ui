@@ -1,11 +1,13 @@
 import { Event as CalendarIcon } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGroupEventsTabQuery } from "../../apollo/gen";
 import { DarkMode } from "../../styles/theme";
-import { inDevToast } from "../../utils/common.utils";
+import EventForm from "../Events/EventForm";
 import Center from "../Shared/Center";
 import GhostButton from "../Shared/GhostButton";
+import Modal from "../Shared/Modal";
 import ProgressBar from "../Shared/ProgressBar";
 
 interface Props {
@@ -13,9 +15,11 @@ interface Props {
 }
 
 const GroupEventsTab = ({ groupId }: Props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, loading, error } = useGroupEventsTabQuery({
     variables: { groupId },
   });
+
   const { t } = useTranslation();
 
   if (error) {
@@ -31,7 +35,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
   }
 
   const {
-    group: { upcomingEvents },
+    group: { name, upcomingEvents },
   } = data;
 
   return (
@@ -45,7 +49,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
           }
           action={
             <GhostButton
-              onClick={() => inDevToast()}
+              onClick={() => setIsModalOpen(true)}
               sx={{ marginRight: 0.5, marginTop: 0.5 }}
             >
               {t("events.actions.createEvent")}
@@ -65,6 +69,15 @@ const GroupEventsTab = ({ groupId }: Props) => {
           )}
         </CardContent>
       </Card>
+
+      <Modal
+        subtext={name}
+        title={t("events.actions.createEvent")}
+        onClose={() => setIsModalOpen(false)}
+        open={isModalOpen}
+      >
+        <EventForm groupId={groupId} />
+      </Modal>
     </>
   );
 };
