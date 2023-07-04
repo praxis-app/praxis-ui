@@ -69,7 +69,7 @@ const GroupPage: NextPage = () => {
         <Typography marginTop={5}>{t("prompts.inDev")}</Typography>
       )}
 
-      {tab === 2 && <GroupEventsTab />}
+      {tab === 2 && <GroupEventsTab groupId={group.id} />}
     </>
   );
 };

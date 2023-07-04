@@ -216,6 +216,7 @@ export type Group = {
   proposals: Array<Proposal>;
   roles: Array<GroupRole>;
   settings: GroupConfig;
+  upcomingEvents: Array<Event>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -1568,6 +1569,23 @@ export type EditGroupRoleQuery = {
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
+    }>;
+  };
+};
+
+export type GroupEventsTabQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+}>;
+
+export type GroupEventsTabQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    upcomingEvents: Array<{
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
     }>;
   };
 };
@@ -5964,6 +5982,67 @@ export type EditGroupRoleLazyQueryHookResult = ReturnType<
 export type EditGroupRoleQueryResult = Apollo.QueryResult<
   EditGroupRoleQuery,
   EditGroupRoleQueryVariables
+>;
+export const GroupEventsTabDocument = gql`
+  query GroupEventsTab($groupId: Int!) {
+    group(id: $groupId) {
+      upcomingEvents {
+        ...Event
+      }
+    }
+  }
+  ${EventFragmentDoc}
+`;
+
+/**
+ * __useGroupEventsTabQuery__
+ *
+ * To run a query within a React component, call `useGroupEventsTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupEventsTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupEventsTabQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function useGroupEventsTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupEventsTabQuery,
+    GroupEventsTabQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupEventsTabQuery, GroupEventsTabQueryVariables>(
+    GroupEventsTabDocument,
+    options
+  );
+}
+export function useGroupEventsTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupEventsTabQuery,
+    GroupEventsTabQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupEventsTabQuery, GroupEventsTabQueryVariables>(
+    GroupEventsTabDocument,
+    options
+  );
+}
+export type GroupEventsTabQueryHookResult = ReturnType<
+  typeof useGroupEventsTabQuery
+>;
+export type GroupEventsTabLazyQueryHookResult = ReturnType<
+  typeof useGroupEventsTabLazyQuery
+>;
+export type GroupEventsTabQueryResult = Apollo.QueryResult<
+  GroupEventsTabQuery,
+  GroupEventsTabQueryVariables
 >;
 export const GroupMemberRequestDocument = gql`
   query GroupMemberRequest($groupId: Int!) {

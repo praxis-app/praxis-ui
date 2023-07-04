@@ -1,0 +1,7 @@
+query GroupEventsTab($groupId: Int!) {
+  group(id: $groupId) {
+    upcomingEvents {
+      ...Event
+    }
+  }
+}

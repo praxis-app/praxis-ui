@@ -175,6 +175,7 @@ type Group {
   proposals: [Proposal!]!
   roles: [GroupRole!]!
   settings: GroupConfig!
+  upcomingEvents: [Event!]!
   updatedAt: DateTime!
 }
 
