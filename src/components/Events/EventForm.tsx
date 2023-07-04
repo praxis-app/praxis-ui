@@ -13,13 +13,19 @@ import {
   EventsQuery,
   useCreateEventMutation,
 } from "../../apollo/gen";
-import { FieldNames } from "../../constants/common.constants";
 import { getRandomString } from "../../utils/common.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import { TextField } from "../Shared/TextField";
+
+export enum EventFormFieldName {
+  Name = "name",
+  Description = "description",
+  Location = "location",
+  StartsAt = "startsAt",
+}
 
 interface Props {
   // TODO: Replace with fragment type
@@ -107,16 +113,22 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {({ isSubmitting, dirty }) => (
         <Form>
-          <FormGroup>
+          <FormGroup sx={{ marginBottom: 2 }}>
             <TextField
               autoComplete="off"
-              label={t("groups.form.name")}
-              name={FieldNames.Name}
+              label={t("events.form.name")}
+              name={EventFormFieldName.Name}
             />
             <TextField
               autoComplete="off"
-              label={t("groups.form.description")}
-              name={FieldNames.Description}
+              label={t("events.form.description")}
+              name={EventFormFieldName.Description}
+            />
+            <TextField
+              autoComplete="off"
+              label={t("events.form.location")}
+              name={EventFormFieldName.Location}
+              placeholder={t("events.form.includeLocation")}
             />
             {coverPhoto && (
               <AttachedImagePreview

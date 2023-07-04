@@ -270,6 +270,12 @@
       "upcomingEvents": "Upcoming Events",
       "pastEvents": "Past Events"
     },
+    "form": {
+      "name": "Name",
+      "description": "Description",
+      "location": "Location",
+      "includeLocation": "Include place or address"
+    },
     "tips": {
       "planEvents": "Events are a powerful tool for bringing people together and building momentum for a cause. Whether you're organizing a fundraiser or a simple a meet and greet, events can help you connect with like-minded individuals in your community and make a positive impact.",
       "proposedEvents": "Events can be planned via proposals or directly by group members depending on the settings in your group."
