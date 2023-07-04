@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGroupEventsTabQuery } from "../../apollo/gen";
 import { DarkMode } from "../../styles/theme";
+import Event from "../Events/Event";
 import EventForm from "../Events/EventForm";
 import Center from "../Shared/Center";
 import GhostButton from "../Shared/GhostButton";
@@ -67,6 +68,10 @@ const GroupEventsTab = ({ groupId }: Props) => {
               </Typography>
             </>
           )}
+
+          {upcomingEvents.map((event) => (
+            <Event key={event.id} event={event} />
+          ))}
         </CardContent>
       </Card>
 
