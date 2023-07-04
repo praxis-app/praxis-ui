@@ -78,7 +78,7 @@ const ItemMenu = ({
         onClick={handleMenuButtonClick}
         sx={buttonStyles}
       >
-        <MoreHoriz />
+        <MoreHoriz sx={{ color: "text.secondary" }} />
       </Button>
 
       <Menu

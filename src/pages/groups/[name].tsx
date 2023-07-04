@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupProfileQuery } from "../../apollo/gen";
+import GroupEventsTab from "../../components/Groups/GroupEventsTab";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import Feed from "../../components/Shared/Feed";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -64,9 +65,11 @@ const GroupPage: NextPage = () => {
         </>
       )}
 
-      {tab === 1 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
-      {tab === 2 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
-      {tab === 3 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
+      {(tab === 1 || tab === 3) && (
+        <Typography marginTop={5}>{t("prompts.inDev")}</Typography>
+      )}
+
+      {tab === 2 && <GroupEventsTab />}
     </>
   );
 };
