@@ -24,14 +24,20 @@ const EventsIndex: NextPage = () => {
     return null;
   }
 
+  const { events } = data;
+
   return (
     <>
       <LevelOneHeading header>
         {t("events.headers.discoverEvents")}
       </LevelOneHeading>
 
-      {data.events.map((event) => (
-        <Event key={event.id} event={event} />
+      {events.map((event, index) => (
+        <Event
+          key={event.id}
+          event={event}
+          isLast={index + 1 === events.length}
+        />
       ))}
     </>
   );

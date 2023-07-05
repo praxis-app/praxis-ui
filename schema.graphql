@@ -128,6 +128,7 @@ type DeleteServerRoleMemberPayload {
 
 type Event {
   attendees: [EventAttendee!]!
+  coverPhoto: Image!
   createdAt: DateTime!
   description: String!
   endsAt: DateTime

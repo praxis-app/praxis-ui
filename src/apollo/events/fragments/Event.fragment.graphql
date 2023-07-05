@@ -2,4 +2,9 @@ fragment Event on Event {
   id
   name
   description
+  startsAt
+
+  coverPhoto {
+    id
+  }
 }

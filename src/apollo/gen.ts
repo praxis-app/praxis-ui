@@ -166,6 +166,7 @@ export type DeleteServerRoleMemberPayload = {
 export type Event = {
   __typename?: "Event";
   attendees: Array<EventAttendee>;
+  coverPhoto: Image;
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
   endsAt?: Maybe<Scalars["DateTime"]>;
@@ -999,6 +1000,8 @@ export type EventFragment = {
   id: number;
   name: string;
   description: string;
+  startsAt: any;
+  coverPhoto: { __typename?: "Image"; id: number };
 };
 
 export type EventFormFragment = {
@@ -1023,6 +1026,8 @@ export type CreateEventMutation = {
       id: number;
       name: string;
       description: string;
+      startsAt: any;
+      coverPhoto: { __typename?: "Image"; id: number };
     };
   };
 };
@@ -1036,6 +1041,8 @@ export type EventsQuery = {
     id: number;
     name: string;
     description: string;
+    startsAt: any;
+    coverPhoto: { __typename?: "Image"; id: number };
   }>;
 };
 
@@ -1615,6 +1622,8 @@ export type GroupEventsTabQuery = {
       id: number;
       name: string;
       description: string;
+      startsAt: any;
+      coverPhoto: { __typename?: "Image"; id: number };
     }>;
   };
 };
@@ -4310,6 +4319,10 @@ export const EventFragmentDoc = gql`
     id
     name
     description
+    startsAt
+    coverPhoto {
+      id
+    }
   }
 `;
 export const EventFormFragmentDoc = gql`

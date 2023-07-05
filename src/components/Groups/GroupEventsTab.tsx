@@ -69,8 +69,12 @@ const GroupEventsTab = ({ groupId }: Props) => {
             </>
           )}
 
-          {upcomingEvents.map((event) => (
-            <Event key={event.id} event={event} />
+          {upcomingEvents.map((event, index) => (
+            <Event
+              key={event.id}
+              event={event}
+              isLast={index + 1 === upcomingEvents.length}
+            />
           ))}
         </CardContent>
       </Card>
