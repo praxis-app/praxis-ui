@@ -3772,7 +3772,6 @@ export type UpdateUserMutation = {
 
 export type EditUserQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type EditUserQuery = {
@@ -3786,40 +3785,6 @@ export type EditUserQuery = {
     followingCount: number;
     name: string;
     isFollowedByMe: boolean;
-    posts: Array<{
-      __typename?: "Post";
-      id: number;
-      body?: string | null;
-      createdAt: any;
-      likesCount: number;
-      isLikedByMe?: boolean;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        myPermissions?: {
-          __typename?: "GroupPermissions";
-          approveMemberRequests: boolean;
-          createEvents: boolean;
-          deleteGroup: boolean;
-          manageComments: boolean;
-          manageEvents: boolean;
-          managePosts: boolean;
-          manageRoles: boolean;
-          manageSettings: boolean;
-          removeMembers: boolean;
-          updateGroup: boolean;
-        };
-        coverPhoto?: { __typename?: "Image"; id: number } | null;
-      } | null;
-    }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
@@ -8418,16 +8383,12 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutationVariables
 >;
 export const EditUserDocument = gql`
-  query EditUser($name: String, $isLoggedIn: Boolean = true) {
+  query EditUser($name: String) {
     user(name: $name) {
       ...UserProfileCard
-      posts {
-        ...PostCard
-      }
     }
   }
   ${UserProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
 `;
 
 /**
@@ -8443,7 +8404,6 @@ export const EditUserDocument = gql`
  * const { data, loading, error } = useEditUserQuery({
  *   variables: {
  *      name: // value for 'name'
- *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
