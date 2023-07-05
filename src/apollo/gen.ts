@@ -661,8 +661,6 @@ export type Query = {
   user: User;
   users: Array<User>;
   usersByIds: Array<User>;
-  vote: Vote;
-  votes: Array<Vote>;
 };
 
 export type QueryEventArgs = {
@@ -705,10 +703,6 @@ export type QueryUserArgs = {
 
 export type QueryUsersByIdsArgs = {
   ids: Array<Scalars["Int"]>;
-};
-
-export type QueryVoteArgs = {
-  id: Scalars["Int"];
 };
 
 export type ServerInvite = {

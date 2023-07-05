@@ -444,8 +444,6 @@ type Query {
   user(id: Int, name: String): User!
   users: [User!]!
   usersByIds(ids: [Int!]!): [User!]!
-  vote(id: Int!): Vote!
-  votes: [Vote!]!
 }
 
 type ServerInvite {
