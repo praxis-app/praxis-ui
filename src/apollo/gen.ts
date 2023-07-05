@@ -651,9 +651,7 @@ export type Query = {
   isFirstUser: Scalars["Boolean"];
   me: User;
   post: Post;
-  posts: Array<Post>;
   proposal: Proposal;
-  proposals: Array<Proposal>;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
   serverInvite: ServerInvite;

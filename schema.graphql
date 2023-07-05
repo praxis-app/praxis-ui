@@ -434,9 +434,7 @@ type Query {
   isFirstUser: Boolean!
   me: User!
   post(id: Int!): Post!
-  posts: [Post!]!
   proposal(id: Int!): Proposal!
-  proposals: [Proposal!]!
   publicGroups: [Group!]!
   publicGroupsFeed: [FeedItem!]!
   serverInvite(token: String!): ServerInvite!
