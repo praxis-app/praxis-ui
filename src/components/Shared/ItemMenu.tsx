@@ -1,5 +1,3 @@
-// TODO: Resolve issue with Edit button only responding to click on text
-
 import { Delete, Edit, MoreHoriz } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, SxProps } from "@mui/material";
 import { ReactNode } from "react";
@@ -8,7 +6,7 @@ import { redirectTo } from "../../utils/common.utils";
 import GhostButton from "./GhostButton";
 
 interface Props {
-  anchorEl: null | HTMLElement;
+  anchorEl: HTMLElement | null;
   buttonStyles?: SxProps;
   canDelete?: boolean;
   canUpdate?: boolean;
@@ -16,9 +14,12 @@ interface Props {
   deleteItem?: (id: number) => void;
   deletePrompt?: string;
   editPath?: string;
+
+  // TODO: Remove itemId prop
   itemId: number;
+
   prependChildren?: boolean;
-  setAnchorEl: (el: null | HTMLElement) => void;
+  setAnchorEl: (el: HTMLElement | null) => void;
   variant?: "ghost" | "default";
 }
 
