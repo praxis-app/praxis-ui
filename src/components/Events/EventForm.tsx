@@ -11,6 +11,8 @@ import {
   EventFormFragment,
   EventsDocument,
   EventsQuery,
+  GroupEventsTabDocument,
+  GroupEventsTabQuery,
   useCreateEventMutation,
 } from "../../apollo/gen";
 import { getRandomString } from "../../utils/common.utils";
@@ -29,13 +31,12 @@ export enum EventFormFieldName {
 }
 
 interface Props {
-  // TODO: Replace with fragment type
   editEvent?: EventFormFragment;
-
   groupId?: number;
+  onSubmit?: () => void;
 }
 
-const EventForm = ({ editEvent, groupId }: Props) => {
+const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [createEvent] = useCreateEventMutation();
@@ -76,8 +77,18 @@ const EventForm = ({ editEvent, groupId }: Props) => {
               draft?.events.unshift(event);
             })
         );
+        if (groupId) {
+          cache.updateQuery<GroupEventsTabQuery>(
+            { query: GroupEventsTabDocument, variables: { groupId } },
+            (eventsData) =>
+              produce(eventsData, (draft) => {
+                draft?.group.upcomingEvents.unshift(event);
+              })
+          );
+        }
       },
       onCompleted() {
+        onSubmit && onSubmit();
         setImageInputKey(getRandomString());
         setCoverPhoto(undefined);
         setSubmitting(false);

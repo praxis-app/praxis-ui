@@ -23,6 +23,8 @@ const GroupEventsTab = ({ groupId }: Props) => {
 
   const { t } = useTranslation();
 
+  const handleCloseModal = () => setIsModalOpen(false);
+
   if (error) {
     return <Typography>{t("errors.somethingWentWrong")}</Typography>;
   }
@@ -82,10 +84,10 @@ const GroupEventsTab = ({ groupId }: Props) => {
       <Modal
         subtext={name}
         title={t("events.actions.createEvent")}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         open={isModalOpen}
       >
-        <EventForm groupId={groupId} />
+        <EventForm groupId={groupId} onSubmit={handleCloseModal} />
       </Modal>
     </>
   );
