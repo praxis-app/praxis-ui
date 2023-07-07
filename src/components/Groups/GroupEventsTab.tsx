@@ -1,5 +1,11 @@
 import { Event as CalendarIcon } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader as MuiCardHeader,
+  styled,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGroupEventsTabQuery } from "../../apollo/gen";
@@ -10,6 +16,10 @@ import Center from "../Shared/Center";
 import GhostButton from "../Shared/GhostButton";
 import Modal from "../Shared/Modal";
 import ProgressBar from "../Shared/ProgressBar";
+
+const CardHeader = styled(MuiCardHeader)(() => ({
+  paddingBottom: "8px",
+}));
 
 interface Props {
   groupId: number;
@@ -38,11 +48,20 @@ const GroupEventsTab = ({ groupId }: Props) => {
   }
 
   const {
-    group: { name, upcomingEvents },
+    group: { name, upcomingEvents, pastEvents },
   } = data;
 
   return (
     <>
+      <Modal
+        subtext={name}
+        title={t("events.actions.createEvent")}
+        onClose={handleCloseModal}
+        open={isModalOpen}
+      >
+        <EventForm groupId={groupId} onSubmit={handleCloseModal} />
+      </Modal>
+
       <Card>
         <CardHeader
           title={
@@ -81,14 +100,26 @@ const GroupEventsTab = ({ groupId }: Props) => {
         </CardContent>
       </Card>
 
-      <Modal
-        subtext={name}
-        title={t("events.actions.createEvent")}
-        onClose={handleCloseModal}
-        open={isModalOpen}
-      >
-        <EventForm groupId={groupId} onSubmit={handleCloseModal} />
-      </Modal>
+      {!!pastEvents.length && (
+        <Card>
+          <CardHeader
+            title={
+              <Typography variant="h6">
+                {t("events.headers.pastEvents")}
+              </Typography>
+            }
+          />
+          <CardContent>
+            {pastEvents.map((event, index) => (
+              <Event
+                key={event.id}
+                event={event}
+                isLast={index + 1 === pastEvents.length}
+              />
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };

@@ -4,5 +4,8 @@ query GroupEventsTab($groupId: Int!) {
     upcomingEvents {
       ...Event
     }
+    pastEvents {
+      ...Event
+    }
   }
 }

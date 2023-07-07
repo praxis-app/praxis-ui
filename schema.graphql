@@ -173,6 +173,7 @@ type Group {
   members: [User!]!
   myPermissions: GroupPermissions!
   name: String!
+  pastEvents: [Event!]!
   posts: [Post!]!
   proposals: [Proposal!]!
   roles: [GroupRole!]!

@@ -214,6 +214,7 @@ export type Group = {
   members: Array<User>;
   myPermissions: GroupPermissions;
   name: Scalars["String"];
+  pastEvents: Array<Event>;
   posts: Array<Post>;
   proposals: Array<Proposal>;
   roles: Array<GroupRole>;
@@ -1619,6 +1620,14 @@ export type GroupEventsTabQuery = {
     __typename?: "Group";
     name: string;
     upcomingEvents: Array<{
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
+      startsAt: any;
+      coverPhoto: { __typename?: "Image"; id: number };
+    }>;
+    pastEvents: Array<{
       __typename?: "Event";
       id: number;
       name: string;
@@ -6106,6 +6115,9 @@ export const GroupEventsTabDocument = gql`
     group(id: $groupId) {
       name
       upcomingEvents {
+        ...Event
+      }
+      pastEvents {
         ...Event
       }
     }
