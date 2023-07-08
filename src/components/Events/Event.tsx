@@ -24,7 +24,7 @@ const Event = ({
   const { t } = useTranslation();
 
   const imageSrc = getImagePath(coverPhoto.id);
-  const startDate = dayjs(parseInt(startsAt)).format("ddd, MMM D, YYYY");
+  const startDate = dayjs(startsAt).format("ddd, MMM D, YYYY");
 
   const deletePrompt = t("prompts.deleteItem", {
     itemType: "event",
