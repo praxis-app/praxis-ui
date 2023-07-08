@@ -1,6 +1,7 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { FormGroup } from "@mui/material";
+import { Dayjs } from "dayjs";
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
@@ -125,7 +126,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ isSubmitting, dirty }) => (
+      {({ isSubmitting, dirty, setFieldValue, values }) => (
         <Form>
           <FormGroup sx={{ marginBottom: 2 }}>
             <TextField
@@ -138,7 +139,13 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               label={t("events.form.description")}
               name={EventFormFieldName.Description}
             />
-            <DateTimePicker label="Choose a start time" />
+            <DateTimePicker
+              label={t("events.form.startDateAndTime")}
+              onChange={(value: Dayjs | null) =>
+                setFieldValue(EventFormFieldName.StartsAt, value)
+              }
+              defaultValue={values.startsAt}
+            />
             <TextField
               autoComplete="off"
               label={t("events.form.location")}

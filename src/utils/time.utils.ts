@@ -37,7 +37,4 @@ export const timeFromNow = (timeStamp: string) => {
   return timeMessage(timeStamp, secondsFromNow);
 };
 
-export const startOfNextHour = () => {
-  const oneHour = Time.Hour * 1000;
-  return new Date(Math.round(new Date().getTime() / oneHour) * oneHour);
-};
+export const startOfNextHour = () => dayjs().add(1, "hour").startOf("hour");
