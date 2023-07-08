@@ -19,6 +19,7 @@ import { getRandomString } from "../../utils/common.utils";
 import { startOfNextHour } from "../../utils/time.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
+import DateTimePicker from "../Shared/DateTimePicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import { TextField } from "../Shared/TextField";
@@ -137,6 +138,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               label={t("events.form.description")}
               name={EventFormFieldName.Description}
             />
+            <DateTimePicker label="Choose a start time" />
             <TextField
               autoComplete="off"
               label={t("events.form.location")}
