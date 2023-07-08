@@ -140,23 +140,22 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     setImageInputKey(getRandomString());
   };
 
-  // TODO: Use after comitting the current changes
-  // const handleShowEndsAtButtonClick =
-  //   (
-  //     values: CreateEventInput,
-  //     setFieldValue: (field: string, value: Dayjs | null) => void
-  //   ) =>
-  //   () => {
-  //     if (!showEndsAt) {
-  //       setFieldValue(
-  //         EventFormFieldName.EndsAt,
-  //         dayjs(values.startsAt).add(1, "hour").startOf("hour")
-  //       );
-  //     } else {
-  //       setFieldValue(EventFormFieldName.EndsAt, null);
-  //     }
-  //     setShowEndsAt(!showEndsAt);
-  //   };
+  const handleShowEndsAtButtonClick =
+    (
+      values: CreateEventInput,
+      setFieldValue: (field: string, value: Dayjs | null) => void
+    ) =>
+    () => {
+      if (!showEndsAt) {
+        setFieldValue(
+          EventFormFieldName.EndsAt,
+          dayjs(values.startsAt).add(1, "hour").startOf("hour")
+        );
+      } else {
+        setFieldValue(EventFormFieldName.EndsAt, null);
+      }
+      setShowEndsAt(!showEndsAt);
+    };
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -191,17 +190,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               />
             )}
             <Button
-              onClick={() => {
-                if (!showEndsAt) {
-                  setFieldValue(
-                    EventFormFieldName.EndsAt,
-                    dayjs(values.startsAt).add(1, "hour").startOf("hour")
-                  );
-                } else {
-                  setFieldValue(EventFormFieldName.EndsAt, null);
-                }
-                setShowEndsAt(!showEndsAt);
-              }}
+              onClick={handleShowEndsAtButtonClick(values, setFieldValue)}
               sx={showEndsAtButtonStyles}
               startIcon={<Add />}
             >
