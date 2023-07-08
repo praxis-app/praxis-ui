@@ -5,10 +5,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { EventFragment, useDeleteEventMutation } from "../../apollo/gen";
-import { TypeNames } from "../../constants/common.constants";
+import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { getImagePath } from "../../utils/image.utils";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
+import Link from "../Shared/Link";
 
 interface Props {
   event: EventFragment;
@@ -24,6 +25,7 @@ const Event = ({
   const { t } = useTranslation();
 
   const imageSrc = getImagePath(coverPhoto.id);
+  const eventPagePath = `${NavigationPaths.Events}/${id}`;
   const startDate = dayjs(startsAt).format("ddd, MMM D, YYYY");
 
   const deletePrompt = t("prompts.deleteItem", {
@@ -49,36 +51,40 @@ const Event = ({
   return (
     <>
       <Flex>
-        <Box width="90px" height="90px" marginRight={1.5}>
-          <Image
-            alt={t("images.labels.coverPhoto")}
-            style={{ borderRadius: "8px" }}
-            blurDataURL={imageSrc}
-            layout="responsive"
-            placeholder="blur"
-            src={imageSrc}
-            height={300}
-            width={300}
-          />
-        </Box>
+        <Link href={eventPagePath}>
+          <Box width="90px" height="90px" marginRight={1.5}>
+            <Image
+              alt={t("images.labels.coverPhoto")}
+              style={{ borderRadius: "8px" }}
+              blurDataURL={imageSrc}
+              layout="responsive"
+              placeholder="blur"
+              src={imageSrc}
+              height={300}
+              width={300}
+            />
+          </Box>
+        </Link>
 
         <Box>
-          <Typography
-            fontFamily="Inter Bold"
-            fontSize={13}
-            lineHeight={1}
-            variant="overline"
-          >
-            {startDate}
-          </Typography>
-          <Typography
-            fontFamily="Inter Bold"
-            fontSize={20}
-            lineHeight={1}
-            marginBottom={1.25}
-          >
-            {name}
-          </Typography>
+          <Link href={eventPagePath}>
+            <Typography
+              fontFamily="Inter Bold"
+              fontSize={13}
+              lineHeight={1}
+              variant="overline"
+            >
+              {startDate}
+            </Typography>
+            <Typography
+              fontFamily="Inter Bold"
+              fontSize={20}
+              lineHeight={1}
+              marginBottom={1.25}
+            >
+              {name}
+            </Typography>
+          </Link>
 
           <ItemMenu
             itemId={id}

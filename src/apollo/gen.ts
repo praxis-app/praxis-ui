@@ -1035,6 +1035,22 @@ export type DeleteEventMutation = {
   deleteEvent: boolean;
 };
 
+export type EventPageQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type EventPageQuery = {
+  __typename?: "Query";
+  event: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    description: string;
+    startsAt: any;
+    coverPhoto: { __typename?: "Image"; id: number };
+  };
+};
+
 export type EventsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type EventsQuery = {
@@ -5209,6 +5225,60 @@ export type DeleteEventMutationResult =
 export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<
   DeleteEventMutation,
   DeleteEventMutationVariables
+>;
+export const EventPageDocument = gql`
+  query EventPage($id: Int!) {
+    event(id: $id) {
+      ...Event
+    }
+  }
+  ${EventFragmentDoc}
+`;
+
+/**
+ * __useEventPageQuery__
+ *
+ * To run a query within a React component, call `useEventPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEventPageQuery(
+  baseOptions: Apollo.QueryHookOptions<EventPageQuery, EventPageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EventPageQuery, EventPageQueryVariables>(
+    EventPageDocument,
+    options
+  );
+}
+export function useEventPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EventPageQuery,
+    EventPageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EventPageQuery, EventPageQueryVariables>(
+    EventPageDocument,
+    options
+  );
+}
+export type EventPageQueryHookResult = ReturnType<typeof useEventPageQuery>;
+export type EventPageLazyQueryHookResult = ReturnType<
+  typeof useEventPageLazyQuery
+>;
+export type EventPageQueryResult = Apollo.QueryResult<
+  EventPageQuery,
+  EventPageQueryVariables
 >;
 export const EventsDocument = gql`
   query Events {
