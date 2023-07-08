@@ -1,4 +1,5 @@
 export const API_ROOT = "/api";
+export const TAB_QUERY_PARAM = "?tab=";
 
 export const FORBIDDEN = "Forbidden";
 export const UNAUTHORIZED = "Unauthorized";

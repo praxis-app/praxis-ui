@@ -27,6 +27,7 @@ import {
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
+  TAB_QUERY_PARAM,
 } from "../../constants/common.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
@@ -42,8 +43,6 @@ import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import { removeGroup } from "./GroupCard";
 import JoinButton from "./JoinButton";
-
-export const TAB_QUERY_PARAM = "?tab=";
 
 export const enum GroupTabs {
   About = "about",
