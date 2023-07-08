@@ -2,7 +2,7 @@
 
 import { Add } from "@mui/icons-material";
 import { Button, FormGroup, SxProps } from "@mui/material";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
@@ -140,6 +140,24 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     setImageInputKey(getRandomString());
   };
 
+  // TODO: Use after comitting the current changes
+  // const handleShowEndsAtButtonClick =
+  //   (
+  //     values: CreateEventInput,
+  //     setFieldValue: (field: string, value: Dayjs | null) => void
+  //   ) =>
+  //   () => {
+  //     if (!showEndsAt) {
+  //       setFieldValue(
+  //         EventFormFieldName.EndsAt,
+  //         dayjs(values.startsAt).add(1, "hour").startOf("hour")
+  //       );
+  //     } else {
+  //       setFieldValue(EventFormFieldName.EndsAt, null);
+  //     }
+  //     setShowEndsAt(!showEndsAt);
+  //   };
+
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {({ isSubmitting, dirty, setFieldValue, values }) => (
@@ -173,7 +191,17 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               />
             )}
             <Button
-              onClick={() => setShowEndsAt(!showEndsAt)}
+              onClick={() => {
+                if (!showEndsAt) {
+                  setFieldValue(
+                    EventFormFieldName.EndsAt,
+                    dayjs(values.startsAt).add(1, "hour").startOf("hour")
+                  );
+                } else {
+                  setFieldValue(EventFormFieldName.EndsAt, null);
+                }
+                setShowEndsAt(!showEndsAt);
+              }}
               sx={showEndsAtButtonStyles}
               startIcon={<Add />}
             >
