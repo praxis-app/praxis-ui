@@ -1,6 +1,7 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
-import { FormGroup } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Button, FormGroup, SxProps } from "@mui/material";
 import { Dayjs } from "dayjs";
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
@@ -16,6 +17,7 @@ import {
   GroupEventsTabQuery,
   useCreateEventMutation,
 } from "../../apollo/gen";
+import { Blurple } from "../../styles/theme";
 import { getRandomString } from "../../utils/common.utils";
 import { startOfNextHour } from "../../utils/time.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
@@ -30,6 +32,7 @@ export enum EventFormFieldName {
   Description = "description",
   Location = "location",
   StartsAt = "startsAt",
+  EndsAt = "endsAt",
 }
 
 interface Props {
@@ -41,6 +44,7 @@ interface Props {
 const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
+  const [showEndsAt, setShowEndsAt] = useState(false);
   const [createEvent] = useCreateEventMutation();
 
   const { t } = useTranslation();
@@ -49,7 +53,19 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     name: editEvent ? editEvent.name : "",
     description: editEvent ? editEvent.description : "",
     startsAt: editEvent ? editEvent.startsAt : startOfNextHour(),
+    endsAt: editEvent ? editEvent.endsAt : null,
     location: editEvent ? editEvent.location : "",
+  };
+
+  const showEndsAtButtonStyles: SxProps = {
+    color: Blurple.SkyDancer,
+    padding: 0,
+    textTransform: "none",
+    width: "fit-content",
+    "&.MuiButtonBase-root:hover": {
+      bgcolor: "transparent",
+      textDecoration: "underline",
+    },
   };
 
   const handleCreate = async (
@@ -146,6 +162,24 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               }
               defaultValue={values.startsAt}
             />
+
+            {showEndsAt && (
+              <DateTimePicker
+                label={t("events.form.endDateAndTime")}
+                onChange={(value: Dayjs | null) =>
+                  setFieldValue(EventFormFieldName.EndsAt, value)
+                }
+                defaultValue={values.endsAt}
+              />
+            )}
+            <Button
+              onClick={() => setShowEndsAt(!showEndsAt)}
+              sx={showEndsAtButtonStyles}
+              startIcon={<Add />}
+            >
+              {t("events.form.endDateAndTime")}
+            </Button>
+
             <TextField
               autoComplete="off"
               label={t("events.form.location")}

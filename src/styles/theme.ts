@@ -15,6 +15,7 @@ export enum DarkMode {
 export enum Blurple {
   Marina = "#687CD4",
   SavoryBlue = "#5969CB",
+  SkyDancer = "#588cf2",
 }
 
 declare module "@mui/material/styles/createPalette" {
@@ -93,6 +94,14 @@ const theme = createTheme(initialTheme, {
       styleOverrides: {
         root: {
           marginBottom: 12,
+        },
+      },
+    },
+
+    MuiButton: {
+      styleOverrides: {
+        startIcon: {
+          marginRight: "0.25ch",
         },
       },
     },

@@ -1002,6 +1002,7 @@ export type EventFormFragment = {
   id: number;
   name: string;
   startsAt: any;
+  endsAt?: any | null;
   description: string;
   location?: string | null;
 };
@@ -4305,6 +4306,7 @@ export const EventFormFragmentDoc = gql`
     id
     name
     startsAt
+    endsAt
     description
     location
   }
