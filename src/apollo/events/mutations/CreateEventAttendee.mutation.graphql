@@ -1,0 +1,13 @@
+mutation CreateEventAttendee($eventAttendeeData: CreateEventAttendeeInput!) {
+  createEventAttendee(eventAttendeeData: $eventAttendeeData) {
+    event {
+      id
+      attendees {
+        id
+        user {
+          ...UserAvatar
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import {
   CardProps,
   Divider,
   styled,
+  SxProps,
   Tab,
   Tabs,
   Typography,
@@ -81,6 +82,12 @@ const EventPageCard = ({
     .replace(/hours|hour/g, t("time.hr"))
     .replace(/minutes|minute/g, t("time.min"));
 
+  const iconStyles: SxProps = {
+    fontSize: 20,
+    marginBottom: "-0.3ch",
+    marginRight: "0.8ch",
+  };
+
   const getNameTextWidth = () => {
     if (isAboveMedium) {
       return "75%";
@@ -115,26 +122,14 @@ const EventPageCard = ({
 
         {location && (
           <Typography color="text.secondary" gutterBottom>
-            <Place
-              sx={{
-                marginRight: "0.8ch",
-                marginBottom: "-0.3ch",
-              }}
-              fontSize="small"
-            />
+            <Place sx={iconStyles} />
             {location}
           </Typography>
         )}
 
         {group && (
           <Typography color="text.secondary" gutterBottom>
-            <Flag
-              sx={{
-                marginRight: "0.8ch",
-                marginBottom: "-0.3ch",
-              }}
-              fontSize="small"
-            />
+            <Flag sx={iconStyles} />
             {t("events.labels.eventBy")}
             <Link href={groupPagePath} sx={{ marginLeft: "0.4ch" }}>
               {group.name}
@@ -144,13 +139,7 @@ const EventPageCard = ({
 
         {endsAt && (
           <Typography color="text.secondary">
-            <Timer
-              sx={{
-                marginRight: "0.8ch",
-                marginBottom: "-0.3ch",
-              }}
-              fontSize="small"
-            />
+            <Timer sx={iconStyles} />
             {t("events.labels.duration", { duration })}
           </Typography>
         )}

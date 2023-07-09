@@ -32,6 +32,16 @@ export type ApproveGroupMemberRequestPayload = {
   groupMember: User;
 };
 
+export type CreateEventAttendeeInput = {
+  eventId: Scalars["Int"];
+  status: Scalars["String"];
+};
+
+export type CreateEventAttendeePayload = {
+  __typename?: "CreateEventAttendeePayload";
+  event: Event;
+};
+
 export type CreateEventInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
@@ -336,6 +346,7 @@ export type Mutation = {
   approveGroupMemberRequest: ApproveGroupMemberRequestPayload;
   cancelGroupMemberRequest: Scalars["Boolean"];
   createEvent: CreateEventPayload;
+  createEventAttendee: CreateEventAttendeePayload;
   createGroup: CreateGroupPayload;
   createGroupMemberRequest: CreateGroupMemberRequestPayload;
   createGroupRole: CreateGroupRolePayload;
@@ -346,6 +357,7 @@ export type Mutation = {
   createServerRole: CreateServerRolePayload;
   createVote: CreateVotePayload;
   deleteEvent: Scalars["Boolean"];
+  deleteEventAttendee: Scalars["Boolean"];
   deleteGroup: Scalars["Boolean"];
   deleteGroupRole: Scalars["Boolean"];
   deleteGroupRoleMember: DeleteGroupRoleMemberPayload;
@@ -367,6 +379,7 @@ export type Mutation = {
   signUp: SignUpPayload;
   unfollowUser: Scalars["Boolean"];
   updateEvent: UpdateEventPayload;
+  updateEventAttendee: UpdateEventAttendeePayload;
   updateGroup: UpdateGroupPayload;
   updateGroupConfig: UpdateGroupPayload;
   updateGroupRole: UpdateGroupRolePayload;
@@ -387,6 +400,10 @@ export type MutationCancelGroupMemberRequestArgs = {
 
 export type MutationCreateEventArgs = {
   eventData: CreateEventInput;
+};
+
+export type MutationCreateEventAttendeeArgs = {
+  eventAttendeeData: CreateEventAttendeeInput;
 };
 
 export type MutationCreateGroupArgs = {
@@ -426,6 +443,10 @@ export type MutationCreateVoteArgs = {
 };
 
 export type MutationDeleteEventArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteEventAttendeeArgs = {
   id: Scalars["Int"];
 };
 
@@ -503,6 +524,10 @@ export type MutationUnfollowUserArgs = {
 
 export type MutationUpdateEventArgs = {
   eventData: UpdateEventInput;
+};
+
+export type MutationUpdateEventAttendeeArgs = {
+  eventAttendeeData: UpdateEventAttendeeInput;
 };
 
 export type MutationUpdateGroupArgs = {
@@ -777,6 +802,16 @@ export type SignUpPayload = {
   user: User;
 };
 
+export type UpdateEventAttendeeInput = {
+  id: Scalars["Int"];
+  status: Scalars["String"];
+};
+
+export type UpdateEventAttendeePayload = {
+  __typename?: "UpdateEventAttendeePayload";
+  eventAttendee: EventAttendee;
+};
+
 export type UpdateEventInput = {
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
@@ -1034,6 +1069,31 @@ export type CreateEventMutation = {
       description: string;
       startsAt: any;
       coverPhoto: { __typename?: "Image"; id: number };
+    };
+  };
+};
+
+export type CreateEventAttendeeMutationVariables = Exact<{
+  eventAttendeeData: CreateEventAttendeeInput;
+}>;
+
+export type CreateEventAttendeeMutation = {
+  __typename?: "Mutation";
+  createEventAttendee: {
+    __typename?: "CreateEventAttendeePayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      attendees: Array<{
+        __typename?: "EventAttendee";
+        id: number;
+        user: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+      }>;
     };
   };
 };
@@ -5209,6 +5269,65 @@ export type CreateEventMutationResult =
 export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
   CreateEventMutation,
   CreateEventMutationVariables
+>;
+export const CreateEventAttendeeDocument = gql`
+  mutation CreateEventAttendee($eventAttendeeData: CreateEventAttendeeInput!) {
+    createEventAttendee(eventAttendeeData: $eventAttendeeData) {
+      event {
+        id
+        attendees {
+          id
+          user {
+            ...UserAvatar
+          }
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
+export type CreateEventAttendeeMutationFn = Apollo.MutationFunction<
+  CreateEventAttendeeMutation,
+  CreateEventAttendeeMutationVariables
+>;
+
+/**
+ * __useCreateEventAttendeeMutation__
+ *
+ * To run a mutation, you first call `useCreateEventAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventAttendeeMutation, { data, loading, error }] = useCreateEventAttendeeMutation({
+ *   variables: {
+ *      eventAttendeeData: // value for 'eventAttendeeData'
+ *   },
+ * });
+ */
+export function useCreateEventAttendeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEventAttendeeMutation,
+    CreateEventAttendeeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateEventAttendeeMutation,
+    CreateEventAttendeeMutationVariables
+  >(CreateEventAttendeeDocument, options);
+}
+export type CreateEventAttendeeMutationHookResult = ReturnType<
+  typeof useCreateEventAttendeeMutation
+>;
+export type CreateEventAttendeeMutationResult =
+  Apollo.MutationResult<CreateEventAttendeeMutation>;
+export type CreateEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
+  CreateEventAttendeeMutation,
+  CreateEventAttendeeMutationVariables
 >;
 export const DeleteEventDocument = gql`
   mutation DeleteEvent($id: Int!) {

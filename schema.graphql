@@ -2,6 +2,15 @@ type ApproveGroupMemberRequestPayload {
   groupMember: User!
 }
 
+input CreateEventAttendeeInput {
+  eventId: Int!
+  status: String!
+}
+
+type CreateEventAttendeePayload {
+  event: Event!
+}
+
 input CreateEventInput {
   coverPhoto: Upload
   description: String!
@@ -286,6 +295,7 @@ type Mutation {
   approveGroupMemberRequest(id: Int!): ApproveGroupMemberRequestPayload!
   cancelGroupMemberRequest(id: Int!): Boolean!
   createEvent(eventData: CreateEventInput!): CreateEventPayload!
+  createEventAttendee(eventAttendeeData: CreateEventAttendeeInput!): CreateEventAttendeePayload!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
   createGroupMemberRequest(groupId: Int!): CreateGroupMemberRequestPayload!
   createGroupRole(groupRoleData: CreateGroupRoleInput!): CreateGroupRolePayload!
@@ -296,6 +306,7 @@ type Mutation {
   createServerRole(serverRoleData: CreateServerRoleInput!): CreateServerRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteEvent(id: Int!): Boolean!
+  deleteEventAttendee(id: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
   deleteGroupRole(id: Int!): Boolean!
   deleteGroupRoleMember(groupRoleMemberData: DeleteGroupRoleMemberInput!): DeleteGroupRoleMemberPayload!
@@ -317,6 +328,7 @@ type Mutation {
   signUp(input: SignUpInput!): SignUpPayload!
   unfollowUser(id: Int!): Boolean!
   updateEvent(eventData: UpdateEventInput!): UpdateEventPayload!
+  updateEventAttendee(eventAttendeeData: UpdateEventAttendeeInput!): UpdateEventAttendeePayload!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
   updateGroupRole(groupRoleData: UpdateGroupRoleInput!): UpdateGroupRolePayload!
@@ -511,6 +523,15 @@ input SignUpInput {
 
 type SignUpPayload {
   user: User!
+}
+
+input UpdateEventAttendeeInput {
+  id: Int!
+  status: String!
+}
+
+type UpdateEventAttendeePayload {
+  eventAttendee: EventAttendee!
 }
 
 input UpdateEventInput {
