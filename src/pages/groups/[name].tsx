@@ -64,12 +64,8 @@ const GroupPage: NextPage = () => {
           <Feed feed={group.feed} />
         </>
       )}
-
-      {(tab === 1 || tab === 3) && (
-        <Typography marginTop={5}>{t("prompts.inDev")}</Typography>
-      )}
-
-      {tab === 2 && <GroupEventsTab groupId={group.id} />}
+      {tab === 1 && <GroupEventsTab groupId={group.id} />}
+      {tab === 2 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
     </>
   );
 };

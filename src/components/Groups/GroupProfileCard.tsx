@@ -89,17 +89,15 @@ const GroupProfileCard = ({
   const isAboveSmall = useAboveBreakpoint("sm");
 
   useEffect(() => {
-    if (query.tab) {
-      switch (query.tab) {
-        case GroupTabs.Proposals:
-          setTab(1);
-          break;
-        case GroupTabs.Events:
-          setTab(2);
-          break;
-        case GroupTabs.About:
-          setTab(3);
-      }
+    if (!query.tab) {
+      return;
+    }
+    if (query.tab === GroupTabs.Events) {
+      setTab(1);
+      return;
+    }
+    if (query.tab === GroupTabs.About) {
+      setTab(2);
     }
   }, [query.tab, setTab]);
 
@@ -125,7 +123,6 @@ const GroupProfileCard = ({
   const groupPagePath = `${NavigationPaths.Groups}/${name}`;
   const aboutTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.About}`;
   const eventsTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
-  const proposalsTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Proposals}`;
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -263,19 +260,10 @@ const GroupProfileCard = ({
 
       <Divider sx={{ marginX: "16px", marginBottom: 0.25 }} />
 
-      <Tabs
-        onChange={handleTabsChange}
-        textColor="inherit"
-        value={tab}
-        centered
-      >
+      <Tabs onChange={handleTabsChange} textColor="inherit" value={tab}>
         <Tab
           label={t("groups.tabs.feed")}
           onClick={() => redirectTo(groupPagePath)}
-        />
-        <Tab
-          label={t("groups.tabs.proposals")}
-          onClick={() => redirectTo(proposalsTabPath)}
         />
         <Tab
           label={t("groups.tabs.events")}
