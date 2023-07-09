@@ -92,9 +92,11 @@ const EventPageCard = ({
           {startsAtFormatted}
         </Typography>
         <NameText
-          sx={{ width: getNameTextWidth(), marginBottom: 1 }}
           color="primary"
           variant="h6"
+          width={getNameTextWidth()}
+          marginBottom={1}
+          marginTop={0.3}
         >
           {name}
         </NameText>
@@ -103,7 +105,7 @@ const EventPageCard = ({
           <Typography color="text.secondary" gutterBottom>
             <Place
               sx={{
-                marginRight: "0.5ch",
+                marginRight: "0.8ch",
                 marginBottom: "-0.3ch",
               }}
               fontSize="small"
@@ -116,7 +118,7 @@ const EventPageCard = ({
           <Typography color="text.secondary">
             <Flag
               sx={{
-                marginRight: "0.5ch",
+                marginRight: "0.8ch",
                 marginBottom: "-0.3ch",
               }}
               fontSize="small"
