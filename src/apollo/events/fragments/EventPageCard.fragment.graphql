@@ -1,0 +1,11 @@
+fragment EventPageCard on Event {
+  id
+  name
+  description
+  startsAt
+  endsAt
+
+  coverPhoto {
+    id
+  }
+}

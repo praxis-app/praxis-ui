@@ -12,6 +12,7 @@ import {
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { EventPageCardFragment } from "../../apollo/gen";
 import {
   NavigationPaths,
   TAB_QUERY_PARAM,
@@ -36,7 +37,7 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  event: any;
+  event: EventPageCardFragment;
   setTab(tab: number): void;
   tab: number;
 }
@@ -75,9 +76,6 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
     marginBottom: 1,
   };
 
-  const handleTabsChange = (_: React.SyntheticEvent, newValue: number) =>
-    setTab(newValue);
-
   return (
     <Card>
       <CoverPhoto imageId={coverPhoto?.id} />
@@ -89,7 +87,11 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
 
       <Divider sx={{ marginX: "16px", marginBottom: 0.25 }} />
 
-      <Tabs onChange={handleTabsChange} textColor="inherit" value={tab}>
+      <Tabs
+        onChange={(_: any, value: number) => setTab(value)}
+        textColor="inherit"
+        value={tab}
+      >
         <Tab
           label={t("events.tabs.about")}
           onClick={() => redirectTo(eventPagePath)}

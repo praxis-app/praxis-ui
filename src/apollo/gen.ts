@@ -1007,6 +1007,16 @@ export type EventFormFragment = {
   location?: string | null;
 };
 
+export type EventPageCardFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  description: string;
+  startsAt: any;
+  endsAt?: any | null;
+  coverPhoto: { __typename?: "Image"; id: number };
+};
+
 export type CreateEventMutationVariables = Exact<{
   eventData: CreateEventInput;
 }>;
@@ -4325,6 +4335,18 @@ export const EventFormFragmentDoc = gql`
     endsAt
     description
     location
+  }
+`;
+export const EventPageCardFragmentDoc = gql`
+  fragment EventPageCard on Event {
+    id
+    name
+    description
+    startsAt
+    endsAt
+    coverPhoto {
+      id
+    }
   }
 `;
 export const GroupRoleFragmentDoc = gql`
