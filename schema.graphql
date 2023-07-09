@@ -137,6 +137,7 @@ type DeleteServerRoleMemberPayload {
 
 type Event {
   attendees: [EventAttendee!]!
+  attendingStatus: String
   coverPhoto: Image!
   createdAt: DateTime!
   description: String!
@@ -306,7 +307,7 @@ type Mutation {
   createServerRole(serverRoleData: CreateServerRoleInput!): CreateServerRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
   deleteEvent(id: Int!): Boolean!
-  deleteEventAttendee(id: Int!): Boolean!
+  deleteEventAttendee(eventId: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
   deleteGroupRole(id: Int!): Boolean!
   deleteGroupRoleMember(groupRoleMemberData: DeleteGroupRoleMemberInput!): DeleteGroupRoleMemberPayload!

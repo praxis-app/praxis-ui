@@ -176,6 +176,7 @@ export type DeleteServerRoleMemberPayload = {
 export type Event = {
   __typename?: "Event";
   attendees: Array<EventAttendee>;
+  attendingStatus?: Maybe<Scalars["String"]>;
   coverPhoto: Image;
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
@@ -447,7 +448,7 @@ export type MutationDeleteEventArgs = {
 };
 
 export type MutationDeleteEventAttendeeArgs = {
-  id: Scalars["Int"];
+  eventId: Scalars["Int"];
 };
 
 export type MutationDeleteGroupArgs = {
@@ -1050,6 +1051,7 @@ export type EventPageCardFragment = {
   startsAt: any;
   endsAt?: any | null;
   location?: string | null;
+  attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
   group?: { __typename?: "Group"; id: number; name: string } | null;
 };
@@ -1107,6 +1109,15 @@ export type DeleteEventMutation = {
   deleteEvent: boolean;
 };
 
+export type DeleteEventAttendeeMutationVariables = Exact<{
+  eventId: Scalars["Int"];
+}>;
+
+export type DeleteEventAttendeeMutation = {
+  __typename?: "Mutation";
+  deleteEventAttendee: boolean;
+};
+
 export type EventPageQueryVariables = Exact<{
   id: Scalars["Int"];
 }>;
@@ -1121,6 +1132,7 @@ export type EventPageQuery = {
     startsAt: any;
     endsAt?: any | null;
     location?: string | null;
+    attendingStatus?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
     group?: { __typename?: "Group"; id: number; name: string } | null;
   };
@@ -4410,6 +4422,7 @@ export const EventPageCardFragmentDoc = gql`
     startsAt
     endsAt
     location
+    attendingStatus
     coverPhoto {
       id
     }
@@ -5376,6 +5389,54 @@ export type DeleteEventMutationResult =
 export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<
   DeleteEventMutation,
   DeleteEventMutationVariables
+>;
+export const DeleteEventAttendeeDocument = gql`
+  mutation DeleteEventAttendee($eventId: Int!) {
+    deleteEventAttendee(eventId: $eventId)
+  }
+`;
+export type DeleteEventAttendeeMutationFn = Apollo.MutationFunction<
+  DeleteEventAttendeeMutation,
+  DeleteEventAttendeeMutationVariables
+>;
+
+/**
+ * __useDeleteEventAttendeeMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventAttendeeMutation, { data, loading, error }] = useDeleteEventAttendeeMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useDeleteEventAttendeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteEventAttendeeMutation,
+    DeleteEventAttendeeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteEventAttendeeMutation,
+    DeleteEventAttendeeMutationVariables
+  >(DeleteEventAttendeeDocument, options);
+}
+export type DeleteEventAttendeeMutationHookResult = ReturnType<
+  typeof useDeleteEventAttendeeMutation
+>;
+export type DeleteEventAttendeeMutationResult =
+  Apollo.MutationResult<DeleteEventAttendeeMutation>;
+export type DeleteEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
+  DeleteEventAttendeeMutation,
+  DeleteEventAttendeeMutationVariables
 >;
 export const EventPageDocument = gql`
   query EventPage($id: Int!) {

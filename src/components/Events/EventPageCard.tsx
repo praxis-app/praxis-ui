@@ -16,7 +16,11 @@ import humanizeDuration from "humanize-duration";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { EventPageCardFragment } from "../../apollo/gen";
+import {
+  EventPageCardFragment,
+  useCreateEventAttendeeMutation,
+  useDeleteEventAttendeeMutation,
+} from "../../apollo/gen";
 import {
   NavigationPaths,
   TAB_QUERY_PARAM,
@@ -27,6 +31,13 @@ import { formatDateTime } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import GhostButton from "../Shared/GhostButton";
 import Link from "../Shared/Link";
+
+export enum EventAttendeeStatus {
+  CoHost = "co-host",
+  Going = "going",
+  Host = "host",
+  Interested = "interested",
+}
 
 export const enum EventTabs {
   About = "about",
@@ -51,10 +62,24 @@ interface Props extends CardProps {
 }
 
 const EventPageCard = ({
-  event: { id, name, coverPhoto, startsAt, endsAt, location, group },
+  event: {
+    id,
+    name,
+    attendingStatus,
+    coverPhoto,
+    endsAt,
+    group,
+    location,
+    startsAt,
+  },
   setTab,
   tab,
 }: Props) => {
+  const [createEventAttendee, { loading: createAttendeeLoading }] =
+    useCreateEventAttendeeMutation();
+  const [deleteEventAttendee, { loading: deleteAttendeeLoading }] =
+    useDeleteEventAttendeeMutation();
+
   const { query } = useRouter();
   const { t } = useTranslation();
   const isAboveMedium = useAboveBreakpoint("md");
@@ -84,10 +109,51 @@ const EventPageCard = ({
     .replace(/hours|hour/g, t("time.hr"))
     .replace(/minutes|minute/g, t("time.min"));
 
+  const isLoading = createAttendeeLoading || deleteAttendeeLoading;
+  const isHost = attendingStatus === EventAttendeeStatus.Host;
+
   const iconStyles: SxProps = {
     fontSize: 20,
     marginBottom: "-0.3ch",
     marginRight: "0.8ch",
+  };
+
+  const handleGoingButtonClick = async () => {
+    if (attendingStatus === EventAttendeeStatus.Going) {
+      await deleteEventAttendee({ variables: { eventId: id } });
+      return;
+    }
+    if (attendingStatus === EventAttendeeStatus.Interested) {
+      // TODO: Add update logic here
+      return;
+    }
+    await createEventAttendee({
+      variables: {
+        eventAttendeeData: {
+          status: EventAttendeeStatus.Going,
+          eventId: id,
+        },
+      },
+    });
+  };
+
+  const handleInterestedButtonClick = async () => {
+    if (attendingStatus === EventAttendeeStatus.Interested) {
+      await deleteEventAttendee({ variables: { eventId: id } });
+      return;
+    }
+    if (attendingStatus === EventAttendeeStatus.Going) {
+      // TODO: Add update logic here
+      return;
+    }
+    await createEventAttendee({
+      variables: {
+        eventAttendeeData: {
+          status: EventAttendeeStatus.Interested,
+          eventId: id,
+        },
+      },
+    });
   };
 
   const getNameTextWidth = () => {
@@ -123,10 +189,18 @@ const EventPageCard = ({
         </NameText>
 
         <Stack direction="row" spacing={1} marginBottom={2} marginTop={1.5}>
-          <GhostButton startIcon={<Star />}>
+          <GhostButton
+            disabled={isLoading || isHost}
+            onClick={handleInterestedButtonClick}
+            startIcon={<Star />}
+          >
             {t("events.labels.interested")}
           </GhostButton>
-          <GhostButton startIcon={<CheckCircle />}>
+          <GhostButton
+            disabled={isLoading || isHost}
+            onClick={handleGoingButtonClick}
+            startIcon={<CheckCircle />}
+          >
             {t("events.labels.going")}
           </GhostButton>
         </Stack>

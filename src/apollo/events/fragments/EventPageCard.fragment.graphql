@@ -5,6 +5,7 @@ fragment EventPageCard on Event {
   startsAt
   endsAt
   location
+  attendingStatus
 
   coverPhoto {
     id
