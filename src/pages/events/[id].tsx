@@ -1,4 +1,9 @@
-import { Typography } from "@mui/material";
+import {
+  Card,
+  CardContent as MuiCardContent,
+  styled,
+  Typography,
+} from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -7,6 +12,12 @@ import { useEventPageQuery } from "../../apollo/gen";
 import EventPageCard from "../../components/Events/EventPageCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
+
+const CardContent = styled(MuiCardContent)(() => ({
+  "&:last-child": {
+    paddingBottom: 20,
+  },
+}));
 
 const EventPage: NextPage = () => {
   const [tab, setTab] = useState(0);
@@ -35,7 +46,23 @@ const EventPage: NextPage = () => {
     return null;
   }
 
-  return <EventPageCard tab={tab} setTab={setTab} event={data.event} />;
+  return (
+    <>
+      <EventPageCard tab={tab} setTab={setTab} event={data.event} />
+
+      {tab === 0 && (
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              {t("events.headers.whatToExpect")}
+            </Typography>
+
+            <Typography>{data.event.description}</Typography>
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
 };
 
 export default EventPage;

@@ -268,7 +268,8 @@
       "discoverEvents": "Discover Events",
       "planEvents": "Plan Events",
       "upcomingEvents": "Upcoming Events",
-      "pastEvents": "Past Events"
+      "pastEvents": "Past Events",
+      "whatToExpect": "What to Expect"
     },
     "form": {
       "name": "Name",
