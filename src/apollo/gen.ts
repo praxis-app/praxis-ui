@@ -1030,6 +1030,7 @@ export type EventFragment = {
   name: string;
   description: string;
   startsAt: any;
+  attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
 };
 
@@ -1076,6 +1077,7 @@ export type CreateEventMutation = {
       name: string;
       description: string;
       startsAt: any;
+      attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
     };
   };
@@ -1154,6 +1156,7 @@ export type EventsQuery = {
     name: string;
     description: string;
     startsAt: any;
+    attendingStatus?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
   }>;
 };
@@ -1735,6 +1738,7 @@ export type GroupEventsTabQuery = {
       name: string;
       description: string;
       startsAt: any;
+      attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
     }>;
     pastEvents: Array<{
@@ -1743,6 +1747,7 @@ export type GroupEventsTabQuery = {
       name: string;
       description: string;
       startsAt: any;
+      attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
     }>;
   };
@@ -4399,16 +4404,24 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const EventAttendeeButtonsFragmentDoc = gql`
+  fragment EventAttendeeButtons on Event {
+    id
+    attendingStatus
+  }
+`;
 export const EventFragmentDoc = gql`
   fragment Event on Event {
     id
     name
     description
     startsAt
+    ...EventAttendeeButtons
     coverPhoto {
       id
     }
   }
+  ${EventAttendeeButtonsFragmentDoc}
 `;
 export const EventFormFragmentDoc = gql`
   fragment EventForm on Event {
@@ -4418,12 +4431,6 @@ export const EventFormFragmentDoc = gql`
     endsAt
     description
     location
-  }
-`;
-export const EventAttendeeButtonsFragmentDoc = gql`
-  fragment EventAttendeeButtons on Event {
-    id
-    attendingStatus
   }
 `;
 export const EventPageCardFragmentDoc = gql`

@@ -3,6 +3,7 @@ fragment Event on Event {
   name
   description
   startsAt
+  ...EventAttendeeButtons
 
   coverPhoto {
     id
