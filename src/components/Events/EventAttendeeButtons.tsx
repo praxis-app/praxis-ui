@@ -1,5 +1,5 @@
-import { CheckCircle, Star } from "@mui/icons-material";
-import { Stack, StackProps } from "@mui/material";
+import { CheckCircle } from "@mui/icons-material";
+import { ButtonProps, Stack, StackProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
   EventAttendeeButtonsFragment,
@@ -73,18 +73,18 @@ const EventAttendeeButtons = ({
     });
   };
 
-  const renderGoingButton = () => (
-    <GhostButton
-      disabled={isLoading || isHost}
-      onClick={handleInterestedButtonClick}
-      startIcon={<Star />}
-    >
-      {t("events.labels.interested")}
-    </GhostButton>
-  );
+  const interestedButtonProps: ButtonProps = {
+    disabled: isLoading || isHost,
+    onClick: handleInterestedButtonClick,
+    startIcon: <CheckCircle />,
+  };
 
   if (!withGoingButton) {
-    return renderGoingButton();
+    return (
+      <GhostButton {...interestedButtonProps}>
+        {t("events.labels.interested")}
+      </GhostButton>
+    );
   }
 
   return (
@@ -95,7 +95,9 @@ const EventAttendeeButtons = ({
       spacing={1}
       {...stackProps}
     >
-      {renderGoingButton()}
+      <GhostButton {...interestedButtonProps}>
+        {t("events.labels.interested")}
+      </GhostButton>
 
       <GhostButton
         disabled={isLoading || isHost}
