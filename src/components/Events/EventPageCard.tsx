@@ -9,6 +9,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -46,7 +47,7 @@ interface Props extends CardProps {
 }
 
 const EventPageCard = ({
-  event: { id, name, coverPhoto, startsAt, location, group },
+  event: { id, name, coverPhoto, startsAt, endsAt, location, group },
   setTab,
   tab,
 }: Props) => {
@@ -67,7 +68,11 @@ const EventPageCard = ({
   const eventPagePath = `${NavigationPaths.Events}/${id}`;
   const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventTabs.Discussion}`;
+
   const startsAtFormatted = formatDateTime(startsAt);
+  const endsAtFormatted = dayjs(endsAt).format(" [-] h:mm a");
+  const startsAtWithEndsAt = `${startsAtFormatted}${endsAtFormatted}`;
+  const showEndsAt = endsAt && dayjs(startsAt).isSame(endsAt, "day");
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -89,7 +94,7 @@ const EventPageCard = ({
           lineHeight={1}
           variant="overline"
         >
-          {startsAtFormatted}
+          {showEndsAt ? startsAtWithEndsAt : startsAtFormatted}
         </Typography>
         <NameText
           color="primary"
