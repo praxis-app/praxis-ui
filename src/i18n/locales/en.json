@@ -279,7 +279,8 @@
       "endDateAndTime": "End Date and Time"
     },
     "labels": {
-      "eventBy": "Event by"
+      "eventBy": "Event by",
+      "duration": "Duration: {{duration}}"
     },
     "actions": {
       "createEvent": "Create Event"

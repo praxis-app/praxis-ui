@@ -1,4 +1,4 @@
-import { Flag, Place } from "@mui/icons-material";
+import { Flag, Place, Timer } from "@mui/icons-material";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import humanizeDuration from "humanize-duration";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -72,7 +73,13 @@ const EventPageCard = ({
   const startsAtFormatted = formatDateTime(startsAt);
   const endsAtFormatted = dayjs(endsAt).format(" [-] h:mm a");
   const startsAtWithEndsAt = `${startsAtFormatted}${endsAtFormatted}`;
-  const showEndsAt = endsAt && dayjs(startsAt).isSame(endsAt, "day");
+  const isSameDay = endsAt && dayjs(startsAt).isSame(endsAt, "day");
+
+  const difference = dayjs(endsAt).diff(startsAt);
+  const duration = humanizeDuration(difference)
+    .replace(/,/g, "")
+    .replace(/hours|hour/g, t("time.hr"))
+    .replace(/minutes|minute/g, t("time.min"));
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -94,7 +101,7 @@ const EventPageCard = ({
           lineHeight={1}
           variant="overline"
         >
-          {showEndsAt ? startsAtWithEndsAt : startsAtFormatted}
+          {isSameDay ? startsAtWithEndsAt : startsAtFormatted}
         </Typography>
         <NameText
           color="primary"
@@ -120,7 +127,7 @@ const EventPageCard = ({
         )}
 
         {group && (
-          <Typography color="text.secondary">
+          <Typography color="text.secondary" gutterBottom>
             <Flag
               sx={{
                 marginRight: "0.8ch",
@@ -132,6 +139,19 @@ const EventPageCard = ({
             <Link href={groupPagePath} sx={{ marginLeft: "0.4ch" }}>
               {group.name}
             </Link>
+          </Typography>
+        )}
+
+        {endsAt && (
+          <Typography color="text.secondary">
+            <Timer
+              sx={{
+                marginRight: "0.8ch",
+                marginBottom: "-0.3ch",
+              }}
+              fontSize="small"
+            />
+            {t("events.labels.duration", { duration })}
           </Typography>
         )}
       </CardContent>
