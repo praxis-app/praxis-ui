@@ -19,6 +19,7 @@ import {
 } from "../../constants/common.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
+import { formatDateTime } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 
 export const enum EventTabs {
@@ -31,6 +32,7 @@ const NameText = styled(Typography)(() => ({
   marginBottom: 7.5,
 }));
 const CardContent = styled(MuiCardContent)(() => ({
+  paddingTop: 14,
   "&:last-child": {
     paddingBottom: 16,
   },
@@ -42,7 +44,11 @@ interface Props extends CardProps {
   tab: number;
 }
 
-const EventPageCard = ({ event, setTab, tab }: Props) => {
+const EventPageCard = ({
+  event: { id, name, coverPhoto, startsAt },
+  setTab,
+  tab,
+}: Props) => {
   const { query } = useRouter();
   const { t } = useTranslation();
   const isAboveMedium = useAboveBreakpoint("md");
@@ -57,9 +63,9 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
     }
   }, [query.tab, setTab]);
 
-  const { id, name, coverPhoto } = event;
   const eventPagePath = `${NavigationPaths.Events}/${id}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventTabs.Discussion}`;
+  const startsAtFormatted = formatDateTime(startsAt);
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -80,6 +86,14 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
     <Card>
       <CoverPhoto imageId={coverPhoto?.id} />
       <CardContent>
+        <Typography
+          color="text.secondary"
+          fontSize="14px"
+          lineHeight={1}
+          variant="overline"
+        >
+          {startsAtFormatted}
+        </Typography>
         <NameText color="primary" variant="h6" sx={nameTextStyles}>
           {name}
         </NameText>
