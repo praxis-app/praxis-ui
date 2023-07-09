@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useState } from "react";
@@ -10,20 +10,19 @@ import { getImagePath } from "../../utils/image.utils";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
+import EventAttendeeButtons from "./EventAttendeeButtons";
 
 interface Props {
   event: EventFragment;
   isLast: boolean;
 }
 
-const Event = ({
-  event: { id, coverPhoto, startsAt, name },
-  isLast,
-}: Props) => {
+const Event = ({ event, isLast }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteEvent] = useDeleteEventMutation();
   const { t } = useTranslation();
 
+  const { id, coverPhoto, startsAt, name } = event;
   const imageSrc = getImagePath(coverPhoto.id);
   const eventPagePath = `${NavigationPaths.Events}/${id}`;
   const startDate = dayjs(startsAt).format("ddd, MMM D, YYYY");
@@ -86,16 +85,19 @@ const Event = ({
             </Typography>
           </Link>
 
-          <ItemMenu
-            itemId={id}
-            anchorEl={menuAnchorEl}
-            setAnchorEl={setMenuAnchorEl}
-            buttonStyles={{ maxWidth: 40, minWidth: 40 }}
-            deleteItem={handleDelete}
-            deletePrompt={deletePrompt}
-            variant="ghost"
-            canDelete
-          />
+          <Stack direction="row" spacing={1}>
+            <EventAttendeeButtons event={event} withGoingButton={false} />
+            <ItemMenu
+              itemId={id}
+              anchorEl={menuAnchorEl}
+              setAnchorEl={setMenuAnchorEl}
+              buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+              deleteItem={handleDelete}
+              deletePrompt={deletePrompt}
+              variant="ghost"
+              canDelete
+            />
+          </Stack>
         </Box>
       </Flex>
 

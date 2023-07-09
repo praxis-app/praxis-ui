@@ -73,6 +73,20 @@ const EventAttendeeButtons = ({
     });
   };
 
+  const renderGoingButton = () => (
+    <GhostButton
+      disabled={isLoading || isHost}
+      onClick={handleInterestedButtonClick}
+      startIcon={<Star />}
+    >
+      {t("events.labels.interested")}
+    </GhostButton>
+  );
+
+  if (!withGoingButton) {
+    return renderGoingButton();
+  }
+
   return (
     <Stack
       direction="row"
@@ -81,23 +95,15 @@ const EventAttendeeButtons = ({
       spacing={1}
       {...stackProps}
     >
+      {renderGoingButton()}
+
       <GhostButton
         disabled={isLoading || isHost}
-        onClick={handleInterestedButtonClick}
-        startIcon={<Star />}
+        onClick={handleGoingButtonClick}
+        startIcon={<CheckCircle />}
       >
-        {t("events.labels.interested")}
+        {t("events.labels.going")}
       </GhostButton>
-
-      {withGoingButton && (
-        <GhostButton
-          disabled={isLoading || isHost}
-          onClick={handleGoingButtonClick}
-          startIcon={<CheckCircle />}
-        >
-          {t("events.labels.going")}
-        </GhostButton>
-      )}
     </Stack>
   );
 };
