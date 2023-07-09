@@ -1,9 +1,10 @@
-import { Flag, Place, Timer } from "@mui/icons-material";
+import { CheckCircle, Flag, Place, Star, Timer } from "@mui/icons-material";
 import {
   Card,
   CardContent as MuiCardContent,
   CardProps,
   Divider,
+  Stack,
   styled,
   SxProps,
   Tab,
@@ -24,6 +25,7 @@ import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { formatDateTime } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
+import GhostButton from "../Shared/GhostButton";
 import Link from "../Shared/Link";
 
 export const enum EventTabs {
@@ -103,22 +105,31 @@ const EventPageCard = ({
       <CoverPhoto imageId={coverPhoto?.id} />
       <CardContent>
         <Typography
-          color="text.secondary"
+          color="#dd3f4f"
           fontSize="14px"
           lineHeight={1}
           variant="overline"
+          fontFamily="Inter Bold"
         >
           {isSameDay ? startsAtWithEndsAt : startsAtFormatted}
         </Typography>
         <NameText
           color="primary"
-          variant="h6"
+          variant="h5"
           width={getNameTextWidth()}
-          marginBottom={1}
-          marginTop={0.3}
+          marginTop={0.5}
         >
           {name}
         </NameText>
+
+        <Stack direction="row" spacing={1} marginBottom={2} marginTop={1.5}>
+          <GhostButton startIcon={<Star />}>
+            {t("events.labels.interested")}
+          </GhostButton>
+          <GhostButton startIcon={<CheckCircle />}>
+            {t("events.labels.going")}
+          </GhostButton>
+        </Stack>
 
         {location && (
           <Typography color="text.secondary" gutterBottom>

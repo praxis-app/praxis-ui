@@ -101,7 +101,7 @@ const theme = createTheme(initialTheme, {
     MuiButton: {
       styleOverrides: {
         startIcon: {
-          marginRight: "0.25ch",
+          marginRight: "0.6ch",
         },
       },
     },

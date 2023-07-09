@@ -266,22 +266,24 @@
   "events": {
     "headers": {
       "discoverEvents": "Discover Events",
+      "pastEvents": "Past Events",
       "planEvents": "Plan Events",
       "upcomingEvents": "Upcoming Events",
-      "pastEvents": "Past Events",
       "whatToExpect": "What to Expect"
     },
     "form": {
       "name": "Name",
       "description": "Description",
-      "location": "Location",
+      "endDateAndTime": "End Date and Time",
       "includeLocation": "Include place or address",
-      "startDateAndTime": "Start Date and Time",
-      "endDateAndTime": "End Date and Time"
+      "location": "Location",
+      "startDateAndTime": "Start Date and Time"
     },
     "labels": {
+      "duration": "Duration: {{duration}}",
       "eventBy": "Event by",
-      "duration": "Duration: {{duration}}"
+      "going": "Going",
+      "interested": "Interested"
     },
     "actions": {
       "createEvent": "Create Event"
