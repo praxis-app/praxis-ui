@@ -1,0 +1,4 @@
+fragment EventAttendeeButtons on Event {
+  id
+  attendingStatus
+}

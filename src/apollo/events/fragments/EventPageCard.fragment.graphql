@@ -2,10 +2,10 @@ fragment EventPageCard on Event {
   id
   name
   description
+  location
   startsAt
   endsAt
-  location
-  attendingStatus
+  ...EventAttendeeButtons
 
   coverPhoto {
     id

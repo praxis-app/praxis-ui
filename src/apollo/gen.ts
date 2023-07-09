@@ -1033,6 +1033,12 @@ export type EventFragment = {
   coverPhoto: { __typename?: "Image"; id: number };
 };
 
+export type EventAttendeeButtonsFragment = {
+  __typename?: "Event";
+  id: number;
+  attendingStatus?: string | null;
+};
+
 export type EventFormFragment = {
   __typename?: "Event";
   id: number;
@@ -1048,9 +1054,9 @@ export type EventPageCardFragment = {
   id: number;
   name: string;
   description: string;
+  location?: string | null;
   startsAt: any;
   endsAt?: any | null;
-  location?: string | null;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
   group?: { __typename?: "Group"; id: number; name: string } | null;
@@ -1129,9 +1135,9 @@ export type EventPageQuery = {
     id: number;
     name: string;
     description: string;
+    location?: string | null;
     startsAt: any;
     endsAt?: any | null;
-    location?: string | null;
     attendingStatus?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
     group?: { __typename?: "Group"; id: number; name: string } | null;
@@ -4414,15 +4420,21 @@ export const EventFormFragmentDoc = gql`
     location
   }
 `;
+export const EventAttendeeButtonsFragmentDoc = gql`
+  fragment EventAttendeeButtons on Event {
+    id
+    attendingStatus
+  }
+`;
 export const EventPageCardFragmentDoc = gql`
   fragment EventPageCard on Event {
     id
     name
     description
+    location
     startsAt
     endsAt
-    location
-    attendingStatus
+    ...EventAttendeeButtons
     coverPhoto {
       id
     }
@@ -4431,6 +4443,7 @@ export const EventPageCardFragmentDoc = gql`
       name
     }
   }
+  ${EventAttendeeButtonsFragmentDoc}
 `;
 export const GroupRoleFragmentDoc = gql`
   fragment GroupRole on GroupRole {
