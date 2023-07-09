@@ -1,10 +1,10 @@
+import { Flag, Place } from "@mui/icons-material";
 import {
   Card,
   CardContent as MuiCardContent,
   CardProps,
   Divider,
   styled,
-  SxProps,
   Tab,
   Tabs,
   Typography,
@@ -21,6 +21,7 @@ import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { formatDateTime } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
+import Link from "../Shared/Link";
 
 export const enum EventTabs {
   About = "about",
@@ -45,7 +46,7 @@ interface Props extends CardProps {
 }
 
 const EventPageCard = ({
-  event: { id, name, coverPhoto, startsAt },
+  event: { id, name, coverPhoto, startsAt, location, group },
   setTab,
   tab,
 }: Props) => {
@@ -64,6 +65,7 @@ const EventPageCard = ({
   }, [query.tab, setTab]);
 
   const eventPagePath = `${NavigationPaths.Events}/${id}`;
+  const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventTabs.Discussion}`;
   const startsAtFormatted = formatDateTime(startsAt);
 
@@ -75,11 +77,6 @@ const EventPageCard = ({
       return "70%";
     }
     return "100%";
-  };
-
-  const nameTextStyles: SxProps = {
-    width: getNameTextWidth(),
-    marginBottom: 1,
   };
 
   return (
@@ -94,9 +91,42 @@ const EventPageCard = ({
         >
           {startsAtFormatted}
         </Typography>
-        <NameText color="primary" variant="h6" sx={nameTextStyles}>
+        <NameText
+          sx={{ width: getNameTextWidth(), marginBottom: 1 }}
+          color="primary"
+          variant="h6"
+        >
           {name}
         </NameText>
+
+        {location && (
+          <Typography color="text.secondary" gutterBottom>
+            <Place
+              sx={{
+                marginRight: "0.5ch",
+                marginBottom: "-0.3ch",
+              }}
+              fontSize="small"
+            />
+            {location}
+          </Typography>
+        )}
+
+        {group && (
+          <Typography color="text.secondary">
+            <Flag
+              sx={{
+                marginRight: "0.5ch",
+                marginBottom: "-0.3ch",
+              }}
+              fontSize="small"
+            />
+            {t("events.labels.eventBy")}
+            <Link href={groupPagePath} sx={{ marginLeft: "0.4ch" }}>
+              {group.name}
+            </Link>
+          </Typography>
+        )}
       </CardContent>
 
       <Divider sx={{ marginX: "16px", marginBottom: 0.25 }} />

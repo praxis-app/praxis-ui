@@ -278,6 +278,9 @@
       "startDateAndTime": "Start Date and Time",
       "endDateAndTime": "End Date and Time"
     },
+    "labels": {
+      "eventBy": "Event by"
+    },
     "actions": {
       "createEvent": "Create Event"
     },

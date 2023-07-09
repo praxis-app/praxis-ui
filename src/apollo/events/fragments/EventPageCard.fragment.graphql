@@ -4,8 +4,14 @@ fragment EventPageCard on Event {
   description
   startsAt
   endsAt
+  location
 
   coverPhoto {
     id
+  }
+
+  group {
+    id
+    name
   }
 }

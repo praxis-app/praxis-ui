@@ -1,5 +1,5 @@
 query EventPage($id: Int!) {
   event(id: $id) {
-    ...Event
+    ...EventPageCard
   }
 }

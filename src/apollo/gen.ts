@@ -1014,7 +1014,9 @@ export type EventPageCardFragment = {
   description: string;
   startsAt: any;
   endsAt?: any | null;
+  location?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
+  group?: { __typename?: "Group"; id: number; name: string } | null;
 };
 
 export type CreateEventMutationVariables = Exact<{
@@ -1057,7 +1059,10 @@ export type EventPageQuery = {
     name: string;
     description: string;
     startsAt: any;
+    endsAt?: any | null;
+    location?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
+    group?: { __typename?: "Group"; id: number; name: string } | null;
   };
 };
 
@@ -4344,8 +4349,13 @@ export const EventPageCardFragmentDoc = gql`
     description
     startsAt
     endsAt
+    location
     coverPhoto {
       id
+    }
+    group {
+      id
+      name
     }
   }
 `;
@@ -5251,10 +5261,10 @@ export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<
 export const EventPageDocument = gql`
   query EventPage($id: Int!) {
     event(id: $id) {
-      ...Event
+      ...EventPageCard
     }
   }
-  ${EventFragmentDoc}
+  ${EventPageCardFragmentDoc}
 `;
 
 /**
