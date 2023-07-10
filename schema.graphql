@@ -532,7 +532,7 @@ input UpdateEventAttendeeInput {
 }
 
 type UpdateEventAttendeePayload {
-  eventAttendee: EventAttendee!
+  event: Event!
 }
 
 input UpdateEventInput {

@@ -810,7 +810,7 @@ export type UpdateEventAttendeeInput = {
 
 export type UpdateEventAttendeePayload = {
   __typename?: "UpdateEventAttendeePayload";
-  eventAttendee: EventAttendee;
+  event: Event;
 };
 
 export type UpdateEventInput = {
@@ -1095,16 +1095,6 @@ export type CreateEventAttendeeMutation = {
       __typename?: "Event";
       id: number;
       attendingStatus?: string | null;
-      attendees: Array<{
-        __typename?: "EventAttendee";
-        id: number;
-        user: {
-          __typename?: "User";
-          id: number;
-          name: string;
-          profilePicture: { __typename?: "Image"; id: number };
-        };
-      }>;
     };
   };
 };
@@ -1125,6 +1115,22 @@ export type DeleteEventAttendeeMutationVariables = Exact<{
 export type DeleteEventAttendeeMutation = {
   __typename?: "Mutation";
   deleteEventAttendee: boolean;
+};
+
+export type UpdateEventAttendeeMutationVariables = Exact<{
+  eventAttendeeData: UpdateEventAttendeeInput;
+}>;
+
+export type UpdateEventAttendeeMutation = {
+  __typename?: "Mutation";
+  updateEventAttendee: {
+    __typename?: "UpdateEventAttendeePayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      attendingStatus?: string | null;
+    };
+  };
 };
 
 export type EventPageQueryVariables = Exact<{
@@ -5310,16 +5316,9 @@ export const CreateEventAttendeeDocument = gql`
       event {
         id
         attendingStatus
-        attendees {
-          id
-          user {
-            ...UserAvatar
-          }
-        }
       }
     }
   }
-  ${UserAvatarFragmentDoc}
 `;
 export type CreateEventAttendeeMutationFn = Apollo.MutationFunction<
   CreateEventAttendeeMutation,
@@ -5459,6 +5458,59 @@ export type DeleteEventAttendeeMutationResult =
 export type DeleteEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
   DeleteEventAttendeeMutation,
   DeleteEventAttendeeMutationVariables
+>;
+export const UpdateEventAttendeeDocument = gql`
+  mutation UpdateEventAttendee($eventAttendeeData: UpdateEventAttendeeInput!) {
+    updateEventAttendee(eventAttendeeData: $eventAttendeeData) {
+      event {
+        id
+        attendingStatus
+      }
+    }
+  }
+`;
+export type UpdateEventAttendeeMutationFn = Apollo.MutationFunction<
+  UpdateEventAttendeeMutation,
+  UpdateEventAttendeeMutationVariables
+>;
+
+/**
+ * __useUpdateEventAttendeeMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventAttendeeMutation, { data, loading, error }] = useUpdateEventAttendeeMutation({
+ *   variables: {
+ *      eventAttendeeData: // value for 'eventAttendeeData'
+ *   },
+ * });
+ */
+export function useUpdateEventAttendeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEventAttendeeMutation,
+    UpdateEventAttendeeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateEventAttendeeMutation,
+    UpdateEventAttendeeMutationVariables
+  >(UpdateEventAttendeeDocument, options);
+}
+export type UpdateEventAttendeeMutationHookResult = ReturnType<
+  typeof useUpdateEventAttendeeMutation
+>;
+export type UpdateEventAttendeeMutationResult =
+  Apollo.MutationResult<UpdateEventAttendeeMutation>;
+export type UpdateEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEventAttendeeMutation,
+  UpdateEventAttendeeMutationVariables
 >;
 export const EventPageDocument = gql`
   query EventPage($id: Int!) {

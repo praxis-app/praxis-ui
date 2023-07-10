@@ -1,0 +1,8 @@
+mutation UpdateEventAttendee($eventAttendeeData: UpdateEventAttendeeInput!) {
+  updateEventAttendee(eventAttendeeData: $eventAttendeeData) {
+    event {
+      id
+      attendingStatus
+    }
+  }
+}
