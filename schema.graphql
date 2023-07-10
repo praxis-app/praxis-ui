@@ -527,7 +527,7 @@ type SignUpPayload {
 }
 
 input UpdateEventAttendeeInput {
-  id: Int!
+  eventId: Int!
   status: String!
 }
 

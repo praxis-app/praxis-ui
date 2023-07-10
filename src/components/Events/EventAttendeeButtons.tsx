@@ -12,6 +12,7 @@ import {
   EventAttendeeButtonsFragment,
   useCreateEventAttendeeMutation,
   useDeleteEventAttendeeMutation,
+  useUpdateEventAttendeeMutation,
 } from "../../apollo/gen";
 import GhostButton from "../Shared/GhostButton";
 import { BLURPLE_BUTTON_COLORS } from "../Shared/PrimaryActionButton";
@@ -47,10 +48,14 @@ const EventAttendeeButtons = ({
     useCreateEventAttendeeMutation();
   const [deleteEventAttendee, { loading: deleteAttendeeLoading }] =
     useDeleteEventAttendeeMutation();
+  const [updateEventAttendee, { loading: updateAttendeeLoading }] =
+    useUpdateEventAttendeeMutation();
 
   const { t } = useTranslation();
 
-  const isLoading = createAttendeeLoading || deleteAttendeeLoading;
+  const isLoading =
+    createAttendeeLoading || updateAttendeeLoading || deleteAttendeeLoading;
+
   const isGoing = attendingStatus === EventAttendeeStatus.Going;
   const isHosting = attendingStatus === EventAttendeeStatus.Host;
   const isInterested = attendingStatus === EventAttendeeStatus.Interested;
@@ -73,18 +78,17 @@ const EventAttendeeButtons = ({
       });
       return;
     }
+    const variables = {
+      eventAttendeeData: {
+        status: EventAttendeeStatus.Interested,
+        eventId: id,
+      },
+    };
     if (isGoing) {
-      // TODO: Add update logic here
+      await updateEventAttendee({ variables });
       return;
     }
-    await createEventAttendee({
-      variables: {
-        eventAttendeeData: {
-          status: EventAttendeeStatus.Interested,
-          eventId: id,
-        },
-      },
-    });
+    await createEventAttendee({ variables });
   };
 
   const handleGoingButtonClick = async () => {
@@ -95,18 +99,17 @@ const EventAttendeeButtons = ({
       });
       return;
     }
+    const variables = {
+      eventAttendeeData: {
+        status: EventAttendeeStatus.Going,
+        eventId: id,
+      },
+    };
     if (isInterested) {
-      // TODO: Add update logic here
+      await updateEventAttendee({ variables });
       return;
     }
-    await createEventAttendee({
-      variables: {
-        eventAttendeeData: {
-          status: EventAttendeeStatus.Going,
-          eventId: id,
-        },
-      },
-    });
+    await createEventAttendee({ variables });
   };
 
   const interestedButtonProps: ButtonProps = {

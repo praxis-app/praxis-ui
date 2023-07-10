@@ -804,7 +804,7 @@ export type SignUpPayload = {
 };
 
 export type UpdateEventAttendeeInput = {
-  id: Scalars["Int"];
+  eventId: Scalars["Int"];
   status: Scalars["String"];
 };
 
