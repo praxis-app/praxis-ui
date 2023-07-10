@@ -33,14 +33,16 @@ const EventAttendeeButtons = ({
   const { t } = useTranslation();
 
   const isLoading = createAttendeeLoading || deleteAttendeeLoading;
-  const isHost = attendingStatus === EventAttendeeStatus.Host;
+  const isGoing = attendingStatus === EventAttendeeStatus.Going;
+  const isHosting = attendingStatus === EventAttendeeStatus.Host;
+  const isInterested = attendingStatus === EventAttendeeStatus.Interested;
 
   const handleInterestedButtonClick = async () => {
-    if (attendingStatus === EventAttendeeStatus.Interested) {
+    if (isInterested) {
       await deleteEventAttendee({ variables: { eventId: id } });
       return;
     }
-    if (attendingStatus === EventAttendeeStatus.Going) {
+    if (isGoing) {
       // TODO: Add update logic here
       return;
     }
@@ -55,11 +57,11 @@ const EventAttendeeButtons = ({
   };
 
   const handleGoingButtonClick = async () => {
-    if (attendingStatus === EventAttendeeStatus.Going) {
+    if (isGoing) {
       await deleteEventAttendee({ variables: { eventId: id } });
       return;
     }
-    if (attendingStatus === EventAttendeeStatus.Interested) {
+    if (isInterested) {
       // TODO: Add update logic here
       return;
     }
@@ -74,7 +76,7 @@ const EventAttendeeButtons = ({
   };
 
   const interestedButtonProps: ButtonProps = {
-    disabled: isLoading || isHost,
+    disabled: isLoading || isHosting,
     onClick: handleInterestedButtonClick,
     startIcon: <CheckCircle />,
   };
@@ -100,7 +102,7 @@ const EventAttendeeButtons = ({
       </GhostButton>
 
       <GhostButton
-        disabled={isLoading || isHost}
+        disabled={isLoading || isHosting}
         onClick={handleGoingButtonClick}
         startIcon={<CheckCircle />}
       >
