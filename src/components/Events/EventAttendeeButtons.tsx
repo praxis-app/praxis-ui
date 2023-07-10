@@ -26,7 +26,10 @@ const PrimaryButton = styled(MuiButton)(({ theme }) => ({
   ...BLURPLE_BUTTON_COLORS,
   color: theme.palette.text.primary,
   fontFamily: "Inter Bold",
+  letterSpacing: "0.3px",
+  padding: "6px 16px",
   textTransform: "none",
+  borderRadius: 8,
 }));
 
 interface Props extends StackProps {
