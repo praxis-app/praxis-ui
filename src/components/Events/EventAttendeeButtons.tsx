@@ -1,3 +1,4 @@
+import { ApolloCache } from "@apollo/client";
 import { CheckCircle, Star } from "@mui/icons-material";
 import {
   Button as MuiButton,
@@ -38,7 +39,7 @@ interface Props extends StackProps {
 }
 
 const EventAttendeeButtons = ({
-  event: { id, attendingStatus },
+  event: { id, attendingStatus, __typename },
   withGoingButton = true,
   ...stackProps
 }: Props) => {
@@ -57,9 +58,19 @@ const EventAttendeeButtons = ({
   const GoingButton = isGoing ? PrimaryButton : GhostButton;
   const InterestedButton = isInterested ? PrimaryButton : GhostButton;
 
+  const removeAttendee = (cache: ApolloCache<any>) => {
+    cache.modify({
+      id: cache.identify({ id, __typename }),
+      fields: { attendingStatus: () => null },
+    });
+  };
+
   const handleInterestedButtonClick = async () => {
     if (isInterested) {
-      await deleteEventAttendee({ variables: { eventId: id } });
+      await deleteEventAttendee({
+        variables: { eventId: id },
+        update: removeAttendee,
+      });
       return;
     }
     if (isGoing) {
@@ -78,7 +89,10 @@ const EventAttendeeButtons = ({
 
   const handleGoingButtonClick = async () => {
     if (isGoing) {
-      await deleteEventAttendee({ variables: { eventId: id } });
+      await deleteEventAttendee({
+        variables: { eventId: id },
+        update: removeAttendee,
+      });
       return;
     }
     if (isInterested) {
