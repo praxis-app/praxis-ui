@@ -283,7 +283,11 @@
       "duration": "Duration: {{duration}}",
       "eventBy": "Event by",
       "going": "Going",
-      "interested": "Interested"
+      "interested": "Interested",
+      "online": "Online",
+      "past": "Past",
+      "thisWeek": "This Week",
+      "upcoming": "Upcoming"
     },
     "actions": {
       "createEvent": "Create Event"
