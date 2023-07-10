@@ -1,5 +1,11 @@
-import { CheckCircle } from "@mui/icons-material";
-import { ButtonProps, Stack, StackProps } from "@mui/material";
+import { CheckCircle, Star } from "@mui/icons-material";
+import {
+  Button as MuiButton,
+  ButtonProps,
+  Stack,
+  StackProps,
+  styled,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
   EventAttendeeButtonsFragment,
@@ -7,6 +13,7 @@ import {
   useDeleteEventAttendeeMutation,
 } from "../../apollo/gen";
 import GhostButton from "../Shared/GhostButton";
+import { BLURPLE_BUTTON_COLORS } from "../Shared/PrimaryActionButton";
 
 enum EventAttendeeStatus {
   CoHost = "co-host",
@@ -14,6 +21,13 @@ enum EventAttendeeStatus {
   Host = "host",
   Interested = "interested",
 }
+
+const PrimaryButton = styled(MuiButton)(({ theme }) => ({
+  ...BLURPLE_BUTTON_COLORS,
+  color: theme.palette.text.primary,
+  fontFamily: "Inter Bold",
+  textTransform: "none",
+}));
 
 interface Props extends StackProps {
   event: EventAttendeeButtonsFragment;
@@ -36,6 +50,9 @@ const EventAttendeeButtons = ({
   const isGoing = attendingStatus === EventAttendeeStatus.Going;
   const isHosting = attendingStatus === EventAttendeeStatus.Host;
   const isInterested = attendingStatus === EventAttendeeStatus.Interested;
+
+  const GoingButton = isGoing ? PrimaryButton : GhostButton;
+  const InterestedButton = isInterested ? PrimaryButton : GhostButton;
 
   const handleInterestedButtonClick = async () => {
     if (isInterested) {
@@ -78,14 +95,14 @@ const EventAttendeeButtons = ({
   const interestedButtonProps: ButtonProps = {
     disabled: isLoading || isHosting,
     onClick: handleInterestedButtonClick,
-    startIcon: <CheckCircle />,
+    startIcon: <Star />,
   };
 
   if (!withGoingButton) {
     return (
-      <GhostButton {...interestedButtonProps}>
+      <InterestedButton {...interestedButtonProps}>
         {t("events.labels.interested")}
-      </GhostButton>
+      </InterestedButton>
     );
   }
 
@@ -97,17 +114,17 @@ const EventAttendeeButtons = ({
       spacing={1}
       {...stackProps}
     >
-      <GhostButton {...interestedButtonProps}>
+      <InterestedButton {...interestedButtonProps}>
         {t("events.labels.interested")}
-      </GhostButton>
+      </InterestedButton>
 
-      <GhostButton
+      <GoingButton
         disabled={isLoading || isHosting}
         onClick={handleGoingButtonClick}
         startIcon={<CheckCircle />}
       >
         {t("events.labels.going")}
-      </GhostButton>
+      </GoingButton>
     </Stack>
   );
 };
