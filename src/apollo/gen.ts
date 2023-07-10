@@ -1094,6 +1094,7 @@ export type CreateEventAttendeeMutation = {
     event: {
       __typename?: "Event";
       id: number;
+      attendingStatus?: string | null;
       attendees: Array<{
         __typename?: "EventAttendee";
         id: number;
@@ -5308,6 +5309,7 @@ export const CreateEventAttendeeDocument = gql`
     createEventAttendee(eventAttendeeData: $eventAttendeeData) {
       event {
         id
+        attendingStatus
         attendees {
           id
           user {

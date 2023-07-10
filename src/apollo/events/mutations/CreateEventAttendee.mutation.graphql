@@ -2,6 +2,7 @@ mutation CreateEventAttendee($eventAttendeeData: CreateEventAttendeeInput!) {
   createEventAttendee(eventAttendeeData: $eventAttendeeData) {
     event {
       id
+      attendingStatus
       attendees {
         id
         user {
