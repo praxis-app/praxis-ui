@@ -162,6 +162,11 @@ type EventAttendee {
   user: User!
 }
 
+input EventsInput {
+  online: Boolean
+  timeFrame: String
+}
+
 union FeedItem = Post | Proposal
 
 type FollowUserPayload {
@@ -439,7 +444,7 @@ input ProposalActionRoleMemberInput {
 type Query {
   authCheck: Boolean!
   event(id: Int): Event!
-  events: [Event!]!
+  events(filter: EventsInput!): [Event!]!
   group(id: Int, name: String): Group!
   groupMemberRequest(groupId: Int!): GroupMemberRequest
   groupRole(id: Int!): GroupRole!

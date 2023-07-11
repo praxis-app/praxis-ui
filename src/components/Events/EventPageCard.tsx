@@ -27,7 +27,7 @@ import CoverPhoto from "../Images/CoverPhoto";
 import Link from "../Shared/Link";
 import EventAttendeeButtons from "./EventAttendeeButtons";
 
-enum EventTabs {
+enum EventPageTabs {
   About = "about",
   Discussion = "discussion",
 }
@@ -59,7 +59,7 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
     if (!query.tab) {
       return;
     }
-    if (query.tab === EventTabs.Discussion) {
+    if (query.tab === EventPageTabs.Discussion) {
       setTab(1);
     }
   }, [query.tab, setTab]);
@@ -68,7 +68,7 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
 
   const eventPagePath = `${NavigationPaths.Events}/${id}`;
   const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
-  const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventTabs.Discussion}`;
+  const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
   const startsAtFormatted = formatDateTime(startsAt);
   const endsAtFormatted = dayjs(endsAt).format(" [-] h:mm a");

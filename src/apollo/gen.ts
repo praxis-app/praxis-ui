@@ -202,6 +202,11 @@ export type EventAttendee = {
   user: User;
 };
 
+export type EventsInput = {
+  online?: InputMaybe<Scalars["Boolean"]>;
+  timeFrame?: InputMaybe<Scalars["String"]>;
+};
+
 export type FeedItem = Post | Proposal;
 
 export type FollowUserPayload = {
@@ -694,6 +699,10 @@ export type QueryEventArgs = {
   id?: InputMaybe<Scalars["Int"]>;
 };
 
+export type QueryEventsArgs = {
+  filter: EventsInput;
+};
+
 export type QueryGroupArgs = {
   id?: InputMaybe<Scalars["Int"]>;
   name?: InputMaybe<Scalars["String"]>;
@@ -1153,7 +1162,9 @@ export type EventPageQuery = {
   };
 };
 
-export type EventsQueryVariables = Exact<{ [key: string]: never }>;
+export type EventsQueryVariables = Exact<{
+  filter: EventsInput;
+}>;
 
 export type EventsQuery = {
   __typename?: "Query";
@@ -5567,8 +5578,8 @@ export type EventPageQueryResult = Apollo.QueryResult<
   EventPageQueryVariables
 >;
 export const EventsDocument = gql`
-  query Events {
-    events {
+  query Events($filter: EventsInput!) {
+    events(filter: $filter) {
       ...Event
     }
   }
@@ -5587,11 +5598,12 @@ export const EventsDocument = gql`
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
+ *      filter: // value for 'filter'
  *   },
  * });
  */
 export function useEventsQuery(
-  baseOptions?: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>
+  baseOptions: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<EventsQuery, EventsQueryVariables>(
