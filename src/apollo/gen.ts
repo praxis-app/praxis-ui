@@ -1057,6 +1057,7 @@ export type EventFormFragment = {
   endsAt?: any | null;
   description: string;
   location?: string | null;
+  online: boolean;
 };
 
 export type EventPageCardFragment = {
@@ -4449,6 +4450,7 @@ export const EventFormFragmentDoc = gql`
     endsAt
     description
     location
+    online
   }
 `;
 export const EventPageCardFragmentDoc = gql`

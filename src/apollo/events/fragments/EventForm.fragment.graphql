@@ -5,4 +5,5 @@ fragment EventForm on Event {
   endsAt
   description
   location
+  online
 }

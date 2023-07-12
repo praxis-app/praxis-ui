@@ -1,7 +1,14 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { Add } from "@mui/icons-material";
-import { Button, FormGroup, SxProps } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormGroup,
+  Switch,
+  SxProps,
+  Typography,
+} from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
@@ -33,6 +40,7 @@ export enum EventFormFieldName {
   Location = "location",
   StartsAt = "startsAt",
   EndsAt = "endsAt",
+  Online = "online",
 }
 
 interface Props {
@@ -55,6 +63,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     startsAt: editEvent ? editEvent.startsAt : startOfNextHour(),
     endsAt: editEvent ? editEvent.endsAt : null,
     location: editEvent ? editEvent.location : "",
+    online: editEvent ? editEvent.online : false,
   };
 
   const showEndsAtButtonStyles: SxProps = {
@@ -159,7 +168,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ isSubmitting, dirty, setFieldValue, values }) => (
+      {({ isSubmitting, dirty, setFieldValue, values, handleChange }) => (
         <Form>
           <FormGroup sx={{ marginBottom: 2 }}>
             <TextField
@@ -203,6 +212,24 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               name={EventFormFieldName.Location}
               placeholder={t("events.form.includeLocation")}
             />
+
+            <Flex justifyContent="space-between" marginBottom={0.5}>
+              <Box>
+                <Typography>{t("events.labels.online")}</Typography>
+                <Typography color="text.secondary" fontSize="12px">
+                  {t("events.prompts.planVirtualEvent")}
+                </Typography>
+              </Box>
+              <Switch
+                defaultChecked={!!values.online}
+                inputProps={{ "aria-label": t("labels.switch") }}
+                name={EventFormFieldName.Online}
+                onChange={handleChange}
+                sx={{ marginTop: 0.5 }}
+                edge="end"
+              />
+            </Flex>
+
             {coverPhoto && (
               <AttachedImagePreview
                 handleRemove={handleRemoveSelectedImage}
