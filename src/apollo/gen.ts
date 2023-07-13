@@ -1063,6 +1063,13 @@ export type EventFormFragment = {
   online: boolean;
 };
 
+export type EventItemAvatarFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  coverPhoto: { __typename?: "Image"; id: number };
+};
+
 export type EventPageCardFragment = {
   __typename?: "Event";
   id: number;
@@ -1194,6 +1201,12 @@ export type EventPageQuery = {
           updateGroup: boolean;
         };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+      event?: {
+        __typename?: "Event";
+        id: number;
+        name: string;
+        coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     }>;
     coverPhoto: { __typename?: "Image"; id: number };
@@ -1907,6 +1920,12 @@ export type GroupProfileQuery = {
             };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          event?: {
+            __typename?: "Event";
+            id: number;
+            name: string;
+            coverPhoto: { __typename?: "Image"; id: number };
+          } | null;
         }
       | {
           __typename?: "Proposal";
@@ -2253,6 +2272,12 @@ export type PublicGroupsFeedQuery = {
           };
           coverPhoto?: { __typename?: "Image"; id: number } | null;
         } | null;
+        event?: {
+          __typename?: "Event";
+          id: number;
+          name: string;
+          coverPhoto: { __typename?: "Image"; id: number };
+        } | null;
       }
     | {
         __typename?: "Proposal";
@@ -2490,6 +2515,12 @@ type FeedItem_Post_Fragment = {
     };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  event?: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    coverPhoto: { __typename?: "Image"; id: number };
+  } | null;
 };
 
 type FeedItem_Proposal_Fragment = {
@@ -2614,6 +2645,12 @@ export type PostCardFragment = {
     };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  event?: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    coverPhoto: { __typename?: "Image"; id: number };
+  } | null;
 };
 
 export type PostCardFooterFragment = {
@@ -2671,6 +2708,12 @@ export type CreatePostMutation = {
           updateGroup: boolean;
         };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+      event?: {
+        __typename?: "Event";
+        id: number;
+        name: string;
+        coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     };
   };
@@ -2749,6 +2792,12 @@ export type UpdatePostMutation = {
         };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
+      event?: {
+        __typename?: "Event";
+        id: number;
+        name: string;
+        coverPhoto: { __typename?: "Image"; id: number };
+      } | null;
     };
   };
 };
@@ -2806,6 +2855,12 @@ export type PostQuery = {
         updateGroup: boolean;
       };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
+    } | null;
+    event?: {
+      __typename?: "Event";
+      id: number;
+      name: string;
+      coverPhoto: { __typename?: "Image"; id: number };
     } | null;
   };
 };
@@ -3821,6 +3876,12 @@ export type FollowUserMutation = {
               };
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
+            event?: {
+              __typename?: "Event";
+              id: number;
+              name: string;
+              coverPhoto: { __typename?: "Image"; id: number };
+            } | null;
           }
         | {
             __typename?: "Proposal";
@@ -4057,6 +4118,12 @@ export type HomeFeedQuery = {
             };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
+          event?: {
+            __typename?: "Event";
+            id: number;
+            name: string;
+            coverPhoto: { __typename?: "Image"; id: number };
+          } | null;
         }
       | {
           __typename?: "Proposal";
@@ -4223,6 +4290,12 @@ export type UserProfileQuery = {
               updateGroup: boolean;
             };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          event?: {
+            __typename?: "Event";
+            id: number;
+            name: string;
+            coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
       | {
@@ -4709,6 +4782,15 @@ export const AttachedImageFragmentDoc = gql`
     filename
   }
 `;
+export const EventItemAvatarFragmentDoc = gql`
+  fragment EventItemAvatar on Event {
+    id
+    name
+    coverPhoto {
+      id
+    }
+  }
+`;
 export const PostCardFooterFragmentDoc = gql`
   fragment PostCardFooter on Post {
     id
@@ -4733,12 +4815,16 @@ export const PostCardFragmentDoc = gql`
         ...GroupPermissions
       }
     }
+    event {
+      ...EventItemAvatar
+    }
     ...PostCardFooter
   }
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
   ${GroupPermissionsFragmentDoc}
+  ${EventItemAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
 export const ProposalActionPermissionFragmentDoc = gql`

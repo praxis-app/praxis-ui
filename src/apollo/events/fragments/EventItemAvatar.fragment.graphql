@@ -1,0 +1,7 @@
+fragment EventItemAvatar on Event {
+  id
+  name
+  coverPhoto {
+    id
+  }
+}
