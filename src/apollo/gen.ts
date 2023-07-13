@@ -47,7 +47,7 @@ export type CreateEventInput = {
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
-  groupId?: InputMaybe<Scalars["Float"]>;
+  groupId?: InputMaybe<Scalars["Int"]>;
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   online?: InputMaybe<Scalars["Boolean"]>;
@@ -97,6 +97,7 @@ export type CreateLikePayload = {
 
 export type CreatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
+  eventId?: InputMaybe<Scalars["Int"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
   images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
@@ -188,6 +189,7 @@ export type Event = {
   location?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   online: Scalars["Boolean"];
+  posts: Array<Post>;
   startsAt: Scalars["DateTime"];
   updatedAt: Scalars["DateTime"];
 };
@@ -572,6 +574,7 @@ export type Post = {
   __typename?: "Post";
   body?: Maybe<Scalars["String"]>;
   createdAt: Scalars["DateTime"];
+  event?: Maybe<Event>;
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
@@ -826,7 +829,7 @@ export type UpdateEventInput = {
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
-  id: Scalars["Float"];
+  id: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   online?: InputMaybe<Scalars["Boolean"]>;
@@ -1145,6 +1148,7 @@ export type UpdateEventAttendeeMutation = {
 
 export type EventPageQueryVariables = Exact<{
   id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type EventPageQuery = {
@@ -1158,6 +1162,40 @@ export type EventPageQuery = {
     startsAt: any;
     endsAt?: any | null;
     attendingStatus?: string | null;
+    posts: Array<{
+      __typename?: "Post";
+      id: number;
+      body?: string | null;
+      createdAt: any;
+      likesCount: number;
+      isLikedByMe?: boolean;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+    }>;
     coverPhoto: { __typename?: "Image"; id: number };
     group?: { __typename?: "Group"; id: number; name: string } | null;
   };
@@ -5526,12 +5564,16 @@ export type UpdateEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
   UpdateEventAttendeeMutationVariables
 >;
 export const EventPageDocument = gql`
-  query EventPage($id: Int!) {
+  query EventPage($id: Int!, $isLoggedIn: Boolean!) {
     event(id: $id) {
       ...EventPageCard
+      posts {
+        ...PostCard
+      }
     }
   }
   ${EventPageCardFragmentDoc}
+  ${PostCardFragmentDoc}
 `;
 
 /**
@@ -5547,6 +5589,7 @@ export const EventPageDocument = gql`
  * const { data, loading, error } = useEventPageQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */

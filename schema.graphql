@@ -16,7 +16,7 @@ input CreateEventInput {
   description: String!
   endsAt: DateTime
   externalLink: String
-  groupId: Float
+  groupId: Int
   location: String
   name: String!
   online: Boolean
@@ -61,6 +61,7 @@ type CreateLikePayload {
 
 input CreatePostInput {
   body: String
+  eventId: Int
   groupId: Int
   images: [Upload!]
 }
@@ -149,6 +150,7 @@ type Event {
   location: String
   name: String!
   online: Boolean!
+  posts: [Post!]!
   startsAt: DateTime!
   updatedAt: DateTime!
 }
@@ -348,6 +350,7 @@ type Mutation {
 type Post {
   body: String
   createdAt: DateTime!
+  event: Event
   group: Group
   id: Int!
   images: [Image!]!
@@ -544,7 +547,7 @@ input UpdateEventInput {
   description: String!
   endsAt: DateTime
   externalLink: String
-  id: Float!
+  id: Int!
   location: String
   name: String!
   online: Boolean

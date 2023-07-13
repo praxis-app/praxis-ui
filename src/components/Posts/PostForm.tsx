@@ -31,9 +31,10 @@ import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 interface Props extends FormikFormProps {
   editPost?: PostFormFragment;
   groupId?: number;
+  eventId?: number;
 }
 
-const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
+const PostForm = ({ editPost, groupId, eventId, ...formProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
 
@@ -45,6 +46,7 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
 
   const initialValues: CreatePostInput = {
     body: editPost?.body || "",
+    eventId,
     groupId,
   };
 
@@ -76,17 +78,29 @@ const PostForm = ({ editPost, groupId, ...formProps }: Props) => {
             },
           },
         });
-        if (!post.group) {
-          return;
-        }
-        cache.modify({
-          id: cache.identify(post.group),
-          fields: {
-            feed(existingRefs, { toReference }) {
-              return [toReference(post), ...existingRefs];
+        if (post.group) {
+          cache.modify({
+            id: cache.identify(post.group),
+            fields: {
+              feed(existingRefs, { toReference }) {
+                return [toReference(post), ...existingRefs];
+              },
             },
-          },
-        });
+          });
+        }
+        if (eventId) {
+          cache.modify({
+            id: cache.identify({
+              __typename: TypeNames.Event,
+              id: eventId,
+            }),
+            fields: {
+              posts(existingRefs, { toReference }) {
+                return [toReference(post), ...existingRefs];
+              },
+            },
+          });
+        }
       },
       onCompleted() {
         resetForm();

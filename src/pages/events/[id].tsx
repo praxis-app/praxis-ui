@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -8,8 +9,11 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { isLoggedInVar } from "../../apollo/cache";
 import { useEventPageQuery } from "../../apollo/gen";
 import EventPageCard from "../../components/Events/EventPageCard";
+import PostForm from "../../components/Posts/PostForm";
+import Feed from "../../components/Shared/Feed";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";
 
@@ -24,8 +28,9 @@ const EventPage: NextPage = () => {
 
   const { query } = useRouter();
   const id = parseInt(String(query?.id));
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data, loading, error } = useEventPageQuery({
-    variables: { id },
+    variables: { id, isLoggedIn },
     skip: !id,
   });
 
@@ -46,9 +51,11 @@ const EventPage: NextPage = () => {
     return null;
   }
 
+  const { event } = data;
+
   return (
     <>
-      <EventPageCard tab={tab} setTab={setTab} event={data.event} />
+      <EventPageCard tab={tab} setTab={setTab} event={event} />
 
       {tab === 0 && (
         <Card>
@@ -57,9 +64,27 @@ const EventPage: NextPage = () => {
               {t("events.headers.whatToExpect")}
             </Typography>
 
-            <Typography>{data.event.description}</Typography>
+            <Typography>{event.description}</Typography>
           </CardContent>
         </Card>
+      )}
+
+      {tab === 1 && (
+        <>
+          <Card>
+            <CardContent
+              sx={{
+                "&:last-child": {
+                  paddingBottom: 1,
+                },
+              }}
+            >
+              <PostForm eventId={id} />
+            </CardContent>
+          </Card>
+
+          <Feed feed={event.posts} />
+        </>
       )}
     </>
   );

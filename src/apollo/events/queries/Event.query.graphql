@@ -1,5 +1,0 @@
-query EventPage($id: Int!) {
-  event(id: $id) {
-    ...EventPageCard
-  }
-}
