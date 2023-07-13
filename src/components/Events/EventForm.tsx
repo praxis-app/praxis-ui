@@ -149,6 +149,22 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     setImageInputKey(getRandomString());
   };
 
+  const handleStartsAtChange =
+    (setFieldValue: (field: string, value: Dayjs | null) => void) =>
+    (value: Dayjs | null) => {
+      setFieldValue(EventFormFieldName.StartsAt, value);
+
+      if (showEndsAt) {
+        const test = dayjs(value).add(1, "hour").startOf("hour");
+        console.log(test);
+
+        setFieldValue(
+          EventFormFieldName.EndsAt,
+          dayjs(value).add(1, "hour").startOf("hour")
+        );
+      }
+    };
+
   const handleShowEndsAtButtonClick =
     (
       values: CreateEventInput,
@@ -181,21 +197,19 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               label={t("events.form.description")}
               name={EventFormFieldName.Description}
             />
+
             <DateTimePicker
               label={t("events.form.startDateAndTime")}
-              onChange={(value: Dayjs | null) =>
-                setFieldValue(EventFormFieldName.StartsAt, value)
-              }
-              defaultValue={values.startsAt}
+              onChange={handleStartsAtChange(setFieldValue)}
+              value={values.startsAt}
             />
-
             {showEndsAt && (
               <DateTimePicker
                 label={t("events.form.endDateAndTime")}
                 onChange={(value: Dayjs | null) =>
                   setFieldValue(EventFormFieldName.EndsAt, value)
                 }
-                defaultValue={values.endsAt}
+                value={values.endsAt}
               />
             )}
             <Button
