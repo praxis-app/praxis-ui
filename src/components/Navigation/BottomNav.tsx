@@ -42,13 +42,13 @@ const BottomNav = () => {
         case NavigationPaths.Home:
           setValue(0);
           break;
-        case getMatching("events"):
-        case NavigationPaths.Events:
-          setValue(1);
-          break;
         case getMatching("groups"):
         case NavigationPaths.Groups:
           setValue(2);
+          break;
+        case getMatching("events"):
+        case NavigationPaths.Events:
+          setValue(1);
           break;
         default:
           setValue(3);
