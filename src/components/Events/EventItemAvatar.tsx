@@ -1,6 +1,6 @@
 import { Avatar, Box, SxProps, useTheme } from "@mui/material";
 import { EventItemAvatarFragment, UserAvatarFragment } from "../../apollo/gen";
-import { NavigationPaths } from "../../constants/common.constants";
+import { getEventPath } from "../../utils/event.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
@@ -13,7 +13,7 @@ interface Props {
 const EventItemAvatar = ({ user, event }: Props) => {
   const theme = useTheme();
 
-  const eventPagePath = `${NavigationPaths.Events}/${event.id}`;
+  const eventPagePath = getEventPath(event.id);
   const imagePath = event.coverPhoto
     ? getImagePath(event.coverPhoto.id)
     : undefined;

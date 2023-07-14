@@ -1153,6 +1153,41 @@ export type UpdateEventAttendeeMutation = {
   };
 };
 
+export type EditEventQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type EditEventQuery = {
+  __typename?: "Query";
+  event: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    startsAt: any;
+    endsAt?: any | null;
+    description: string;
+    location?: string | null;
+    online: boolean;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions: {
+        __typename?: "GroupPermissions";
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
+    } | null;
+  };
+};
+
 export type EventPageQueryVariables = Exact<{
   id: Scalars["Int"];
   isLoggedIn: Scalars["Boolean"];
@@ -5648,6 +5683,67 @@ export type UpdateEventAttendeeMutationResult =
 export type UpdateEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
   UpdateEventAttendeeMutation,
   UpdateEventAttendeeMutationVariables
+>;
+export const EditEventDocument = gql`
+  query EditEvent($id: Int!) {
+    event(id: $id) {
+      ...EventForm
+      group {
+        id
+        myPermissions {
+          ...GroupPermissions
+        }
+      }
+    }
+  }
+  ${EventFormFragmentDoc}
+  ${GroupPermissionsFragmentDoc}
+`;
+
+/**
+ * __useEditEventQuery__
+ *
+ * To run a query within a React component, call `useEditEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditEventQuery(
+  baseOptions: Apollo.QueryHookOptions<EditEventQuery, EditEventQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditEventQuery, EditEventQueryVariables>(
+    EditEventDocument,
+    options
+  );
+}
+export function useEditEventLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditEventQuery,
+    EditEventQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditEventQuery, EditEventQueryVariables>(
+    EditEventDocument,
+    options
+  );
+}
+export type EditEventQueryHookResult = ReturnType<typeof useEditEventQuery>;
+export type EditEventLazyQueryHookResult = ReturnType<
+  typeof useEditEventLazyQuery
+>;
+export type EditEventQueryResult = Apollo.QueryResult<
+  EditEventQuery,
+  EditEventQueryVariables
 >;
 export const EventPageDocument = gql`
   query EventPage($id: Int!, $isLoggedIn: Boolean!) {

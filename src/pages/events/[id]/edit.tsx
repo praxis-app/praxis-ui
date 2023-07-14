@@ -1,24 +1,27 @@
+// TODO: Add update functionality - below is a WIP
+
 import { Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditGroupQuery } from "../../../apollo/gen";
-import GroupForm from "../../../components/Groups/GroupForm";
+import { useEditEventQuery } from "../../../apollo/gen";
+import EventForm from "../../../components/Events/EventForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
+import Card from "../../../components/Shared/Card";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupPath } from "../../../utils/group.utils";
 
-const EditGroup: NextPage = () => {
+const EditEvent: NextPage = () => {
   const { query } = useRouter();
-  const name = String(query?.name || "");
-  const { data, loading, error } = useEditGroupQuery({
-    variables: { name },
-    skip: !name,
+  const id = parseInt(String(query?.id));
+  const { data, loading, error } = useEditEventQuery({
+    variables: { id },
+    skip: !id,
   });
-  const group = data?.group;
+  const event = data?.event;
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
@@ -31,20 +34,21 @@ const EditGroup: NextPage = () => {
     return <ProgressBar />;
   }
 
-  if (!group) {
+  if (!event) {
     return null;
   }
 
-  if (!group.myPermissions?.updateGroup) {
-    return <Typography>{t("prompts.permissionDenied")}</Typography>;
-  }
+  // TODO: Uncomment when permissions are implemented
+  // if (!event.group?.myPermissions?.manageEvents) {
+  //   return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  // }
 
   const breadcrumbs = [
     {
-      label: truncate(name, {
+      label: truncate(event.name, {
         length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
       }),
-      href: getGroupPath(name),
+      href: getGroupPath(event.name),
     },
     {
       label: t("groups.actions.edit"),
@@ -55,9 +59,11 @@ const EditGroup: NextPage = () => {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <GroupForm editGroup={group} />
+      <Card>
+        <EventForm editEvent={event} />
+      </Card>
     </>
   );
 };
 
-export default EditGroup;
+export default EditEvent;

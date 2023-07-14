@@ -60,8 +60,8 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
   const initialValues = {
     name: editEvent ? editEvent.name : "",
     description: editEvent ? editEvent.description : "",
-    startsAt: editEvent ? editEvent.startsAt : startOfNextHour(),
-    endsAt: editEvent ? editEvent.endsAt : null,
+    startsAt: editEvent ? dayjs(editEvent.startsAt) : startOfNextHour(),
+    endsAt: editEvent ? dayjs(editEvent.endsAt) : null,
     location: editEvent ? editEvent.location : "",
     online: editEvent ? editEvent.online : false,
   };
@@ -227,7 +227,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               placeholder={t("events.form.includeLocation")}
             />
 
-            <Flex justifyContent="space-between" marginBottom={0.5}>
+            <Flex justifyContent="space-between" marginBottom={1} marginTop={2}>
               <Box>
                 <Typography>{t("events.labels.online")}</Typography>
                 <Typography color="text.secondary" fontSize="12px">

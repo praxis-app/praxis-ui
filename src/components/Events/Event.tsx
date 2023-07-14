@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { EventFragment, useDeleteEventMutation } from "../../apollo/gen";
-import { NavigationPaths, TypeNames } from "../../constants/common.constants";
+import { TypeNames } from "../../constants/common.constants";
+import { getEventPath } from "../../utils/event.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
@@ -24,7 +25,8 @@ const Event = ({ event, isLast }: Props) => {
 
   const { id, coverPhoto, startsAt, name } = event;
   const imageSrc = getImagePath(coverPhoto.id);
-  const eventPagePath = `${NavigationPaths.Events}/${id}`;
+  const eventPagePath = getEventPath(id);
+  const editEventPath = `${eventPagePath}/edit`;
   const startDate = dayjs(startsAt).format("ddd, MMM D, YYYY");
 
   const deletePrompt = t("prompts.deleteItem", {
@@ -94,8 +96,10 @@ const Event = ({ event, isLast }: Props) => {
               buttonStyles={{ maxWidth: 40, minWidth: 40 }}
               deleteItem={handleDelete}
               deletePrompt={deletePrompt}
+              editPath={editEventPath}
               variant="ghost"
               canDelete
+              canUpdate
             />
           </Stack>
         </Box>

@@ -1,0 +1,12 @@
+query EditEvent($id: Int!) {
+  event(id: $id) {
+    ...EventForm
+
+    group {
+      id
+      myPermissions {
+        ...GroupPermissions
+      }
+    }
+  }
+}

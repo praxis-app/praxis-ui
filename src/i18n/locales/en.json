@@ -290,7 +290,8 @@
       "upcoming": "Upcoming"
     },
     "actions": {
-      "createEvent": "Create Event"
+      "createEvent": "Create Event",
+      "editEvent": "Edit Event"
     },
     "prompts": {
       "noUpcomingEvents": "No upcoming events",

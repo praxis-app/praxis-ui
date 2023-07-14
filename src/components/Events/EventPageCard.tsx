@@ -22,6 +22,7 @@ import {
 } from "../../constants/common.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
+import { getEventPath } from "../../utils/event.utils";
 import { formatDateTime } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import Link from "../Shared/Link";
@@ -66,7 +67,7 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
 
   const { id, name, coverPhoto, endsAt, group, location, startsAt } = event;
 
-  const eventPagePath = `${NavigationPaths.Events}/${id}`;
+  const eventPagePath = getEventPath(id);
   const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
