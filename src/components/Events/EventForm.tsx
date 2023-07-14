@@ -235,7 +235,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
                 </Typography>
               </Box>
               <Switch
-                defaultChecked={!!values.online}
+                checked={!!values.online}
                 inputProps={{ "aria-label": t("labels.switch") }}
                 name={EventFormFieldName.Online}
                 onChange={handleChange}
