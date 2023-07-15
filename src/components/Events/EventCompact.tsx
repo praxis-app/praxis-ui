@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { EventCompactFragment, useDeleteEventMutation } from "../../apollo/gen";
-import { TypeNames } from "../../constants/common.constants";
 import { getEventPath } from "../../utils/event.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Flex from "../Shared/Flex";
@@ -23,7 +22,9 @@ const EventCompact = ({ event, isLast }: Props) => {
   const [deleteEvent] = useDeleteEventMutation();
   const { t } = useTranslation();
 
-  const { id, coverPhoto, startsAt, name } = event;
+  const { id, coverPhoto, startsAt, name, group } = event;
+  const canManageEvents = group?.myPermissions.manageEvents;
+
   const imageSrc = getImagePath(coverPhoto.id);
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
@@ -37,7 +38,7 @@ const EventCompact = ({ event, isLast }: Props) => {
     await deleteEvent({
       variables: { id },
       update(cache) {
-        const cacheId = cache.identify({ id, __typename: TypeNames.Event });
+        const cacheId = cache.identify(event);
         cache.evict({ id: cacheId });
         cache.gc();
       },
@@ -92,14 +93,14 @@ const EventCompact = ({ event, isLast }: Props) => {
             <ItemMenu
               itemId={id}
               anchorEl={menuAnchorEl}
-              setAnchorEl={setMenuAnchorEl}
               buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+              canDelete={canManageEvents}
+              canUpdate={canManageEvents}
               deleteItem={handleDelete}
               deletePrompt={deletePrompt}
               editPath={editEventPath}
+              setAnchorEl={setMenuAnchorEl}
               variant="ghost"
-              canDelete
-              canUpdate
             />
           </Stack>
         </Box>

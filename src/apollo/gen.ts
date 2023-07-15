@@ -1051,6 +1051,11 @@ export type EventCompactFragment = {
   startsAt: any;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+  } | null;
 };
 
 export type EventFormFragment = {
@@ -1105,6 +1110,14 @@ export type CreateEventMutation = {
       startsAt: any;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
     };
   };
 };
@@ -1305,6 +1318,11 @@ export type EventsQuery = {
     startsAt: any;
     attendingStatus?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+    } | null;
   }>;
 };
 
@@ -1887,6 +1905,14 @@ export type GroupEventsTabQuery = {
       startsAt: any;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
     }>;
     pastEvents: Array<{
       __typename?: "Event";
@@ -1896,6 +1922,14 @@ export type GroupEventsTabQuery = {
       startsAt: any;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        myPermissions: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
     }>;
     myPermissions: {
       __typename?: "GroupPermissions";
@@ -4631,6 +4665,12 @@ export const EventCompactFragmentDoc = gql`
     ...EventAttendeeButtons
     coverPhoto {
       id
+    }
+    group {
+      id
+      myPermissions {
+        manageEvents
+      }
     }
   }
   ${EventAttendeeButtonsFragmentDoc}

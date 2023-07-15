@@ -8,4 +8,10 @@ fragment EventCompact on Event {
   coverPhoto {
     id
   }
+  group {
+    id
+    myPermissions {
+      manageEvents
+    }
+  }
 }
