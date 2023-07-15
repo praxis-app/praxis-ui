@@ -111,7 +111,10 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
         );
         if (groupId) {
           cache.updateQuery<GroupEventsTabQuery>(
-            { query: GroupEventsTabDocument, variables: { groupId } },
+            {
+              query: GroupEventsTabDocument,
+              variables: { groupId, isLoggedIn: true },
+            },
             (eventsData) =>
               produce(eventsData, (draft) => {
                 draft?.group.upcomingEvents.unshift(event);
