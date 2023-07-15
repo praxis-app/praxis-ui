@@ -1151,9 +1151,12 @@ export type UpdateEventMutation = {
       id: number;
       name: string;
       description: string;
+      location?: string | null;
       startsAt: any;
+      endsAt?: any | null;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
+      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
   };
 };
@@ -5656,11 +5659,11 @@ export const UpdateEventDocument = gql`
   mutation UpdateEvent($eventData: UpdateEventInput!) {
     updateEvent(eventData: $eventData) {
       event {
-        ...Event
+        ...EventPageCard
       }
     }
   }
-  ${EventFragmentDoc}
+  ${EventPageCardFragmentDoc}
 `;
 export type UpdateEventMutationFn = Apollo.MutationFunction<
   UpdateEventMutation,
