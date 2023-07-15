@@ -1960,7 +1960,7 @@ export type GroupEventsTabQuery = {
         };
       } | null;
     }>;
-    myPermissions: {
+    myPermissions?: {
       __typename?: "GroupPermissions";
       manageEvents: boolean;
       createEvents: boolean;
@@ -6957,7 +6957,7 @@ export const GroupEventsTabDocument = gql`
       pastEvents {
         ...EventCompact
       }
-      myPermissions {
+      myPermissions @include(if: $isLoggedIn) {
         manageEvents
         createEvents
       }

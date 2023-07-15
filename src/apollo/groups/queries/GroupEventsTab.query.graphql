@@ -7,7 +7,7 @@ query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
     pastEvents {
       ...EventCompact
     }
-    myPermissions {
+    myPermissions @include(if: $isLoggedIn) {
       manageEvents
       createEvents
     }

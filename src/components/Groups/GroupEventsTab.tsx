@@ -55,7 +55,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
   } = data;
 
   const showCreateEventButton =
-    myPermissions.createEvents || myPermissions.manageEvents;
+    myPermissions?.createEvents || myPermissions?.manageEvents;
 
   return (
     <>
