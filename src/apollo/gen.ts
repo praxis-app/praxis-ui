@@ -687,7 +687,7 @@ export type Query = {
   me: User;
   post: Post;
   proposal: Proposal;
-  publicGroupEvents: Array<Event>;
+  publicEvents: Array<Event>;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
   serverInvite: ServerInvite;
@@ -728,7 +728,7 @@ export type QueryProposalArgs = {
   id: Scalars["Int"];
 };
 
-export type QueryPublicGroupEventsArgs = {
+export type QueryPublicEventsArgs = {
   input: EventsInput;
 };
 
@@ -1059,7 +1059,7 @@ export type EventCompactFragment = {
   group?: {
     __typename?: "Group";
     id: number;
-    myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+    myPermissions?: { __typename?: "GroupPermissions"; manageEvents: boolean };
   } | null;
 };
 
@@ -1101,6 +1101,7 @@ export type EventPageCardFragment = {
 
 export type CreateEventMutationVariables = Exact<{
   eventData: CreateEventInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type CreateEventMutation = {
@@ -1118,7 +1119,7 @@ export type CreateEventMutation = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions: {
+        myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
         };
@@ -1299,6 +1300,7 @@ export type EventPageQuery = {
 
 export type EventsQueryVariables = Exact<{
   input: EventsInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type EventsQuery = {
@@ -1314,7 +1316,36 @@ export type EventsQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageEvents: boolean;
+      };
+    } | null;
+  }>;
+};
+
+export type PublicEventsQueryVariables = Exact<{
+  input: EventsInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type PublicEventsQuery = {
+  __typename?: "Query";
+  publicEvents: Array<{
+    __typename?: "Event";
+    id: number;
+    name: string;
+    description: string;
+    startsAt: any;
+    attendingStatus?: string | null;
+    coverPhoto: { __typename?: "Image"; id: number };
+    group?: {
+      __typename?: "Group";
+      id: number;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageEvents: boolean;
+      };
     } | null;
   }>;
 };
@@ -1883,6 +1914,7 @@ export type EditGroupRoleQuery = {
 
 export type GroupEventsTabQueryVariables = Exact<{
   groupId: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type GroupEventsTabQuery = {
@@ -1901,7 +1933,7 @@ export type GroupEventsTabQuery = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions: {
+        myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
         };
@@ -1918,7 +1950,7 @@ export type GroupEventsTabQuery = {
       group?: {
         __typename?: "Group";
         id: number;
-        myPermissions: {
+        myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
         };
@@ -4655,13 +4687,13 @@ export const EventCompactFragmentDoc = gql`
     name
     description
     startsAt
-    ...EventAttendeeButtons
+    ...EventAttendeeButtons @include(if: $isLoggedIn)
     coverPhoto {
       id
     }
     group {
       id
-      myPermissions {
+      myPermissions @include(if: $isLoggedIn) {
         manageEvents
       }
     }
@@ -5513,7 +5545,10 @@ export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQueryVariables
 >;
 export const CreateEventDocument = gql`
-  mutation CreateEvent($eventData: CreateEventInput!) {
+  mutation CreateEvent(
+    $eventData: CreateEventInput!
+    $isLoggedIn: Boolean = true
+  ) {
     createEvent(eventData: $eventData) {
       event {
         ...EventCompact
@@ -5541,6 +5576,7 @@ export type CreateEventMutationFn = Apollo.MutationFunction<
  * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
  *   variables: {
  *      eventData: // value for 'eventData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5940,7 +5976,7 @@ export type EventPageQueryResult = Apollo.QueryResult<
   EventPageQueryVariables
 >;
 export const EventsDocument = gql`
-  query Events($input: EventsInput!) {
+  query Events($input: EventsInput!, $isLoggedIn: Boolean = true) {
     events(input: $input) {
       ...EventCompact
     }
@@ -5961,6 +5997,7 @@ export const EventsDocument = gql`
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
  *      input: // value for 'input'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
@@ -5987,6 +6024,66 @@ export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<
   EventsQuery,
   EventsQueryVariables
+>;
+export const PublicEventsDocument = gql`
+  query PublicEvents($input: EventsInput!, $isLoggedIn: Boolean = false) {
+    publicEvents(input: $input) {
+      ...EventCompact
+    }
+  }
+  ${EventCompactFragmentDoc}
+`;
+
+/**
+ * __usePublicEventsQuery__
+ *
+ * To run a query within a React component, call `usePublicEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicEventsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function usePublicEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    PublicEventsQuery,
+    PublicEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PublicEventsQuery, PublicEventsQueryVariables>(
+    PublicEventsDocument,
+    options
+  );
+}
+export function usePublicEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PublicEventsQuery,
+    PublicEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PublicEventsQuery, PublicEventsQueryVariables>(
+    PublicEventsDocument,
+    options
+  );
+}
+export type PublicEventsQueryHookResult = ReturnType<
+  typeof usePublicEventsQuery
+>;
+export type PublicEventsLazyQueryHookResult = ReturnType<
+  typeof usePublicEventsLazyQuery
+>;
+export type PublicEventsQueryResult = Apollo.QueryResult<
+  PublicEventsQuery,
+  PublicEventsQueryVariables
 >;
 export const ApproveGroupMemberRequestDocument = gql`
   mutation ApproveGroupMemberRequest($id: Int!) {
@@ -6843,7 +6940,7 @@ export type EditGroupRoleQueryResult = Apollo.QueryResult<
   EditGroupRoleQueryVariables
 >;
 export const GroupEventsTabDocument = gql`
-  query GroupEventsTab($groupId: Int!) {
+  query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
     group(id: $groupId) {
       name
       upcomingEvents {
@@ -6874,6 +6971,7 @@ export const GroupEventsTabDocument = gql`
  * const { data, loading, error } = useGroupEventsTabQuery({
  *   variables: {
  *      groupId: // value for 'groupId'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */

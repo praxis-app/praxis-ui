@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import { Event as CalendarIcon } from "@mui/icons-material";
 import {
   Card,
@@ -8,6 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { isLoggedInVar } from "../../apollo/cache";
 import { useGroupEventsTabQuery } from "../../apollo/gen";
 import { DarkMode } from "../../styles/theme";
 import EventCompact from "../Events/EventCompact";
@@ -26,9 +28,10 @@ interface Props {
 }
 
 const GroupEventsTab = ({ groupId }: Props) => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, loading, error } = useGroupEventsTabQuery({
-    variables: { groupId },
+    variables: { groupId, isLoggedIn },
   });
 
   const { t } = useTranslation();

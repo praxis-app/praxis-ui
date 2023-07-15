@@ -1,4 +1,4 @@
-query GroupEventsTab($groupId: Int!) {
+query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
   group(id: $groupId) {
     name
     upcomingEvents {

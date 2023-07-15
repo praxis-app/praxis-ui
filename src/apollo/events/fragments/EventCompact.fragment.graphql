@@ -3,14 +3,14 @@ fragment EventCompact on Event {
   name
   description
   startsAt
-  ...EventAttendeeButtons
+  ...EventAttendeeButtons @include(if: $isLoggedIn)
 
   coverPhoto {
     id
   }
   group {
     id
-    myPermissions {
+    myPermissions @include(if: $isLoggedIn) {
       manageEvents
     }
   }

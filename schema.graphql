@@ -457,7 +457,7 @@ type Query {
   me: User!
   post(id: Int!): Post!
   proposal(id: Int!): Proposal!
-  publicGroupEvents(input: EventsInput!): [Event!]!
+  publicEvents(input: EventsInput!): [Event!]!
   publicGroups: [Group!]!
   publicGroupsFeed: [FeedItem!]!
   serverInvite(token: String!): ServerInvite!

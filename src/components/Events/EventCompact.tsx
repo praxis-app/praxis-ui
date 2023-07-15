@@ -23,7 +23,7 @@ const EventCompact = ({ event, isLast }: Props) => {
   const { t } = useTranslation();
 
   const { id, coverPhoto, startsAt, name, group } = event;
-  const canManageEvents = group?.myPermissions.manageEvents;
+  const canManageEvents = group?.myPermissions?.manageEvents;
 
   const imageSrc = getImagePath(coverPhoto.id);
   const eventPagePath = getEventPath(id);

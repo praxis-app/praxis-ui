@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -10,7 +11,12 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { EventsInput, useEventsLazyQuery } from "../../apollo/gen";
+import { isLoggedInVar } from "../../apollo/cache";
+import {
+  EventsInput,
+  useEventsLazyQuery,
+  usePublicEventsLazyQuery,
+} from "../../apollo/gen";
 import EventCompact from "../../components/Events/EventCompact";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -34,11 +40,25 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 const EventsIndex: NextPage = () => {
-  const [getEvents, { data, loading, error }] = useEventsLazyQuery();
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [tab, setTab] = useState(0);
 
-  const { t } = useTranslation();
+  const [
+    getPublicEvents,
+    {
+      data: publicEventsData,
+      loading: publicEventsLoading,
+      error: publicEventsError,
+    },
+  ] = usePublicEventsLazyQuery();
+
+  const [
+    getEvents,
+    { data: eventsData, loading: eventsLoading, error: eventsError },
+  ] = useEventsLazyQuery();
+
   const { query } = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     let input: EventsInput = {};
@@ -57,8 +77,18 @@ const EventsIndex: NextPage = () => {
       input = { timeFrame: EventTabs.Past };
       setTab(3);
     }
-    getEvents({ variables: { input } });
-  }, [query.tab, setTab, getEvents]);
+
+    const options = { variables: { input } };
+    if (!isLoggedIn) {
+      getPublicEvents(options);
+      return;
+    }
+    getEvents(options);
+  }, [query.tab, setTab, getEvents, getPublicEvents, isLoggedIn]);
+
+  const events = eventsData?.events || publicEventsData?.publicEvents;
+  const loading = eventsLoading || publicEventsLoading;
+  const error = eventsError || publicEventsError;
 
   const pathPrefix = `${NavigationPaths.Events}${TAB_QUERY_PARAM}`;
   const thisWeekTabPath = `${pathPrefix}${EventTabs.ThisWeek}`;
@@ -97,14 +127,14 @@ const EventsIndex: NextPage = () => {
       {error && <Typography>{t("errors.somethingWentWrong")}</Typography>}
       {loading && <ProgressBar />}
 
-      {!!data?.events.length && (
+      {!!events?.length && (
         <Card>
           <CardContent>
-            {data.events.map((event, index) => (
+            {events.map((event, index) => (
               <EventCompact
                 key={event.id}
                 event={event}
-                isLast={index + 1 === data.events.length}
+                isLast={index + 1 === events.length}
               />
             ))}
           </CardContent>
