@@ -297,6 +297,10 @@
       "noUpcomingEvents": "No upcoming events",
       "planVirtualEvent": "Plan a virtual event"
     },
+    "errors": {
+      "couldNotCreate": "Event could not be created",
+      "couldNotUpdate": "Event could not be updated"
+    },
     "tabs": {
       "about": "About",
       "discussion": "Discussion"

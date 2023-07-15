@@ -28,6 +28,7 @@ import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { getEventPath } from "../../utils/event.utils";
 import { formatDateTime } from "../../utils/time.utils";
+import { GroupTabs } from "../Groups/GroupProfileCard";
 import CoverPhoto from "../Images/CoverPhoto";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -51,11 +52,12 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   event: EventPageCardFragment;
+  setIsDeleting(isDeleting: boolean): void;
   setTab(tab: number): void;
   tab: number;
 }
 
-const EventPageCard = ({ event, setTab, tab }: Props) => {
+const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteEvent] = useDeleteEventMutation();
 
@@ -77,7 +79,7 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
 
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
-  const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
+  const groupPagePath = `${NavigationPaths.Groups}/${group?.name}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
   const startsAtFormatted = formatDateTime(startsAt);
@@ -102,12 +104,16 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
   };
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     await deleteEvent({
       variables: { id },
       update(cache) {
         const cacheId = cache.identify(event);
         cache.evict({ id: cacheId });
         cache.gc();
+      },
+      async onCompleted() {
+        await redirectTo(NavigationPaths.Events);
       },
       onError(err) {
         toastVar({
@@ -116,7 +122,6 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
         });
       },
     });
-    await redirectTo(NavigationPaths.Events);
   };
 
   const getNameTextWidth = () => {

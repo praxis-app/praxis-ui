@@ -127,7 +127,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
         resetForm();
       },
       onError() {
-        throw new Error(t("groups.errors.couldNotCreate"));
+        throw new Error(t("events.errors.couldNotCreate"));
       },
     });
 
@@ -148,7 +148,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
         redirectTo(groupPagePath);
       },
       onError() {
-        throw new Error(t("groups.errors.couldNotUpdate"));
+        throw new Error(t("events.errors.couldNotUpdate"));
       },
     });
 

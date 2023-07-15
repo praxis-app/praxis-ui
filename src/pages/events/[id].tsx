@@ -25,13 +25,14 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 const EventPage: NextPage = () => {
   const [tab, setTab] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { query } = useRouter();
   const id = parseInt(String(query?.id));
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data, loading, error } = useEventPageQuery({
     variables: { id, isLoggedIn },
-    skip: !id,
+    skip: !id || isDeleting,
   });
 
   const { t } = useTranslation();
@@ -55,7 +56,12 @@ const EventPage: NextPage = () => {
 
   return (
     <>
-      <EventPageCard tab={tab} setTab={setTab} event={event} />
+      <EventPageCard
+        event={event}
+        setIsDeleting={setIsDeleting}
+        setTab={setTab}
+        tab={tab}
+      />
 
       {tab === 0 && (
         <Card>
