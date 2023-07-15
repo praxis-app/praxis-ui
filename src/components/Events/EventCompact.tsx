@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import { EventFragment, useDeleteEventMutation } from "../../apollo/gen";
+import { EventCompactFragment, useDeleteEventMutation } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
 import { getEventPath } from "../../utils/event.utils";
 import { getImagePath } from "../../utils/image.utils";
@@ -14,11 +14,11 @@ import Link from "../Shared/Link";
 import EventAttendeeButtons from "./EventAttendeeButtons";
 
 interface Props {
-  event: EventFragment;
+  event: EventCompactFragment;
   isLast: boolean;
 }
 
-const Event = ({ event, isLast }: Props) => {
+const EventCompact = ({ event, isLast }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteEvent] = useDeleteEventMutation();
   const { t } = useTranslation();
@@ -110,4 +110,4 @@ const Event = ({ event, isLast }: Props) => {
   );
 };
 
-export default Event;
+export default EventCompact;

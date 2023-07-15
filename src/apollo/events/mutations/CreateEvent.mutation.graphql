@@ -1,7 +1,7 @@
 mutation CreateEvent($eventData: CreateEventInput!) {
   createEvent(eventData: $eventData) {
     event {
-      ...Event
+      ...EventCompact
     }
   }
 }

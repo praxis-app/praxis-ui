@@ -1,4 +1,4 @@
-fragment Event on Event {
+fragment EventCompact on Event {
   id
   name
   description

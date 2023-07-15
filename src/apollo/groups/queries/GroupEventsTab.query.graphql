@@ -2,10 +2,10 @@ query GroupEventsTab($groupId: Int!) {
   group(id: $groupId) {
     name
     upcomingEvents {
-      ...Event
+      ...EventCompact
     }
     pastEvents {
-      ...Event
+      ...EventCompact
     }
     myPermissions {
       manageEvents

@@ -1037,7 +1037,13 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
-export type EventFragment = {
+export type EventAttendeeButtonsFragment = {
+  __typename?: "Event";
+  id: number;
+  attendingStatus?: string | null;
+};
+
+export type EventCompactFragment = {
   __typename?: "Event";
   id: number;
   name: string;
@@ -1045,12 +1051,6 @@ export type EventFragment = {
   startsAt: any;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
-};
-
-export type EventAttendeeButtonsFragment = {
-  __typename?: "Event";
-  id: number;
-  attendingStatus?: string | null;
 };
 
 export type EventFormFragment = {
@@ -4622,8 +4622,8 @@ export const EventAttendeeButtonsFragmentDoc = gql`
     attendingStatus
   }
 `;
-export const EventFragmentDoc = gql`
-  fragment Event on Event {
+export const EventCompactFragmentDoc = gql`
+  fragment EventCompact on Event {
     id
     name
     description
@@ -5483,11 +5483,11 @@ export const CreateEventDocument = gql`
   mutation CreateEvent($eventData: CreateEventInput!) {
     createEvent(eventData: $eventData) {
       event {
-        ...Event
+        ...EventCompact
       }
     }
   }
-  ${EventFragmentDoc}
+  ${EventCompactFragmentDoc}
 `;
 export type CreateEventMutationFn = Apollo.MutationFunction<
   CreateEventMutation,
@@ -5910,10 +5910,10 @@ export type EventPageQueryResult = Apollo.QueryResult<
 export const EventsDocument = gql`
   query Events($filter: EventsInput!) {
     events(filter: $filter) {
-      ...Event
+      ...EventCompact
     }
   }
-  ${EventFragmentDoc}
+  ${EventCompactFragmentDoc}
 `;
 
 /**
@@ -6815,10 +6815,10 @@ export const GroupEventsTabDocument = gql`
     group(id: $groupId) {
       name
       upcomingEvents {
-        ...Event
+        ...EventCompact
       }
       pastEvents {
-        ...Event
+        ...EventCompact
       }
       myPermissions {
         manageEvents
@@ -6826,7 +6826,7 @@ export const GroupEventsTabDocument = gql`
       }
     }
   }
-  ${EventFragmentDoc}
+  ${EventCompactFragmentDoc}
 `;
 
 /**

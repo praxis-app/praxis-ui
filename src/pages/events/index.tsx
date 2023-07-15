@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { EventsInput, useEventsLazyQuery } from "../../apollo/gen";
-import Event from "../../components/Events/Event";
+import EventCompact from "../../components/Events/EventCompact";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import {
@@ -101,7 +101,7 @@ const EventsIndex: NextPage = () => {
         <Card>
           <CardContent>
             {data.events.map((event, index) => (
-              <Event
+              <EventCompact
                 key={event.id}
                 event={event}
                 isLast={index + 1 === data.events.length}

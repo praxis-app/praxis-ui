@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGroupEventsTabQuery } from "../../apollo/gen";
 import { DarkMode } from "../../styles/theme";
-import Event from "../Events/Event";
+import EventCompact from "../Events/EventCompact";
 import EventForm from "../Events/EventForm";
 import Center from "../Shared/Center";
 import GhostButton from "../Shared/GhostButton";
@@ -96,7 +96,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
           )}
 
           {upcomingEvents.map((event, index) => (
-            <Event
+            <EventCompact
               key={event.id}
               event={event}
               isLast={index + 1 === upcomingEvents.length}
@@ -116,7 +116,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
           />
           <CardContent>
             {pastEvents.map((event, index) => (
-              <Event
+              <EventCompact
                 key={event.id}
                 event={event}
                 isLast={index + 1 === pastEvents.length}
