@@ -77,17 +77,19 @@ const EventPage: NextPage = () => {
 
       {tab === 1 && (
         <>
-          <Card>
-            <CardContent
-              sx={{
-                "&:last-child": {
-                  paddingBottom: 1,
-                },
-              }}
-            >
-              <PostForm eventId={id} />
-            </CardContent>
-          </Card>
+          {isLoggedIn && (
+            <Card>
+              <CardContent
+                sx={{
+                  "&:last-child": {
+                    paddingBottom: 1,
+                  },
+                }}
+              >
+                <PostForm eventId={id} />
+              </CardContent>
+            </Card>
+          )}
 
           <Feed feed={event.posts} />
         </>

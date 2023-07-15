@@ -1,4 +1,7 @@
-mutation UpdateEvent($eventData: UpdateEventInput!) {
+mutation UpdateEvent(
+  $eventData: UpdateEventInput!
+  $isLoggedIn: Boolean = true
+) {
   updateEvent(eventData: $eventData) {
     event {
       ...EventPageCard

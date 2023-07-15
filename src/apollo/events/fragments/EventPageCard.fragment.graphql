@@ -5,7 +5,7 @@ fragment EventPageCard on Event {
   location
   startsAt
   endsAt
-  ...EventAttendeeButtons
+  ...EventAttendeeButtons @include(if: $isLoggedIn)
 
   coverPhoto {
     id
@@ -14,7 +14,7 @@ fragment EventPageCard on Event {
   group {
     id
     name
-    myPermissions {
+    myPermissions @include(if: $isLoggedIn) {
       manageEvents
     }
   }

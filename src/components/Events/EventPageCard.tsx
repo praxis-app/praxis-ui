@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import { Flag, Place, Timer } from "@mui/icons-material";
 import {
   Card,
@@ -15,7 +16,7 @@ import humanizeDuration from "humanize-duration";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toastVar } from "../../apollo/cache";
+import { isLoggedInVar, toastVar } from "../../apollo/cache";
 import {
   EventPageCardFragment,
   useDeleteEventMutation,
@@ -59,6 +60,7 @@ interface Props extends CardProps {
 
 const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteEvent] = useDeleteEventMutation();
 
   const { query } = useRouter();
@@ -76,7 +78,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
   }, [query.tab, setTab]);
 
   const { id, name, coverPhoto, endsAt, group, location, startsAt } = event;
-  const canManageEvents = group?.myPermissions.manageEvents;
+  const canManageEvents = group?.myPermissions?.manageEvents;
 
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
@@ -158,23 +160,25 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
           {name}
         </NameText>
 
-        <EventAttendeeButtons
-          event={event}
-          itemMenu={
-            <ItemMenu
-              itemId={id}
-              anchorEl={menuAnchorEl}
-              buttonStyles={{ maxWidth: 40, minWidth: 40 }}
-              canDelete={canManageEvents}
-              canUpdate={canManageEvents}
-              deleteItem={handleDelete}
-              deletePrompt={deletePrompt}
-              editPath={editEventPath}
-              setAnchorEl={setMenuAnchorEl}
-              variant="ghost"
-            />
-          }
-        />
+        {isLoggedIn && (
+          <EventAttendeeButtons
+            event={event}
+            itemMenu={
+              <ItemMenu
+                itemId={id}
+                anchorEl={menuAnchorEl}
+                buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+                canDelete={canManageEvents}
+                canUpdate={canManageEvents}
+                deleteItem={handleDelete}
+                deletePrompt={deletePrompt}
+                editPath={editEventPath}
+                setAnchorEl={setMenuAnchorEl}
+                variant="ghost"
+              />
+            }
+          />
+        )}
 
         {location && (
           <Typography color="text.secondary" gutterBottom>

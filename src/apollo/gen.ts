@@ -1095,7 +1095,7 @@ export type EventPageCardFragment = {
     __typename?: "Group";
     id: number;
     name: string;
-    myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+    myPermissions?: { __typename?: "GroupPermissions"; manageEvents: boolean };
   } | null;
 };
 
@@ -1164,6 +1164,7 @@ export type DeleteEventAttendeeMutation = {
 
 export type UpdateEventMutationVariables = Exact<{
   eventData: UpdateEventInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type UpdateEventMutation = {
@@ -1184,7 +1185,7 @@ export type UpdateEventMutation = {
         __typename?: "Group";
         id: number;
         name: string;
-        myPermissions: {
+        myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
         };
@@ -1293,7 +1294,10 @@ export type EventPageQuery = {
       __typename?: "Group";
       id: number;
       name: string;
-      myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageEvents: boolean;
+      };
     } | null;
   };
 };
@@ -4719,14 +4723,14 @@ export const EventPageCardFragmentDoc = gql`
     location
     startsAt
     endsAt
-    ...EventAttendeeButtons
+    ...EventAttendeeButtons @include(if: $isLoggedIn)
     coverPhoto {
       id
     }
     group {
       id
       name
-      myPermissions {
+      myPermissions @include(if: $isLoggedIn) {
         manageEvents
       }
     }
@@ -5751,7 +5755,10 @@ export type DeleteEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
   DeleteEventAttendeeMutationVariables
 >;
 export const UpdateEventDocument = gql`
-  mutation UpdateEvent($eventData: UpdateEventInput!) {
+  mutation UpdateEvent(
+    $eventData: UpdateEventInput!
+    $isLoggedIn: Boolean = true
+  ) {
     updateEvent(eventData: $eventData) {
       event {
         ...EventPageCard
@@ -5779,6 +5786,7 @@ export type UpdateEventMutationFn = Apollo.MutationFunction<
  * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
  *   variables: {
  *      eventData: // value for 'eventData'
+ *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */
