@@ -55,7 +55,7 @@ interface Props {
 const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
-  const [showEndsAt, setShowEndsAt] = useState(false);
+  const [showEndsAt, setShowEndsAt] = useState(!!editEvent?.endsAt);
 
   const [createEvent] = useCreateEventMutation();
   const [updateEvent] = useUpdateEventMutation();
