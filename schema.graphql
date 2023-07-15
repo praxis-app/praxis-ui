@@ -544,6 +544,7 @@ type UpdateEventAttendeePayload {
 }
 
 input UpdateEventInput {
+  coverPhoto: Upload
   description: String!
   endsAt: DateTime
   externalLink: String

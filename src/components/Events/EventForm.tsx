@@ -22,10 +22,13 @@ import {
   EventsQuery,
   GroupEventsTabDocument,
   GroupEventsTabQuery,
+  UpdateEventInput,
   useCreateEventMutation,
+  useUpdateEventMutation,
 } from "../../apollo/gen";
 import { Blurple } from "../../styles/theme";
-import { getRandomString } from "../../utils/common.utils";
+import { getRandomString, redirectTo } from "../../utils/common.utils";
+import { getEventPath } from "../../utils/event.utils";
 import { startOfNextHour } from "../../utils/time.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
@@ -53,7 +56,9 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [showEndsAt, setShowEndsAt] = useState(false);
+
   const [createEvent] = useCreateEventMutation();
+  const [updateEvent] = useUpdateEventMutation();
 
   const { t } = useTranslation();
 
@@ -126,13 +131,34 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
       },
     });
 
+  const handleUpdate = async (
+    formValues: Omit<UpdateEventInput, "id">,
+    editEvent: EventFormFragment
+  ) =>
+    await updateEvent({
+      variables: {
+        eventData: {
+          id: editEvent.id,
+          ...formValues,
+          coverPhoto,
+        },
+      },
+      onCompleted() {
+        const groupPagePath = getEventPath(editEvent.id);
+        redirectTo(groupPagePath);
+      },
+      onError() {
+        throw new Error(t("groups.errors.couldNotUpdate"));
+      },
+    });
+
   const handleSubmit = async (
     formValues: CreateEventInput,
     formikHelpers: FormikHelpers<CreateEventInput>
   ) => {
     try {
       if (editEvent) {
-        // TODO: Add update logic here
+        await handleUpdate(formValues, editEvent);
         return;
       }
       await handleCreate(formValues, formikHelpers);

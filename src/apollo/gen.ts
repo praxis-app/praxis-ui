@@ -826,6 +826,7 @@ export type UpdateEventAttendeePayload = {
 };
 
 export type UpdateEventInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
@@ -1135,6 +1136,26 @@ export type DeleteEventAttendeeMutationVariables = Exact<{
 export type DeleteEventAttendeeMutation = {
   __typename?: "Mutation";
   deleteEventAttendee: boolean;
+};
+
+export type UpdateEventMutationVariables = Exact<{
+  eventData: UpdateEventInput;
+}>;
+
+export type UpdateEventMutation = {
+  __typename?: "Mutation";
+  updateEvent: {
+    __typename?: "UpdateEventPayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
+      startsAt: any;
+      attendingStatus?: string | null;
+      coverPhoto: { __typename?: "Image"; id: number };
+    };
+  };
 };
 
 export type UpdateEventAttendeeMutationVariables = Exact<{
@@ -5630,6 +5651,59 @@ export type DeleteEventAttendeeMutationResult =
 export type DeleteEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
   DeleteEventAttendeeMutation,
   DeleteEventAttendeeMutationVariables
+>;
+export const UpdateEventDocument = gql`
+  mutation UpdateEvent($eventData: UpdateEventInput!) {
+    updateEvent(eventData: $eventData) {
+      event {
+        ...Event
+      }
+    }
+  }
+  ${EventFragmentDoc}
+`;
+export type UpdateEventMutationFn = Apollo.MutationFunction<
+  UpdateEventMutation,
+  UpdateEventMutationVariables
+>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      eventData: // value for 'eventData'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEventMutation,
+    UpdateEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(
+    UpdateEventDocument,
+    options
+  );
+}
+export type UpdateEventMutationHookResult = ReturnType<
+  typeof useUpdateEventMutation
+>;
+export type UpdateEventMutationResult =
+  Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEventMutation,
+  UpdateEventMutationVariables
 >;
 export const UpdateEventAttendeeDocument = gql`
   mutation UpdateEventAttendee($eventAttendeeData: UpdateEventAttendeeInput!) {
