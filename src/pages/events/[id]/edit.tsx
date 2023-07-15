@@ -22,6 +22,7 @@ const EditEvent: NextPage = () => {
     skip: !id,
   });
   const event = data?.event;
+  const group = event?.group;
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
@@ -38,10 +39,9 @@ const EditEvent: NextPage = () => {
     return null;
   }
 
-  // TODO: Uncomment when permissions are implemented
-  // if (!event.group?.myPermissions?.manageEvents) {
-  //   return <Typography>{t("prompts.permissionDenied")}</Typography>;
-  // }
+  if (!group?.myPermissions.manageEvents) {
+    return <Typography>{t("prompts.permissionDenied")}</Typography>;
+  }
 
   const breadcrumbs = [
     {

@@ -5,7 +5,7 @@ query EditEvent($id: Int!) {
     group {
       id
       myPermissions {
-        ...GroupPermissions
+        manageEvents
       }
     }
   }

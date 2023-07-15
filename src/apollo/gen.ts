@@ -1221,19 +1221,7 @@ export type EditEventQuery = {
     group?: {
       __typename?: "Group";
       id: number;
-      myPermissions: {
-        __typename?: "GroupPermissions";
-        approveMemberRequests: boolean;
-        createEvents: boolean;
-        deleteGroup: boolean;
-        manageComments: boolean;
-        manageEvents: boolean;
-        managePosts: boolean;
-        manageRoles: boolean;
-        manageSettings: boolean;
-        removeMembers: boolean;
-        updateGroup: boolean;
-      };
+      myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
     } | null;
   };
 };
@@ -5834,13 +5822,12 @@ export const EditEventDocument = gql`
       group {
         id
         myPermissions {
-          ...GroupPermissions
+          manageEvents
         }
       }
     }
   }
   ${EventFormFragmentDoc}
-  ${GroupPermissionsFragmentDoc}
 `;
 
 /**
