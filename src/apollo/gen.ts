@@ -1081,7 +1081,12 @@ export type EventPageCardFragment = {
   endsAt?: any | null;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
-  group?: { __typename?: "Group"; id: number; name: string } | null;
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+  } | null;
 };
 
 export type CreateEventMutationVariables = Exact<{
@@ -1156,7 +1161,15 @@ export type UpdateEventMutation = {
       endsAt?: any | null;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
-      group?: { __typename?: "Group"; id: number; name: string } | null;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        myPermissions: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
     };
   };
 };
@@ -1269,7 +1282,12 @@ export type EventPageQuery = {
       } | null;
     }>;
     coverPhoto: { __typename?: "Image"; id: number };
-    group?: { __typename?: "Group"; id: number; name: string } | null;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+    } | null;
   };
 };
 
@@ -4643,6 +4661,9 @@ export const EventPageCardFragmentDoc = gql`
     group {
       id
       name
+      myPermissions {
+        manageEvents
+      }
     }
   }
   ${EventAttendeeButtonsFragmentDoc}

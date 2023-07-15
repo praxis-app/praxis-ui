@@ -100,6 +100,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        myPermissions: {
+          merge(_, incoming) {
+            return incoming;
+          },
+        },
       },
     },
     Role: {

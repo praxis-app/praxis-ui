@@ -76,10 +76,12 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
   }, [query.tab, setTab]);
 
   const { id, name, coverPhoto, endsAt, group, location, startsAt } = event;
+  const canManageEvents = group?.myPermissions.manageEvents;
 
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
-  const groupPagePath = `${NavigationPaths.Groups}/${group?.name}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
+  const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
+  const groupPagePathWithTab = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
   const startsAtFormatted = formatDateTime(startsAt);
@@ -162,14 +164,14 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
             <ItemMenu
               itemId={id}
               anchorEl={menuAnchorEl}
-              setAnchorEl={setMenuAnchorEl}
               buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+              canDelete={canManageEvents}
+              canUpdate={canManageEvents}
               deleteItem={handleDelete}
               deletePrompt={deletePrompt}
               editPath={editEventPath}
+              setAnchorEl={setMenuAnchorEl}
               variant="ghost"
-              canDelete
-              canUpdate
             />
           }
         />
@@ -185,7 +187,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
           <Typography color="text.secondary" gutterBottom>
             <Flag sx={iconStyles} />
             {t("events.labels.eventBy")}
-            <Link href={groupPagePath} sx={{ marginLeft: "0.4ch" }}>
+            <Link href={groupPagePathWithTab} sx={{ marginLeft: "0.4ch" }}>
               {group.name}
             </Link>
           </Typography>
