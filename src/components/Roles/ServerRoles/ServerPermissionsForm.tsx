@@ -7,19 +7,10 @@ import {
   ServerRolePermissionsFragment,
   useUpdateServerRoleMutation,
 } from "../../../apollo/gen";
+import { SERVER_PERMISSION_NAMES } from "../../../constants/role.constants";
 import Flex from "../../Shared/Flex";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 import ServerPermissionToggle from "./ServerPermissionToggle";
-
-export const SERVER_PERMISSION_NAMES: (keyof ServerRolePermissionInput)[] = [
-  "managePosts",
-  "manageRoles",
-  "manageInvites",
-  "createInvites",
-  "manageComments",
-  "manageEvents",
-  "removeMembers",
-];
 
 interface Props extends BoxProps {
   permissions: ServerRolePermissionsFragment;
