@@ -13,9 +13,13 @@ import {
 import dayjs from "dayjs";
 import humanizeDuration from "humanize-duration";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { EventPageCardFragment } from "../../apollo/gen";
+import { toastVar } from "../../apollo/cache";
+import {
+  EventPageCardFragment,
+  useDeleteEventMutation,
+} from "../../apollo/gen";
 import {
   NavigationPaths,
   TAB_QUERY_PARAM,
@@ -25,6 +29,7 @@ import { redirectTo } from "../../utils/common.utils";
 import { getEventPath } from "../../utils/event.utils";
 import { formatDateTime } from "../../utils/time.utils";
 import CoverPhoto from "../Images/CoverPhoto";
+import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import EventAttendeeButtons from "./EventAttendeeButtons";
 
@@ -51,6 +56,9 @@ interface Props extends CardProps {
 }
 
 const EventPageCard = ({ event, setTab, tab }: Props) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [deleteEvent] = useDeleteEventMutation();
+
   const { query } = useRouter();
   const { t } = useTranslation();
   const isAboveMedium = useAboveBreakpoint("md");
@@ -68,6 +76,7 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
   const { id, name, coverPhoto, endsAt, group, location, startsAt } = event;
 
   const eventPagePath = getEventPath(id);
+  const editEventPath = `${eventPagePath}/edit`;
   const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
@@ -82,10 +91,32 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
     .replace(/hours|hour/g, t("time.hr"))
     .replace(/minutes|minute/g, t("time.min"));
 
+  const deletePrompt = t("prompts.deleteItem", {
+    itemType: "event",
+  });
+
   const iconStyles: SxProps = {
     fontSize: 20,
     marginBottom: "-0.3ch",
     marginRight: "0.8ch",
+  };
+
+  const handleDelete = async () => {
+    await deleteEvent({
+      variables: { id },
+      update(cache) {
+        const cacheId = cache.identify(event);
+        cache.evict({ id: cacheId });
+        cache.gc();
+      },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+      },
+    });
+    await redirectTo(NavigationPaths.Events);
   };
 
   const getNameTextWidth = () => {
@@ -120,7 +151,23 @@ const EventPageCard = ({ event, setTab, tab }: Props) => {
           {name}
         </NameText>
 
-        <EventAttendeeButtons event={event} />
+        <EventAttendeeButtons
+          event={event}
+          itemMenu={
+            <ItemMenu
+              itemId={id}
+              anchorEl={menuAnchorEl}
+              setAnchorEl={setMenuAnchorEl}
+              buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+              deleteItem={handleDelete}
+              deletePrompt={deletePrompt}
+              editPath={editEventPath}
+              variant="ghost"
+              canDelete
+              canUpdate
+            />
+          }
+        />
 
         {location && (
           <Typography color="text.secondary" gutterBottom>

@@ -7,6 +7,7 @@ import {
   StackProps,
   styled,
 } from "@mui/material";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
   EventAttendeeButtonsFragment,
@@ -37,11 +38,13 @@ const PrimaryButton = styled(MuiButton)(({ theme }) => ({
 interface Props extends StackProps {
   event: EventAttendeeButtonsFragment;
   withGoingButton?: boolean;
+  itemMenu?: ReactNode;
 }
 
 const EventAttendeeButtons = ({
   event: { id, attendingStatus, __typename },
   withGoingButton = true,
+  itemMenu,
   ...stackProps
 }: Props) => {
   const [createEventAttendee, { loading: createAttendeeLoading }] =
@@ -145,6 +148,8 @@ const EventAttendeeButtons = ({
       >
         {t("events.labels.going")}
       </GoingButton>
+
+      {itemMenu}
     </Stack>
   );
 };
