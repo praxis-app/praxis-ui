@@ -51,7 +51,7 @@ const EditEvent: NextPage = () => {
       href: getGroupPath(event.name),
     },
     {
-      label: t("groups.actions.edit"),
+      label: t("events.actions.editEvent"),
     },
   ];
 
