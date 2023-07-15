@@ -24,7 +24,8 @@
     "removeItem": "Are you sure you want to remove this {{itemType}}?",
     "welcomeToPraxis": "Welcome to Praxis",
     "whatsHappening": "What's happening?",
-    "wip": "This page is still in construction."
+    "wip": "This page is still in construction.",
+    "noContent": "No content in this feed."
   },
 
   "labels": {
