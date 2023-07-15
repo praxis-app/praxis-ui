@@ -48,8 +48,11 @@ const GroupEventsTab = ({ groupId }: Props) => {
   }
 
   const {
-    group: { name, upcomingEvents, pastEvents },
+    group: { name, upcomingEvents, pastEvents, myPermissions },
   } = data;
+
+  const showCreateEventButton =
+    myPermissions.createEvents || myPermissions.manageEvents;
 
   return (
     <>
@@ -70,12 +73,14 @@ const GroupEventsTab = ({ groupId }: Props) => {
             </Typography>
           }
           action={
-            <GhostButton
-              onClick={() => setIsModalOpen(true)}
-              sx={{ marginRight: 0.5, marginTop: 0.5 }}
-            >
-              {t("events.actions.createEvent")}
-            </GhostButton>
+            showCreateEventButton && (
+              <GhostButton
+                onClick={() => setIsModalOpen(true)}
+                sx={{ marginRight: 0.5, marginTop: 0.5 }}
+              >
+                {t("events.actions.createEvent")}
+              </GhostButton>
+            )
           }
         />
         <CardContent>

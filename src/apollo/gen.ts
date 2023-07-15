@@ -1879,6 +1879,11 @@ export type GroupEventsTabQuery = {
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
     }>;
+    myPermissions: {
+      __typename?: "GroupPermissions";
+      manageEvents: boolean;
+      createEvents: boolean;
+    };
   };
 };
 
@@ -6793,6 +6798,10 @@ export const GroupEventsTabDocument = gql`
       }
       pastEvents {
         ...Event
+      }
+      myPermissions {
+        manageEvents
+        createEvents
       }
     }
   }

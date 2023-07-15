@@ -7,5 +7,9 @@ query GroupEventsTab($groupId: Int!) {
     pastEvents {
       ...Event
     }
+    myPermissions {
+      manageEvents
+      createEvents
+    }
   }
 }
