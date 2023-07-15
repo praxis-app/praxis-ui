@@ -12,7 +12,7 @@ import Card from "../../../components/Shared/Card";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
-import { getGroupPath } from "../../../utils/group.utils";
+import { getEventPath } from "../../../utils/event.utils";
 
 const EditEvent: NextPage = () => {
   const { query } = useRouter();
@@ -48,7 +48,7 @@ const EditEvent: NextPage = () => {
       label: truncate(event.name, {
         length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
       }),
-      href: getGroupPath(event.name),
+      href: getEventPath(event.id),
     },
     {
       label: t("events.actions.editEvent"),
