@@ -687,6 +687,7 @@ export type Query = {
   me: User;
   post: Post;
   proposal: Proposal;
+  publicGroupEvents: Array<Event>;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
   serverInvite: ServerInvite;
@@ -703,7 +704,7 @@ export type QueryEventArgs = {
 };
 
 export type QueryEventsArgs = {
-  filter: EventsInput;
+  input: EventsInput;
 };
 
 export type QueryGroupArgs = {
@@ -725,6 +726,10 @@ export type QueryPostArgs = {
 
 export type QueryProposalArgs = {
   id: Scalars["Int"];
+};
+
+export type QueryPublicGroupEventsArgs = {
+  input: EventsInput;
 };
 
 export type QueryServerInviteArgs = {
@@ -1293,7 +1298,7 @@ export type EventPageQuery = {
 };
 
 export type EventsQueryVariables = Exact<{
-  filter: EventsInput;
+  input: EventsInput;
 }>;
 
 export type EventsQuery = {
@@ -5935,8 +5940,8 @@ export type EventPageQueryResult = Apollo.QueryResult<
   EventPageQueryVariables
 >;
 export const EventsDocument = gql`
-  query Events($filter: EventsInput!) {
-    events(filter: $filter) {
+  query Events($input: EventsInput!) {
+    events(input: $input) {
       ...EventCompact
     }
   }
@@ -5955,7 +5960,7 @@ export const EventsDocument = gql`
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
- *      filter: // value for 'filter'
+ *      input: // value for 'input'
  *   },
  * });
  */

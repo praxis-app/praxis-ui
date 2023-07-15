@@ -41,23 +41,23 @@ const EventsIndex: NextPage = () => {
   const { query } = useRouter();
 
   useEffect(() => {
-    let filter: EventsInput = {};
+    let input: EventsInput = {};
     if (!query.tab) {
-      filter = { timeFrame: EventTabs.Future };
+      input = { timeFrame: EventTabs.Future };
     }
     if (query.tab === EventTabs.ThisWeek) {
-      filter = { timeFrame: EventTabs.ThisWeek };
+      input = { timeFrame: EventTabs.ThisWeek };
       setTab(1);
     }
     if (query.tab === EventTabs.Online) {
-      filter = { timeFrame: EventTabs.Future, online: true };
+      input = { timeFrame: EventTabs.Future, online: true };
       setTab(2);
     }
     if (query.tab === EventTabs.Past) {
-      filter = { timeFrame: EventTabs.Past };
+      input = { timeFrame: EventTabs.Past };
       setTab(3);
     }
-    getEvents({ variables: { filter } });
+    getEvents({ variables: { input } });
   }, [query.tab, setTab, getEvents]);
 
   const pathPrefix = `${NavigationPaths.Events}${TAB_QUERY_PARAM}`;

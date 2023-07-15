@@ -447,7 +447,7 @@ input ProposalActionRoleMemberInput {
 type Query {
   authCheck: Boolean!
   event(id: Int): Event!
-  events(filter: EventsInput!): [Event!]!
+  events(input: EventsInput!): [Event!]!
   group(id: Int, name: String): Group!
   groupMemberRequest(groupId: Int!): GroupMemberRequest
   groupRole(id: Int!): GroupRole!
@@ -457,6 +457,7 @@ type Query {
   me: User!
   post(id: Int!): Post!
   proposal(id: Int!): Proposal!
+  publicGroupEvents(input: EventsInput!): [Event!]!
   publicGroups: [Group!]!
   publicGroupsFeed: [FeedItem!]!
   serverInvite(token: String!): ServerInvite!

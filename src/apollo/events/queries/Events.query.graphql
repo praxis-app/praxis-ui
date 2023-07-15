@@ -1,5 +1,5 @@
-query Events($filter: EventsInput!) {
-  events(filter: $filter) {
+query Events($input: EventsInput!) {
+  events(input: $input) {
     ...EventCompact
   }
 }
