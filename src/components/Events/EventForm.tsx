@@ -117,7 +117,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
             },
             (eventsData) =>
               produce(eventsData, (draft) => {
-                draft?.group.upcomingEvents.unshift(event);
+                draft?.group.futureEvents.unshift(event);
               })
           );
         }

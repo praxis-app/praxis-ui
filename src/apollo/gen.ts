@@ -223,6 +223,7 @@ export type Group = {
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
   feed: Array<FeedItem>;
+  futureEvents: Array<Event>;
   id: Scalars["Int"];
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
@@ -236,7 +237,6 @@ export type Group = {
   proposals: Array<Proposal>;
   roles: Array<GroupRole>;
   settings: GroupConfig;
-  upcomingEvents: Array<Event>;
   updatedAt: Scalars["DateTime"];
 };
 
@@ -1925,7 +1925,7 @@ export type GroupEventsTabQuery = {
   group: {
     __typename?: "Group";
     name: string;
-    upcomingEvents: Array<{
+    futureEvents: Array<{
       __typename?: "Event";
       id: number;
       name: string;
@@ -6950,7 +6950,7 @@ export const GroupEventsTabDocument = gql`
   query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
     group(id: $groupId) {
       name
-      upcomingEvents {
+      futureEvents {
         ...EventCompact
       }
       pastEvents {

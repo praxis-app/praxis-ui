@@ -181,6 +181,7 @@ type Group {
   createdAt: DateTime!
   description: String!
   feed: [FeedItem!]!
+  futureEvents: [Event!]!
   id: Int!
   isJoinedByMe: Boolean!
   memberCount: Int!
@@ -194,7 +195,6 @@ type Group {
   proposals: [Proposal!]!
   roles: [GroupRole!]!
   settings: GroupConfig!
-  upcomingEvents: [Event!]!
   updatedAt: DateTime!
 }
 

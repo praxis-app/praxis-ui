@@ -51,7 +51,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
   }
 
   const {
-    group: { name, upcomingEvents, pastEvents, myPermissions },
+    group: { name, futureEvents, pastEvents, myPermissions },
   } = data;
 
   const showCreateEventButton =
@@ -87,7 +87,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
           }
         />
         <CardContent>
-          {!upcomingEvents.length && (
+          {!futureEvents.length && (
             <>
               <Center marginBottom={1} marginTop={2}>
                 <CalendarIcon sx={{ fontSize: 80, color: DarkMode.Liver }} />
@@ -98,11 +98,11 @@ const GroupEventsTab = ({ groupId }: Props) => {
             </>
           )}
 
-          {upcomingEvents.map((event, index) => (
+          {futureEvents.map((event, index) => (
             <EventCompact
               key={event.id}
               event={event}
-              isLast={index + 1 === upcomingEvents.length}
+              isLast={index + 1 === futureEvents.length}
             />
           ))}
         </CardContent>
