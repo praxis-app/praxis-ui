@@ -180,7 +180,6 @@ type Group {
   coverPhoto: Image
   createdAt: DateTime!
   description: String!
-  events: [Event!]!
   feed: [FeedItem!]!
   id: Int!
   isJoinedByMe: Boolean!

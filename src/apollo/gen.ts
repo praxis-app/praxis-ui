@@ -222,7 +222,6 @@ export type Group = {
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
-  events: Array<Event>;
   feed: Array<FeedItem>;
   id: Scalars["Int"];
   isJoinedByMe: Scalars["Boolean"];
