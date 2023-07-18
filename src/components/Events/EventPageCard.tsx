@@ -84,6 +84,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
     coverPhoto,
     endsAt,
     startsAt,
+    online,
     externalLink,
     group,
     location,
@@ -214,11 +215,15 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
           </Typography>
         )}
 
-        {externalLink && (
+        {online && (
           <Typography color="text.secondary">
             <Language sx={iconStyles} />
-            {t("events.labels.onlineWithColon") + " "}
-            <ExternalLink href={externalLink}>{externalLink}</ExternalLink>
+            {externalLink
+              ? t("events.labels.onlineWithColon") + " "
+              : t("events.labels.onlineEvent")}
+            {externalLink && (
+              <ExternalLink href={externalLink}>{externalLink}</ExternalLink>
+            )}
           </Typography>
         )}
       </CardContent>
