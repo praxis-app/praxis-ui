@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { Flag, Place, Timer } from "@mui/icons-material";
+import { Flag, Language, Place, Timer } from "@mui/icons-material";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -31,6 +31,7 @@ import { getEventPath } from "../../utils/event.utils";
 import { formatDateTime } from "../../utils/time.utils";
 import { GroupTabs } from "../Groups/GroupProfileCard";
 import CoverPhoto from "../Images/CoverPhoto";
+import ExternalLink from "../Shared/ExternalLink";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import EventAttendeeButtons from "./EventAttendeeButtons";
@@ -77,7 +78,16 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
     }
   }, [query.tab, setTab]);
 
-  const { id, name, coverPhoto, endsAt, group, location, startsAt } = event;
+  const {
+    id,
+    name,
+    coverPhoto,
+    endsAt,
+    startsAt,
+    externalLink,
+    group,
+    location,
+  } = event;
   const canManageEvents = group?.myPermissions?.manageEvents;
 
   const eventPagePath = getEventPath(id);
@@ -201,6 +211,14 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
           <Typography color="text.secondary">
             <Timer sx={iconStyles} />
             {t("events.labels.duration", { duration })}
+          </Typography>
+        )}
+
+        {externalLink && (
+          <Typography color="text.secondary">
+            <Language sx={iconStyles} />
+            {t("events.labels.onlineWithColon") + " "}
+            <ExternalLink href={externalLink}>{externalLink}</ExternalLink>
           </Typography>
         )}
       </CardContent>

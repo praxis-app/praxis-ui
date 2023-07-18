@@ -283,6 +283,7 @@
     },
     "labels": {
       "duration": "Duration: {{duration}}",
+      "onlineWithColon": "Online:",
       "eventBy": "Event by",
       "going": "Going",
       "interested": "Interested",

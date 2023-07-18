@@ -5,6 +5,8 @@ fragment EventPageCard on Event {
   location
   startsAt
   endsAt
+  online
+  externalLink
   ...EventAttendeeButtons @include(if: $isLoggedIn)
 
   coverPhoto {

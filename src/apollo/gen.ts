@@ -1088,6 +1088,8 @@ export type EventPageCardFragment = {
   location?: string | null;
   startsAt: any;
   endsAt?: any | null;
+  online: boolean;
+  externalLink?: string | null;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
   group?: {
@@ -1178,6 +1180,8 @@ export type UpdateEventMutation = {
       location?: string | null;
       startsAt: any;
       endsAt?: any | null;
+      online: boolean;
+      externalLink?: string | null;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
@@ -1247,6 +1251,8 @@ export type EventPageQuery = {
     location?: string | null;
     startsAt: any;
     endsAt?: any | null;
+    online: boolean;
+    externalLink?: string | null;
     attendingStatus?: string | null;
     posts: Array<{
       __typename?: "Post";
@@ -4722,6 +4728,8 @@ export const EventPageCardFragmentDoc = gql`
     location
     startsAt
     endsAt
+    online
+    externalLink
     ...EventAttendeeButtons @include(if: $isLoggedIn)
     coverPhoto {
       id
