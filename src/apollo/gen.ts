@@ -1071,6 +1071,7 @@ export type EventFormFragment = {
   description: string;
   location?: string | null;
   online: boolean;
+  externalLink?: string | null;
 };
 
 export type EventItemAvatarFragment = {
@@ -1228,6 +1229,7 @@ export type EditEventQuery = {
     description: string;
     location?: string | null;
     online: boolean;
+    externalLink?: string | null;
     group?: {
       __typename?: "Group";
       id: number;
@@ -4718,6 +4720,7 @@ export const EventFormFragmentDoc = gql`
     description
     location
     online
+    externalLink
   }
 `;
 export const EventPageCardFragmentDoc = gql`

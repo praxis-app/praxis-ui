@@ -70,6 +70,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     endsAt: editEvent ? dayjs(editEvent.endsAt) : null,
     location: editEvent ? editEvent.location : "",
     online: editEvent ? editEvent.online : false,
+    externalLink: editEvent ? editEvent.externalLink : "",
   };
 
   const showEndsAtButtonStyles: SxProps = {

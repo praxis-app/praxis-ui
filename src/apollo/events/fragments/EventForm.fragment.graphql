@@ -6,4 +6,5 @@ fragment EventForm on Event {
   description
   location
   online
+  externalLink
 }
