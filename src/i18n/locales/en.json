@@ -278,7 +278,8 @@
       "endDateAndTime": "End Date and Time",
       "includeLocation": "Include place or address",
       "location": "Location",
-      "startDateAndTime": "Start Date and Time"
+      "startDateAndTime": "Start Date and Time",
+      "externalLink": "External Link"
     },
     "labels": {
       "duration": "Duration: {{duration}}",

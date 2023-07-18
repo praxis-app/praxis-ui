@@ -41,6 +41,7 @@ export enum EventFormFieldName {
   Name = "name",
   Description = "description",
   Location = "location",
+  ExternalLink = "externalLink",
   StartsAt = "startsAt",
   EndsAt = "endsAt",
   Online = "online",
@@ -256,7 +257,11 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               placeholder={t("events.form.includeLocation")}
             />
 
-            <Flex justifyContent="space-between" marginBottom={1} marginTop={2}>
+            <Flex
+              justifyContent="space-between"
+              marginBottom={1.25}
+              marginTop={2}
+            >
               <Box>
                 <Typography>{t("events.labels.online")}</Typography>
                 <Typography color="text.secondary" fontSize="12px">
@@ -272,6 +277,14 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
                 edge="end"
               />
             </Flex>
+
+            {values.online && (
+              <TextField
+                autoComplete="off"
+                label={t("events.form.externalLink")}
+                name={EventFormFieldName.ExternalLink}
+              />
+            )}
 
             {coverPhoto && (
               <AttachedImagePreview
