@@ -1,12 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { Event as CalendarIcon } from "@mui/icons-material";
-import {
-  Card,
-  CardContent,
-  CardHeader as MuiCardHeader,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
@@ -18,10 +12,6 @@ import Center from "../Shared/Center";
 import GhostButton from "../Shared/GhostButton";
 import Modal from "../Shared/Modal";
 import ProgressBar from "../Shared/ProgressBar";
-
-const CardHeader = styled(MuiCardHeader)(() => ({
-  paddingBottom: "8px",
-}));
 
 interface Props {
   groupId: number;

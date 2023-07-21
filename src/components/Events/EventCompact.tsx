@@ -64,77 +64,89 @@ const EventCompact = ({ event, isLast }: Props) => {
       },
     });
 
+  const renderButtonStack = () => (
+    <Stack direction="row" spacing={1} height={40}>
+      <EventAttendeeButtons event={event} withGoingButton={false} />
+      <ItemMenu
+        itemId={id}
+        anchorEl={menuAnchorEl}
+        buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+        canDelete={canManageEvents}
+        canUpdate={canManageEvents}
+        deleteItem={handleDelete}
+        deletePrompt={deletePrompt}
+        editPath={editEventPath}
+        setAnchorEl={setMenuAnchorEl}
+        variant="ghost"
+      />
+    </Stack>
+  );
+
   return (
     <>
-      <Flex>
-        <Link href={eventPagePath}>
-          <Box width={isDesktop ? "90px" : "65px"} marginRight={1.5}>
-            <Image
-              alt={t("images.labels.coverPhoto")}
-              style={{ borderRadius: "8px" }}
-              blurDataURL={imageSrc}
-              layout="responsive"
-              placeholder="blur"
-              src={imageSrc}
-              height={300}
-              width={300}
-            />
-          </Box>
-        </Link>
-
-        <Box marginTop={-0.5} width="100%">
+      <Flex justifyContent="space-between">
+        <Flex width="100%">
           <Link href={eventPagePath}>
-            <Typography
-              fontFamily="Inter Bold"
-              fontSize={13}
-              lineHeight={1}
-              variant="overline"
-            >
-              {startDate}
-            </Typography>
-            <Typography fontFamily="Inter Bold" fontSize={20} lineHeight={1.2}>
-              {name}
-            </Typography>
+            <Box width={isDesktop ? "90px" : "65px"} marginRight={1.5}>
+              <Image
+                alt={t("images.labels.coverPhoto")}
+                style={{ borderRadius: "8px" }}
+                blurDataURL={imageSrc}
+                layout="responsive"
+                placeholder="blur"
+                src={imageSrc}
+                height={300}
+                width={300}
+              />
+            </Box>
           </Link>
 
-          <Stack
-            direction="row"
-            divider={<>{MIDDOT_WITH_SPACES}</>}
-            spacing={2}
-            color="text.secondary"
-            fontSize="15px"
-            marginBottom={0.7}
-          >
-            {!!interestedCount && (
-              <>
-                {interestedCount} {t("events.labels.interested")}
-              </>
-            )}
-            {!!goingCount && (
-              <>
-                {goingCount} {t("events.labels.going")}
-              </>
-            )}
-            {!!online && <>{t("events.labels.onlineEvent")}</>}
-            {!!location && <>{location}</>}
-          </Stack>
+          <Box marginTop={-0.5} width="100%">
+            <Link href={eventPagePath}>
+              <Typography
+                fontFamily="Inter Bold"
+                fontSize={13}
+                lineHeight={1}
+                variant="overline"
+              >
+                {startDate}
+              </Typography>
+              <Typography
+                fontFamily="Inter Bold"
+                fontSize={20}
+                lineHeight={1.2}
+              >
+                {name}
+              </Typography>
+            </Link>
 
-          <Stack direction="row" spacing={1}>
-            <EventAttendeeButtons event={event} withGoingButton={false} />
-            <ItemMenu
-              itemId={id}
-              anchorEl={menuAnchorEl}
-              buttonStyles={{ maxWidth: 40, minWidth: 40 }}
-              canDelete={canManageEvents}
-              canUpdate={canManageEvents}
-              deleteItem={handleDelete}
-              deletePrompt={deletePrompt}
-              editPath={editEventPath}
-              setAnchorEl={setMenuAnchorEl}
-              variant="ghost"
-            />
-          </Stack>
-        </Box>
+            <Stack
+              direction="row"
+              divider={<>{MIDDOT_WITH_SPACES}</>}
+              spacing={2}
+              color="text.secondary"
+              fontSize="15px"
+              marginBottom={0.7}
+            >
+              {!!interestedCount && (
+                <>
+                  {interestedCount} {t("events.labels.interested")}
+                </>
+              )}
+              {!!goingCount && (
+                <>
+                  {goingCount} {t("events.labels.going")}
+                </>
+              )}
+              {!!online && <>{t("events.labels.onlineEvent")}</>}
+              {!!location && <>{location}</>}
+            </Stack>
+
+            {!isDesktop && renderButtonStack()}
+          </Box>
+        </Flex>
+
+        {isDesktop && renderButtonStack()}
       </Flex>
 
       {!isLast && <Divider sx={{ marginY: 2 }} />}
