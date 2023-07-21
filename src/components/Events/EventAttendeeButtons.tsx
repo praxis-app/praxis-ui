@@ -42,7 +42,7 @@ interface Props extends StackProps {
 }
 
 const EventAttendeeButtons = ({
-  event: { id, attendingStatus, __typename },
+  event,
   withGoingButton = true,
   itemMenu,
   ...stackProps
@@ -59,32 +59,37 @@ const EventAttendeeButtons = ({
   const isLoading =
     createAttendeeLoading || updateAttendeeLoading || deleteAttendeeLoading;
 
-  const isGoing = attendingStatus === EventAttendeeStatus.Going;
-  const isHosting = attendingStatus === EventAttendeeStatus.Host;
-  const isInterested = attendingStatus === EventAttendeeStatus.Interested;
+  const isGoing = event.attendingStatus === EventAttendeeStatus.Going;
+  const isHosting = event.attendingStatus === EventAttendeeStatus.Host;
+  const isInterested = event.attendingStatus === EventAttendeeStatus.Interested;
 
   const GoingButton = isGoing ? PrimaryButton : GhostButton;
   const InterestedButton = isInterested ? PrimaryButton : GhostButton;
 
-  const removeAttendee = (cache: ApolloCache<any>) => {
-    cache.modify({
-      id: cache.identify({ id, __typename }),
-      fields: { attendingStatus: () => null },
-    });
-  };
+  const removeAttendee =
+    (status: "going" | "interested") => (cache: ApolloCache<any>) => {
+      cache.modify({
+        id: cache.identify(event),
+        fields: {
+          attendingStatus: () => null,
+          goingCount: (c) => (status === "going" ? c - 1 : c),
+          interestedCount: (c) => (status === "interested" ? c - 1 : c),
+        },
+      });
+    };
 
   const handleInterestedButtonClick = async () => {
     if (isInterested) {
       await deleteEventAttendee({
-        variables: { eventId: id },
-        update: removeAttendee,
+        variables: { eventId: event.id },
+        update: removeAttendee("interested"),
       });
       return;
     }
     const variables = {
       eventAttendeeData: {
         status: EventAttendeeStatus.Interested,
-        eventId: id,
+        eventId: event.id,
       },
     };
     if (isGoing) {
@@ -97,15 +102,15 @@ const EventAttendeeButtons = ({
   const handleGoingButtonClick = async () => {
     if (isGoing) {
       await deleteEventAttendee({
-        variables: { eventId: id },
-        update: removeAttendee,
+        variables: { eventId: event.id },
+        update: removeAttendee("going"),
       });
       return;
     }
     const variables = {
       eventAttendeeData: {
         status: EventAttendeeStatus.Going,
-        eventId: id,
+        eventId: event.id,
       },
     };
     if (isInterested) {
