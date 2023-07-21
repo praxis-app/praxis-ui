@@ -16,8 +16,7 @@ import {
   useUpdateEventAttendeeMutation,
 } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import GhostButton from "../Shared/GhostButton";
-import { BLURPLE_BUTTON_COLORS } from "../Shared/PrimaryActionButton";
+import { DarkMode } from "../../styles/theme";
 
 enum EventAttendeeStatus {
   CoHost = "co-host",
@@ -26,14 +25,33 @@ enum EventAttendeeStatus {
   Interested = "interested",
 }
 
-const PrimaryButton = styled(MuiButton)(({ theme }) => ({
-  ...BLURPLE_BUTTON_COLORS,
-  color: theme.palette.text.primary,
+const Button = styled(MuiButton)(() => ({
   fontFamily: "Inter Bold",
   letterSpacing: "0.3px",
   padding: "6px 16px",
   textTransform: "none",
   borderRadius: 8,
+}));
+
+const PrimaryButton = styled(Button)(() => ({
+  color: "#3b86f7",
+  backgroundColor: "#2b394f",
+  "&:active": {
+    backgroundColor: "#2b394f",
+  },
+  "&:hover": {
+    backgroundColor: "#344560",
+  },
+  "&:disabled": {
+    backgroundColor: DarkMode.Liver,
+  },
+}));
+
+const SecondaryButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.background.secondary,
+  "&:hover": {
+    backgroundColor: "#4e4f50",
+  },
 }));
 
 interface Props extends StackProps {
@@ -65,8 +83,8 @@ const EventAttendeeButtons = ({
   const isHosting = event.attendingStatus === EventAttendeeStatus.Host;
   const isInterested = event.attendingStatus === EventAttendeeStatus.Interested;
 
-  const GoingButton = isGoing ? PrimaryButton : GhostButton;
-  const InterestedButton = isInterested ? PrimaryButton : GhostButton;
+  const GoingButton = isGoing ? PrimaryButton : SecondaryButton;
+  const InterestedButton = isInterested ? PrimaryButton : SecondaryButton;
 
   const removeAttendee =
     (status: "going" | "interested") => (cache: ApolloCache<any>) => {
