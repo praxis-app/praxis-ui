@@ -126,7 +126,7 @@ const EventCompact = ({ event, isLast }: Props) => {
               spacing={2}
               color="text.secondary"
               fontSize="15px"
-              marginBottom={0.7}
+              marginBottom={isDesktop ? 0 : 0.7}
             >
               {!!interestedCount && (
                 <>
@@ -138,9 +138,22 @@ const EventCompact = ({ event, isLast }: Props) => {
                   {goingCount} {t("events.labels.going")}
                 </>
               )}
-              {!!online && <>{t("events.labels.onlineEvent")}</>}
-              {!!location && <>{location}</>}
+              {!!online && !isDesktop && <>{t("events.labels.onlineEvent")}</>}
+              {!!location && !isDesktop && <>{location}</>}
             </Stack>
+
+            {isDesktop && (
+              <Stack
+                direction="row"
+                divider={<>{MIDDOT_WITH_SPACES}</>}
+                spacing={2}
+                color="text.secondary"
+                fontSize="15px"
+              >
+                {!!online && <>{t("events.labels.onlineEvent")}</>}
+                {!!location && <>{location}</>}
+              </Stack>
+            )}
 
             {!isDesktop && renderButtonStack()}
           </Box>
