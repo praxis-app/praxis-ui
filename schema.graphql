@@ -144,9 +144,11 @@ type Event {
   description: String!
   endsAt: DateTime
   externalLink: String
+  goingCount: Int!
   group: Group
   id: Int!
   images: [Image!]!
+  interestedCount: Int!
   location: String
   name: String!
   online: Boolean!

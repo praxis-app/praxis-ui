@@ -183,9 +183,11 @@ export type Event = {
   description: Scalars["String"];
   endsAt?: Maybe<Scalars["DateTime"]>;
   externalLink?: Maybe<Scalars["String"]>;
+  goingCount: Scalars["Int"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
+  interestedCount: Scalars["Int"];
   location?: Maybe<Scalars["String"]>;
   name: Scalars["String"];
   online: Scalars["Boolean"];
@@ -1091,6 +1093,8 @@ export type EventPageCardFragment = {
   endsAt?: any | null;
   online: boolean;
   externalLink?: string | null;
+  interestedCount: number;
+  goingCount: number;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
   group?: {
@@ -1183,6 +1187,8 @@ export type UpdateEventMutation = {
       endsAt?: any | null;
       online: boolean;
       externalLink?: string | null;
+      interestedCount: number;
+      goingCount: number;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
@@ -1255,6 +1261,8 @@ export type EventPageQuery = {
     endsAt?: any | null;
     online: boolean;
     externalLink?: string | null;
+    interestedCount: number;
+    goingCount: number;
     attendingStatus?: string | null;
     posts: Array<{
       __typename?: "Post";
@@ -4733,6 +4741,8 @@ export const EventPageCardFragmentDoc = gql`
     endsAt
     online
     externalLink
+    interestedCount
+    goingCount
     ...EventAttendeeButtons @include(if: $isLoggedIn)
     coverPhoto {
       id

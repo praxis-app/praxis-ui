@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { Flag, Language, Place, Timer } from "@mui/icons-material";
+import { Flag, Group, Language, Place, Timer } from "@mui/icons-material";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -22,6 +22,7 @@ import {
   useDeleteEventMutation,
 } from "../../apollo/gen";
 import {
+  MIDDOT_WITH_SPACES,
   NavigationPaths,
   TAB_QUERY_PARAM,
 } from "../../constants/common.constants";
@@ -86,6 +87,8 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
     startsAt,
     online,
     externalLink,
+    interestedCount,
+    goingCount,
     group,
     location,
   } = event;
@@ -189,6 +192,23 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
               />
             }
           />
+        )}
+
+        {!!(interestedCount + goingCount) && (
+          <Typography color="text.secondary" gutterBottom>
+            <Group sx={iconStyles} />
+            {!!interestedCount && (
+              <>
+                {interestedCount} {t("events.labels.interested")}
+              </>
+            )}
+            {!!interestedCount && !!goingCount && MIDDOT_WITH_SPACES}
+            {!!goingCount && (
+              <>
+                {goingCount} {t("events.labels.going")}
+              </>
+            )}
+          </Typography>
         )}
 
         {location && (
