@@ -122,6 +122,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
   };
 
   const itemMenuButtonStyles: SxProps = {
+    ".MuiTouchRipple-child": { display: "none" },
     "&:hover": { backgroundColor: "#4e4f50" },
     backgroundColor: "background.secondary",
     borderRadius: 2,
