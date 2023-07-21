@@ -44,6 +44,17 @@ const EventCompact = ({ event, isLast }: Props) => {
   const editEventPath = `${eventPagePath}/edit`;
   const startDate = dayjs(startsAt).format("ddd, MMM D, YYYY");
 
+  const showInterestedCount =
+    !!interestedCount &&
+    (goingCount === 0 ||
+      interestedCount === goingCount ||
+      interestedCount > goingCount ||
+      isDesktop);
+
+  const showGoingCount =
+    !!goingCount &&
+    (goingCount > interestedCount || interestedCount === 0 || isDesktop);
+
   const deletePrompt = t("prompts.deleteItem", {
     itemType: "event",
   });
@@ -128,12 +139,12 @@ const EventCompact = ({ event, isLast }: Props) => {
               fontSize="15px"
               marginBottom={isDesktop ? 0 : 0.7}
             >
-              {!!interestedCount && (
+              {showInterestedCount && (
                 <>
                   {interestedCount} {t("events.labels.interested")}
                 </>
               )}
-              {!!goingCount && (
+              {showGoingCount && (
                 <>
                   {goingCount} {t("events.labels.going")}
                 </>
