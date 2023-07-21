@@ -1055,6 +1055,10 @@ export type EventCompactFragment = {
   name: string;
   description: string;
   startsAt: any;
+  interestedCount: number;
+  goingCount: number;
+  online: boolean;
+  location?: string | null;
   attendingStatus?: string | null;
   coverPhoto: { __typename?: "Image"; id: number };
   group?: {
@@ -1120,6 +1124,10 @@ export type CreateEventMutation = {
       name: string;
       description: string;
       startsAt: any;
+      interestedCount: number;
+      goingCount: number;
+      online: boolean;
+      location?: string | null;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
@@ -1334,6 +1342,10 @@ export type EventsQuery = {
     name: string;
     description: string;
     startsAt: any;
+    interestedCount: number;
+    goingCount: number;
+    online: boolean;
+    location?: string | null;
     attendingStatus?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
     group?: {
@@ -1360,6 +1372,10 @@ export type PublicEventsQuery = {
     name: string;
     description: string;
     startsAt: any;
+    interestedCount: number;
+    goingCount: number;
+    online: boolean;
+    location?: string | null;
     attendingStatus?: string | null;
     coverPhoto: { __typename?: "Image"; id: number };
     group?: {
@@ -1951,6 +1967,10 @@ export type GroupEventsTabQuery = {
       name: string;
       description: string;
       startsAt: any;
+      interestedCount: number;
+      goingCount: number;
+      online: boolean;
+      location?: string | null;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
@@ -1968,6 +1988,10 @@ export type GroupEventsTabQuery = {
       name: string;
       description: string;
       startsAt: any;
+      interestedCount: number;
+      goingCount: number;
+      online: boolean;
+      location?: string | null;
       attendingStatus?: string | null;
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
@@ -4710,6 +4734,10 @@ export const EventCompactFragmentDoc = gql`
     name
     description
     startsAt
+    interestedCount
+    goingCount
+    online
+    location
     ...EventAttendeeButtons @include(if: $isLoggedIn)
     coverPhoto {
       id

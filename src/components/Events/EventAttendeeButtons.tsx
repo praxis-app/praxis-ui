@@ -15,6 +15,7 @@ import {
   useDeleteEventAttendeeMutation,
   useUpdateEventAttendeeMutation,
 } from "../../apollo/gen";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import GhostButton from "../Shared/GhostButton";
 import { BLURPLE_BUTTON_COLORS } from "../Shared/PrimaryActionButton";
 
@@ -55,6 +56,7 @@ const EventAttendeeButtons = ({
     useUpdateEventAttendeeMutation();
 
   const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
 
   const isLoading =
     createAttendeeLoading || updateAttendeeLoading || deleteAttendeeLoading;
@@ -128,7 +130,10 @@ const EventAttendeeButtons = ({
 
   if (!withGoingButton) {
     return (
-      <InterestedButton {...interestedButtonProps}>
+      <InterestedButton
+        fullWidth={!withGoingButton && !isDesktop}
+        {...interestedButtonProps}
+      >
         {t("events.labels.interested")}
       </InterestedButton>
     );

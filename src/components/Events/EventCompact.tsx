@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { EventCompactFragment, useDeleteEventMutation } from "../../apollo/gen";
+import { MIDDOT_WITH_SPACES } from "../../constants/common.constants";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { getEventPath } from "../../utils/event.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Flex from "../Shared/Flex";
@@ -20,9 +22,21 @@ interface Props {
 const EventCompact = ({ event, isLast }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [deleteEvent] = useDeleteEventMutation();
-  const { t } = useTranslation();
 
-  const { id, coverPhoto, startsAt, name, group } = event;
+  const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
+
+  const {
+    id,
+    coverPhoto,
+    startsAt,
+    name,
+    group,
+    interestedCount,
+    goingCount,
+    online,
+    location,
+  } = event;
   const canManageEvents = group?.myPermissions?.manageEvents;
 
   const imageSrc = getImagePath(coverPhoto.id);
@@ -54,7 +68,7 @@ const EventCompact = ({ event, isLast }: Props) => {
     <>
       <Flex>
         <Link href={eventPagePath}>
-          <Box width="90px" height="90px" marginRight={1.5}>
+          <Box width={isDesktop ? "90px" : "65px"} marginRight={1.5}>
             <Image
               alt={t("images.labels.coverPhoto")}
               style={{ borderRadius: "8px" }}
@@ -68,7 +82,7 @@ const EventCompact = ({ event, isLast }: Props) => {
           </Box>
         </Link>
 
-        <Box>
+        <Box marginTop={-0.5} width="100%">
           <Link href={eventPagePath}>
             <Typography
               fontFamily="Inter Bold"
@@ -78,15 +92,32 @@ const EventCompact = ({ event, isLast }: Props) => {
             >
               {startDate}
             </Typography>
-            <Typography
-              fontFamily="Inter Bold"
-              fontSize={20}
-              lineHeight={1}
-              marginBottom={1.25}
-            >
+            <Typography fontFamily="Inter Bold" fontSize={20} lineHeight={1.2}>
               {name}
             </Typography>
           </Link>
+
+          <Stack
+            direction="row"
+            divider={<>{MIDDOT_WITH_SPACES}</>}
+            spacing={2}
+            color="text.secondary"
+            fontSize="15px"
+            marginBottom={0.7}
+          >
+            {!!interestedCount && (
+              <>
+                {interestedCount} {t("events.labels.interested")}
+              </>
+            )}
+            {!!goingCount && (
+              <>
+                {goingCount} {t("events.labels.going")}
+              </>
+            )}
+            {!!online && <>{t("events.labels.onlineEvent")}</>}
+            {!!location && <>{location}</>}
+          </Stack>
 
           <Stack direction="row" spacing={1}>
             <EventAttendeeButtons event={event} withGoingButton={false} />

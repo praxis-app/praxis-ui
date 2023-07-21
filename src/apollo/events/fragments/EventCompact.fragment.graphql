@@ -3,6 +3,10 @@ fragment EventCompact on Event {
   name
   description
   startsAt
+  interestedCount
+  goingCount
+  online
+  location
   ...EventAttendeeButtons @include(if: $isLoggedIn)
 
   coverPhoto {
