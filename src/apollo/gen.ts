@@ -1146,6 +1146,8 @@ export type CreateEventAttendeeMutation = {
       __typename?: "Event";
       id: number;
       attendingStatus?: string | null;
+      goingCount: number;
+      interestedCount: number;
     };
   };
 };
@@ -1216,6 +1218,8 @@ export type UpdateEventAttendeeMutation = {
       __typename?: "Event";
       id: number;
       attendingStatus?: string | null;
+      goingCount: number;
+      interestedCount: number;
     };
   };
 };
@@ -5631,6 +5635,8 @@ export const CreateEventAttendeeDocument = gql`
       event {
         id
         attendingStatus
+        goingCount
+        interestedCount
       }
     }
   }
@@ -5837,6 +5843,8 @@ export const UpdateEventAttendeeDocument = gql`
       event {
         id
         attendingStatus
+        goingCount
+        interestedCount
       }
     }
   }

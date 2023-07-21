@@ -3,6 +3,8 @@ mutation UpdateEventAttendee($eventAttendeeData: UpdateEventAttendeeInput!) {
     event {
       id
       attendingStatus
+      goingCount
+      interestedCount
     }
   }
 }

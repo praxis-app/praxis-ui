@@ -3,6 +3,8 @@ mutation CreateEventAttendee($eventAttendeeData: CreateEventAttendeeInput!) {
     event {
       id
       attendingStatus
+      goingCount
+      interestedCount
     }
   }
 }
