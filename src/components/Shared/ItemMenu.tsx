@@ -42,19 +42,15 @@ const ItemMenu = ({
   if (!canUpdate && !canDelete && !children) {
     return null;
   }
+  const showEditButton = canUpdate && editPath;
+  const showDeleteButton = canDelete && deleteItem && deletePrompt;
+  const Button = variant === "ghost" ? GhostButton : IconButton;
 
-  const editIconStyles = {
+  const editIconStyles: SxProps = {
     marginBottom: 0.8,
     marginRight: 1,
     transform: "rotateY(180deg) translateY(2px)",
   };
-  const menuStyles = {
-    transform: `translateY(${variant === "ghost" ? 4 : 1}px)`,
-  };
-  const Button = variant === "ghost" ? GhostButton : IconButton;
-
-  const showEditButton = canUpdate && editPath;
-  const showDeleteButton = canDelete && deleteItem && deletePrompt;
 
   const handleMenuButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
@@ -95,7 +91,9 @@ const ItemMenu = ({
           horizontal: "right",
           vertical: "top",
         }}
-        sx={menuStyles}
+        sx={{
+          transform: `translateY(${variant === "ghost" ? 4 : 1}px)`,
+        }}
       >
         {prependChildren && children}
 

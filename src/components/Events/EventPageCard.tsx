@@ -121,6 +121,13 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
     marginRight: "0.8ch",
   };
 
+  const itemMenuButtonStyles: SxProps = {
+    "&:hover": { backgroundColor: "#4e4f50" },
+    backgroundColor: "background.secondary",
+    borderRadius: 2,
+    minWidth: 50,
+  };
+
   const handleDelete = async () => {
     setIsDeleting(true);
     await deleteEvent({
@@ -181,14 +188,13 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
               <ItemMenu
                 itemId={id}
                 anchorEl={menuAnchorEl}
-                buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+                buttonStyles={itemMenuButtonStyles}
                 canDelete={canManageEvents}
                 canUpdate={canManageEvents}
                 deleteItem={handleDelete}
                 deletePrompt={deletePrompt}
                 editPath={editEventPath}
                 setAnchorEl={setMenuAnchorEl}
-                variant="ghost"
               />
             }
           />
