@@ -120,13 +120,10 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
     marginBottom: "-0.3ch",
     marginRight: "0.8ch",
   };
-
   const itemMenuButtonStyles: SxProps = {
-    ".MuiTouchRipple-child": { display: "none" },
-    "&:hover": { backgroundColor: "#4e4f50" },
-    backgroundColor: "background.secondary",
     borderRadius: 2,
-    minWidth: 50,
+    minWidth: 45,
+    maxWidth: 45,
   };
 
   const handleDelete = async () => {
@@ -196,6 +193,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
                 deletePrompt={deletePrompt}
                 editPath={editEventPath}
                 setAnchorEl={setMenuAnchorEl}
+                variant="ghost"
               />
             }
           />

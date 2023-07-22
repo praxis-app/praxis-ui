@@ -51,6 +51,11 @@ const ItemMenu = ({
     marginRight: 1,
     transform: "rotateY(180deg) translateY(2px)",
   };
+  const menuButtonStyles: SxProps = {
+    "&:hover": { color: variant === "ghost" ? "text.primary" : undefined },
+    color: "text.secondary",
+    ...buttonStyles,
+  };
 
   const handleMenuButtonClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
@@ -73,9 +78,9 @@ const ItemMenu = ({
       <Button
         aria-label={t("labels.menuButton")}
         onClick={handleMenuButtonClick}
-        sx={buttonStyles}
+        sx={menuButtonStyles}
       >
-        <MoreHoriz sx={{ color: "text.secondary" }} />
+        <MoreHoriz />
       </Button>
 
       <Menu
