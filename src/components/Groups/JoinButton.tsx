@@ -7,10 +7,8 @@ import { toastVar } from "../../apollo/cache";
 import {
   GroupMemberRequestDocument,
   GroupMemberRequestQuery,
-  GroupMemberRequestQueryVariables,
   MemberRequestsDocument,
   MemberRequestsQuery,
-  MemberRequestsQueryVariables,
   useCancelGroupMemberRequestMutation,
   useCreateGroupMemberRequestMutation,
   useGroupMemberRequestQuery,
@@ -71,15 +69,12 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
         const {
           createGroupMemberRequest: { groupMemberRequest },
         } = data;
-        cache.writeQuery<
-          GroupMemberRequestQuery,
-          GroupMemberRequestQueryVariables
-        >({
+        cache.writeQuery<GroupMemberRequestQuery>({
           query: GroupMemberRequestDocument,
           variables: { groupId },
           data: { groupMemberRequest },
         });
-        cache.updateQuery<MemberRequestsQuery, MemberRequestsQueryVariables>(
+        cache.updateQuery<MemberRequestsQuery>(
           {
             query: MemberRequestsDocument,
             variables: {
@@ -106,10 +101,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
     await cancelMemberRequest({
       variables: { id },
       update(cache) {
-        cache.writeQuery<
-          GroupMemberRequestQuery,
-          GroupMemberRequestQueryVariables
-        >({
+        cache.writeQuery<GroupMemberRequestQuery>({
           query: GroupMemberRequestDocument,
           variables: { groupId },
           data: { groupMemberRequest: null },
@@ -125,10 +117,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
     await leaveGroup({
       variables: { id: groupId },
       update(cache) {
-        cache.writeQuery<
-          GroupMemberRequestQuery,
-          GroupMemberRequestQueryVariables
-        >({
+        cache.writeQuery<GroupMemberRequestQuery>({
           query: GroupMemberRequestDocument,
           variables: { groupId },
           data: { groupMemberRequest: null },
