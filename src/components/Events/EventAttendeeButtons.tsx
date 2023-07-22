@@ -16,7 +16,8 @@ import {
   useUpdateEventAttendeeMutation,
 } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { DarkMode } from "../../styles/theme";
+import { Blurple } from "../../styles/theme";
+import GhostButton from "../Shared/GhostButton";
 
 enum EventAttendeeStatus {
   CoHost = "co-host",
@@ -33,17 +34,12 @@ const Button = styled(MuiButton)(() => ({
   borderRadius: 8,
 }));
 
-const PrimaryButton = styled(Button)(() => ({
-  color: "#3b86f7",
-  backgroundColor: "#2b394f",
-  "&:active": {
-    backgroundColor: "#2b394f",
-  },
+const PrimaryButton = styled(GhostButton)(() => ({
+  color: Blurple.PoolWater,
+  borderColor: Blurple.PoolWater,
   "&:hover": {
-    backgroundColor: "#344560",
-  },
-  "&:disabled": {
-    backgroundColor: DarkMode.Liver,
+    borderColor: Blurple.PoolWater,
+    backgroundColor: "#2b394f",
   },
 }));
 
