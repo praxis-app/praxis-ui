@@ -273,11 +273,11 @@
       "whatToExpect": "What to Expect"
     },
     "form": {
-      "name": "Name",
-      "description": "Description",
+      "name": "Event name",
+      "description": "What are the details?",
       "endDateAndTime": "End Date and Time",
-      "includeLocation": "Include place or address",
-      "location": "Location",
+      "includeLocation": "Include a place or address",
+      "location": "Add location",
       "startDateAndTime": "Start Date and Time",
       "externalLink": "External Link"
     },
