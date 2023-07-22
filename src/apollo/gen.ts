@@ -1047,6 +1047,7 @@ export type EventAttendeeButtonsFragment = {
   __typename?: "Event";
   id: number;
   attendingStatus?: string | null;
+  group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
 };
 
 export type EventCompactFragment = {
@@ -1064,6 +1065,7 @@ export type EventCompactFragment = {
   group?: {
     __typename?: "Group";
     id: number;
+    isJoinedByMe?: boolean;
     myPermissions?: { __typename?: "GroupPermissions"; manageEvents: boolean };
   } | null;
 };
@@ -1105,6 +1107,7 @@ export type EventPageCardFragment = {
     __typename?: "Group";
     id: number;
     name: string;
+    isJoinedByMe?: boolean;
     myPermissions?: { __typename?: "GroupPermissions"; manageEvents: boolean };
   } | null;
 };
@@ -1133,6 +1136,7 @@ export type CreateEventMutation = {
       group?: {
         __typename?: "Group";
         id: number;
+        isJoinedByMe?: boolean;
         myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
@@ -1205,6 +1209,7 @@ export type UpdateEventMutation = {
         __typename?: "Group";
         id: number;
         name: string;
+        isJoinedByMe?: boolean;
         myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
@@ -1321,6 +1326,7 @@ export type EventPageQuery = {
       __typename?: "Group";
       id: number;
       name: string;
+      isJoinedByMe?: boolean;
       myPermissions?: {
         __typename?: "GroupPermissions";
         manageEvents: boolean;
@@ -1351,6 +1357,7 @@ export type EventsQuery = {
     group?: {
       __typename?: "Group";
       id: number;
+      isJoinedByMe?: boolean;
       myPermissions?: {
         __typename?: "GroupPermissions";
         manageEvents: boolean;
@@ -1381,6 +1388,7 @@ export type PublicEventsQuery = {
     group?: {
       __typename?: "Group";
       id: number;
+      isJoinedByMe?: boolean;
       myPermissions?: {
         __typename?: "GroupPermissions";
         manageEvents: boolean;
@@ -1976,6 +1984,7 @@ export type GroupEventsTabQuery = {
       group?: {
         __typename?: "Group";
         id: number;
+        isJoinedByMe?: boolean;
         myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
@@ -1997,6 +2006,7 @@ export type GroupEventsTabQuery = {
       group?: {
         __typename?: "Group";
         id: number;
+        isJoinedByMe?: boolean;
         myPermissions?: {
           __typename?: "GroupPermissions";
           manageEvents: boolean;
@@ -4726,6 +4736,10 @@ export const EventAttendeeButtonsFragmentDoc = gql`
   fragment EventAttendeeButtons on Event {
     id
     attendingStatus
+    group {
+      id
+      isJoinedByMe @include(if: $isLoggedIn)
+    }
   }
 `;
 export const EventCompactFragmentDoc = gql`

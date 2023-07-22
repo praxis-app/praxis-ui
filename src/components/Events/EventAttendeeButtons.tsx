@@ -43,20 +43,23 @@ const EventAttendeeButtons = ({
 }: Props) => {
   const [createEventAttendee, { loading: createAttendeeLoading }] =
     useCreateEventAttendeeMutation();
-  const [deleteEventAttendee, { loading: deleteAttendeeLoading }] =
-    useDeleteEventAttendeeMutation();
   const [updateEventAttendee, { loading: updateAttendeeLoading }] =
     useUpdateEventAttendeeMutation();
+  const [deleteEventAttendee, { loading: deleteAttendeeLoading }] =
+    useDeleteEventAttendeeMutation();
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
-  const isLoading =
-    createAttendeeLoading || updateAttendeeLoading || deleteAttendeeLoading;
-
   const isGoing = event.attendingStatus === EventAttendeeStatus.Going;
   const isHosting = event.attendingStatus === EventAttendeeStatus.Host;
   const isInterested = event.attendingStatus === EventAttendeeStatus.Interested;
+
+  const isLoading =
+    createAttendeeLoading || updateAttendeeLoading || deleteAttendeeLoading;
+
+  const isDisabled =
+    isLoading || isHosting || !!(event.group && !event.group.isJoinedByMe);
 
   const GoingButton = isGoing ? PrimaryButton : GhostButton;
   const InterestedButton = isInterested ? PrimaryButton : GhostButton;
@@ -116,7 +119,7 @@ const EventAttendeeButtons = ({
   };
 
   const interestedButtonProps: ButtonProps = {
-    disabled: isLoading || isHosting,
+    disabled: isDisabled,
     onClick: handleInterestedButtonClick,
     startIcon: <Star />,
   };
@@ -145,7 +148,7 @@ const EventAttendeeButtons = ({
       </InterestedButton>
 
       <GoingButton
-        disabled={isLoading || isHosting}
+        disabled={isDisabled}
         onClick={handleGoingButtonClick}
         startIcon={<CheckCircle />}
       >
