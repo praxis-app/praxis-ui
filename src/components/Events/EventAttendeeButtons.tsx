@@ -1,12 +1,6 @@
 import { ApolloCache } from "@apollo/client";
 import { CheckCircle, Star } from "@mui/icons-material";
-import {
-  Button as MuiButton,
-  ButtonProps,
-  Stack,
-  StackProps,
-  styled,
-} from "@mui/material";
+import { ButtonProps, Stack, StackProps, styled } from "@mui/material";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -26,27 +20,12 @@ enum EventAttendeeStatus {
   Interested = "interested",
 }
 
-const Button = styled(MuiButton)(() => ({
-  fontFamily: "Inter Bold",
-  letterSpacing: "0.3px",
-  padding: "6px 16px",
-  textTransform: "none",
-  borderRadius: 8,
-}));
-
 const PrimaryButton = styled(GhostButton)(() => ({
   color: Blurple.PoolWater,
   borderColor: Blurple.PoolWater,
   "&:hover": {
     borderColor: Blurple.PoolWater,
     backgroundColor: "#2b394f",
-  },
-}));
-
-const SecondaryButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.background.secondary,
-  "&:hover": {
-    backgroundColor: "#4e4f50",
   },
 }));
 
@@ -79,8 +58,8 @@ const EventAttendeeButtons = ({
   const isHosting = event.attendingStatus === EventAttendeeStatus.Host;
   const isInterested = event.attendingStatus === EventAttendeeStatus.Interested;
 
-  const GoingButton = isGoing ? PrimaryButton : SecondaryButton;
-  const InterestedButton = isInterested ? PrimaryButton : SecondaryButton;
+  const GoingButton = isGoing ? PrimaryButton : GhostButton;
+  const InterestedButton = isInterested ? PrimaryButton : GhostButton;
 
   const removeAttendee =
     (status: "going" | "interested") => (cache: ApolloCache<any>) => {
