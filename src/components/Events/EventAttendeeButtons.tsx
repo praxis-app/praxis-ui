@@ -25,7 +25,7 @@ const PrimaryButton = styled(GhostButton)(() => ({
   borderColor: Blurple.PoolWater,
   "&:hover": {
     borderColor: Blurple.PoolWater,
-    backgroundColor: "#2b394f",
+    backgroundColor: Blurple.BlueWhale,
   },
 }));
 
