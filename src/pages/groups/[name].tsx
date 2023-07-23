@@ -1,7 +1,7 @@
 // TODO: Add remaining layout and functionality - below is a WIP
 
 import { useReactiveVar } from "@apollo/client";
-import { Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -64,8 +64,20 @@ const GroupPage: NextPage = () => {
           <Feed feed={group.feed} />
         </>
       )}
+
       {tab === 1 && <GroupEventsTab groupId={group.id} />}
-      {tab === 2 && <Typography marginTop={5}>{t("prompts.inDev")}</Typography>}
+
+      {tab === 2 && (
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              {t("groups.tabs.about")}
+            </Typography>
+
+            <Typography>{group.description}</Typography>
+          </CardContent>
+        </Card>
+      )}
     </>
   );
 };

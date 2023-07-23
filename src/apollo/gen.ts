@@ -2081,6 +2081,7 @@ export type GroupProfileQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
+    description: string;
     id: number;
     name: string;
     memberRequestCount?: number | null;
@@ -7284,6 +7285,7 @@ export const GroupProfileDocument = gql`
   query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
     group(name: $name) {
       ...GroupProfileCard
+      description
       feed {
         ...FeedItem
       }
