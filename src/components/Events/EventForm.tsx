@@ -1,5 +1,3 @@
-// TODO: Add remaining layout and functionality - below is a WIP
-
 import { Add } from "@mui/icons-material";
 import {
   Button,
