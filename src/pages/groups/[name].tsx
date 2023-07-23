@@ -1,5 +1,3 @@
-// TODO: Add remaining layout and functionality - below is a WIP
-
 import { useReactiveVar } from "@apollo/client";
 import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
