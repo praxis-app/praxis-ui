@@ -1256,6 +1256,7 @@ export type EditEventQuery = {
     group?: {
       __typename?: "Group";
       id: number;
+      name: string;
       myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
     } | null;
   };
@@ -5941,6 +5942,7 @@ export const EditEventDocument = gql`
       ...EventForm
       group {
         id
+        name
         myPermissions {
           manageEvents
         }

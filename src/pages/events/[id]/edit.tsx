@@ -11,6 +11,7 @@ import ProgressBar from "../../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../../constants/common.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";
 import { getEventPath } from "../../../utils/event.utils";
+import { getGroupPath } from "../../../utils/group.utils";
 
 const EditEvent: NextPage = () => {
   const { query } = useRouter();
@@ -42,6 +43,12 @@ const EditEvent: NextPage = () => {
   }
 
   const breadcrumbs = [
+    {
+      label: truncate(group.name, {
+        length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
+      }),
+      href: getGroupPath(group.name),
+    },
     {
       label: truncate(event.name, {
         length: isDesktop ? TruncationSizes.Small : TruncationSizes.ExtraSmall,
