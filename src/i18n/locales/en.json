@@ -276,10 +276,13 @@
       "name": "Event name",
       "description": "What are the details?",
       "endDateAndTime": "End Date and Time",
+      "externalLink": "External Link",
       "includeLocation": "Include a place or address",
+      "inPerson": "In Person",
+      "inPersonOrVirtual": "In person or virtual?",
       "location": "Add location",
       "startDateAndTime": "Start Date and Time",
-      "externalLink": "External Link"
+      "virtual": "Virtual"
     },
     "labels": {
       "duration": "Duration: {{duration}}",

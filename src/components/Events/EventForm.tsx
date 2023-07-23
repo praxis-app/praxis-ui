@@ -2,12 +2,13 @@
 
 import { Add } from "@mui/icons-material";
 import {
-  Box,
   Button,
+  FormControl,
   FormGroup,
-  Switch,
+  InputLabel,
+  MenuItem,
+  Select,
   SxProps,
-  Typography,
 } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik, FormikHelpers } from "formik";
@@ -69,7 +70,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     startsAt: editEvent ? dayjs(editEvent.startsAt) : startOfNextHour(),
     endsAt: editEvent ? dayjs(editEvent.endsAt) : null,
     location: editEvent ? editEvent.location : "",
-    online: editEvent ? editEvent.online : false,
+    online: editEvent ? editEvent.online : null,
     externalLink: editEvent ? editEvent.externalLink : "",
   };
 
@@ -82,6 +83,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
       bgcolor: "transparent",
       textDecoration: "underline",
     },
+    marginBottom: 0.8,
   };
 
   const handleCreate = async (
@@ -215,7 +217,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ isSubmitting, dirty, setFieldValue, values, handleChange }) => (
+      {({ isSubmitting, dirty, setFieldValue, values }) => (
         <Form>
           <FormGroup sx={{ marginBottom: 2 }}>
             <TextField
@@ -251,35 +253,30 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               {t("events.form.endDateAndTime")}
             </Button>
 
-            <TextField
-              autoComplete="off"
-              label={t("events.form.location")}
-              name={EventFormFieldName.Location}
-              placeholder={t("events.form.includeLocation")}
-            />
-
-            <Flex
-              justifyContent="space-between"
-              marginBottom={1.25}
-              marginTop={2}
-            >
-              <Box>
-                <Typography>{t("events.labels.online")}</Typography>
-                <Typography color="text.secondary" fontSize="12px">
-                  {t("events.prompts.planVirtualEvent")}
-                </Typography>
-              </Box>
-              <Switch
-                checked={!!values.online}
-                inputProps={{ "aria-label": t("labels.switch") }}
+            <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+              <InputLabel>{t("events.form.inPersonOrVirtual")}</InputLabel>
+              <Select
+                value={values.online === null ? "" : +!!values.online}
                 name={EventFormFieldName.Online}
-                onChange={handleChange}
-                sx={{ marginTop: 0.5 }}
-                edge="end"
-              />
-            </Flex>
+                onChange={(e) =>
+                  setFieldValue(EventFormFieldName.Online, !!e.target.value)
+                }
+              >
+                <MenuItem value={0}>{t("events.form.inPerson")}</MenuItem>
+                <MenuItem value={1}>{t("events.form.virtual")}</MenuItem>
+              </Select>
+            </FormControl>
 
-            {values.online && (
+            {values.online !== null && !values.online && (
+              <TextField
+                autoComplete="off"
+                label={t("events.form.location")}
+                name={EventFormFieldName.Location}
+                placeholder={t("events.form.includeLocation")}
+              />
+            )}
+
+            {!!values.online && (
               <TextField
                 autoComplete="off"
                 label={t("events.form.externalLink")}
