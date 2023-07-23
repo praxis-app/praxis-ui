@@ -215,13 +215,6 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
           </Typography>
         )}
 
-        {location && (
-          <Typography color="text.secondary" gutterBottom>
-            <Place sx={iconStyles} />
-            {location}
-          </Typography>
-        )}
-
         {group && (
           <Typography color="text.secondary" gutterBottom>
             <Flag sx={iconStyles} />
@@ -229,6 +222,13 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
             <Link href={groupPagePathWithTab} sx={{ marginLeft: "0.4ch" }}>
               {group.name}
             </Link>
+          </Typography>
+        )}
+
+        {location && (
+          <Typography color="text.secondary" gutterBottom>
+            <Place sx={iconStyles} />
+            {location}
           </Typography>
         )}
 
