@@ -19,7 +19,7 @@ input CreateEventInput {
   groupId: Int
   location: String
   name: String!
-  online: Boolean!
+  online: Boolean
   startsAt: DateTime!
 }
 
@@ -553,7 +553,7 @@ input UpdateEventInput {
   id: Int!
   location: String
   name: String!
-  online: Boolean!
+  online: Boolean
   startsAt: DateTime!
 }
 
