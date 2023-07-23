@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import { Form, Formik, FormikErrors, FormikHelpers } from "formik";
+import { Form, Formik, FormikErrors } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -50,10 +50,9 @@ export enum EventFormFieldName {
 interface Props {
   editEvent?: EventFormFragment;
   groupId?: number;
-  onSubmit?: () => void;
 }
 
-const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
+const EventForm = ({ editEvent, groupId }: Props) => {
   const [imageInputKey, setImageInputKey] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [showEndsAt, setShowEndsAt] = useState(!!editEvent?.endsAt);
@@ -85,10 +84,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
     marginBottom: 0.8,
   };
 
-  const handleCreate = async (
-    formValues: CreateEventInput,
-    { setSubmitting, resetForm }: FormikHelpers<CreateEventInput>
-  ) =>
+  const handleCreate = async (formValues: CreateEventInput) =>
     await createEvent({
       variables: {
         eventData: {
@@ -125,12 +121,9 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
           );
         }
       },
-      onCompleted() {
-        onSubmit && onSubmit();
-        setImageInputKey(getRandomString());
-        setCoverPhoto(undefined);
-        setSubmitting(false);
-        resetForm();
+      onCompleted({ createEvent: { event } }) {
+        const groupPagePath = getEventPath(event.id);
+        redirectTo(groupPagePath);
       },
       onError() {
         throw new Error(t("events.errors.couldNotCreate"));
@@ -158,16 +151,13 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
       },
     });
 
-  const handleSubmit = async (
-    formValues: CreateEventInput,
-    formikHelpers: FormikHelpers<CreateEventInput>
-  ) => {
+  const handleSubmit = async (formValues: CreateEventInput) => {
     try {
       if (editEvent) {
         await handleUpdate(formValues, editEvent);
         return;
       }
-      await handleCreate(formValues, formikHelpers);
+      await handleCreate(formValues);
     } catch (err) {
       toastVar({
         status: "error",

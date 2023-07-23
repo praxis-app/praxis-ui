@@ -55,7 +55,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
         onClose={handleCloseModal}
         open={isModalOpen}
       >
-        <EventForm groupId={groupId} onSubmit={handleCloseModal} />
+        <EventForm groupId={groupId} />
       </Modal>
 
       <Card>
