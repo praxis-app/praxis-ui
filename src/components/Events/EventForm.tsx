@@ -256,7 +256,7 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
             <FormControl variant="standard" sx={{ marginBottom: 1 }}>
               <InputLabel>{t("events.form.inPersonOrVirtual")}</InputLabel>
               <Select
-                value={values.online === null ? "" : +!!values.online}
+                value={values.online === null ? "" : Number(!!values.online)}
                 name={EventFormFieldName.Online}
                 onChange={(e) =>
                   setFieldValue(EventFormFieldName.Online, !!e.target.value)
