@@ -18,8 +18,6 @@ import { toastVar } from "../../apollo/cache";
 import {
   CreateEventInput,
   EventFormFragment,
-  EventsDocument,
-  EventsQuery,
   GroupEventsTabDocument,
   GroupEventsTabQuery,
   UpdateEventInput,
@@ -100,14 +98,6 @@ const EventForm = ({ editEvent, groupId }: Props) => {
         const {
           createEvent: { event },
         } = data;
-
-        cache.updateQuery<EventsQuery>(
-          { query: EventsDocument },
-          (eventsData) =>
-            produce(eventsData, (draft) => {
-              draft?.events.unshift(event);
-            })
-        );
         if (groupId) {
           cache.updateQuery<GroupEventsTabQuery>(
             {
@@ -120,6 +110,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
               })
           );
         }
+        cache.evict({ fieldName: "events" });
       },
       onCompleted({ createEvent: { event } }) {
         const groupPagePath = getEventPath(event.id);
