@@ -12,11 +12,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import {
-  EventsInput,
-  useEventsLazyQuery,
-  usePublicEventsLazyQuery,
-} from "../../apollo/gen";
+import { EventsInput, useEventsLazyQuery } from "../../apollo/gen";
 import EventCompact from "../../components/Events/EventCompact";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import ProgressBar from "../../components/Shared/ProgressBar";
@@ -43,19 +39,8 @@ const EventsIndex: NextPage = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [tab, setTab] = useState(0);
 
-  const [
-    getPublicEvents,
-    {
-      data: publicEventsData,
-      loading: publicEventsLoading,
-      error: publicEventsError,
-    },
-  ] = usePublicEventsLazyQuery();
-
-  const [
-    getEvents,
-    { data: eventsData, loading: eventsLoading, error: eventsError },
-  ] = useEventsLazyQuery();
+  const [getEvents, { data: data, loading: loading, error }] =
+    useEventsLazyQuery();
 
   const { query } = useRouter();
   const { t } = useTranslation();
@@ -77,19 +62,12 @@ const EventsIndex: NextPage = () => {
       input = { timeFrame: EventTabs.Past };
       setTab(3);
     }
+    getEvents({
+      variables: { input, isLoggedIn },
+    });
+  }, [query.tab, setTab, getEvents, isLoggedIn]);
 
-    const options = { variables: { input } };
-    if (!isLoggedIn) {
-      getPublicEvents(options);
-      return;
-    }
-    getEvents(options);
-  }, [query.tab, setTab, getEvents, getPublicEvents, isLoggedIn]);
-
-  const events = eventsData?.events || publicEventsData?.publicEvents;
-  const loading = eventsLoading || publicEventsLoading;
-  const error = eventsError || publicEventsError;
-
+  const events = data?.events || [];
   const pathPrefix = `${NavigationPaths.Events}${TAB_QUERY_PARAM}`;
   const thisWeekTabPath = `${pathPrefix}${EventTabs.ThisWeek}`;
   const onlineTabPath = `${pathPrefix}${EventTabs.Online}`;
@@ -127,7 +105,7 @@ const EventsIndex: NextPage = () => {
       {error && <Typography>{t("errors.somethingWentWrong")}</Typography>}
       {loading && <ProgressBar />}
 
-      {!!events?.length && (
+      {!!events.length && (
         <Card>
           <CardContent>
             {events.map((event, index) => (

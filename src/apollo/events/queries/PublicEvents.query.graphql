@@ -1,5 +1,0 @@
-query PublicEvents($input: EventsInput!, $isLoggedIn: Boolean = false) {
-  publicEvents(input: $input) {
-    ...EventCompact
-  }
-}

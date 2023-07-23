@@ -688,7 +688,6 @@ export type Query = {
   me: User;
   post: Post;
   proposal: Proposal;
-  publicEvents: Array<Event>;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
   serverInvite: ServerInvite;
@@ -727,10 +726,6 @@ export type QueryPostArgs = {
 
 export type QueryProposalArgs = {
   id: Scalars["Int"];
-};
-
-export type QueryPublicEventsArgs = {
-  input: EventsInput;
 };
 
 export type QueryServerInviteArgs = {
@@ -1338,43 +1333,12 @@ export type EventPageQuery = {
 
 export type EventsQueryVariables = Exact<{
   input: EventsInput;
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type EventsQuery = {
   __typename?: "Query";
   events: Array<{
-    __typename?: "Event";
-    id: number;
-    name: string;
-    description: string;
-    startsAt: any;
-    interestedCount: number;
-    goingCount: number;
-    online: boolean;
-    location?: string | null;
-    attendingStatus?: string | null;
-    coverPhoto: { __typename?: "Image"; id: number };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      isJoinedByMe?: boolean;
-      myPermissions?: {
-        __typename?: "GroupPermissions";
-        manageEvents: boolean;
-      };
-    } | null;
-  }>;
-};
-
-export type PublicEventsQueryVariables = Exact<{
-  input: EventsInput;
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
-}>;
-
-export type PublicEventsQuery = {
-  __typename?: "Query";
-  publicEvents: Array<{
     __typename?: "Event";
     id: number;
     name: string;
@@ -6061,7 +6025,7 @@ export type EventPageQueryResult = Apollo.QueryResult<
   EventPageQueryVariables
 >;
 export const EventsDocument = gql`
-  query Events($input: EventsInput!, $isLoggedIn: Boolean = true) {
+  query Events($input: EventsInput!, $isLoggedIn: Boolean!) {
     events(input: $input) {
       ...EventCompact
     }
@@ -6109,66 +6073,6 @@ export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<
   EventsQuery,
   EventsQueryVariables
->;
-export const PublicEventsDocument = gql`
-  query PublicEvents($input: EventsInput!, $isLoggedIn: Boolean = false) {
-    publicEvents(input: $input) {
-      ...EventCompact
-    }
-  }
-  ${EventCompactFragmentDoc}
-`;
-
-/**
- * __usePublicEventsQuery__
- *
- * To run a query within a React component, call `usePublicEventsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePublicEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePublicEventsQuery({
- *   variables: {
- *      input: // value for 'input'
- *      isLoggedIn: // value for 'isLoggedIn'
- *   },
- * });
- */
-export function usePublicEventsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    PublicEventsQuery,
-    PublicEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PublicEventsQuery, PublicEventsQueryVariables>(
-    PublicEventsDocument,
-    options
-  );
-}
-export function usePublicEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PublicEventsQuery,
-    PublicEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PublicEventsQuery, PublicEventsQueryVariables>(
-    PublicEventsDocument,
-    options
-  );
-}
-export type PublicEventsQueryHookResult = ReturnType<
-  typeof usePublicEventsQuery
->;
-export type PublicEventsLazyQueryHookResult = ReturnType<
-  typeof usePublicEventsLazyQuery
->;
-export type PublicEventsQueryResult = Apollo.QueryResult<
-  PublicEventsQuery,
-  PublicEventsQueryVariables
 >;
 export const ApproveGroupMemberRequestDocument = gql`
   mutation ApproveGroupMemberRequest($id: Int!) {
