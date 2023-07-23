@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, SxProps, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useState } from "react";
@@ -60,6 +60,10 @@ const EventCompact = ({ event, isLast }: Props) => {
   const deletePrompt = t("prompts.deleteItem", {
     itemType: "event",
   });
+  const dividerStyles: SxProps = {
+    marginBottom: !isLoggedIn && !isDesktop ? 2.7 : 2,
+    marginTop: 2,
+  };
 
   const handleDelete = async () =>
     await deleteEvent({
@@ -179,7 +183,7 @@ const EventCompact = ({ event, isLast }: Props) => {
         {isDesktop && renderButtonStack()}
       </Flex>
 
-      {!isLast && <Divider sx={{ marginY: 2 }} />}
+      {!isLast && <Divider sx={dividerStyles} />}
     </>
   );
 };
