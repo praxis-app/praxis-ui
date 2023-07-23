@@ -177,9 +177,6 @@ const EventForm = ({ editEvent, groupId }: Props) => {
       setFieldValue(EventFormFieldName.StartsAt, value);
 
       if (showEndsAt) {
-        const test = dayjs(value).add(1, "hour").startOf("hour");
-        console.log(test);
-
         setFieldValue(
           EventFormFieldName.EndsAt,
           dayjs(value).add(1, "hour").startOf("hour")
