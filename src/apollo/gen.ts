@@ -50,7 +50,7 @@ export type CreateEventInput = {
   groupId?: InputMaybe<Scalars["Int"]>;
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
-  online?: InputMaybe<Scalars["Boolean"]>;
+  online: Scalars["Boolean"];
   startsAt: Scalars["DateTime"];
 };
 
