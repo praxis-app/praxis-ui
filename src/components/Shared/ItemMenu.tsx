@@ -11,13 +11,9 @@ interface Props {
   canDelete?: boolean;
   canUpdate?: boolean;
   children?: ReactNode;
-  deleteItem?: (id: number) => void;
+  deleteItem?: () => void;
   deletePrompt?: string;
   editPath?: string;
-
-  // TODO: Remove itemId prop
-  itemId: number;
-
   prependChildren?: boolean;
   setAnchorEl: (el: HTMLElement | null) => void;
   variant?: "ghost" | "default";
@@ -32,7 +28,6 @@ const ItemMenu = ({
   deleteItem,
   deletePrompt,
   editPath,
-  itemId,
   prependChildren,
   setAnchorEl,
   variant,
@@ -66,7 +61,7 @@ const ItemMenu = ({
     if (!deleteItem) {
       return;
     }
-    deleteItem(itemId);
+    deleteItem();
     handleClose();
   };
 

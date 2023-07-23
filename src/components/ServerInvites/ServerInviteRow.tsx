@@ -91,7 +91,6 @@ const ServerInviteRow = ({
 
       <TableCell>
         <ItemMenu
-          itemId={id}
           anchorEl={menuAnchorEl}
           canDelete={manageInvites}
           deleteItem={handleDelete}

@@ -184,7 +184,6 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
             event={event}
             itemMenu={
               <ItemMenu
-                itemId={id}
                 anchorEl={menuAnchorEl}
                 buttonStyles={itemMenuButtonStyles}
                 canDelete={canManageEvents}

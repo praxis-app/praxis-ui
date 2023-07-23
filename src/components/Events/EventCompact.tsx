@@ -85,7 +85,6 @@ const EventCompact = ({ event, isLast }: Props) => {
       <Stack direction="row" spacing={1} height={40}>
         <EventAttendeeButtons event={event} withGoingButton={false} />
         <ItemMenu
-          itemId={id}
           anchorEl={menuAnchorEl}
           buttonStyles={{ maxWidth: 40, minWidth: 40 }}
           canDelete={canManageEvents}

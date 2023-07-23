@@ -122,7 +122,6 @@ const ServerInviteCard = ({
         }
         action={
           <ItemMenu
-            itemId={id}
             anchorEl={menuAnchorEl}
             canDelete={canManageInvites}
             deleteItem={handleDelete}

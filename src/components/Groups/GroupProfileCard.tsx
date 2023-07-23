@@ -146,7 +146,7 @@ const GroupProfileCard = ({
     fontSize: 20,
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async () => {
     await redirectTo(NavigationPaths.Groups);
     await deleteGroup({
       variables: { id },
@@ -189,7 +189,6 @@ const GroupProfileCard = ({
             deleteItem={handleDelete}
             deletePrompt={deleteGroupPrompt}
             editPath={editGroupPath}
-            itemId={id}
             setAnchorEl={setMenuAnchorEl}
             variant="ghost"
           >

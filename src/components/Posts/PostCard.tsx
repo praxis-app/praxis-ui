@@ -87,7 +87,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     paddingTop: images.length && !body ? 2.5 : 3,
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async () => {
     if (isPostPage) {
       await redirectTo(NavigationPaths.Home);
     }
@@ -150,7 +150,6 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         deleteItem={handleDelete}
         deletePrompt={deletePostPrompt}
         editPath={editPostPath}
-        itemId={id}
         setAnchorEl={setMenuAnchorEl}
       />
     );
