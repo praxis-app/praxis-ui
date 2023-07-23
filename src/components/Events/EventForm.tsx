@@ -9,9 +9,10 @@ import {
   MenuItem,
   Select,
   SxProps,
+  Typography,
 } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikErrors, FormikHelpers } from "formik";
 import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -215,9 +216,42 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
       setShowEndsAt(!showEndsAt);
     };
 
+  const validate = ({
+    description,
+    location,
+    name,
+    online,
+  }: CreateEventInput) => {
+    const errors: FormikErrors<CreateEventInput> = {};
+    if (!name) {
+      errors.name = t("events.errors.missingName");
+    }
+    if (!description) {
+      errors.description = t("events.errors.missingDetails");
+    }
+    if (online === null) {
+      errors.online = t("events.errors.onlineOrOffline");
+    }
+    if (online === false && !location) {
+      errors.location = t("events.errors.missingLocation");
+    }
+    return errors;
+  };
+
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ isSubmitting, dirty, setFieldValue, values }) => (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validate={validate}
+    >
+      {({
+        dirty,
+        errors,
+        isSubmitting,
+        setFieldValue,
+        submitCount,
+        values,
+      }) => (
         <Form>
           <FormGroup sx={{ marginBottom: 2 }}>
             <TextField
@@ -253,7 +287,11 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
               {t("events.form.endDateAndTime")}
             </Button>
 
-            <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+            <FormControl
+              error={!!errors.online && !!submitCount}
+              sx={{ marginBottom: 1 }}
+              variant="standard"
+            >
               <InputLabel>{t("events.form.inPersonOrVirtual")}</InputLabel>
               <Select
                 value={values.online === null ? "" : Number(!!values.online)}
@@ -265,6 +303,11 @@ const EventForm = ({ editEvent, groupId, onSubmit }: Props) => {
                 <MenuItem value={0}>{t("events.form.inPerson")}</MenuItem>
                 <MenuItem value={1}>{t("events.form.virtual")}</MenuItem>
               </Select>
+              {!!(errors.online && submitCount) && (
+                <Typography color="error" fontSize="small" marginTop={0.5}>
+                  {errors.online}
+                </Typography>
+              )}
             </FormControl>
 
             {values.online !== null && !values.online && (

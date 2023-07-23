@@ -306,7 +306,11 @@
     },
     "errors": {
       "couldNotCreate": "Event could not be created",
-      "couldNotUpdate": "Event could not be updated"
+      "couldNotUpdate": "Event could not be updated",
+      "missingName": "Event name cannot be empty",
+      "missingDetails": "Event details cannot be empty",
+      "onlineOrOffline": "Event must be either virtual or in person",
+      "missingLocation": "Location cannot be empty for in person events"
     },
     "tabs": {
       "about": "About",
