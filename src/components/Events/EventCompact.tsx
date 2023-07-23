@@ -1,9 +1,10 @@
+import { useReactiveVar } from "@apollo/client";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toastVar } from "../../apollo/cache";
+import { isLoggedInVar, toastVar } from "../../apollo/cache";
 import { EventCompactFragment, useDeleteEventMutation } from "../../apollo/gen";
 import { MIDDOT_WITH_SPACES } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
@@ -21,6 +22,7 @@ interface Props {
 
 const EventCompact = ({ event, isLast }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteEvent] = useDeleteEventMutation();
 
   const { t } = useTranslation();
@@ -75,23 +77,28 @@ const EventCompact = ({ event, isLast }: Props) => {
       },
     });
 
-  const renderButtonStack = () => (
-    <Stack direction="row" spacing={1} height={40}>
-      <EventAttendeeButtons event={event} withGoingButton={false} />
-      <ItemMenu
-        itemId={id}
-        anchorEl={menuAnchorEl}
-        buttonStyles={{ maxWidth: 40, minWidth: 40 }}
-        canDelete={canManageEvents}
-        canUpdate={canManageEvents}
-        deleteItem={handleDelete}
-        deletePrompt={deletePrompt}
-        editPath={editEventPath}
-        setAnchorEl={setMenuAnchorEl}
-        variant="ghost"
-      />
-    </Stack>
-  );
+  const renderButtonStack = () => {
+    if (!isLoggedIn) {
+      return null;
+    }
+    return (
+      <Stack direction="row" spacing={1} height={40}>
+        <EventAttendeeButtons event={event} withGoingButton={false} />
+        <ItemMenu
+          itemId={id}
+          anchorEl={menuAnchorEl}
+          buttonStyles={{ maxWidth: 40, minWidth: 40 }}
+          canDelete={canManageEvents}
+          canUpdate={canManageEvents}
+          deleteItem={handleDelete}
+          deletePrompt={deletePrompt}
+          editPath={editEventPath}
+          setAnchorEl={setMenuAnchorEl}
+          variant="ghost"
+        />
+      </Stack>
+    );
+  };
 
   return (
     <>
