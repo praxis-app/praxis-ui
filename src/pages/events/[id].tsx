@@ -5,6 +5,7 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -13,9 +14,13 @@ import { isLoggedInVar } from "../../apollo/cache";
 import { useEventPageQuery } from "../../apollo/gen";
 import EventPageCard from "../../components/Events/EventPageCard";
 import PostForm from "../../components/Posts/PostForm";
+import Breadcrumbs from "../../components/Shared/Breadcrumbs";
 import Feed from "../../components/Shared/Feed";
 import ProgressBar from "../../components/Shared/ProgressBar";
+import { TruncationSizes } from "../../constants/common.constants";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { isDeniedAccess } from "../../utils/error.utils";
+import { getGroupPath } from "../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -36,6 +41,7 @@ const EventPage: NextPage = () => {
   });
 
   const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
 
   if (loading) {
     return <ProgressBar />;
@@ -54,8 +60,26 @@ const EventPage: NextPage = () => {
 
   const { event } = data;
 
+  const breadcrumbs = event.group
+    ? [
+        {
+          label: truncate(event.group.name, {
+            length: isDesktop
+              ? TruncationSizes.Small
+              : TruncationSizes.ExtraSmall,
+          }),
+          href: getGroupPath(event.group.name),
+        },
+        {
+          label: event.name,
+        },
+      ]
+    : [];
+
   return (
     <>
+      {event.group && <Breadcrumbs breadcrumbs={breadcrumbs} />}
+
       <EventPageCard
         event={event}
         setIsDeleting={setIsDeleting}

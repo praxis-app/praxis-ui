@@ -5,5 +5,10 @@ query EventPage($id: Int!, $isLoggedIn: Boolean!) {
     posts {
       ...PostCard
     }
+
+    group {
+      id
+      name
+    }
   }
 }

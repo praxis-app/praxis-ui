@@ -1321,7 +1321,6 @@ export type EventPageQuery = {
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     }>;
-    coverPhoto: { __typename?: "Image"; id: number };
     group?: {
       __typename?: "Group";
       id: number;
@@ -1332,6 +1331,7 @@ export type EventPageQuery = {
         manageEvents: boolean;
       };
     } | null;
+    coverPhoto: { __typename?: "Image"; id: number };
   };
 };
 
@@ -6000,6 +6000,10 @@ export const EventPageDocument = gql`
       ...EventPageCard
       posts {
         ...PostCard
+      }
+      group {
+        id
+        name
       }
     }
   }
