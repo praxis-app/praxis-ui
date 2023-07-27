@@ -239,6 +239,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
               autoComplete="off"
               label={t("events.form.description")}
               name={EventFormFieldName.Description}
+              multiline
             />
 
             <DateTimePicker
