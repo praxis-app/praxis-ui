@@ -233,7 +233,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
         )}
 
         {endsAt && (
-          <Typography color="text.secondary">
+          <Typography color="text.secondary" gutterBottom>
             <Timer sx={iconStyles} />
             {t("events.labels.duration", { duration })}
           </Typography>
