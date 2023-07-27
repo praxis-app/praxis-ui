@@ -97,7 +97,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
   const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
-  const groupPagePathWithTab = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
+  const groupEventsTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
   const startsAtFormatted = formatDateTime(startsAt);
@@ -135,8 +135,12 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
         cache.evict({ id: cacheId });
         cache.gc();
       },
-      async onCompleted() {
-        await redirectTo(NavigationPaths.Events);
+      onCompleted() {
+        if (group) {
+          redirectTo(groupEventsTabPath);
+          return;
+        }
+        redirectTo(NavigationPaths.Events);
       },
       onError(err) {
         toastVar({
@@ -219,7 +223,7 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
           <Typography color="text.secondary" gutterBottom>
             <Flag sx={iconStyles} />
             {t("events.labels.eventBy")}
-            <Link href={groupPagePathWithTab} sx={{ marginLeft: "0.4ch" }}>
+            <Link href={groupEventsTabPath} sx={{ marginLeft: "0.4ch" }}>
               {group.name}
             </Link>
           </Typography>
