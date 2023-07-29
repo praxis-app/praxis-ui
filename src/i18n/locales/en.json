@@ -368,7 +368,7 @@
       "deleteGroup": "Allows members to permanently delete this group.",
       "updateGroup": "Allows members to edit the group's name, description, and cover photo.",
       "manageComments": "Allows members to remove or hide comments by other members.",
-      "manageEvents": "Allows members to remove or hide events created by other members.",
+      "manageEvents": "Allows members to remove or edit events created by other members.",
       "manageGroupSettings": "Allows members to make changes to this group's settings.",
       "manageInvites": "Allows members to create or delete invite links for this server.",
       "managePosts": "Allows members to remove or hide posts by other members.",

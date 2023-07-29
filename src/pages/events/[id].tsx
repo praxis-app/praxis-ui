@@ -58,7 +58,8 @@ const EventPage: NextPage = () => {
     return null;
   }
 
-  const { event } = data;
+  const { event, me } = data;
+  const canManageAllEvents = me.serverPermissions.manageEvents;
 
   const breadcrumbs = event.group
     ? [
@@ -82,6 +83,7 @@ const EventPage: NextPage = () => {
 
       <EventPageCard
         event={event}
+        canManageAllEvents={canManageAllEvents}
         setIsDeleting={setIsDeleting}
         setTab={setTab}
         tab={tab}

@@ -1329,6 +1329,14 @@ export type EventPageQuery = {
     } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   };
+  me: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "ServerPermissions";
+      manageEvents: boolean;
+    };
+  };
 };
 
 export type EventsQueryVariables = Exact<{
@@ -5971,6 +5979,12 @@ export const EventPageDocument = gql`
       group {
         id
         name
+      }
+    }
+    me {
+      id
+      serverPermissions {
+        manageEvents
       }
     }
   }

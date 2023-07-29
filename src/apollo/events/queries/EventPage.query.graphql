@@ -11,4 +11,10 @@ query EventPage($id: Int!, $isLoggedIn: Boolean!) {
       name
     }
   }
+  me {
+    id
+    serverPermissions {
+      manageEvents
+    }
+  }
 }

@@ -55,12 +55,19 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   event: EventPageCardFragment;
+  canManageAllEvents: boolean;
   setIsDeleting(isDeleting: boolean): void;
   setTab(tab: number): void;
   tab: number;
 }
 
-const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
+const EventPageCard = ({
+  event,
+  canManageAllEvents,
+  setIsDeleting,
+  setTab,
+  tab,
+}: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteEvent] = useDeleteEventMutation();
@@ -92,7 +99,9 @@ const EventPageCard = ({ event, setTab, tab, setIsDeleting }: Props) => {
     group,
     location,
   } = event;
-  const canManageEvents = group?.myPermissions?.manageEvents;
+
+  const canManageGroupEvents = group?.myPermissions?.manageEvents;
+  const canManageEvents = canManageAllEvents || canManageGroupEvents;
 
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
