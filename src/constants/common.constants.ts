@@ -1,4 +1,5 @@
 export const API_ROOT = "/api";
+export const TAB_QUERY_PARAM = "?tab=";
 
 export const FORBIDDEN = "Forbidden";
 export const UNAUTHORIZED = "Unauthorized";
@@ -24,9 +25,11 @@ export enum NavigationPaths {
 }
 
 export enum TypeNames {
-  GroupRole = "GroupRole",
+  Event = "Event",
+  EventAttendee = "EventAttendee",
   Group = "Group",
   GroupMember = "GroupMember",
+  GroupRole = "GroupRole",
   Image = "Image",
   Like = "Like",
   MemberRequest = "MemberRequest",

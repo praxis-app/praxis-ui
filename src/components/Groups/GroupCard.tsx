@@ -95,7 +95,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
   const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
 
-  const handleDelete = async (id: number) =>
+  const handleDelete = async () =>
     await deleteGroup({
       variables: { id },
       update: removeGroup(id),
@@ -127,7 +127,6 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
     return (
       <ItemMenu
-        itemId={id}
         anchorEl={menuAnchorEl}
         canDelete={canDeleteGroup}
         canUpdate={canUpdateGroup}

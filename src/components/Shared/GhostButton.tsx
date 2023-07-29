@@ -13,8 +13,8 @@ const Button = styled(MuiButton)(() => ({
   textTransform: "none",
 }));
 
-const GhostButton = ({ children, ...rest }: ButtonProps) => (
-  <Button variant="outlined" {...rest}>
+const GhostButton = ({ children, ...buttonProps }: ButtonProps) => (
+  <Button variant="outlined" {...buttonProps}>
     {children}
   </Button>
 );

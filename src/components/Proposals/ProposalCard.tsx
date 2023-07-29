@@ -96,7 +96,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     paddingTop: images.length && !body ? 2.5 : 3,
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async () => {
     if (isProposalPage) {
       await redirectTo(NavigationPaths.Home);
     }
@@ -171,7 +171,6 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
         deleteItem={handleDelete}
         deletePrompt={deletePrompt}
         editPath={editPath}
-        itemId={id}
         setAnchorEl={setMenuAnchorEl}
 
         // TODO: Uncomment when implementing revisions or drafts for proposals

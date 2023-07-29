@@ -13,8 +13,11 @@ export enum DarkMode {
 }
 
 export enum Blurple {
+  BlueWhale = "#222d3e",
   Marina = "#687CD4",
+  PoolWater = "#3b86f7",
   SavoryBlue = "#5969CB",
+  SkyDancer = "#588cf2",
 }
 
 declare module "@mui/material/styles/createPalette" {
@@ -97,6 +100,14 @@ const theme = createTheme(initialTheme, {
       },
     },
 
+    MuiButton: {
+      styleOverrides: {
+        startIcon: {
+          marginRight: "0.6ch",
+        },
+      },
+    },
+
     MuiBottomNavigation: {
       styleOverrides: {
         root: {
@@ -123,25 +134,12 @@ const theme = createTheme(initialTheme, {
       },
     },
 
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          color: initialTheme.palette.text.secondary,
-        },
-      },
-    },
-
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          color: initialTheme.palette.text.secondary,
-        },
-      },
-    },
-
     MuiTab: {
       styleOverrides: {
         root: {
+          fontSize: 16,
+          textTransform: "none",
+
           [initialTheme.breakpoints.up("sm")]: {
             minWidth: 160,
           },

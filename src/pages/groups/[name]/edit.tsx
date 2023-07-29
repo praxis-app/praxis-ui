@@ -1,5 +1,3 @@
-// TODO: Ensure EditGroup page is unreachable without role
-
 import { Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { NextPage } from "next";

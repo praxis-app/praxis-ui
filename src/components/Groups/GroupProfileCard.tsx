@@ -8,12 +8,16 @@ import {
   CardContent as MuiCardContent,
   CardHeader as MuiCardHeader,
   CardProps,
+  Divider,
   MenuItem,
   styled,
   SxProps,
+  Tab,
+  Tabs,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
 import {
@@ -23,6 +27,7 @@ import {
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,
+  TAB_QUERY_PARAM,
 } from "../../constants/common.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
@@ -38,6 +43,12 @@ import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import { removeGroup } from "./GroupCard";
 import JoinButton from "./JoinButton";
+
+export const enum GroupTabs {
+  About = "about",
+  Events = "events",
+  Proposals = "proposals",
+}
 
 const NameText = styled(Typography)(() => ({
   fontFamily: "Inter Bold",
@@ -55,18 +66,40 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  group: GroupProfileCardFragment;
   currentMemberId?: number;
+  group: GroupProfileCardFragment;
+  setTab(tab: number): void;
+  tab: number;
 }
 
-const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
+const GroupProfileCard = ({
+  currentMemberId,
+  group,
+  setTab,
+  tab,
+  ...cardProps
+}: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [deleteGroup] = useDeleteGroupMutation();
 
+  const { query } = useRouter();
   const { t } = useTranslation();
   const isAboveMedium = useAboveBreakpoint("md");
   const isAboveSmall = useAboveBreakpoint("sm");
+
+  useEffect(() => {
+    if (!query.tab) {
+      return;
+    }
+    if (query.tab === GroupTabs.Events) {
+      setTab(1);
+      return;
+    }
+    if (query.tab === GroupTabs.About) {
+      setTab(2);
+    }
+  }, [query.tab, setTab]);
 
   const {
     id,
@@ -86,6 +119,10 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
   const groupMembersPath = getGroupMembersPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
   const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
+
+  const groupPagePath = `${NavigationPaths.Groups}/${name}`;
+  const aboutTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.About}`;
+  const eventsTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
 
   const getNameTextWidth = () => {
     if (isAboveMedium) {
@@ -109,7 +146,7 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     fontSize: 20,
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async () => {
     await redirectTo(NavigationPaths.Groups);
     await deleteGroup({
       variables: { id },
@@ -126,6 +163,9 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
     const settingsPath = `${NavigationPaths.Groups}/${name}/settings`;
     await redirectTo(settingsPath);
   };
+
+  const handleTabsChange = (_: React.SyntheticEvent, newValue: number) =>
+    setTab(newValue);
 
   const renderCardActions = () => {
     const canDeleteGroup = myPermissions?.deleteGroup;
@@ -149,7 +189,6 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
             deleteItem={handleDelete}
             deletePrompt={deleteGroupPrompt}
             editPath={editGroupPath}
-            itemId={id}
             setAnchorEl={setMenuAnchorEl}
             variant="ghost"
           >
@@ -217,6 +256,23 @@ const GroupProfileCard = ({ group, currentMemberId, ...cardProps }: Props) => {
           </Flex>
         )}
       </CardContent>
+
+      <Divider sx={{ marginX: "16px", marginBottom: 0.25 }} />
+
+      <Tabs onChange={handleTabsChange} textColor="inherit" value={tab}>
+        <Tab
+          label={t("groups.tabs.feed")}
+          onClick={() => redirectTo(groupPagePath)}
+        />
+        <Tab
+          label={t("groups.tabs.events")}
+          onClick={() => redirectTo(eventsTabPath)}
+        />
+        <Tab
+          label={t("groups.tabs.about")}
+          onClick={() => redirectTo(aboutTabPath)}
+        />
+      </Tabs>
     </Card>
   );
 };

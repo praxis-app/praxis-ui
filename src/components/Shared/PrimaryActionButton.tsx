@@ -2,7 +2,7 @@ import { Button as MuiButton, ButtonProps, styled } from "@mui/material";
 import { Blurple, DarkMode } from "../../styles/theme";
 import Spinner from "./Spinner";
 
-const Button = styled(MuiButton)(({ theme }) => ({
+export const BLURPLE_BUTTON_COLORS = {
   backgroundColor: Blurple.Marina,
   "&:active": {
     backgroundColor: Blurple.Marina,
@@ -13,6 +13,10 @@ const Button = styled(MuiButton)(({ theme }) => ({
   "&:disabled": {
     backgroundColor: DarkMode.Liver,
   },
+};
+
+const Button = styled(MuiButton)(({ theme }) => ({
+  ...BLURPLE_BUTTON_COLORS,
   color: theme.palette.common.white,
   fontFamily: "Inter Bold",
   letterSpacing: "0.2px",

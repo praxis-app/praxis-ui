@@ -2,6 +2,31 @@ type ApproveGroupMemberRequestPayload {
   groupMember: User!
 }
 
+input CreateEventAttendeeInput {
+  eventId: Int!
+  status: String!
+}
+
+type CreateEventAttendeePayload {
+  event: Event!
+}
+
+input CreateEventInput {
+  coverPhoto: Upload
+  description: String!
+  endsAt: DateTime
+  externalLink: String
+  groupId: Int
+  location: String
+  name: String!
+  online: Boolean
+  startsAt: DateTime!
+}
+
+type CreateEventPayload {
+  event: Event!
+}
+
 input CreateGroupInput {
   coverPhoto: Upload
   description: String!
@@ -36,6 +61,7 @@ type CreateLikePayload {
 
 input CreatePostInput {
   body: String
+  eventId: Int
   groupId: Int
   images: [Upload!]
 }
@@ -110,6 +136,41 @@ type DeleteServerRoleMemberPayload {
   serverRole: ServerRole!
 }
 
+type Event {
+  attendees: [EventAttendee!]!
+  attendingStatus: String
+  coverPhoto: Image!
+  createdAt: DateTime!
+  description: String!
+  endsAt: DateTime
+  externalLink: String
+  goingCount: Int!
+  group: Group
+  id: Int!
+  images: [Image!]!
+  interestedCount: Int!
+  location: String
+  name: String!
+  online: Boolean!
+  posts: [Post!]!
+  startsAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type EventAttendee {
+  createdAt: DateTime!
+  event: Event!
+  id: Int!
+  status: String!
+  updatedAt: DateTime!
+  user: User!
+}
+
+input EventsInput {
+  online: Boolean
+  timeFrame: String
+}
+
 union FeedItem = Post | Proposal
 
 type FollowUserPayload {
@@ -122,6 +183,7 @@ type Group {
   createdAt: DateTime!
   description: String!
   feed: [FeedItem!]!
+  futureEvents: [Event!]!
   id: Int!
   isJoinedByMe: Boolean!
   memberCount: Int!
@@ -130,6 +192,7 @@ type Group {
   members: [User!]!
   myPermissions: GroupPermissions!
   name: String!
+  pastEvents: [Event!]!
   posts: [Post!]!
   proposals: [Proposal!]!
   roles: [GroupRole!]!
@@ -208,15 +271,16 @@ input GroupRolePermissionInput {
 
 type Image {
   createdAt: DateTime!
+  event: Event
   filename: String!
-  group: Group!
+  group: Group
   id: Int!
   imageType: String!
-  post: Post!
-  proposal: Proposal!
-  proposalAction: ProposalAction!
+  post: Post
+  proposal: Proposal
+  proposalAction: ProposalAction
   updatedAt: DateTime!
-  user: User!
+  user: User
 }
 
 type Like {
@@ -239,6 +303,8 @@ type LoginPayload {
 type Mutation {
   approveGroupMemberRequest(id: Int!): ApproveGroupMemberRequestPayload!
   cancelGroupMemberRequest(id: Int!): Boolean!
+  createEvent(eventData: CreateEventInput!): CreateEventPayload!
+  createEventAttendee(eventAttendeeData: CreateEventAttendeeInput!): CreateEventAttendeePayload!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
   createGroupMemberRequest(groupId: Int!): CreateGroupMemberRequestPayload!
   createGroupRole(groupRoleData: CreateGroupRoleInput!): CreateGroupRolePayload!
@@ -248,6 +314,8 @@ type Mutation {
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createServerRole(serverRoleData: CreateServerRoleInput!): CreateServerRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
+  deleteEvent(id: Int!): Boolean!
+  deleteEventAttendee(eventId: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
   deleteGroupRole(id: Int!): Boolean!
   deleteGroupRoleMember(groupRoleMemberData: DeleteGroupRoleMemberInput!): DeleteGroupRoleMemberPayload!
@@ -268,6 +336,8 @@ type Mutation {
   refreshToken: Boolean!
   signUp(input: SignUpInput!): SignUpPayload!
   unfollowUser(id: Int!): Boolean!
+  updateEvent(eventData: UpdateEventInput!): UpdateEventPayload!
+  updateEventAttendee(eventAttendeeData: UpdateEventAttendeeInput!): UpdateEventAttendeePayload!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
   updateGroupConfig(groupConfigData: UpdateGroupConfigInput!): UpdateGroupPayload!
   updateGroupRole(groupRoleData: UpdateGroupRoleInput!): UpdateGroupRolePayload!
@@ -281,6 +351,7 @@ type Mutation {
 type Post {
   body: String
   createdAt: DateTime!
+  event: Event
   group: Group
   id: Int!
   images: [Image!]!
@@ -376,6 +447,8 @@ input ProposalActionRoleMemberInput {
 
 type Query {
   authCheck: Boolean!
+  event(id: Int): Event!
+  events(input: EventsInput!): [Event!]!
   group(id: Int, name: String): Group!
   groupMemberRequest(groupId: Int!): GroupMemberRequest
   groupRole(id: Int!): GroupRole!
@@ -384,9 +457,7 @@ type Query {
   isFirstUser: Boolean!
   me: User!
   post(id: Int!): Post!
-  posts: [Post!]!
   proposal(id: Int!): Proposal!
-  proposals: [Proposal!]!
   publicGroups: [Group!]!
   publicGroupsFeed: [FeedItem!]!
   serverInvite(token: String!): ServerInvite!
@@ -396,8 +467,6 @@ type Query {
   user(id: Int, name: String): User!
   users: [User!]!
   usersByIds(ids: [Int!]!): [User!]!
-  vote(id: Int!): Vote!
-  votes: [Vote!]!
 }
 
 type ServerInvite {
@@ -464,6 +533,31 @@ input SignUpInput {
 
 type SignUpPayload {
   user: User!
+}
+
+input UpdateEventAttendeeInput {
+  eventId: Int!
+  status: String!
+}
+
+type UpdateEventAttendeePayload {
+  event: Event!
+}
+
+input UpdateEventInput {
+  coverPhoto: Upload
+  description: String!
+  endsAt: DateTime
+  externalLink: String
+  id: Int!
+  location: String
+  name: String!
+  online: Boolean
+  startsAt: DateTime!
+}
+
+type UpdateEventPayload {
+  event: Event!
 }
 
 input UpdateGroupConfigInput {

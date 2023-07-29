@@ -37,7 +37,6 @@ export const getPermissionText = (name: string): PermissionText => {
       return {
         displayName: _t("permissions.names.createEvents"),
         description: _t("permissions.descriptions.createEvents"),
-        inDev: true,
       };
     case "createInvites":
       return {
@@ -54,7 +53,6 @@ export const getPermissionText = (name: string): PermissionText => {
       return {
         displayName: _t("permissions.names.manageEvents"),
         description: _t("permissions.descriptions.manageEvents"),
-        inDev: true,
       };
     case "manageInvites":
       return {

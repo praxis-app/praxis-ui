@@ -101,7 +101,6 @@ const UserProfileCard = ({ user, ...cardProps }: Props) => {
                 anchorEl={menuAnchorEl}
                 deletePrompt={deleteUserPrompt}
                 editPath={editUserPath}
-                itemId={id}
                 setAnchorEl={setMenuAnchorEl}
                 canUpdate
               />

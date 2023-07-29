@@ -15,6 +15,9 @@ fragment PostCard on Post {
       ...GroupPermissions
     }
   }
+  event {
+    ...EventItemAvatar
+  }
 
   ...PostCardFooter
 }

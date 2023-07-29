@@ -1,6 +1,7 @@
 import { Close } from "@mui/icons-material";
 import {
   AppBar,
+  Box,
   Button,
   Dialog,
   DialogContent,
@@ -22,6 +23,7 @@ interface Props {
   contentStyles?: SxProps;
   onClose(): void;
   open: boolean;
+  subtext?: string;
   title?: string;
   topGap?: string | number;
 }
@@ -34,14 +36,20 @@ const Modal = ({
   contentStyles,
   onClose,
   open,
+  subtext,
   title,
   topGap,
 }: Props) => {
   const isDesktop = useIsDesktop();
 
-  const titleStyles: SxProps = {
+  const titleBoxStyles: SxProps = {
     flex: 1,
     marginLeft: 1.25,
+    marginTop: subtext ? 0.6 : 0,
+  };
+  const subtextStyles: SxProps = {
+    fontSize: 14,
+    marginLeft: 0.2,
   };
   const dialogContentStyles: SxProps = isDesktop
     ? {
@@ -70,16 +78,16 @@ const Modal = ({
           edge="start"
           onClick={onClose}
         >
-          <Close sx={{ color: "primary.main" }} />
+          <Close />
         </IconButton>
-        <Typography component="div" sx={titleStyles} variant="h6">
-          {title}
-        </Typography>
-        {actionLabel && (
-          <Button sx={{ color: "primary.main" }} onClick={closingAction}>
-            {actionLabel}
-          </Button>
-        )}
+        <Box sx={titleBoxStyles}>
+          <Typography variant="h6" sx={{ lineHeight: subtext ? 0.9 : 1.6 }}>
+            {title}
+          </Typography>
+
+          {subtext && <Typography sx={subtextStyles}>{subtext}</Typography>}
+        </Box>
+        {actionLabel && <Button onClick={closingAction}>{actionLabel}</Button>}
       </Toolbar>
     );
   };

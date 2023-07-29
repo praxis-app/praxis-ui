@@ -1,13 +1,28 @@
-import { NavigationPaths } from "../constants/common.constants";
+import { GroupTabs } from "../components/Groups/GroupProfileCard";
+import {
+  NavigationPaths,
+  TAB_QUERY_PARAM,
+} from "../constants/common.constants";
 
 export const getGroupPath = (groupName: string) =>
   `${NavigationPaths.Groups}/${groupName}`;
 
-export const getMemberRequestsPath = (groupName: string) =>
-  `${NavigationPaths.Groups}/${groupName}/requests`;
+export const getGroupEventsTabPath = (groupName: string) => {
+  const groupPath = getGroupPath(groupName);
+  return `${groupPath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
+};
 
-export const getGroupMembersPath = (groupName: string) =>
-  `${NavigationPaths.Groups}/${groupName}/members`;
+export const getMemberRequestsPath = (groupName: string) => {
+  const groupPath = getGroupPath(groupName);
+  return `${groupPath}/requests`;
+};
 
-export const getEditGroupPath = (groupName: string) =>
-  `${NavigationPaths.Groups}/${groupName}${NavigationPaths.Edit}`;
+export const getGroupMembersPath = (groupName: string) => {
+  const groupPath = getGroupPath(groupName);
+  return `${groupPath}/members`;
+};
+
+export const getEditGroupPath = (groupName: string) => {
+  const groupPath = getGroupPath(groupName);
+  return `${groupPath}${NavigationPaths.Edit}`;
+};

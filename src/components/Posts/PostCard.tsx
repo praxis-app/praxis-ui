@@ -26,6 +26,7 @@ import { redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";
 import { timeAgo } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
+import EventItemAvatar from "../Events/EventItemAvatar";
 import GroupItemAvatar from "../Groups/GroupItemAvatar";
 import AttachedImageList from "../Images/AttachedImageList";
 import ItemMenu from "../Shared/ItemMenu";
@@ -67,12 +68,13 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
 
-  const { id, body, images, user, group, createdAt } = post;
+  const { id, body, images, user, group, event, createdAt } = post;
   const me = data && data.me;
   const isMe = me?.id === user.id;
   const formattedDate = timeAgo(createdAt);
 
   const groupPath = getGroupPath(group?.name || "");
+  const isEventPage = asPath.includes(NavigationPaths.Events);
   const isGroupPage = asPath.includes(NavigationPaths.Groups);
   const isPostPage = asPath.includes(NavigationPaths.Posts);
   const postPath = `${NavigationPaths.Posts}/${id}`;
@@ -85,7 +87,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     paddingTop: images.length && !body ? 2.5 : 3,
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async () => {
     if (isPostPage) {
       await redirectTo(NavigationPaths.Home);
     }
@@ -98,6 +100,9 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   const renderAvatar = () => {
     if (group && !isGroupPage) {
       return <GroupItemAvatar user={user} group={group} />;
+    }
+    if (event && !isEventPage) {
+      return <EventItemAvatar user={user} event={event} />;
     }
     return <UserAvatar user={user} withLink />;
   };
@@ -145,7 +150,6 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         deleteItem={handleDelete}
         deletePrompt={deletePostPrompt}
         editPath={editPostPath}
-        itemId={id}
         setAnchorEl={setMenuAnchorEl}
       />
     );

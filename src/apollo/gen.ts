@@ -32,6 +32,33 @@ export type ApproveGroupMemberRequestPayload = {
   groupMember: User;
 };
 
+export type CreateEventAttendeeInput = {
+  eventId: Scalars["Int"];
+  status: Scalars["String"];
+};
+
+export type CreateEventAttendeePayload = {
+  __typename?: "CreateEventAttendeePayload";
+  event: Event;
+};
+
+export type CreateEventInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
+  description: Scalars["String"];
+  endsAt?: InputMaybe<Scalars["DateTime"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
+  groupId?: InputMaybe<Scalars["Int"]>;
+  location?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online?: InputMaybe<Scalars["Boolean"]>;
+  startsAt: Scalars["DateTime"];
+};
+
+export type CreateEventPayload = {
+  __typename?: "CreateEventPayload";
+  event: Event;
+};
+
 export type CreateGroupInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
@@ -70,6 +97,7 @@ export type CreateLikePayload = {
 
 export type CreatePostInput = {
   body?: InputMaybe<Scalars["String"]>;
+  eventId?: InputMaybe<Scalars["Int"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
   images?: InputMaybe<Array<Scalars["Upload"]>>;
 };
@@ -146,6 +174,43 @@ export type DeleteServerRoleMemberPayload = {
   serverRole: ServerRole;
 };
 
+export type Event = {
+  __typename?: "Event";
+  attendees: Array<EventAttendee>;
+  attendingStatus?: Maybe<Scalars["String"]>;
+  coverPhoto: Image;
+  createdAt: Scalars["DateTime"];
+  description: Scalars["String"];
+  endsAt?: Maybe<Scalars["DateTime"]>;
+  externalLink?: Maybe<Scalars["String"]>;
+  goingCount: Scalars["Int"];
+  group?: Maybe<Group>;
+  id: Scalars["Int"];
+  images: Array<Image>;
+  interestedCount: Scalars["Int"];
+  location?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online: Scalars["Boolean"];
+  posts: Array<Post>;
+  startsAt: Scalars["DateTime"];
+  updatedAt: Scalars["DateTime"];
+};
+
+export type EventAttendee = {
+  __typename?: "EventAttendee";
+  createdAt: Scalars["DateTime"];
+  event: Event;
+  id: Scalars["Int"];
+  status: Scalars["String"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
+export type EventsInput = {
+  online?: InputMaybe<Scalars["Boolean"]>;
+  timeFrame?: InputMaybe<Scalars["String"]>;
+};
+
 export type FeedItem = Post | Proposal;
 
 export type FollowUserPayload = {
@@ -160,6 +225,7 @@ export type Group = {
   createdAt: Scalars["DateTime"];
   description: Scalars["String"];
   feed: Array<FeedItem>;
+  futureEvents: Array<Event>;
   id: Scalars["Int"];
   isJoinedByMe: Scalars["Boolean"];
   memberCount: Scalars["Int"];
@@ -168,6 +234,7 @@ export type Group = {
   members: Array<User>;
   myPermissions: GroupPermissions;
   name: Scalars["String"];
+  pastEvents: Array<Event>;
   posts: Array<Post>;
   proposals: Array<Proposal>;
   roles: Array<GroupRole>;
@@ -252,15 +319,16 @@ export type GroupRolePermissionInput = {
 export type Image = {
   __typename?: "Image";
   createdAt: Scalars["DateTime"];
+  event?: Maybe<Event>;
   filename: Scalars["String"];
-  group: Group;
+  group?: Maybe<Group>;
   id: Scalars["Int"];
   imageType: Scalars["String"];
-  post: Post;
-  proposal: Proposal;
-  proposalAction: ProposalAction;
+  post?: Maybe<Post>;
+  proposal?: Maybe<Proposal>;
+  proposalAction?: Maybe<ProposalAction>;
   updatedAt: Scalars["DateTime"];
-  user: User;
+  user?: Maybe<User>;
 };
 
 export type Like = {
@@ -286,6 +354,8 @@ export type Mutation = {
   __typename?: "Mutation";
   approveGroupMemberRequest: ApproveGroupMemberRequestPayload;
   cancelGroupMemberRequest: Scalars["Boolean"];
+  createEvent: CreateEventPayload;
+  createEventAttendee: CreateEventAttendeePayload;
   createGroup: CreateGroupPayload;
   createGroupMemberRequest: CreateGroupMemberRequestPayload;
   createGroupRole: CreateGroupRolePayload;
@@ -295,6 +365,8 @@ export type Mutation = {
   createServerInvite: CreateServerInvitePayload;
   createServerRole: CreateServerRolePayload;
   createVote: CreateVotePayload;
+  deleteEvent: Scalars["Boolean"];
+  deleteEventAttendee: Scalars["Boolean"];
   deleteGroup: Scalars["Boolean"];
   deleteGroupRole: Scalars["Boolean"];
   deleteGroupRoleMember: DeleteGroupRoleMemberPayload;
@@ -315,6 +387,8 @@ export type Mutation = {
   refreshToken: Scalars["Boolean"];
   signUp: SignUpPayload;
   unfollowUser: Scalars["Boolean"];
+  updateEvent: UpdateEventPayload;
+  updateEventAttendee: UpdateEventAttendeePayload;
   updateGroup: UpdateGroupPayload;
   updateGroupConfig: UpdateGroupPayload;
   updateGroupRole: UpdateGroupRolePayload;
@@ -331,6 +405,14 @@ export type MutationApproveGroupMemberRequestArgs = {
 
 export type MutationCancelGroupMemberRequestArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationCreateEventArgs = {
+  eventData: CreateEventInput;
+};
+
+export type MutationCreateEventAttendeeArgs = {
+  eventAttendeeData: CreateEventAttendeeInput;
 };
 
 export type MutationCreateGroupArgs = {
@@ -367,6 +449,14 @@ export type MutationCreateServerRoleArgs = {
 
 export type MutationCreateVoteArgs = {
   voteData: CreateVoteInput;
+};
+
+export type MutationDeleteEventArgs = {
+  id: Scalars["Int"];
+};
+
+export type MutationDeleteEventAttendeeArgs = {
+  eventId: Scalars["Int"];
 };
 
 export type MutationDeleteGroupArgs = {
@@ -441,6 +531,14 @@ export type MutationUnfollowUserArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationUpdateEventArgs = {
+  eventData: UpdateEventInput;
+};
+
+export type MutationUpdateEventAttendeeArgs = {
+  eventAttendeeData: UpdateEventAttendeeInput;
+};
+
 export type MutationUpdateGroupArgs = {
   groupData: UpdateGroupInput;
 };
@@ -477,6 +575,7 @@ export type Post = {
   __typename?: "Post";
   body?: Maybe<Scalars["String"]>;
   createdAt: Scalars["DateTime"];
+  event?: Maybe<Event>;
   group?: Maybe<Group>;
   id: Scalars["Int"];
   images: Array<Image>;
@@ -578,6 +677,8 @@ export type ProposalActionRoleMemberInput = {
 export type Query = {
   __typename?: "Query";
   authCheck: Scalars["Boolean"];
+  event: Event;
+  events: Array<Event>;
   group: Group;
   groupMemberRequest?: Maybe<GroupMemberRequest>;
   groupRole: GroupRole;
@@ -586,9 +687,7 @@ export type Query = {
   isFirstUser: Scalars["Boolean"];
   me: User;
   post: Post;
-  posts: Array<Post>;
   proposal: Proposal;
-  proposals: Array<Proposal>;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
   serverInvite: ServerInvite;
@@ -598,8 +697,14 @@ export type Query = {
   user: User;
   users: Array<User>;
   usersByIds: Array<User>;
-  vote: Vote;
-  votes: Array<Vote>;
+};
+
+export type QueryEventArgs = {
+  id?: InputMaybe<Scalars["Int"]>;
+};
+
+export type QueryEventsArgs = {
+  input: EventsInput;
 };
 
 export type QueryGroupArgs = {
@@ -638,10 +743,6 @@ export type QueryUserArgs = {
 
 export type QueryUsersByIdsArgs = {
   ids: Array<Scalars["Int"]>;
-};
-
-export type QueryVoteArgs = {
-  id: Scalars["Int"];
 };
 
 export type ServerInvite = {
@@ -713,6 +814,33 @@ export type SignUpInput = {
 export type SignUpPayload = {
   __typename?: "SignUpPayload";
   user: User;
+};
+
+export type UpdateEventAttendeeInput = {
+  eventId: Scalars["Int"];
+  status: Scalars["String"];
+};
+
+export type UpdateEventAttendeePayload = {
+  __typename?: "UpdateEventAttendeePayload";
+  event: Event;
+};
+
+export type UpdateEventInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
+  description: Scalars["String"];
+  endsAt?: InputMaybe<Scalars["DateTime"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  location?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online?: InputMaybe<Scalars["Boolean"]>;
+  startsAt: Scalars["DateTime"];
+};
+
+export type UpdateEventPayload = {
+  __typename?: "UpdateEventPayload";
+  event: Event;
 };
 
 export type UpdateGroupConfigInput = {
@@ -909,6 +1037,338 @@ export type SignUpMutation = {
 export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
+
+export type EventAttendeeButtonsFragment = {
+  __typename?: "Event";
+  id: number;
+  attendingStatus?: string | null;
+  group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
+};
+
+export type EventCompactFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  description: string;
+  startsAt: any;
+  interestedCount: number;
+  goingCount: number;
+  online: boolean;
+  location?: string | null;
+  attendingStatus?: string | null;
+  coverPhoto: { __typename?: "Image"; id: number };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    isJoinedByMe?: boolean;
+    myPermissions?: { __typename?: "GroupPermissions"; manageEvents: boolean };
+  } | null;
+};
+
+export type EventFormFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  startsAt: any;
+  endsAt?: any | null;
+  description: string;
+  location?: string | null;
+  online: boolean;
+  externalLink?: string | null;
+};
+
+export type EventItemAvatarFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  coverPhoto: { __typename?: "Image"; id: number };
+};
+
+export type EventPageCardFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  description: string;
+  location?: string | null;
+  startsAt: any;
+  endsAt?: any | null;
+  online: boolean;
+  externalLink?: string | null;
+  interestedCount: number;
+  goingCount: number;
+  attendingStatus?: string | null;
+  coverPhoto: { __typename?: "Image"; id: number };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    name: string;
+    isJoinedByMe?: boolean;
+    myPermissions?: { __typename?: "GroupPermissions"; manageEvents: boolean };
+  } | null;
+};
+
+export type CreateEventMutationVariables = Exact<{
+  eventData: CreateEventInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type CreateEventMutation = {
+  __typename?: "Mutation";
+  createEvent: {
+    __typename?: "CreateEventPayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
+      startsAt: any;
+      interestedCount: number;
+      goingCount: number;
+      online: boolean;
+      location?: string | null;
+      attendingStatus?: string | null;
+      coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        isJoinedByMe?: boolean;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
+    };
+  };
+};
+
+export type CreateEventAttendeeMutationVariables = Exact<{
+  eventAttendeeData: CreateEventAttendeeInput;
+}>;
+
+export type CreateEventAttendeeMutation = {
+  __typename?: "Mutation";
+  createEventAttendee: {
+    __typename?: "CreateEventAttendeePayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      attendingStatus?: string | null;
+      goingCount: number;
+      interestedCount: number;
+    };
+  };
+};
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteEventMutation = {
+  __typename?: "Mutation";
+  deleteEvent: boolean;
+};
+
+export type DeleteEventAttendeeMutationVariables = Exact<{
+  eventId: Scalars["Int"];
+}>;
+
+export type DeleteEventAttendeeMutation = {
+  __typename?: "Mutation";
+  deleteEventAttendee: boolean;
+};
+
+export type UpdateEventMutationVariables = Exact<{
+  eventData: UpdateEventInput;
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type UpdateEventMutation = {
+  __typename?: "Mutation";
+  updateEvent: {
+    __typename?: "UpdateEventPayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
+      location?: string | null;
+      startsAt: any;
+      endsAt?: any | null;
+      online: boolean;
+      externalLink?: string | null;
+      interestedCount: number;
+      goingCount: number;
+      attendingStatus?: string | null;
+      coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        isJoinedByMe?: boolean;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
+    };
+  };
+};
+
+export type UpdateEventAttendeeMutationVariables = Exact<{
+  eventAttendeeData: UpdateEventAttendeeInput;
+}>;
+
+export type UpdateEventAttendeeMutation = {
+  __typename?: "Mutation";
+  updateEventAttendee: {
+    __typename?: "UpdateEventAttendeePayload";
+    event: {
+      __typename?: "Event";
+      id: number;
+      attendingStatus?: string | null;
+      goingCount: number;
+      interestedCount: number;
+    };
+  };
+};
+
+export type EditEventQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type EditEventQuery = {
+  __typename?: "Query";
+  event: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    startsAt: any;
+    endsAt?: any | null;
+    description: string;
+    location?: string | null;
+    online: boolean;
+    externalLink?: string | null;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
+    } | null;
+  };
+};
+
+export type EventPageQueryVariables = Exact<{
+  id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
+}>;
+
+export type EventPageQuery = {
+  __typename?: "Query";
+  event: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    description: string;
+    location?: string | null;
+    startsAt: any;
+    endsAt?: any | null;
+    online: boolean;
+    externalLink?: string | null;
+    interestedCount: number;
+    goingCount: number;
+    attendingStatus?: string | null;
+    posts: Array<{
+      __typename?: "Post";
+      id: number;
+      body?: string | null;
+      createdAt: any;
+      likesCount: number;
+      isLikedByMe?: boolean;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          approveMemberRequests: boolean;
+          createEvents: boolean;
+          deleteGroup: boolean;
+          manageComments: boolean;
+          manageEvents: boolean;
+          managePosts: boolean;
+          manageRoles: boolean;
+          manageSettings: boolean;
+          removeMembers: boolean;
+          updateGroup: boolean;
+        };
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+      event?: {
+        __typename?: "Event";
+        id: number;
+        name: string;
+        coverPhoto: { __typename?: "Image"; id: number };
+      } | null;
+    }>;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      isJoinedByMe?: boolean;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageEvents: boolean;
+      };
+    } | null;
+    coverPhoto: { __typename?: "Image"; id: number };
+  };
+  me: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "ServerPermissions";
+      manageEvents: boolean;
+    };
+  };
+};
+
+export type EventsQueryVariables = Exact<{
+  input: EventsInput;
+  isLoggedIn: Scalars["Boolean"];
+}>;
+
+export type EventsQuery = {
+  __typename?: "Query";
+  events: Array<{
+    __typename?: "Event";
+    id: number;
+    name: string;
+    description: string;
+    startsAt: any;
+    interestedCount: number;
+    goingCount: number;
+    online: boolean;
+    location?: string | null;
+    attendingStatus?: string | null;
+    coverPhoto: { __typename?: "Image"; id: number };
+    group?: {
+      __typename?: "Group";
+      id: number;
+      isJoinedByMe?: boolean;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageEvents: boolean;
+      };
+    } | null;
+  }>;
+};
 
 export type AddGroupRoleMemberTabFragment = {
   __typename?: "GroupRole";
@@ -1472,6 +1932,68 @@ export type EditGroupRoleQuery = {
   };
 };
 
+export type GroupEventsTabQueryVariables = Exact<{
+  groupId: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
+}>;
+
+export type GroupEventsTabQuery = {
+  __typename?: "Query";
+  group: {
+    __typename?: "Group";
+    name: string;
+    futureEvents: Array<{
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
+      startsAt: any;
+      interestedCount: number;
+      goingCount: number;
+      online: boolean;
+      location?: string | null;
+      attendingStatus?: string | null;
+      coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        isJoinedByMe?: boolean;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
+    }>;
+    pastEvents: Array<{
+      __typename?: "Event";
+      id: number;
+      name: string;
+      description: string;
+      startsAt: any;
+      interestedCount: number;
+      goingCount: number;
+      online: boolean;
+      location?: string | null;
+      attendingStatus?: string | null;
+      coverPhoto: { __typename?: "Image"; id: number };
+      group?: {
+        __typename?: "Group";
+        id: number;
+        isJoinedByMe?: boolean;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          manageEvents: boolean;
+        };
+      } | null;
+    }>;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      manageEvents: boolean;
+      createEvents: boolean;
+    };
+  };
+};
+
 export type GroupMemberRequestQueryVariables = Exact<{
   groupId: Scalars["Int"];
 }>;
@@ -1532,6 +2054,7 @@ export type GroupProfileQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
+    description: string;
     id: number;
     name: string;
     memberRequestCount?: number | null;
@@ -1568,6 +2091,12 @@ export type GroupProfileQuery = {
               updateGroup: boolean;
             };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          event?: {
+            __typename?: "Event";
+            id: number;
+            name: string;
+            coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
       | {
@@ -1915,6 +2444,12 @@ export type PublicGroupsFeedQuery = {
           };
           coverPhoto?: { __typename?: "Image"; id: number } | null;
         } | null;
+        event?: {
+          __typename?: "Event";
+          id: number;
+          name: string;
+          coverPhoto: { __typename?: "Image"; id: number };
+        } | null;
       }
     | {
         __typename?: "Proposal";
@@ -2152,6 +2687,12 @@ type FeedItem_Post_Fragment = {
     };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  event?: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    coverPhoto: { __typename?: "Image"; id: number };
+  } | null;
 };
 
 type FeedItem_Proposal_Fragment = {
@@ -2276,6 +2817,12 @@ export type PostCardFragment = {
     };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
+  event?: {
+    __typename?: "Event";
+    id: number;
+    name: string;
+    coverPhoto: { __typename?: "Image"; id: number };
+  } | null;
 };
 
 export type PostCardFooterFragment = {
@@ -2333,6 +2880,12 @@ export type CreatePostMutation = {
           updateGroup: boolean;
         };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
+      } | null;
+      event?: {
+        __typename?: "Event";
+        id: number;
+        name: string;
+        coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     };
   };
@@ -2411,6 +2964,12 @@ export type UpdatePostMutation = {
         };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
+      event?: {
+        __typename?: "Event";
+        id: number;
+        name: string;
+        coverPhoto: { __typename?: "Image"; id: number };
+      } | null;
     };
   };
 };
@@ -2468,6 +3027,12 @@ export type PostQuery = {
         updateGroup: boolean;
       };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
+    } | null;
+    event?: {
+      __typename?: "Event";
+      id: number;
+      name: string;
+      coverPhoto: { __typename?: "Image"; id: number };
     } | null;
   };
 };
@@ -3483,6 +4048,12 @@ export type FollowUserMutation = {
               };
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
+            event?: {
+              __typename?: "Event";
+              id: number;
+              name: string;
+              coverPhoto: { __typename?: "Image"; id: number };
+            } | null;
           }
         | {
             __typename?: "Proposal";
@@ -3616,7 +4187,6 @@ export type UpdateUserMutation = {
 
 export type EditUserQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type EditUserQuery = {
@@ -3630,40 +4200,6 @@ export type EditUserQuery = {
     followingCount: number;
     name: string;
     isFollowedByMe: boolean;
-    posts: Array<{
-      __typename?: "Post";
-      id: number;
-      body?: string | null;
-      createdAt: any;
-      likesCount: number;
-      isLikedByMe?: boolean;
-      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
-      group?: {
-        __typename?: "Group";
-        id: number;
-        name: string;
-        myPermissions?: {
-          __typename?: "GroupPermissions";
-          approveMemberRequests: boolean;
-          createEvents: boolean;
-          deleteGroup: boolean;
-          manageComments: boolean;
-          manageEvents: boolean;
-          managePosts: boolean;
-          manageRoles: boolean;
-          manageSettings: boolean;
-          removeMembers: boolean;
-          updateGroup: boolean;
-        };
-        coverPhoto?: { __typename?: "Image"; id: number } | null;
-      } | null;
-    }>;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     profilePicture: { __typename?: "Image"; id: number };
   };
@@ -3753,6 +4289,12 @@ export type HomeFeedQuery = {
               updateGroup: boolean;
             };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          event?: {
+            __typename?: "Event";
+            id: number;
+            name: string;
+            coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
       | {
@@ -3920,6 +4462,12 @@ export type UserProfileQuery = {
               updateGroup: boolean;
             };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
+          } | null;
+          event?: {
+            __typename?: "Event";
+            id: number;
+            name: string;
+            coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
       | {
@@ -4158,6 +4706,77 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const EventAttendeeButtonsFragmentDoc = gql`
+  fragment EventAttendeeButtons on Event {
+    id
+    attendingStatus
+    group {
+      id
+      isJoinedByMe @include(if: $isLoggedIn)
+    }
+  }
+`;
+export const EventCompactFragmentDoc = gql`
+  fragment EventCompact on Event {
+    id
+    name
+    description
+    startsAt
+    interestedCount
+    goingCount
+    online
+    location
+    ...EventAttendeeButtons @include(if: $isLoggedIn)
+    coverPhoto {
+      id
+    }
+    group {
+      id
+      myPermissions @include(if: $isLoggedIn) {
+        manageEvents
+      }
+    }
+  }
+  ${EventAttendeeButtonsFragmentDoc}
+`;
+export const EventFormFragmentDoc = gql`
+  fragment EventForm on Event {
+    id
+    name
+    startsAt
+    endsAt
+    description
+    location
+    online
+    externalLink
+  }
+`;
+export const EventPageCardFragmentDoc = gql`
+  fragment EventPageCard on Event {
+    id
+    name
+    description
+    location
+    startsAt
+    endsAt
+    online
+    externalLink
+    interestedCount
+    goingCount
+    ...EventAttendeeButtons @include(if: $isLoggedIn)
+    coverPhoto {
+      id
+    }
+    group {
+      id
+      name
+      myPermissions @include(if: $isLoggedIn) {
+        manageEvents
+      }
+    }
+  }
+  ${EventAttendeeButtonsFragmentDoc}
+`;
 export const GroupRoleFragmentDoc = gql`
   fragment GroupRole on GroupRole {
     id
@@ -4357,6 +4976,15 @@ export const AttachedImageFragmentDoc = gql`
     filename
   }
 `;
+export const EventItemAvatarFragmentDoc = gql`
+  fragment EventItemAvatar on Event {
+    id
+    name
+    coverPhoto {
+      id
+    }
+  }
+`;
 export const PostCardFooterFragmentDoc = gql`
   fragment PostCardFooter on Post {
     id
@@ -4381,12 +5009,16 @@ export const PostCardFragmentDoc = gql`
         ...GroupPermissions
       }
     }
+    event {
+      ...EventItemAvatar
+    }
     ...PostCardFooter
   }
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
   ${GroupPermissionsFragmentDoc}
+  ${EventItemAvatarFragmentDoc}
   ${PostCardFooterFragmentDoc}
 `;
 export const ProposalActionPermissionFragmentDoc = gql`
@@ -4955,6 +5587,506 @@ export type AuthCheckLazyQueryHookResult = ReturnType<
 export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQuery,
   AuthCheckQueryVariables
+>;
+export const CreateEventDocument = gql`
+  mutation CreateEvent(
+    $eventData: CreateEventInput!
+    $isLoggedIn: Boolean = true
+  ) {
+    createEvent(eventData: $eventData) {
+      event {
+        ...EventCompact
+      }
+    }
+  }
+  ${EventCompactFragmentDoc}
+`;
+export type CreateEventMutationFn = Apollo.MutationFunction<
+  CreateEventMutation,
+  CreateEventMutationVariables
+>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      eventData: // value for 'eventData'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEventMutation,
+    CreateEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(
+    CreateEventDocument,
+    options
+  );
+}
+export type CreateEventMutationHookResult = ReturnType<
+  typeof useCreateEventMutation
+>;
+export type CreateEventMutationResult =
+  Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
+  CreateEventMutation,
+  CreateEventMutationVariables
+>;
+export const CreateEventAttendeeDocument = gql`
+  mutation CreateEventAttendee($eventAttendeeData: CreateEventAttendeeInput!) {
+    createEventAttendee(eventAttendeeData: $eventAttendeeData) {
+      event {
+        id
+        attendingStatus
+        goingCount
+        interestedCount
+      }
+    }
+  }
+`;
+export type CreateEventAttendeeMutationFn = Apollo.MutationFunction<
+  CreateEventAttendeeMutation,
+  CreateEventAttendeeMutationVariables
+>;
+
+/**
+ * __useCreateEventAttendeeMutation__
+ *
+ * To run a mutation, you first call `useCreateEventAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventAttendeeMutation, { data, loading, error }] = useCreateEventAttendeeMutation({
+ *   variables: {
+ *      eventAttendeeData: // value for 'eventAttendeeData'
+ *   },
+ * });
+ */
+export function useCreateEventAttendeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEventAttendeeMutation,
+    CreateEventAttendeeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateEventAttendeeMutation,
+    CreateEventAttendeeMutationVariables
+  >(CreateEventAttendeeDocument, options);
+}
+export type CreateEventAttendeeMutationHookResult = ReturnType<
+  typeof useCreateEventAttendeeMutation
+>;
+export type CreateEventAttendeeMutationResult =
+  Apollo.MutationResult<CreateEventAttendeeMutation>;
+export type CreateEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
+  CreateEventAttendeeMutation,
+  CreateEventAttendeeMutationVariables
+>;
+export const DeleteEventDocument = gql`
+  mutation DeleteEvent($id: Int!) {
+    deleteEvent(id: $id)
+  }
+`;
+export type DeleteEventMutationFn = Apollo.MutationFunction<
+  DeleteEventMutation,
+  DeleteEventMutationVariables
+>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteEventMutation,
+    DeleteEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(
+    DeleteEventDocument,
+    options
+  );
+}
+export type DeleteEventMutationHookResult = ReturnType<
+  typeof useDeleteEventMutation
+>;
+export type DeleteEventMutationResult =
+  Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<
+  DeleteEventMutation,
+  DeleteEventMutationVariables
+>;
+export const DeleteEventAttendeeDocument = gql`
+  mutation DeleteEventAttendee($eventId: Int!) {
+    deleteEventAttendee(eventId: $eventId)
+  }
+`;
+export type DeleteEventAttendeeMutationFn = Apollo.MutationFunction<
+  DeleteEventAttendeeMutation,
+  DeleteEventAttendeeMutationVariables
+>;
+
+/**
+ * __useDeleteEventAttendeeMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventAttendeeMutation, { data, loading, error }] = useDeleteEventAttendeeMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useDeleteEventAttendeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteEventAttendeeMutation,
+    DeleteEventAttendeeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteEventAttendeeMutation,
+    DeleteEventAttendeeMutationVariables
+  >(DeleteEventAttendeeDocument, options);
+}
+export type DeleteEventAttendeeMutationHookResult = ReturnType<
+  typeof useDeleteEventAttendeeMutation
+>;
+export type DeleteEventAttendeeMutationResult =
+  Apollo.MutationResult<DeleteEventAttendeeMutation>;
+export type DeleteEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
+  DeleteEventAttendeeMutation,
+  DeleteEventAttendeeMutationVariables
+>;
+export const UpdateEventDocument = gql`
+  mutation UpdateEvent(
+    $eventData: UpdateEventInput!
+    $isLoggedIn: Boolean = true
+  ) {
+    updateEvent(eventData: $eventData) {
+      event {
+        ...EventPageCard
+      }
+    }
+  }
+  ${EventPageCardFragmentDoc}
+`;
+export type UpdateEventMutationFn = Apollo.MutationFunction<
+  UpdateEventMutation,
+  UpdateEventMutationVariables
+>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      eventData: // value for 'eventData'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEventMutation,
+    UpdateEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(
+    UpdateEventDocument,
+    options
+  );
+}
+export type UpdateEventMutationHookResult = ReturnType<
+  typeof useUpdateEventMutation
+>;
+export type UpdateEventMutationResult =
+  Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEventMutation,
+  UpdateEventMutationVariables
+>;
+export const UpdateEventAttendeeDocument = gql`
+  mutation UpdateEventAttendee($eventAttendeeData: UpdateEventAttendeeInput!) {
+    updateEventAttendee(eventAttendeeData: $eventAttendeeData) {
+      event {
+        id
+        attendingStatus
+        goingCount
+        interestedCount
+      }
+    }
+  }
+`;
+export type UpdateEventAttendeeMutationFn = Apollo.MutationFunction<
+  UpdateEventAttendeeMutation,
+  UpdateEventAttendeeMutationVariables
+>;
+
+/**
+ * __useUpdateEventAttendeeMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventAttendeeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventAttendeeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventAttendeeMutation, { data, loading, error }] = useUpdateEventAttendeeMutation({
+ *   variables: {
+ *      eventAttendeeData: // value for 'eventAttendeeData'
+ *   },
+ * });
+ */
+export function useUpdateEventAttendeeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEventAttendeeMutation,
+    UpdateEventAttendeeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateEventAttendeeMutation,
+    UpdateEventAttendeeMutationVariables
+  >(UpdateEventAttendeeDocument, options);
+}
+export type UpdateEventAttendeeMutationHookResult = ReturnType<
+  typeof useUpdateEventAttendeeMutation
+>;
+export type UpdateEventAttendeeMutationResult =
+  Apollo.MutationResult<UpdateEventAttendeeMutation>;
+export type UpdateEventAttendeeMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEventAttendeeMutation,
+  UpdateEventAttendeeMutationVariables
+>;
+export const EditEventDocument = gql`
+  query EditEvent($id: Int!) {
+    event(id: $id) {
+      ...EventForm
+      group {
+        id
+        name
+        myPermissions {
+          manageEvents
+        }
+      }
+    }
+  }
+  ${EventFormFragmentDoc}
+`;
+
+/**
+ * __useEditEventQuery__
+ *
+ * To run a query within a React component, call `useEditEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEditEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEditEventQuery(
+  baseOptions: Apollo.QueryHookOptions<EditEventQuery, EditEventQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EditEventQuery, EditEventQueryVariables>(
+    EditEventDocument,
+    options
+  );
+}
+export function useEditEventLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EditEventQuery,
+    EditEventQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EditEventQuery, EditEventQueryVariables>(
+    EditEventDocument,
+    options
+  );
+}
+export type EditEventQueryHookResult = ReturnType<typeof useEditEventQuery>;
+export type EditEventLazyQueryHookResult = ReturnType<
+  typeof useEditEventLazyQuery
+>;
+export type EditEventQueryResult = Apollo.QueryResult<
+  EditEventQuery,
+  EditEventQueryVariables
+>;
+export const EventPageDocument = gql`
+  query EventPage($id: Int!, $isLoggedIn: Boolean!) {
+    event(id: $id) {
+      ...EventPageCard
+      posts {
+        ...PostCard
+      }
+      group {
+        id
+        name
+      }
+    }
+    me {
+      id
+      serverPermissions {
+        manageEvents
+      }
+    }
+  }
+  ${EventPageCardFragmentDoc}
+  ${PostCardFragmentDoc}
+`;
+
+/**
+ * __useEventPageQuery__
+ *
+ * To run a query within a React component, call `useEventPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventPageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useEventPageQuery(
+  baseOptions: Apollo.QueryHookOptions<EventPageQuery, EventPageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EventPageQuery, EventPageQueryVariables>(
+    EventPageDocument,
+    options
+  );
+}
+export function useEventPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EventPageQuery,
+    EventPageQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EventPageQuery, EventPageQueryVariables>(
+    EventPageDocument,
+    options
+  );
+}
+export type EventPageQueryHookResult = ReturnType<typeof useEventPageQuery>;
+export type EventPageLazyQueryHookResult = ReturnType<
+  typeof useEventPageLazyQuery
+>;
+export type EventPageQueryResult = Apollo.QueryResult<
+  EventPageQuery,
+  EventPageQueryVariables
+>;
+export const EventsDocument = gql`
+  query Events($input: EventsInput!, $isLoggedIn: Boolean!) {
+    events(input: $input) {
+      ...EventCompact
+    }
+  }
+  ${EventCompactFragmentDoc}
+`;
+
+/**
+ * __useEventsQuery__
+ *
+ * To run a query within a React component, call `useEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EventsQuery, EventsQueryVariables>(
+    EventsDocument,
+    options
+  );
+}
+export function useEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<EventsQuery, EventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<EventsQuery, EventsQueryVariables>(
+    EventsDocument,
+    options
+  );
+}
+export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
+export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
+export type EventsQueryResult = Apollo.QueryResult<
+  EventsQuery,
+  EventsQueryVariables
 >;
 export const ApproveGroupMemberRequestDocument = gql`
   mutation ApproveGroupMemberRequest($id: Int!) {
@@ -5810,6 +6942,76 @@ export type EditGroupRoleQueryResult = Apollo.QueryResult<
   EditGroupRoleQuery,
   EditGroupRoleQueryVariables
 >;
+export const GroupEventsTabDocument = gql`
+  query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
+    group(id: $groupId) {
+      name
+      futureEvents {
+        ...EventCompact
+      }
+      pastEvents {
+        ...EventCompact
+      }
+      myPermissions @include(if: $isLoggedIn) {
+        manageEvents
+        createEvents
+      }
+    }
+  }
+  ${EventCompactFragmentDoc}
+`;
+
+/**
+ * __useGroupEventsTabQuery__
+ *
+ * To run a query within a React component, call `useGroupEventsTabQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupEventsTabQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupEventsTabQuery({
+ *   variables: {
+ *      groupId: // value for 'groupId'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useGroupEventsTabQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GroupEventsTabQuery,
+    GroupEventsTabQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GroupEventsTabQuery, GroupEventsTabQueryVariables>(
+    GroupEventsTabDocument,
+    options
+  );
+}
+export function useGroupEventsTabLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GroupEventsTabQuery,
+    GroupEventsTabQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GroupEventsTabQuery, GroupEventsTabQueryVariables>(
+    GroupEventsTabDocument,
+    options
+  );
+}
+export type GroupEventsTabQueryHookResult = ReturnType<
+  typeof useGroupEventsTabQuery
+>;
+export type GroupEventsTabLazyQueryHookResult = ReturnType<
+  typeof useGroupEventsTabLazyQuery
+>;
+export type GroupEventsTabQueryResult = Apollo.QueryResult<
+  GroupEventsTabQuery,
+  GroupEventsTabQueryVariables
+>;
 export const GroupMemberRequestDocument = gql`
   query GroupMemberRequest($groupId: Int!) {
     groupMemberRequest(groupId: $groupId) {
@@ -6003,6 +7205,7 @@ export const GroupProfileDocument = gql`
   query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
     group(name: $name) {
       ...GroupProfileCard
+      description
       feed {
         ...FeedItem
       }
@@ -8079,16 +9282,12 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutationVariables
 >;
 export const EditUserDocument = gql`
-  query EditUser($name: String, $isLoggedIn: Boolean = true) {
+  query EditUser($name: String) {
     user(name: $name) {
       ...UserProfileCard
-      posts {
-        ...PostCard
-      }
     }
   }
   ${UserProfileCardFragmentDoc}
-  ${PostCardFragmentDoc}
 `;
 
 /**
@@ -8104,7 +9303,6 @@ export const EditUserDocument = gql`
  * const { data, loading, error } = useEditUserQuery({
  *   variables: {
  *      name: // value for 'name'
- *      isLoggedIn: // value for 'isLoggedIn'
  *   },
  * });
  */

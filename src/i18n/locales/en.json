@@ -24,7 +24,8 @@
     "removeItem": "Are you sure you want to remove this {{itemType}}?",
     "welcomeToPraxis": "Welcome to Praxis",
     "whatsHappening": "What's happening?",
-    "wip": "This page is still in construction."
+    "wip": "This page is still in construction.",
+    "noContent": "No content in this feed."
   },
 
   "labels": {
@@ -46,13 +47,6 @@
     "saving": "Saving..."
   },
 
-  "about": {
-    "welcomeCard": {
-      "projectDescription": "Praxis is an open source social networking site. Proposals are the main focus and come with a wide variety of voting features, with consensus as the default. Create a group and set it to no-admin, allowing group members to create proposals and democratically decide on settings, name, theme, or planning of real world events.",
-      "inDev": "This project is still in development and is not yet intended for serious use outside of testing or research purposes."
-    }
-  },
-
   "navigation": {
     "events": "Events",
     "groups": "Groups",
@@ -63,6 +57,13 @@
     "profile": "Profile",
     "roles": "Roles",
     "users": "Users"
+  },
+
+  "about": {
+    "welcomeCard": {
+      "projectDescription": "Praxis is an open source social networking site. Proposals are the main focus and come with a wide variety of voting features, with consensus as the default. Create a group and set it to no-admin, allowing group members to create proposals and democratically decide on settings, name, theme, or planning of real world events.",
+      "inDev": "This project is still in development and is not yet intended for serious use outside of testing or research purposes."
+    }
   },
 
   "proposals": {
@@ -243,6 +244,12 @@
       "confirmLeave": "Are you sure you want to leave the group?",
       "publicGroup": "Anyone can view the group page and any content posted by group members."
     },
+    "tabs": {
+      "about": "About",
+      "events": "Events",
+      "feed": "Feed",
+      "proposals": "Proposals"
+    },
     "settings": {
       "names": {
         "privacy": "Privacy"
@@ -259,11 +266,55 @@
 
   "events": {
     "headers": {
-      "planEvents": "Plan Events"
+      "discoverEvents": "Discover Events",
+      "pastEvents": "Past Events",
+      "planEvents": "Plan Events",
+      "upcomingEvents": "Upcoming Events",
+      "whatToExpect": "What to Expect"
     },
-    "tips": {
-      "planEvents": "Events are a powerful tool for bringing people together and building momentum for a cause. Whether you're organizing a fundraiser or a simple a meet and greet, events can help you connect with like-minded individuals in your community and make a positive impact.",
-      "proposedEvents": "Events can be planned via proposals or directly by group members depending on the settings in your group."
+    "form": {
+      "name": "Event name",
+      "description": "What are the details?",
+      "endDateAndTime": "End Date and Time",
+      "externalLink": "External Link",
+      "includeLocation": "Include a place or address",
+      "inPerson": "In Person",
+      "inPersonOrVirtual": "In person or virtual?",
+      "location": "Add location",
+      "startDateAndTime": "Start Date and Time",
+      "virtual": "Virtual"
+    },
+    "labels": {
+      "duration": "Duration: {{duration}}",
+      "onlineWithColon": "Online:",
+      "eventBy": "Event by",
+      "going": "Going",
+      "interested": "Interested",
+      "online": "Online",
+      "onlineEvent": "Online Event",
+      "past": "Past",
+      "thisWeek": "This Week",
+      "upcoming": "Upcoming"
+    },
+    "actions": {
+      "createEvent": "Create Event",
+      "editEvent": "Edit Event"
+    },
+    "prompts": {
+      "noUpcomingEvents": "No upcoming events",
+      "planVirtualEvent": "Plan a virtual event"
+    },
+    "errors": {
+      "couldNotCreate": "Event could not be created",
+      "couldNotUpdate": "Event could not be updated",
+      "missingName": "Event name cannot be empty",
+      "missingDetails": "Event details cannot be empty",
+      "onlineOrOffline": "Event must be either virtual or in person",
+      "missingLocation": "Location cannot be empty for in person events"
+    },
+    "tabs": {
+      "about": "About",
+      "discussion": "Discussion"
     }
   },
 
@@ -317,7 +368,7 @@
       "deleteGroup": "Allows members to permanently delete this group.",
       "updateGroup": "Allows members to edit the group's name, description, and cover photo.",
       "manageComments": "Allows members to remove or hide comments by other members.",
-      "manageEvents": "Allows members to remove or hide events created by other members.",
+      "manageEvents": "Allows members to remove or edit events created by other members.",
       "manageGroupSettings": "Allows members to make changes to this group's settings.",
       "manageInvites": "Allows members to create or delete invite links for this server.",
       "managePosts": "Allows members to remove or hide posts by other members.",

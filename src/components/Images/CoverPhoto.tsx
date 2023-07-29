@@ -66,12 +66,13 @@ const CoverPhoto = ({ imageFile, imageId, rounded, topRounded, sx }: Props) => {
     >
       <Image
         alt={t("images.labels.coverPhoto")}
+        blurDataURL={getImageSrc()}
         layout="responsive"
+        placeholder="blur"
         src={getImageSrc()}
         style={imageStyles}
         height={300}
         width={300}
-        priority
       />
     </Box>
   );

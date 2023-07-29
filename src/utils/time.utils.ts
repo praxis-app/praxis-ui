@@ -5,6 +5,9 @@ import { Time } from "../constants/common.constants";
 export const formatDate = (timeStamp: string) =>
   dayjs(timeStamp).format("MMMM D, YYYY");
 
+export const formatDateTime = (timeStamp: string): string =>
+  dayjs(timeStamp).format("dddd, MMMM D, YYYY [at] h:mm a");
+
 export const timeMessage = (timeStamp: string, timeDifference: number) => {
   if (timeDifference < Time.Minute) {
     return t("time.now");
@@ -36,3 +39,5 @@ export const timeFromNow = (timeStamp: string) => {
   const secondsFromNow = (time - now) / 1000;
   return timeMessage(timeStamp, secondsFromNow);
 };
+
+export const startOfNextHour = () => dayjs().add(1, "hour").startOf("hour");

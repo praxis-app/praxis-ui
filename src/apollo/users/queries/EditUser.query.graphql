@@ -1,8 +1,5 @@
-query EditUser($name: String, $isLoggedIn: Boolean = true) {
+query EditUser($name: String) {
   user(name: $name) {
     ...UserProfileCard
-    posts {
-      ...PostCard
-    }
   }
 }

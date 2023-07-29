@@ -1,0 +1,15 @@
+query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
+  group(id: $groupId) {
+    name
+    futureEvents {
+      ...EventCompact
+    }
+    pastEvents {
+      ...EventCompact
+    }
+    myPermissions @include(if: $isLoggedIn) {
+      manageEvents
+      createEvents
+    }
+  }
+}
