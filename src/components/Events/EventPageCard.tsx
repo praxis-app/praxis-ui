@@ -29,8 +29,8 @@ import {
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import { redirectTo } from "../../utils/common.utils";
 import { getEventPath } from "../../utils/event.utils";
+import { getGroupEventsTabPath } from "../../utils/group.utils";
 import { formatDateTime } from "../../utils/time.utils";
-import { GroupTabs } from "../Groups/GroupProfileCard";
 import CoverPhoto from "../Images/CoverPhoto";
 import ExternalLink from "../Shared/ExternalLink";
 import ItemMenu from "../Shared/ItemMenu";
@@ -105,8 +105,7 @@ const EventPageCard = ({
 
   const eventPagePath = getEventPath(id);
   const editEventPath = `${eventPagePath}/edit`;
-  const groupPagePath = `${NavigationPaths.Groups}/${group?.name}`;
-  const groupEventsTabPath = `${groupPagePath}${TAB_QUERY_PARAM}${GroupTabs.Events}`;
+  const groupEventsTabPath = getGroupEventsTabPath(group?.name || "");
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
 
   const startsAtFormatted = formatDateTime(startsAt);

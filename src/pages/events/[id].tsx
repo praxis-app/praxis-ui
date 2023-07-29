@@ -20,7 +20,7 @@ import ProgressBar from "../../components/Shared/ProgressBar";
 import { TruncationSizes } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import { isDeniedAccess } from "../../utils/error.utils";
-import { getGroupPath } from "../../utils/group.utils";
+import { getGroupEventsTabPath } from "../../utils/group.utils";
 
 const CardContent = styled(MuiCardContent)(() => ({
   "&:last-child": {
@@ -69,7 +69,7 @@ const EventPage: NextPage = () => {
               ? TruncationSizes.Small
               : TruncationSizes.ExtraSmall,
           }),
-          href: getGroupPath(event.group.name),
+          href: getGroupEventsTabPath(event.group.name),
         },
         {
           label: event.name,
