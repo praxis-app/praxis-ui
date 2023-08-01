@@ -7,13 +7,7 @@ import {
   isNavDrawerOpenVar,
   toastVar,
 } from "../../apollo/cache";
-import {
-  LoginInput,
-  MeDocument,
-  MeQuery,
-  MeQueryVariables,
-  useLoginMutation,
-} from "../../apollo/gen";
+import { LoginInput, useLoginMutation } from "../../apollo/gen";
 import Flex from "../../components/Shared/Flex";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 import PrimaryActionButton from "../../components/Shared/PrimaryActionButton";
@@ -34,14 +28,7 @@ const LoginForm = () => {
   const handleSubmit = async (input: LoginInput) =>
     await login({
       variables: { input },
-      update(cache, { data }) {
-        if (!data) {
-          return;
-        }
-        cache.writeQuery<MeQuery, MeQueryVariables>({
-          data: { me: data.login.user },
-          query: MeDocument,
-        });
+      onCompleted() {
         isLoggedInVar(true);
       },
       onError(err) {

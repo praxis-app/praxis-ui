@@ -1,17 +1,3 @@
 mutation SignUp($input: SignUpInput!) {
-  signUp(input: $input) {
-    user {
-      id
-      ...UserAvatar
-
-      serverPermissions {
-        ...ServerPermissions
-      }
-
-      joinedGroups {
-        id
-        name
-      }
-    }
-  }
+  signUp(input: $input)
 }

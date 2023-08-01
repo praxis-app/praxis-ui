@@ -13,8 +13,6 @@ import {
 import {
   IsFirstUserDocument,
   IsFirstUserQuery,
-  MeDocument,
-  MeQuery,
   SignUpInput,
   useSignUpMutation,
 } from "../../apollo/gen";
@@ -81,13 +79,9 @@ const SignUpForm = () => {
         },
       },
       update(cache, { data }) {
-        if (!data?.signUp.user) {
+        if (!data?.signUp) {
           return;
         }
-        cache.writeQuery<MeQuery>({
-          data: { me: data.signUp.user },
-          query: MeDocument,
-        });
         cache.writeQuery<IsFirstUserQuery>({
           data: { isFirstUser: false },
           query: IsFirstUserDocument,

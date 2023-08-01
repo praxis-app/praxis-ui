@@ -296,10 +296,6 @@ input LoginInput {
   password: String!
 }
 
-type LoginPayload {
-  user: User!
-}
-
 type Mutation {
   approveGroupMemberRequest(id: Int!): ApproveGroupMemberRequestPayload!
   cancelGroupMemberRequest(id: Int!): Boolean!
@@ -332,9 +328,9 @@ type Mutation {
   followUser(id: Int!): FollowUserPayload!
   leaveGroup(id: Int!): Boolean!
   logOut: Boolean!
-  login(input: LoginInput!): LoginPayload!
+  login(input: LoginInput!): Boolean!
   refreshToken: Boolean!
-  signUp(input: SignUpInput!): SignUpPayload!
+  signUp(input: SignUpInput!): Boolean!
   unfollowUser(id: Int!): Boolean!
   updateEvent(eventData: UpdateEventInput!): UpdateEventPayload!
   updateEventAttendee(eventAttendeeData: UpdateEventAttendeeInput!): UpdateEventAttendeePayload!
@@ -529,10 +525,6 @@ input SignUpInput {
   name: String!
   password: String!
   profilePicture: Upload
-}
-
-type SignUpPayload {
-  user: User!
 }
 
 input UpdateEventAttendeeInput {
