@@ -17,15 +17,14 @@ const ServerInvitePage: NextPage = () => {
 
   const { query } = useRouter();
   const token = String(query?.token || "");
-  const { loading: serverInviteLoading, error: serverInviteError } =
-    useServerInviteQuery({
-      onCompleted({ serverInvite }) {
-        inviteTokenVar(serverInvite.token);
-        setLocalStorageItem(INVITE_TOKEN, serverInvite.token);
-      },
-      variables: { token },
-      skip: isLoggedIn || !token,
-    });
+  const { loading, error } = useServerInviteQuery({
+    onCompleted({ serverInvite }) {
+      inviteTokenVar(serverInvite.token);
+      setLocalStorageItem(INVITE_TOKEN, serverInvite.token);
+    },
+    variables: { token },
+    skip: isLoggedIn || !token,
+  });
 
   const { t } = useTranslation();
 
@@ -38,10 +37,10 @@ const ServerInvitePage: NextPage = () => {
   if (!token) {
     return <Typography>{t("invites.prompts.inviteRequired")}</Typography>;
   }
-  if (serverInviteError) {
+  if (error) {
     return <Typography>{t("invites.prompts.expiredOrInvalid")}</Typography>;
   }
-  if (serverInviteLoading || isLoggedIn) {
+  if (loading || isLoggedIn) {
     return <ProgressBar />;
   }
 
