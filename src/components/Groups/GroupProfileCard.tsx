@@ -178,7 +178,7 @@ const GroupProfileCard = ({
 
     return (
       <>
-        <JoinButton groupId={id} currentMemberId={currentMemberId} />
+        <JoinButton groupId={id} currentUserId={currentMemberId} />
 
         {showMenuButton && (
           <ItemMenu

@@ -1378,10 +1378,11 @@ export type GroupAvatarFragment = {
 export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
+  memberCount: number;
   memberRequestCount?: number | null;
+  isJoinedByMe?: boolean;
   id: number;
   name: string;
-  members: Array<{ __typename?: "User"; id: number }>;
   myPermissions?: {
     __typename?: "GroupPermissions";
     approveMemberRequests: boolean;
@@ -1772,6 +1773,8 @@ export type UpdateGroupSettingsMutation = {
       name: string;
       memberRequestCount?: number | null;
       description: string;
+      memberCount: number;
+      isJoinedByMe?: boolean;
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       myPermissions?: {
         __typename?: "GroupPermissions";
@@ -2275,10 +2278,11 @@ export type GroupsQuery = {
   groups: Array<{
     __typename?: "Group";
     description: string;
+    memberCount: number;
     memberRequestCount?: number | null;
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
-    members: Array<{ __typename?: "User"; id: number }>;
     myPermissions?: {
       __typename?: "GroupPermissions";
       approveMemberRequests: boolean;
@@ -2329,10 +2333,11 @@ export type PublicGroupsQuery = {
   publicGroups: Array<{
     __typename?: "Group";
     description: string;
+    memberCount: number;
     memberRequestCount?: number | null;
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
-    members: Array<{ __typename?: "User"; id: number }>;
     myPermissions?: {
       __typename?: "GroupPermissions";
       approveMemberRequests: boolean;
@@ -4829,10 +4834,9 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
+    memberCount
     memberRequestCount @include(if: $isLoggedIn)
-    members {
-      id
-    }
+    isJoinedByMe @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn) {
       ...GroupPermissions
     }
