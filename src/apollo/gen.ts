@@ -1275,7 +1275,7 @@ export type EventPageQuery = {
     } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   };
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     serverPermissions: {
@@ -5903,7 +5903,7 @@ export const EventPageDocument = gql`
         name
       }
     }
-    me {
+    me @include(if: $isLoggedIn) {
       id
       serverPermissions {
         manageEvents

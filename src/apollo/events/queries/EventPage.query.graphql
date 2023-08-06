@@ -11,7 +11,7 @@ query EventPage($id: Int!, $isLoggedIn: Boolean!) {
       name
     }
   }
-  me {
+  me @include(if: $isLoggedIn) {
     id
     serverPermissions {
       manageEvents
