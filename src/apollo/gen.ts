@@ -1434,6 +1434,7 @@ export type GroupProfileCardFragment = {
   name: string;
   memberCount?: number;
   memberRequestCount?: number | null;
+  isJoinedByMe?: boolean;
   myPermissions?: {
     __typename?: "GroupPermissions";
     approveMemberRequests: boolean;
@@ -1773,8 +1774,8 @@ export type UpdateGroupSettingsMutation = {
       name: string;
       memberCount: number;
       memberRequestCount?: number | null;
-      description: string;
       isJoinedByMe?: boolean;
+      description: string;
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       myPermissions?: {
         __typename?: "GroupPermissions";
@@ -2007,6 +2008,7 @@ export type GroupProfileQuery = {
     name: string;
     memberCount?: number;
     memberRequestCount?: number | null;
+    isJoinedByMe?: boolean;
     feed: Array<
       | {
           __typename?: "Post";
@@ -4871,6 +4873,7 @@ export const GroupProfileCardFragmentDoc = gql`
     name
     memberCount @include(if: $isLoggedIn)
     memberRequestCount @include(if: $isLoggedIn)
+    isJoinedByMe @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn) {
       ...GroupPermissions
     }

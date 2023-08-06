@@ -3,6 +3,7 @@ fragment GroupProfileCard on Group {
   name
   memberCount @include(if: $isLoggedIn)
   memberRequestCount @include(if: $isLoggedIn)
+  isJoinedByMe @include(if: $isLoggedIn)
 
   myPermissions @include(if: $isLoggedIn) {
     ...GroupPermissions
