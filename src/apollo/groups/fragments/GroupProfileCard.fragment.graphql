@@ -1,15 +1,13 @@
 fragment GroupProfileCard on Group {
   id
   name
+  memberCount @include(if: $isLoggedIn)
   memberRequestCount @include(if: $isLoggedIn)
 
   myPermissions @include(if: $isLoggedIn) {
     ...GroupPermissions
   }
   coverPhoto {
-    id
-  }
-  members {
     id
   }
   settings {

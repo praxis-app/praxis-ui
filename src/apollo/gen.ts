@@ -1432,6 +1432,7 @@ export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
+  memberCount?: number;
   memberRequestCount?: number | null;
   myPermissions?: {
     __typename?: "GroupPermissions";
@@ -1447,7 +1448,6 @@ export type GroupProfileCardFragment = {
     updateGroup: boolean;
   };
   coverPhoto?: { __typename?: "Image"; id: number } | null;
-  members: Array<{ __typename?: "User"; id: number }>;
   settings: { __typename?: "GroupConfig"; isPublic: boolean };
 };
 
@@ -1771,9 +1771,9 @@ export type UpdateGroupSettingsMutation = {
       __typename?: "Group";
       id: number;
       name: string;
+      memberCount: number;
       memberRequestCount?: number | null;
       description: string;
-      memberCount: number;
       isJoinedByMe?: boolean;
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       myPermissions?: {
@@ -1790,7 +1790,6 @@ export type UpdateGroupSettingsMutation = {
         updateGroup: boolean;
       };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
-      members: Array<{ __typename?: "User"; id: number }>;
     };
   };
 };
@@ -2006,6 +2005,7 @@ export type GroupProfileQuery = {
     description: string;
     id: number;
     name: string;
+    memberCount?: number;
     memberRequestCount?: number | null;
     feed: Array<
       | {
@@ -2147,7 +2147,6 @@ export type GroupProfileQuery = {
       updateGroup: boolean;
     };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
-    members: Array<{ __typename?: "User"; id: number }>;
     settings: { __typename?: "GroupConfig"; isPublic: boolean };
   };
   me?: {
@@ -4870,14 +4869,12 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
+    memberCount @include(if: $isLoggedIn)
     memberRequestCount @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn) {
       ...GroupPermissions
     }
     coverPhoto {
-      id
-    }
-    members {
       id
     }
     settings {

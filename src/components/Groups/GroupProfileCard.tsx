@@ -104,8 +104,8 @@ const GroupProfileCard = ({
   const {
     id,
     coverPhoto,
+    memberCount,
     memberRequestCount,
-    members,
     myPermissions,
     name,
     settings,
@@ -237,7 +237,7 @@ const GroupProfileCard = ({
           {MIDDOT_WITH_SPACES}
 
           <Link href={isLoggedIn ? groupMembersPath : groupPath}>
-            {t("groups.labels.members", { count: members.length })}
+            {t("groups.labels.members", { count: memberCount })}
           </Link>
 
           {canApproveMemberRequests && typeof memberRequestCount === "number" && (
