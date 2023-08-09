@@ -1,0 +1,10 @@
+query PublicGroupProfile($name: String!, $isLoggedIn: Boolean = false) {
+  publicGroup(name: $name) {
+    ...GroupProfileCard
+    description
+
+    feed {
+      ...FeedItem
+    }
+  }
+}
