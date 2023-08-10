@@ -686,6 +686,7 @@ export type Query = {
   publicGroup: Group;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
+  publicPost: Post;
   serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
   serverRole: ServerRole;
@@ -726,6 +727,10 @@ export type QueryProposalArgs = {
 
 export type QueryPublicGroupArgs = {
   name: Scalars["String"];
+};
+
+export type QueryPublicPostArgs = {
+  id: Scalars["Int"];
 };
 
 export type QueryServerInviteArgs = {
@@ -3106,12 +3111,61 @@ export type EditPostQuery = {
 
 export type PostQueryVariables = Exact<{
   id: Scalars["Int"];
-  isLoggedIn: Scalars["Boolean"];
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
 }>;
 
 export type PostQuery = {
   __typename?: "Query";
   post: {
+    __typename?: "Post";
+    id: number;
+    body?: string | null;
+    createdAt: any;
+    likesCount: number;
+    isLikedByMe?: boolean;
+    images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+    user: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+    group?: {
+      __typename?: "Group";
+      id: number;
+      name: string;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        approveMemberRequests: boolean;
+        createEvents: boolean;
+        deleteGroup: boolean;
+        manageComments: boolean;
+        manageEvents: boolean;
+        managePosts: boolean;
+        manageRoles: boolean;
+        manageSettings: boolean;
+        removeMembers: boolean;
+        updateGroup: boolean;
+      };
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+    } | null;
+    event?: {
+      __typename?: "Event";
+      id: number;
+      name: string;
+      coverPhoto: { __typename?: "Image"; id: number };
+    } | null;
+  };
+};
+
+export type PublicPostQueryVariables = Exact<{
+  id: Scalars["Int"];
+  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+}>;
+
+export type PublicPostQuery = {
+  __typename?: "Query";
+  publicPost: {
     __typename?: "Post";
     id: number;
     body?: string | null;
@@ -8507,7 +8561,7 @@ export type EditPostQueryResult = Apollo.QueryResult<
   EditPostQueryVariables
 >;
 export const PostDocument = gql`
-  query Post($id: Int!, $isLoggedIn: Boolean!) {
+  query Post($id: Int!, $isLoggedIn: Boolean = true) {
     post(id: $id) {
       ...PostCard
     }
@@ -8550,6 +8604,64 @@ export function usePostLazyQuery(
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
+export const PublicPostDocument = gql`
+  query PublicPost($id: Int!, $isLoggedIn: Boolean = false) {
+    publicPost(id: $id) {
+      ...PostCard
+    }
+  }
+  ${PostCardFragmentDoc}
+`;
+
+/**
+ * __usePublicPostQuery__
+ *
+ * To run a query within a React component, call `usePublicPostQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicPostQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicPostQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function usePublicPostQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    PublicPostQuery,
+    PublicPostQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PublicPostQuery, PublicPostQueryVariables>(
+    PublicPostDocument,
+    options
+  );
+}
+export function usePublicPostLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PublicPostQuery,
+    PublicPostQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PublicPostQuery, PublicPostQueryVariables>(
+    PublicPostDocument,
+    options
+  );
+}
+export type PublicPostQueryHookResult = ReturnType<typeof usePublicPostQuery>;
+export type PublicPostLazyQueryHookResult = ReturnType<
+  typeof usePublicPostLazyQuery
+>;
+export type PublicPostQueryResult = Apollo.QueryResult<
+  PublicPostQuery,
+  PublicPostQueryVariables
+>;
 export const CreateProposalDocument = gql`
   mutation CreateProposal(
     $proposalData: CreateProposalInput!
