@@ -14,10 +14,12 @@ import ToggleForms from "../../components/Shared/ToggleForms";
 import { isDeniedAccess } from "../../utils/error.utils";
 
 const GroupPage: NextPage = () => {
+  const [tab, setTab] = useState(0);
+
   const { query } = useRouter();
   const name = String(query?.name || "");
-  const [tab, setTab] = useState(0);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const { data, loading, error } = useGroupProfileQuery({
     variables: { name, isLoggedIn },
     errorPolicy: "all",
