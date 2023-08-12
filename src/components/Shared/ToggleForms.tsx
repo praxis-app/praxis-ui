@@ -25,11 +25,9 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   height: 32,
   marginLeft: 3.5,
   marginTop: 13,
-
   position: "absolute",
   bottom: 22,
   left: 60.5,
-
   "& .MuiToggleButtonGroup-grouped": {
     border: "none",
   },
