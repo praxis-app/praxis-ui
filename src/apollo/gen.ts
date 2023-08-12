@@ -1442,7 +1442,7 @@ export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
-  memberCount?: number;
+  memberCount: number;
   memberRequestCount?: number | null;
   isJoinedByMe?: boolean;
   myPermissions?: {
@@ -2016,7 +2016,7 @@ export type GroupProfileQuery = {
     description: string;
     id: number;
     name: string;
-    memberCount?: number;
+    memberCount: number;
     memberRequestCount?: number | null;
     isJoinedByMe?: boolean;
     feed: Array<
@@ -2347,7 +2347,7 @@ export type PublicGroupProfileQuery = {
     description: string;
     id: number;
     name: string;
-    memberCount?: number;
+    memberCount: number;
     memberRequestCount?: number | null;
     isJoinedByMe?: boolean;
     feed: Array<
@@ -5089,7 +5089,7 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
-    memberCount @include(if: $isLoggedIn)
+    memberCount
     memberRequestCount @include(if: $isLoggedIn)
     isJoinedByMe @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn) {

@@ -1,7 +1,7 @@
 fragment GroupProfileCard on Group {
   id
   name
-  memberCount @include(if: $isLoggedIn)
+  memberCount
   memberRequestCount @include(if: $isLoggedIn)
   isJoinedByMe @include(if: $isLoggedIn)
 
