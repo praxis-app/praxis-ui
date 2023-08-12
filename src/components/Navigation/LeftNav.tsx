@@ -165,12 +165,17 @@ const LeftNav = () => {
         </Link>
       )}
 
-      <ListItemButton>
-        <ListItemIcon>
-          <Article sx={getIconStyle(NavigationPaths.Docs)} />
-        </ListItemIcon>
-        <ListItemText primary={t("navigation.docs")} />
-      </ListItemButton>
+      <Link href={NavigationPaths.Docs}>
+        <ListItemButton>
+          <ListItemIcon>
+            <Article sx={getIconStyle(NavigationPaths.Docs)} />
+          </ListItemIcon>
+          <ListItemText
+            isActive={isActive(NavigationPaths.Docs)}
+            primary={t("navigation.docs")}
+          />
+        </ListItemButton>
+      </Link>
     </List>
   );
 };

@@ -90,7 +90,7 @@ const NavDrawer = () => {
 
       return (
         <>
-          <ListItemButton>
+          <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
             <ListItemIcon>
               <Article />
             </ListItemIcon>
@@ -158,7 +158,7 @@ const NavDrawer = () => {
           </ListItemButton>
         )}
 
-        <ListItemButton>
+        <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
           <ListItemIcon>
             <Article />
           </ListItemIcon>
