@@ -14,10 +14,18 @@ import PostForm from "../Posts/PostForm";
 import ProposalForm from "../Proposals/ProposalForm";
 import Card from "./Card";
 
+const ACTIVE_STYLES = {
+  backgroundColor: DarkMode.Shady,
+  "&:hover": {
+    backgroundColor: DarkMode.Shady,
+  },
+};
+
 const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   height: 32,
   marginLeft: 3.5,
   marginTop: 13,
+
   position: "absolute",
   bottom: 22,
   left: 60.5,
@@ -35,13 +43,6 @@ const ToggleButton = styled(MuiToggleButton)(() => ({
     opacity: 0.85,
   },
 }));
-
-const INACTIVE_BTN_STYLES = {
-  backgroundColor: DarkMode.Shady,
-  "&:hover": {
-    backgroundColor: DarkMode.Shady,
-  },
-};
 
 interface Props {
   groupId?: number;
@@ -73,14 +74,14 @@ const ToggleForms = ({ groupId, me }: Props) => {
         size="small"
       >
         <ToggleButton
-          sx={showProposalForm ? {} : INACTIVE_BTN_STYLES}
+          sx={showProposalForm ? {} : ACTIVE_STYLES}
           aria-label={t("labels.toggleButton")}
           value={false}
         >
           <PostAdd />
         </ToggleButton>
         <ToggleButton
-          sx={showProposalForm ? INACTIVE_BTN_STYLES : {}}
+          sx={showProposalForm ? ACTIVE_STYLES : {}}
           aria-label={t("labels.toggleButton")}
           value={true}
         >
