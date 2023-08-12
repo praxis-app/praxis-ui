@@ -18,7 +18,6 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   height: 32,
   marginLeft: 3.5,
   marginTop: 13,
-
   position: "absolute",
   bottom: 22,
   left: 60.5,
@@ -28,8 +27,7 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup)(() => ({
   },
 }));
 
-const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+const ToggleButton = styled(MuiToggleButton)(() => ({
   background: DarkMode.PhantomShip,
   transition: "0.2s",
   "&:hover": {
@@ -39,10 +37,9 @@ const ToggleButton = styled(MuiToggleButton)(({ theme }) => ({
 }));
 
 const INACTIVE_BTN_STYLES = {
-  color: DarkMode.Nero,
-  backgroundColor: DarkMode.Liver,
+  backgroundColor: DarkMode.Shady,
   "&:hover": {
-    backgroundColor: DarkMode.Liver,
+    backgroundColor: DarkMode.Shady,
   },
 };
 
@@ -76,14 +73,14 @@ const ToggleForms = ({ groupId, me }: Props) => {
         size="small"
       >
         <ToggleButton
-          sx={showProposalForm ? INACTIVE_BTN_STYLES : {}}
+          sx={showProposalForm ? {} : INACTIVE_BTN_STYLES}
           aria-label={t("labels.toggleButton")}
           value={false}
         >
           <PostAdd />
         </ToggleButton>
         <ToggleButton
-          sx={showProposalForm ? {} : INACTIVE_BTN_STYLES}
+          sx={showProposalForm ? INACTIVE_BTN_STYLES : {}}
           aria-label={t("labels.toggleButton")}
           value={true}
         >

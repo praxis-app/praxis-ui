@@ -6,6 +6,7 @@ export enum DarkMode {
   NimbusCloud = "#d3d5d9",
   Casper = "#b1b3b8",
   Liver = "#505051",
+  Shady = "#49494A",
   DeadPixel = "#3a3b3c",
   PhantomShip = "#303233",
   Nero = "#242526",
