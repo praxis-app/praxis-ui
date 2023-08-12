@@ -1,6 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import {
   AccountBox as RolesIcon,
+  Article,
   EventNote as EventsIcon,
   Group as GroupsIcon,
   Home as HomeIcon,
@@ -163,6 +164,13 @@ const LeftNav = () => {
           </ListItemButton>
         </Link>
       )}
+
+      <ListItemButton>
+        <ListItemIcon>
+          <Article sx={getIconStyle(NavigationPaths.Docs)} />
+        </ListItemIcon>
+        <ListItemText primary="Docs" />
+      </ListItemButton>
     </List>
   );
 };
