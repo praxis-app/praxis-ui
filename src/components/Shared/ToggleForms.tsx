@@ -15,9 +15,9 @@ import ProposalForm from "../Proposals/ProposalForm";
 import Card from "./Card";
 
 const ACTIVE_STYLES = {
-  backgroundColor: DarkMode.Shady,
+  backgroundColor: DarkMode.Liver,
   "&:hover": {
-    backgroundColor: DarkMode.Shady,
+    backgroundColor: DarkMode.Liver,
   },
 };
 
