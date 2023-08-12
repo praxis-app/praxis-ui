@@ -82,84 +82,84 @@ const NavDrawer = () => {
   }, [router.pathname]);
 
   const renderList = () => {
-    if (meData?.me) {
-      const { me } = meData;
-      const userProfilePath = getUserProfilePath(me.name);
-
-      const { removeMembers, manageRoles, createInvites, manageInvites } =
-        me.serverPermissions;
+    if (!meData?.me) {
+      const signUpPath = isFirstUserData?.isFirstUser
+        ? NavigationPaths.SignUp
+        : `/signup/${inviteToken}`;
 
       return (
         <>
-          <ListItemButton onClick={redirectTo(userProfilePath)}>
-            <ListItemIcon>
-              <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
-            </ListItemIcon>
-            <ListItemText primary={me.name} />
-          </ListItemButton>
-
-          {manageRoles && (
-            <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
-              <ListItemIcon>
-                <AccountBox />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.roles")} />
-            </ListItemButton>
-          )}
-
-          {removeMembers && (
-            <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
-              <ListItemIcon>
-                <UsersIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.users")} />
-            </ListItemButton>
-          )}
-
-          {(createInvites || manageInvites) && (
-            <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
-              <ListItemIcon>
-                <InvitesIcon />
-              </ListItemIcon>
-              <ListItemText primary={t("navigation.invites")} />
-            </ListItemButton>
-          )}
-
-          <ListItemButton
-            onClick={() =>
-              window.confirm(t("users.prompts.logOut")) && handleLogOutClick()
-            }
-          >
+          <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
             <ListItemIcon>
               <SessionIcon />
             </ListItemIcon>
-            <ListItemText primary={t("users.actions.logOut")} />
+            <ListItemText primary={t("users.actions.logIn")} />
           </ListItemButton>
+
+          {(inviteToken || isFirstUserData?.isFirstUser) && (
+            <ListItemButton onClick={redirectTo(signUpPath)}>
+              <ListItemIcon>
+                <SignUpIcon />
+              </ListItemIcon>
+              <ListItemText primary={t("users.actions.signUp")} />
+            </ListItemButton>
+          )}
         </>
       );
     }
 
-    const signUpPath = isFirstUserData?.isFirstUser
-      ? NavigationPaths.SignUp
-      : `/signup/${inviteToken}`;
+    const { me } = meData;
+    const userProfilePath = getUserProfilePath(me.name);
+
+    const { removeMembers, manageRoles, createInvites, manageInvites } =
+      me.serverPermissions;
 
     return (
       <>
-        <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
+        <ListItemButton onClick={redirectTo(userProfilePath)}>
+          <ListItemIcon>
+            <UserAvatar user={me} sx={USER_AVATAR_STYLES} />
+          </ListItemIcon>
+          <ListItemText primary={me.name} />
+        </ListItemButton>
+
+        {manageRoles && (
+          <ListItemButton onClick={redirectTo(NavigationPaths.Roles)}>
+            <ListItemIcon>
+              <AccountBox />
+            </ListItemIcon>
+            <ListItemText primary={t("navigation.roles")} />
+          </ListItemButton>
+        )}
+
+        {removeMembers && (
+          <ListItemButton onClick={redirectTo(NavigationPaths.Users)}>
+            <ListItemIcon>
+              <UsersIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("navigation.users")} />
+          </ListItemButton>
+        )}
+
+        {(createInvites || manageInvites) && (
+          <ListItemButton onClick={redirectTo(NavigationPaths.Invites)}>
+            <ListItemIcon>
+              <InvitesIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("navigation.invites")} />
+          </ListItemButton>
+        )}
+
+        <ListItemButton
+          onClick={() =>
+            window.confirm(t("users.prompts.logOut")) && handleLogOutClick()
+          }
+        >
           <ListItemIcon>
             <SessionIcon />
           </ListItemIcon>
-          <ListItemText primary={t("users.actions.logIn")} />
+          <ListItemText primary={t("users.actions.logOut")} />
         </ListItemButton>
-
-        {(inviteToken || isFirstUserData?.isFirstUser) && (
-          <ListItemButton onClick={redirectTo(signUpPath)}>
-            <ListItemIcon>
-              <SignUpIcon />
-            </ListItemIcon>
-            <ListItemText primary={t("users.actions.signUp")} />
-          </ListItemButton>
-        )}
       </>
     );
   };
