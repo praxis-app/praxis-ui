@@ -345,11 +345,6 @@ export type LoginInput = {
   password: Scalars["String"];
 };
 
-export type LoginPayload = {
-  __typename?: "LoginPayload";
-  user: User;
-};
-
 export type Mutation = {
   __typename?: "Mutation";
   approveGroupMemberRequest: ApproveGroupMemberRequestPayload;
@@ -383,9 +378,9 @@ export type Mutation = {
   followUser: FollowUserPayload;
   leaveGroup: Scalars["Boolean"];
   logOut: Scalars["Boolean"];
-  login: LoginPayload;
+  login: Scalars["Boolean"];
   refreshToken: Scalars["Boolean"];
-  signUp: SignUpPayload;
+  signUp: Scalars["Boolean"];
   unfollowUser: Scalars["Boolean"];
   updateEvent: UpdateEventPayload;
   updateEventAttendee: UpdateEventAttendeePayload;
@@ -811,11 +806,6 @@ export type SignUpInput = {
   profilePicture?: InputMaybe<Scalars["Upload"]>;
 };
 
-export type SignUpPayload = {
-  __typename?: "SignUpPayload";
-  user: User;
-};
-
 export type UpdateEventAttendeeInput = {
   eventId: Scalars["Int"];
   status: Scalars["String"];
@@ -975,29 +965,7 @@ export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
 
-export type LoginMutation = {
-  __typename?: "Mutation";
-  login: {
-    __typename?: "LoginPayload";
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      serverPermissions: {
-        __typename?: "ServerPermissions";
-        createInvites: boolean;
-        manageComments: boolean;
-        manageEvents: boolean;
-        manageInvites: boolean;
-        managePosts: boolean;
-        manageRoles: boolean;
-        removeMembers: boolean;
-      };
-      joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-  };
-};
+export type LoginMutation = { __typename?: "Mutation"; login: boolean };
 
 export type RefreshTokenMutationVariables = Exact<{ [key: string]: never }>;
 
@@ -1010,29 +978,7 @@ export type SignUpMutationVariables = Exact<{
   input: SignUpInput;
 }>;
 
-export type SignUpMutation = {
-  __typename?: "Mutation";
-  signUp: {
-    __typename?: "SignUpPayload";
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      serverPermissions: {
-        __typename?: "ServerPermissions";
-        createInvites: boolean;
-        manageComments: boolean;
-        manageEvents: boolean;
-        manageInvites: boolean;
-        managePosts: boolean;
-        manageRoles: boolean;
-        removeMembers: boolean;
-      };
-      joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-  };
-};
+export type SignUpMutation = { __typename?: "Mutation"; signUp: boolean };
 
 export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -1329,7 +1275,7 @@ export type EventPageQuery = {
     } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   };
-  me: {
+  me?: {
     __typename?: "User";
     id: number;
     serverPermissions: {
@@ -1432,10 +1378,11 @@ export type GroupAvatarFragment = {
 export type GroupCardFragment = {
   __typename?: "Group";
   description: string;
+  memberCount: number;
   memberRequestCount?: number | null;
+  isJoinedByMe?: boolean;
   id: number;
   name: string;
-  members: Array<{ __typename?: "User"; id: number }>;
   myPermissions?: {
     __typename?: "GroupPermissions";
     approveMemberRequests: boolean;
@@ -1485,7 +1432,9 @@ export type GroupProfileCardFragment = {
   __typename?: "Group";
   id: number;
   name: string;
+  memberCount: number;
   memberRequestCount?: number | null;
+  isJoinedByMe?: boolean;
   myPermissions?: {
     __typename?: "GroupPermissions";
     approveMemberRequests: boolean;
@@ -1500,7 +1449,6 @@ export type GroupProfileCardFragment = {
     updateGroup: boolean;
   };
   coverPhoto?: { __typename?: "Image"; id: number } | null;
-  members: Array<{ __typename?: "User"; id: number }>;
   settings: { __typename?: "GroupConfig"; isPublic: boolean };
 };
 
@@ -1824,7 +1772,9 @@ export type UpdateGroupSettingsMutation = {
       __typename?: "Group";
       id: number;
       name: string;
+      memberCount: number;
       memberRequestCount?: number | null;
+      isJoinedByMe?: boolean;
       description: string;
       settings: { __typename?: "GroupConfig"; id: number; isPublic: boolean };
       myPermissions?: {
@@ -1841,7 +1791,6 @@ export type UpdateGroupSettingsMutation = {
         updateGroup: boolean;
       };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
-      members: Array<{ __typename?: "User"; id: number }>;
     };
   };
 };
@@ -2057,7 +2006,9 @@ export type GroupProfileQuery = {
     description: string;
     id: number;
     name: string;
+    memberCount: number;
     memberRequestCount?: number | null;
+    isJoinedByMe?: boolean;
     feed: Array<
       | {
           __typename?: "Post";
@@ -2198,7 +2149,6 @@ export type GroupProfileQuery = {
       updateGroup: boolean;
     };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
-    members: Array<{ __typename?: "User"; id: number }>;
     settings: { __typename?: "GroupConfig"; isPublic: boolean };
   };
   me?: {
@@ -2329,10 +2279,11 @@ export type GroupsQuery = {
   groups: Array<{
     __typename?: "Group";
     description: string;
+    memberCount: number;
     memberRequestCount?: number | null;
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
-    members: Array<{ __typename?: "User"; id: number }>;
     myPermissions?: {
       __typename?: "GroupPermissions";
       approveMemberRequests: boolean;
@@ -2383,10 +2334,11 @@ export type PublicGroupsQuery = {
   publicGroups: Array<{
     __typename?: "Group";
     description: string;
+    memberCount: number;
     memberRequestCount?: number | null;
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
-    members: Array<{ __typename?: "User"; id: number }>;
     myPermissions?: {
       __typename?: "GroupPermissions";
       approveMemberRequests: boolean;
@@ -4883,10 +4835,9 @@ export const GroupCardFragmentDoc = gql`
   fragment GroupCard on Group {
     ...GroupAvatar
     description
+    memberCount
     memberRequestCount @include(if: $isLoggedIn)
-    members {
-      id
-    }
+    isJoinedByMe @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn) {
       ...GroupPermissions
     }
@@ -4920,14 +4871,13 @@ export const GroupProfileCardFragmentDoc = gql`
   fragment GroupProfileCard on Group {
     id
     name
+    memberCount
     memberRequestCount @include(if: $isLoggedIn)
+    isJoinedByMe @include(if: $isLoggedIn)
     myPermissions @include(if: $isLoggedIn) {
       ...GroupPermissions
     }
     coverPhoto {
-      id
-    }
-    members {
       id
     }
     settings {
@@ -5375,22 +5325,8 @@ export type LogOutMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
-    login(input: $input) {
-      user {
-        id
-        ...UserAvatar
-        serverPermissions {
-          ...ServerPermissions
-        }
-        joinedGroups {
-          id
-          name
-        }
-      }
-    }
+    login(input: $input)
   }
-  ${UserAvatarFragmentDoc}
-  ${ServerPermissionsFragmentDoc}
 `;
 export type LoginMutationFn = Apollo.MutationFunction<
   LoginMutation,
@@ -5481,22 +5417,8 @@ export type RefreshTokenMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const SignUpDocument = gql`
   mutation SignUp($input: SignUpInput!) {
-    signUp(input: $input) {
-      user {
-        id
-        ...UserAvatar
-        serverPermissions {
-          ...ServerPermissions
-        }
-        joinedGroups {
-          id
-          name
-        }
-      }
-    }
+    signUp(input: $input)
   }
-  ${UserAvatarFragmentDoc}
-  ${ServerPermissionsFragmentDoc}
 `;
 export type SignUpMutationFn = Apollo.MutationFunction<
   SignUpMutation,
@@ -5981,7 +5903,7 @@ export const EventPageDocument = gql`
         name
       }
     }
-    me {
+    me @include(if: $isLoggedIn) {
       id
       serverPermissions {
         manageEvents

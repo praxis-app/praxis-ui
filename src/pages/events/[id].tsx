@@ -59,7 +59,7 @@ const EventPage: NextPage = () => {
   }
 
   const { event, me } = data;
-  const canManageAllEvents = me.serverPermissions.manageEvents;
+  const canManageAllEvents = !!me?.serverPermissions.manageEvents;
 
   const breadcrumbs = event.group
     ? [

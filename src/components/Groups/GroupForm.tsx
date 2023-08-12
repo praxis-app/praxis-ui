@@ -66,16 +66,15 @@ const GroupForm = ({ editGroup, ...cardProps }: Props) => {
         if (!data) {
           return;
         }
-        const {
-          createGroup: { group },
-        } = data;
-
+        const { createGroup } = data;
         cache.updateQuery<GroupsQuery>(
           { query: GroupsDocument },
           (groupsData) =>
             produce(groupsData, (draft) => {
               draft?.groups.unshift({
-                ...group,
+                ...createGroup.group,
+                isJoinedByMe: true,
+                memberCount: 1,
                 memberRequestCount: 0,
               });
             })

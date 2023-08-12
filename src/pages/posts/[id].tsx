@@ -13,6 +13,7 @@ const PostPage: NextPage = () => {
   const { query } = useRouter();
   const id = parseInt(String(query?.id));
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const { data, loading, error } = usePostQuery({
     variables: { id, isLoggedIn },
     errorPolicy: "all",

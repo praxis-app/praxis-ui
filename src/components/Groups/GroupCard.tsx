@@ -81,19 +81,23 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
   const { t } = useTranslation();
 
-  const { id, name, description, members, memberRequestCount, myPermissions } =
-    group;
-  const currentMember = isLoggedIn
-    ? members.find((member) => currentUserId === member.id)
-    : undefined;
+  const {
+    id,
+    name,
+    description,
+    isJoinedByMe,
+    memberCount,
+    memberRequestCount,
+    myPermissions,
+  } = group;
+
   const canApproveMemberRequests = myPermissions?.approveMemberRequests;
+  const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
 
   const editGroupPath = getEditGroupPath(name);
   const groupMembersPath = getGroupMembersPath(name);
   const groupPath = getGroupPath(name);
   const memberRequestsPath = getMemberRequestsPath(name);
-
-  const deleteGroupPrompt = t("prompts.deleteItem", { itemType: "group" });
 
   const handleDelete = async () =>
     await deleteGroup({
@@ -163,7 +167,7 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
 
         <Box sx={{ marginBottom: isLoggedIn ? 1.75 : 0 }}>
           <Link href={isLoggedIn ? groupMembersPath : groupPath}>
-            {t("groups.labels.members", { count: members.length })}
+            {t("groups.labels.members", { count: memberCount })}
           </Link>
 
           {canApproveMemberRequests && typeof memberRequestCount === "number" && (
@@ -177,7 +181,11 @@ const GroupCard = ({ group, currentUserId, ...cardProps }: Props) => {
         </Box>
 
         {isLoggedIn && (
-          <JoinButton groupId={id} currentMemberId={currentMember?.id} />
+          <JoinButton
+            isGroupMember={isJoinedByMe}
+            currentUserId={currentUserId}
+            groupId={id}
+          />
         )}
       </CardContent>
     </Card>

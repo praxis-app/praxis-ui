@@ -66,14 +66,14 @@ const CardContent = styled(MuiCardContent)(() => ({
 }));
 
 interface Props extends CardProps {
-  currentMemberId?: number;
+  currentUserId?: number;
   group: GroupProfileCardFragment;
   setTab(tab: number): void;
   tab: number;
 }
 
 const GroupProfileCard = ({
-  currentMemberId,
+  currentUserId,
   group,
   setTab,
   tab,
@@ -103,11 +103,11 @@ const GroupProfileCard = ({
 
   const {
     id,
-    coverPhoto,
-    memberRequestCount,
-    members,
-    myPermissions,
     name,
+    coverPhoto,
+    memberCount,
+    memberRequestCount,
+    myPermissions,
     settings,
   } = group;
 
@@ -178,7 +178,11 @@ const GroupProfileCard = ({
 
     return (
       <>
-        <JoinButton groupId={id} currentMemberId={currentMemberId} />
+        <JoinButton
+          groupId={id}
+          currentUserId={currentUserId}
+          isGroupMember={group.isJoinedByMe}
+        />
 
         {showMenuButton && (
           <ItemMenu
@@ -237,7 +241,7 @@ const GroupProfileCard = ({
           {MIDDOT_WITH_SPACES}
 
           <Link href={isLoggedIn ? groupMembersPath : groupPath}>
-            {t("groups.labels.members", { count: members.length })}
+            {t("groups.labels.members", { count: memberCount })}
           </Link>
 
           {canApproveMemberRequests && typeof memberRequestCount === "number" && (

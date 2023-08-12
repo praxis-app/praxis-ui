@@ -24,10 +24,11 @@ const Button = styled(GhostButton)(() => ({
 
 interface Props {
   groupId: number;
-  currentMemberId?: number;
+  currentUserId?: number;
+  isGroupMember?: boolean;
 }
 
-const JoinButton = ({ groupId, currentMemberId }: Props) => {
+const JoinButton = ({ groupId, currentUserId, isGroupMember }: Props) => {
   const { data, loading } = useGroupMemberRequestQuery({
     variables: { groupId },
   });
@@ -47,7 +48,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
   const { groupMemberRequest } = data;
 
   const getButtonText = () => {
-    if (currentMemberId) {
+    if (isGroupMember) {
       if (isHovering) {
         return t("groups.actions.leave");
       }
@@ -127,7 +128,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
           fields: {
             members(existingRefs: Reference[], { readField }) {
               return existingRefs.filter(
-                (ref) => readField("id", ref) !== currentMemberId
+                (ref) => readField("id", ref) !== currentUserId
               );
             },
             memberCount(existingCount: number) {
@@ -140,7 +141,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
 
   const handleButtonClick = async () => {
     try {
-      if (currentMemberId) {
+      if (isGroupMember) {
         await handleLeave();
         return;
       }
@@ -163,9 +164,7 @@ const JoinButton = ({ groupId, currentMemberId }: Props) => {
   return (
     <Button
       disabled={cancelLoading || createLoading || leaveGroupLoading || loading}
-      onClick={
-        currentMemberId ? handleButtonClickWithConfirm : handleButtonClick
-      }
+      onClick={isGroupMember ? handleButtonClickWithConfirm : handleButtonClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
