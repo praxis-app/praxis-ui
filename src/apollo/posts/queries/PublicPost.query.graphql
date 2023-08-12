@@ -1,5 +1,0 @@
-query PublicPost($id: Int!, $isLoggedIn: Boolean = false) {
-  publicPost(id: $id) {
-    ...PostCard
-  }
-}

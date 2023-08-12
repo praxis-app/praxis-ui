@@ -683,10 +683,8 @@ export type Query = {
   me: User;
   post: Post;
   proposal: Proposal;
-  publicGroup: Group;
   publicGroups: Array<Group>;
   publicGroupsFeed: Array<FeedItem>;
-  publicPost: Post;
   serverInvite: ServerInvite;
   serverInvites: Array<ServerInvite>;
   serverRole: ServerRole;
@@ -722,14 +720,6 @@ export type QueryPostArgs = {
 };
 
 export type QueryProposalArgs = {
-  id: Scalars["Int"];
-};
-
-export type QueryPublicGroupArgs = {
-  name: Scalars["String"];
-};
-
-export type QueryPublicPostArgs = {
   id: Scalars["Int"];
 };
 
@@ -2006,7 +1996,7 @@ export type GroupMembersByGroupIdQuery = {
 
 export type GroupProfileQueryVariables = Exact<{
   name: Scalars["String"];
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type GroupProfileQuery = {
@@ -2332,165 +2322,6 @@ export type MemberRequestsQuery = {
       };
       group: { __typename?: "Group"; id: number };
     }> | null;
-  };
-};
-
-export type PublicGroupProfileQueryVariables = Exact<{
-  name: Scalars["String"];
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
-}>;
-
-export type PublicGroupProfileQuery = {
-  __typename?: "Query";
-  publicGroup: {
-    __typename?: "Group";
-    description: string;
-    id: number;
-    name: string;
-    memberCount: number;
-    memberRequestCount?: number | null;
-    isJoinedByMe?: boolean;
-    feed: Array<
-      | {
-          __typename?: "Post";
-          id: number;
-          body?: string | null;
-          createdAt: any;
-          likesCount: number;
-          isLikedByMe?: boolean;
-          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-          user: {
-            __typename?: "User";
-            id: number;
-            name: string;
-            profilePicture: { __typename?: "Image"; id: number };
-          };
-          group?: {
-            __typename?: "Group";
-            id: number;
-            name: string;
-            myPermissions?: {
-              __typename?: "GroupPermissions";
-              approveMemberRequests: boolean;
-              createEvents: boolean;
-              deleteGroup: boolean;
-              manageComments: boolean;
-              manageEvents: boolean;
-              managePosts: boolean;
-              manageRoles: boolean;
-              manageSettings: boolean;
-              removeMembers: boolean;
-              updateGroup: boolean;
-            };
-            coverPhoto?: { __typename?: "Image"; id: number } | null;
-          } | null;
-          event?: {
-            __typename?: "Event";
-            id: number;
-            name: string;
-            coverPhoto: { __typename?: "Image"; id: number };
-          } | null;
-        }
-      | {
-          __typename?: "Proposal";
-          id: number;
-          body?: string | null;
-          stage: string;
-          voteCount: number;
-          createdAt: any;
-          action: {
-            __typename?: "ProposalAction";
-            id: number;
-            actionType: string;
-            groupDescription?: string | null;
-            groupName?: string | null;
-            groupCoverPhoto?: {
-              __typename?: "Image";
-              id: number;
-              filename: string;
-            } | null;
-            role?: {
-              __typename?: "ProposalActionRole";
-              id: number;
-              name?: string | null;
-              color?: string | null;
-              oldName?: string | null;
-              oldColor?: string | null;
-              permissions: {
-                __typename?: "ProposalActionPermission";
-                id: number;
-                approveMemberRequests?: boolean | null;
-                createEvents?: boolean | null;
-                deleteGroup?: boolean | null;
-                manageComments?: boolean | null;
-                manageEvents?: boolean | null;
-                managePosts?: boolean | null;
-                manageRoles?: boolean | null;
-                manageSettings?: boolean | null;
-                removeMembers?: boolean | null;
-                updateGroup?: boolean | null;
-              };
-              members?: Array<{
-                __typename?: "ProposalActionRoleMember";
-                id: number;
-                changeType: string;
-                user: {
-                  __typename?: "User";
-                  id: number;
-                  name: string;
-                  profilePicture: { __typename?: "Image"; id: number };
-                };
-              }> | null;
-              groupRole?: {
-                __typename?: "GroupRole";
-                id: number;
-                name: string;
-                color: string;
-              } | null;
-            } | null;
-          };
-          user: {
-            __typename?: "User";
-            id: number;
-            name: string;
-            profilePicture: { __typename?: "Image"; id: number };
-          };
-          group?: {
-            __typename?: "Group";
-            id: number;
-            isJoinedByMe?: boolean;
-            name: string;
-            coverPhoto?: { __typename?: "Image"; id: number } | null;
-          } | null;
-          images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-          votes: Array<{
-            __typename?: "Vote";
-            id: number;
-            voteType: string;
-            user: {
-              __typename?: "User";
-              id: number;
-              name: string;
-              profilePicture: { __typename?: "Image"; id: number };
-            };
-          }>;
-        }
-    >;
-    myPermissions?: {
-      __typename?: "GroupPermissions";
-      approveMemberRequests: boolean;
-      createEvents: boolean;
-      deleteGroup: boolean;
-      manageComments: boolean;
-      manageEvents: boolean;
-      managePosts: boolean;
-      manageRoles: boolean;
-      manageSettings: boolean;
-      removeMembers: boolean;
-      updateGroup: boolean;
-    };
-    coverPhoto?: { __typename?: "Image"; id: number } | null;
-    settings: { __typename?: "GroupConfig"; isPublic: boolean };
   };
 };
 
@@ -3111,61 +2942,12 @@ export type EditPostQuery = {
 
 export type PostQueryVariables = Exact<{
   id: Scalars["Int"];
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
+  isLoggedIn: Scalars["Boolean"];
 }>;
 
 export type PostQuery = {
   __typename?: "Query";
   post: {
-    __typename?: "Post";
-    id: number;
-    body?: string | null;
-    createdAt: any;
-    likesCount: number;
-    isLikedByMe?: boolean;
-    images: Array<{ __typename?: "Image"; id: number; filename: string }>;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-    group?: {
-      __typename?: "Group";
-      id: number;
-      name: string;
-      myPermissions?: {
-        __typename?: "GroupPermissions";
-        approveMemberRequests: boolean;
-        createEvents: boolean;
-        deleteGroup: boolean;
-        manageComments: boolean;
-        manageEvents: boolean;
-        managePosts: boolean;
-        manageRoles: boolean;
-        manageSettings: boolean;
-        removeMembers: boolean;
-        updateGroup: boolean;
-      };
-      coverPhoto?: { __typename?: "Image"; id: number } | null;
-    } | null;
-    event?: {
-      __typename?: "Event";
-      id: number;
-      name: string;
-      coverPhoto: { __typename?: "Image"; id: number };
-    } | null;
-  };
-};
-
-export type PublicPostQueryVariables = Exact<{
-  id: Scalars["Int"];
-  isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
-}>;
-
-export type PublicPostQuery = {
-  __typename?: "Query";
-  publicPost: {
     __typename?: "Post";
     id: number;
     body?: string | null;
@@ -7342,7 +7124,7 @@ export type GroupMembersByGroupIdQueryResult = Apollo.QueryResult<
   GroupMembersByGroupIdQueryVariables
 >;
 export const GroupProfileDocument = gql`
-  query GroupProfile($name: String!, $isLoggedIn: Boolean = true) {
+  query GroupProfile($name: String!, $isLoggedIn: Boolean!) {
     group(name: $name) {
       ...GroupProfileCard
       description
@@ -7785,71 +7567,6 @@ export type MemberRequestsLazyQueryHookResult = ReturnType<
 export type MemberRequestsQueryResult = Apollo.QueryResult<
   MemberRequestsQuery,
   MemberRequestsQueryVariables
->;
-export const PublicGroupProfileDocument = gql`
-  query PublicGroupProfile($name: String!, $isLoggedIn: Boolean = false) {
-    publicGroup(name: $name) {
-      ...GroupProfileCard
-      description
-      feed {
-        ...FeedItem
-      }
-    }
-  }
-  ${GroupProfileCardFragmentDoc}
-  ${FeedItemFragmentDoc}
-`;
-
-/**
- * __usePublicGroupProfileQuery__
- *
- * To run a query within a React component, call `usePublicGroupProfileQuery` and pass it any options that fit your needs.
- * When your component renders, `usePublicGroupProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePublicGroupProfileQuery({
- *   variables: {
- *      name: // value for 'name'
- *      isLoggedIn: // value for 'isLoggedIn'
- *   },
- * });
- */
-export function usePublicGroupProfileQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    PublicGroupProfileQuery,
-    PublicGroupProfileQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    PublicGroupProfileQuery,
-    PublicGroupProfileQueryVariables
-  >(PublicGroupProfileDocument, options);
-}
-export function usePublicGroupProfileLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PublicGroupProfileQuery,
-    PublicGroupProfileQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    PublicGroupProfileQuery,
-    PublicGroupProfileQueryVariables
-  >(PublicGroupProfileDocument, options);
-}
-export type PublicGroupProfileQueryHookResult = ReturnType<
-  typeof usePublicGroupProfileQuery
->;
-export type PublicGroupProfileLazyQueryHookResult = ReturnType<
-  typeof usePublicGroupProfileLazyQuery
->;
-export type PublicGroupProfileQueryResult = Apollo.QueryResult<
-  PublicGroupProfileQuery,
-  PublicGroupProfileQueryVariables
 >;
 export const PublicGroupsDocument = gql`
   query PublicGroups($isLoggedIn: Boolean = false) {
@@ -8561,7 +8278,7 @@ export type EditPostQueryResult = Apollo.QueryResult<
   EditPostQueryVariables
 >;
 export const PostDocument = gql`
-  query Post($id: Int!, $isLoggedIn: Boolean = true) {
+  query Post($id: Int!, $isLoggedIn: Boolean!) {
     post(id: $id) {
       ...PostCard
     }
@@ -8604,64 +8321,6 @@ export function usePostLazyQuery(
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
-export const PublicPostDocument = gql`
-  query PublicPost($id: Int!, $isLoggedIn: Boolean = false) {
-    publicPost(id: $id) {
-      ...PostCard
-    }
-  }
-  ${PostCardFragmentDoc}
-`;
-
-/**
- * __usePublicPostQuery__
- *
- * To run a query within a React component, call `usePublicPostQuery` and pass it any options that fit your needs.
- * When your component renders, `usePublicPostQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePublicPostQuery({
- *   variables: {
- *      id: // value for 'id'
- *      isLoggedIn: // value for 'isLoggedIn'
- *   },
- * });
- */
-export function usePublicPostQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    PublicPostQuery,
-    PublicPostQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PublicPostQuery, PublicPostQueryVariables>(
-    PublicPostDocument,
-    options
-  );
-}
-export function usePublicPostLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PublicPostQuery,
-    PublicPostQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PublicPostQuery, PublicPostQueryVariables>(
-    PublicPostDocument,
-    options
-  );
-}
-export type PublicPostQueryHookResult = ReturnType<typeof usePublicPostQuery>;
-export type PublicPostLazyQueryHookResult = ReturnType<
-  typeof usePublicPostLazyQuery
->;
-export type PublicPostQueryResult = Apollo.QueryResult<
-  PublicPostQuery,
-  PublicPostQueryVariables
->;
 export const CreateProposalDocument = gql`
   mutation CreateProposal(
     $proposalData: CreateProposalInput!
