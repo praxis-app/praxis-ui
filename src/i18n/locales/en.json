@@ -48,6 +48,7 @@
   },
 
   "navigation": {
+    "docs": "Docs",
     "events": "Events",
     "groups": "Groups",
     "home": "Home",

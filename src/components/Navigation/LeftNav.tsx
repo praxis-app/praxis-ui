@@ -169,7 +169,7 @@ const LeftNav = () => {
         <ListItemIcon>
           <Article sx={getIconStyle(NavigationPaths.Docs)} />
         </ListItemIcon>
-        <ListItemText primary="Docs" />
+        <ListItemText primary={t("navigation.docs")} />
       </ListItemButton>
     </List>
   );
