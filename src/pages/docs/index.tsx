@@ -38,7 +38,7 @@ const DocsHomePage: NextPage = () => (
     </Typography>
 
     <Typography marginBottom={3}>
-      Once a proposal reaches enough votes to pass, its immediately marked as
+      Once a proposal reaches enough votes to pass, it's immediately marked as
       ratified. Depending on the proposal type, proposals will automatically
       implement themselves upon ratification. Roles and permissions changes, for
       instance, are implemented as soon as their respective proposal passes.
@@ -55,7 +55,7 @@ const DocsHomePage: NextPage = () => (
     <Typography marginBottom={3}>
       Every group has its own set of roles and permissions, as well as other
       settings that can all be configured directly by group members via
-      proposals and voting, or by the groups admins. Its up to every group to
+      proposals and voting, or by the groups admins. It's up to every group to
       decide the best way to organize themselves.
     </Typography>
 
