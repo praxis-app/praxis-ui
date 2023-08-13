@@ -1,4 +1,4 @@
-// TODO: Move to en.json when documentation is finalized
+// TODO: Move text to en.json once documentation is finalized
 
 import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
@@ -6,7 +6,7 @@ import DocsPermissionList from "../../components/Docs/DocsPermissionList";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 
-const Docs: NextPage = () => (
+const DocsHomePage: NextPage = () => (
   <Box marginBottom={15}>
     <LevelOneHeading header>What is Praxis?</LevelOneHeading>
 
@@ -81,7 +81,17 @@ const Docs: NextPage = () => (
     <Typography marginBottom={1.5}>Group permissions:</Typography>
 
     <DocsPermissionList permissionType="group" />
+
+    <DocsSubheading>Work in progress</DocsSubheading>
+
+    <Typography marginBottom={1.5}>
+      Praxis is still in development and there are a lot of features that are
+      still being worked on, meaning the documentation is also likely to change
+      as the project is still getting off the ground. If you'd like to
+      contribute or have any questions at all, feel free to reach out to us on
+      GitHub.
+    </Typography>
   </Box>
 );
 
-export default Docs;
+export default DocsHomePage;
