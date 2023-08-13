@@ -71,7 +71,7 @@ const Docs: NextPage = () => (
       Every role has a set of permissions that define what actions that role can
       perform. Roles can be assigned to users, and users can have multiple
       roles. This allows for a lot of flexibility in how groups can be
-      organized, as well as the server itself.
+      organized, as well as how the server is structured as a whole.
     </Typography>
 
     <Typography marginBottom={1.5}>Server Permissions:</Typography>
