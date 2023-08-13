@@ -30,16 +30,15 @@ const Docs: NextPage = () => (
     <Typography marginBottom={1.5}>
       At the core of Praxis are proposals and voting. Proposals are the basic
       unit of decision making in Praxis. Proposals can be created by any member
-      of a group and can be voted on by any member of that group. Proposals can
-      be used to make decisions about virtually anything the group wants to
-      decide on.
+      of a group and can be voted on by any group member. Proposals can be used
+      to make decisions about virtually anything the group wants to decide on.
     </Typography>
 
     <Typography marginBottom={1.5}>
-      Once a proposal reaches enough votes to pass, it’s immediately marked as
+      Once a proposal reaches enough votes to pass, its immediately marked as
       ratified. Depending on the proposal type, proposals will automatically
-      implement themselves upon ratification. For example, roles and permissions
-      changes are implemented as soon as their respective proposal passes.
+      implement themselves upon ratification. Roles and permissions changes, for
+      instance, are implemented as soon as their respective proposal passes.
     </Typography>
   </Box>
 );
