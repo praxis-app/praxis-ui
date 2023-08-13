@@ -2,6 +2,7 @@
 
 import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
+import Image from "next/image";
 import DocsPermissionList from "../../components/Docs/DocsPermissionList";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
 import ExternalLink from "../../components/Shared/ExternalLink";
@@ -39,6 +40,20 @@ const DocsHomePage: NextPage = () => (
       of a group and can be voted on by any group member. Proposals can be used
       to make decisions about anything the group wants to decide on.
     </Typography>
+
+    <Box paddingTop={1} paddingBottom={2} width="90%" margin="0 auto">
+      <Image
+        alt="Role Change Proposal"
+        blurDataURL="/images/role-change-proposal.png"
+        src="/images/role-change-proposal.png"
+        objectFit="contain"
+        layout="responsive"
+        loading="lazy"
+        placeholder="blur"
+        width={300}
+        height={190}
+      />
+    </Box>
 
     <Typography marginBottom={3}>
       Once a proposal reaches enough votes to pass, it's immediately marked as
