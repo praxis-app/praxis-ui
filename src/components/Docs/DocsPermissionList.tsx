@@ -26,7 +26,10 @@ const DocsPermissionList = ({ permissionType }: Props) => {
           }
           return (
             <Box component="li" marginBottom={1.5} key={permission}>
-              <b>{displayName}</b> - {description}
+              <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+                {displayName}
+              </Box>{" "}
+              - {description}
             </Box>
           );
         })}

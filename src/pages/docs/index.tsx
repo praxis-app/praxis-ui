@@ -43,7 +43,9 @@ const DocsHomePage: NextPage = () => {
           href="https://github.com/praxis-app/praxis-ui/blob/main/LICENSE"
           leftSpace
         >
-          <b>GNU General Public License v3.0</b>
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            GNU General Public License v3.0
+          </Box>
         </ExternalLink>
         .
       </Typography>
@@ -84,7 +86,9 @@ const DocsHomePage: NextPage = () => {
       <Typography marginBottom={1.5}>
         Almost everything in Praxis is scoped to
         <Link href={NavigationPaths.Groups} leftSpace>
-          <b>groups</b>
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            groups
+          </Box>
         </Link>
         , including both proposals and events. Groups can be public or private,
         and can be used to organize a community, a project, or anything else.
@@ -128,7 +132,9 @@ const DocsHomePage: NextPage = () => {
         change as the project is still getting off the ground. If you'd like to
         contribute or have any questions at all, feel free to reach out to us on
         <ExternalLink href="https://github.com/praxis-app" leftSpace>
-          <b>GitHub</b>
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            GitHub
+          </Box>
         </ExternalLink>
         .
       </Typography>
