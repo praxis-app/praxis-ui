@@ -49,11 +49,26 @@ const Docs: NextPage = () => (
       community, a project, or anything else.
     </Typography>
 
-    <Typography marginBottom={1.5}>
+    <Typography marginBottom={3}>
       Every group has its own set of roles and permissions, as well as other
       settings that can all be configured directly by group members via
       proposals and voting, or by the groups admins. Its up to every group to
       decide the best way to organize themselves.
+    </Typography>
+
+    <DocsSubheading>Roles & Permissions</DocsSubheading>
+
+    <Typography marginBottom={1.5}>
+      Roles and permissions are a core part of Praxis. They exist at both the
+      group and server level, and can be used to manage who can do what
+      throughout the platform.
+    </Typography>
+
+    <Typography marginBottom={1.5}>
+      Every role has a set of permissions that define what actions that role can
+      perform. Roles can be assigned to users, and users can have multiple
+      roles. This allows for a lot of flexibility in how groups can be
+      organized, as well as the server itself.
     </Typography>
   </Box>
 );
