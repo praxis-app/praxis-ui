@@ -6,26 +6,26 @@ import {
 export const DEFAULT_ROLE_COLOR = "#f44336";
 
 export const SERVER_PERMISSION_NAMES: (keyof ServerRolePermissionInput)[] = [
-  "managePosts",
   "manageRoles",
+  "manageEvents",
+  "managePosts",
   "manageInvites",
   "createInvites",
   "manageComments",
-  "manageEvents",
   "removeMembers",
 ];
 
 export const GROUP_PERMISSION_NAMES: (keyof GroupRolePermissionInput)[] = [
-  "managePosts",
-  "manageSettings",
   "manageRoles",
+  "manageSettings",
+  "managePosts",
   "manageEvents",
   "createEvents",
   "updateGroup",
   "deleteGroup",
   "manageComments",
-  "removeMembers",
   "approveMemberRequests",
+  "removeMembers",
 ];
 
 export enum EditRoleTabNames {
