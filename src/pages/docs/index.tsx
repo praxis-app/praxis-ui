@@ -83,7 +83,7 @@ const DocsHomePage: NextPage = () => {
         Almost everything in Praxis is scoped to
         <DocsLink href={NavigationPaths.Groups} text="groups" />, including both
         proposals and events. Groups can be public or private, and can be used
-        to organize a community, a project, or anything else.
+        to organize anything from small projects to entire communities.
       </Typography>
 
       <Typography marginBottom={3}>
