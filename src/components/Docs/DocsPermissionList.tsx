@@ -16,7 +16,7 @@ const DocsPermissionList = ({ permissionType }: Props) => {
       : GROUP_PERMISSION_NAMES;
 
   return (
-    <Typography component="div">
+    <Typography component="div" marginBottom={3}>
       <Box component="ul" paddingLeft={3}>
         {permissions.map((permission) => {
           const { displayName, description, inDev } =
