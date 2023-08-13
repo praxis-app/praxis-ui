@@ -26,10 +26,21 @@ const DocsHomePage: NextPage = () => (
       decision making.
     </Typography>
 
-    <Typography marginBottom={3}>
+    <Typography marginBottom={1.5}>
       Unlike most social networks, Praxis is specifically designed to facilitate
       collective decision making and the building of social structures that make
       sense for the organizations and communities that use it.
+    </Typography>
+
+    <Typography marginBottom={3}>
+      Praxis is free and open source software, and is released under the
+      <ExternalLink
+        href="https://github.com/praxis-app/praxis-ui/blob/main/LICENSE"
+        leftSpace
+      >
+        <b>GNU General Public License v3.0</b>
+      </ExternalLink>
+      .
     </Typography>
 
     <DocsSubheading>Proposals</DocsSubheading>
