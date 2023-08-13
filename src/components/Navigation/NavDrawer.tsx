@@ -1,7 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import {
   AccountBox,
-  Article,
+  Article as DocsIcon,
   Close,
   ExitToApp as SessionIcon,
   Link as InvitesIcon,
@@ -92,7 +92,7 @@ const NavDrawer = () => {
         <>
           <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
             <ListItemIcon>
-              <Article />
+              <DocsIcon />
             </ListItemIcon>
             <ListItemText primary={t("navigation.docs")} />
           </ListItemButton>
@@ -160,7 +160,7 @@ const NavDrawer = () => {
 
         <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
           <ListItemIcon>
-            <Article />
+            <DocsIcon />
           </ListItemIcon>
           <ListItemText primary={t("navigation.docs")} />
         </ListItemButton>
