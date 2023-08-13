@@ -2,6 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import {
+  GROUP_PERMISSION_NAMES,
+  SERVER_PERMISSION_NAMES,
+} from "../../constants/role.constants";
+import { getPermissionText } from "../../utils/role.utils";
 
 const Docs: NextPage = () => (
   <Box marginBottom={15}>
@@ -69,6 +74,44 @@ const Docs: NextPage = () => (
       perform. Roles can be assigned to users, and users can have multiple
       roles. This allows for a lot of flexibility in how groups can be
       organized, as well as the server itself.
+    </Typography>
+
+    <Typography marginBottom={1.5}>Server Permissions:</Typography>
+
+    <Typography component="div">
+      <Box component="ul" paddingLeft={3}>
+        {SERVER_PERMISSION_NAMES.map((permission) => {
+          const { displayName, description, inDev } =
+            getPermissionText(permission);
+          if (inDev) {
+            return null;
+          }
+          return (
+            <Box component="li" marginBottom={1.5} key={permission}>
+              <b>{displayName}</b> - {description}
+            </Box>
+          );
+        })}
+      </Box>
+    </Typography>
+
+    <Typography marginBottom={1.5}>Group Permissions:</Typography>
+
+    <Typography component="div">
+      <Box component="ul" paddingLeft={3}>
+        {GROUP_PERMISSION_NAMES.map((permission) => {
+          const { displayName, description, inDev } =
+            getPermissionText(permission);
+          if (inDev) {
+            return null;
+          }
+          return (
+            <Box component="li" marginBottom={1.5} key={permission}>
+              <b>{displayName}</b> - {description}
+            </Box>
+          );
+        })}
+      </Box>
     </Typography>
   </Box>
 );
