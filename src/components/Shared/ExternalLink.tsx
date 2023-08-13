@@ -4,14 +4,25 @@ import { ReactNode } from "react";
 interface Props {
   href: string;
   children: ReactNode;
+  leftSpace?: boolean;
   newTab?: boolean;
 }
 
-const ExternalLink = ({ href, children, newTab = true }: Props) => {
+const ExternalLink = ({
+  href,
+  children,
+  newTab = true,
+  leftSpace = false,
+}: Props) => {
   const theme = useTheme();
 
   if (!newTab) {
-    return <a href={href}>{children}</a>;
+    return (
+      <a href={href}>
+        {leftSpace ? " " : ""}
+        {children}
+      </a>
+    );
   }
 
   return (
@@ -24,6 +35,7 @@ const ExternalLink = ({ href, children, newTab = true }: Props) => {
         color: theme.palette.text.primary,
       }}
     >
+      {leftSpace ? " " : ""}
       {children}
     </a>
   );

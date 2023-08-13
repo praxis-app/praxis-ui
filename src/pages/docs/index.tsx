@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import DocsPermissionList from "../../components/Docs/DocsPermissionList";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
+import ExternalLink from "../../components/Shared/ExternalLink";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 
 const DocsHomePage: NextPage = () => (
@@ -89,7 +90,12 @@ const DocsHomePage: NextPage = () => (
       still being worked on, meaning the documentation is also likely to change
       as the project is still getting off the ground. If you'd like to
       contribute or have any questions at all, feel free to reach out to us on
-      GitHub.
+      <b>
+        <ExternalLink href="https://github.com/praxis-app" leftSpace>
+          GitHub
+        </ExternalLink>
+      </b>
+      .
     </Typography>
   </Box>
 );
