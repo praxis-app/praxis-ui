@@ -1,3 +1,5 @@
+// TODO: Move to en.json when documentation is finalized
+
 import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import DocsPermissionList from "../../components/Docs/DocsPermissionList";
