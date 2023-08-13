@@ -12,7 +12,7 @@ const DocsHomePage: NextPage = () => (
 
     <Typography marginBottom={3}>
       Welcome to the Praxis documentation! This page will give you a brief
-      overview of Praxis and how to use it.
+      overview of Praxis and how it works.
     </Typography>
 
     <DocsSubheading>Overview</DocsSubheading>
