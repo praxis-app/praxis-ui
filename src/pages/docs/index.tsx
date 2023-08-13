@@ -74,11 +74,11 @@ const Docs: NextPage = () => (
       organized, as well as how the server is structured as a whole.
     </Typography>
 
-    <Typography marginBottom={1.5}>Server Permissions:</Typography>
+    <Typography marginBottom={1.5}>Server permissions:</Typography>
 
     <DocsPermissionList permissionType="server" />
 
-    <Typography marginBottom={1.5}>Group Permissions:</Typography>
+    <Typography marginBottom={1.5}>Group permissions:</Typography>
 
     <DocsPermissionList permissionType="group" />
   </Box>
