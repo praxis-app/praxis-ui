@@ -116,7 +116,7 @@ const DocsHomePage: NextPage = () => {
 
       <DocsPermissionList permissionType="group" />
 
-      <DocsSubheading>Work in progress</DocsSubheading>
+      <DocsSubheading>Work in Progress</DocsSubheading>
 
       <Typography marginBottom={1.5}>
         Praxis is still in development and there are a lot of features that are
