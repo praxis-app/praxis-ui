@@ -3,11 +3,10 @@
 import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import Image from "next/image";
+import DocsLink from "../../components/Docs/DocsLink";
 import DocsPermissionList from "../../components/Docs/DocsPermissionList";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
-import ExternalLink from "../../components/Shared/ExternalLink";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
-import Link from "../../components/Shared/Link";
 import { NavigationPaths } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 
@@ -39,14 +38,11 @@ const DocsHomePage: NextPage = () => {
 
       <Typography marginBottom={3}>
         Praxis is free software released under the
-        <ExternalLink
+        <DocsLink
           href="https://github.com/praxis-app/praxis-ui/blob/main/LICENSE"
-          leftSpace
-        >
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            GNU General Public License v3.0
-          </Box>
-        </ExternalLink>
+          text="GNU General Public License v3.0"
+          external
+        />
         .
       </Typography>
 
@@ -85,13 +81,9 @@ const DocsHomePage: NextPage = () => {
 
       <Typography marginBottom={1.5}>
         Almost everything in Praxis is scoped to
-        <Link href={NavigationPaths.Groups} leftSpace>
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            groups
-          </Box>
-        </Link>
-        , including both proposals and events. Groups can be public or private,
-        and can be used to organize a community, a project, or anything else.
+        <DocsLink href={NavigationPaths.Groups} text="groups" />, including both
+        proposals and events. Groups can be public or private, and can be used
+        to organize a community, a project, or anything else.
       </Typography>
 
       <Typography marginBottom={3}>
@@ -131,11 +123,7 @@ const DocsHomePage: NextPage = () => {
         still being worked on, meaning the documentation is also likely to
         change as the project is still getting off the ground. If you'd like to
         contribute or have any questions at all, feel free to reach out to us on
-        <ExternalLink href="https://github.com/praxis-app" leftSpace>
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            GitHub
-          </Box>
-        </ExternalLink>
+        <DocsLink href="https://github.com/praxis-app" text="GitHub" external />
         .
       </Typography>
     </Box>
