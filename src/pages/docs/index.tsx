@@ -1,9 +1,9 @@
-import { Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { NextPage } from "next";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 
 const Docs: NextPage = () => (
-  <>
+  <Box marginBottom={10}>
     <LevelOneHeading header>What is Praxis?</LevelOneHeading>
 
     <Typography marginBottom={3}>
@@ -18,7 +18,7 @@ const Docs: NextPage = () => (
     <Divider sx={{ marginBottom: 2.5 }} />
 
     <Typography marginBottom={1.5}>
-      Praxis a social networking platform with features for collaborative
+      Praxis is a social networking platform with features for collaborative
       decision making.
     </Typography>
 
@@ -41,7 +41,14 @@ const Docs: NextPage = () => (
       be used to make decisions about virtually anything the group wants to
       decide on.
     </Typography>
-  </>
+
+    <Typography marginBottom={1.5}>
+      Once a proposal reaches enough votes to pass, it’s immediately marked as
+      ratified. Depending on the proposal type, proposals will automatically
+      implement themselves upon ratification. For example, roles and permissions
+      changes are implemented as soon as their respective proposal passes.
+    </Typography>
+  </Box>
 );
 
 export default Docs;
