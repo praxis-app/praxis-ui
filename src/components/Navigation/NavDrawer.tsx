@@ -82,6 +82,15 @@ const NavDrawer = () => {
     handleClose();
   }, [router.pathname]);
 
+  const renderDocsButton = () => (
+    <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
+      <ListItemIcon>
+        <DocsIcon />
+      </ListItemIcon>
+      <ListItemText primary={t("navigation.docs")} />
+    </ListItemButton>
+  );
+
   const renderList = () => {
     if (!meData?.me) {
       const signUpPath = isFirstUserData?.isFirstUser
@@ -90,12 +99,7 @@ const NavDrawer = () => {
 
       return (
         <>
-          <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
-            <ListItemIcon>
-              <DocsIcon />
-            </ListItemIcon>
-            <ListItemText primary={t("navigation.docs")} />
-          </ListItemButton>
+          {renderDocsButton()}
 
           <ListItemButton onClick={redirectTo(NavigationPaths.LogIn)}>
             <ListItemIcon>
@@ -158,12 +162,7 @@ const NavDrawer = () => {
           </ListItemButton>
         )}
 
-        <ListItemButton onClick={redirectTo(NavigationPaths.Docs)}>
-          <ListItemIcon>
-            <DocsIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("navigation.docs")} />
-        </ListItemButton>
+        {renderDocsButton()}
 
         <ListItemButton
           onClick={() =>
