@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import { NextPage } from "next";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
 
@@ -11,9 +11,11 @@ const Docs: NextPage = () => (
       overview of Praxis and how to use it.
     </Typography>
 
-    <Typography variant="h5" marginBottom={1.5}>
+    <Typography variant="h5" marginBottom={1}>
       Overview
     </Typography>
+
+    <Divider sx={{ marginBottom: 2.5 }} />
 
     <Typography marginBottom={1.5}>
       Praxis a social networking platform with features for collaborative
@@ -26,9 +28,11 @@ const Docs: NextPage = () => (
       sense for the communities and organizations that use it.
     </Typography>
 
-    <Typography variant="h5" marginBottom={1.5}>
+    <Typography variant="h5" marginBottom={1}>
       Proposals
     </Typography>
+
+    <Divider sx={{ marginBottom: 2.5 }} />
 
     <Typography marginBottom={1.5}>
       At the core of Praxis are proposals and voting. Proposals are the basic
