@@ -33,7 +33,7 @@ const DocsHomePage: NextPage = () => (
     </Typography>
 
     <Typography marginBottom={3}>
-      Praxis is free and open source software, and is released under the
+      Praxis is free software released under the
       <ExternalLink
         href="https://github.com/praxis-app/praxis-ui/blob/main/LICENSE"
         leftSpace
