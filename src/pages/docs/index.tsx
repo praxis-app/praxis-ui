@@ -22,7 +22,7 @@ const Docs: NextPage = () => (
     <Typography marginBottom={3}>
       Unlike most social networks, Praxis is specifically designed to facilitate
       collective decision making and the building of social structures that make
-      sense for the communities and organizations that use it.
+      sense for the organizations and communities that use it.
     </Typography>
 
     <DocsSubheading>Proposals</DocsSubheading>
