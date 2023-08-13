@@ -2,18 +2,13 @@ import { useTheme } from "@mui/material";
 import { ReactNode } from "react";
 
 interface Props {
-  href: string;
   children: ReactNode;
+  href: string;
   leftSpace?: boolean;
   newTab?: boolean;
 }
 
-const ExternalLink = ({
-  href,
-  children,
-  newTab = true,
-  leftSpace = false,
-}: Props) => {
+const ExternalLink = ({ children, href, leftSpace, newTab = true }: Props) => {
   const theme = useTheme();
 
   if (!newTab) {

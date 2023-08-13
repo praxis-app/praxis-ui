@@ -6,6 +6,8 @@ import DocsPermissionList from "../../components/Docs/DocsPermissionList";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
 import ExternalLink from "../../components/Shared/ExternalLink";
 import LevelOneHeading from "../../components/Shared/LevelOneHeading";
+import Link from "../../components/Shared/Link";
+import { NavigationPaths } from "../../constants/common.constants";
 
 const DocsHomePage: NextPage = () => (
   <Box marginBottom={15}>
@@ -48,9 +50,12 @@ const DocsHomePage: NextPage = () => (
     <DocsSubheading>Groups</DocsSubheading>
 
     <Typography marginBottom={1.5}>
-      Almost everything in Praxis is scoped to groups, including both proposals
-      and events. Groups can be public or private, and can be used to organize a
-      community, a project, or anything else.
+      Almost everything in Praxis is scoped to
+      <Link href={NavigationPaths.Groups} leftSpace>
+        <b>groups</b>
+      </Link>
+      , including both proposals and events. Groups can be public or private,
+      and can be used to organize a community, a project, or anything else.
     </Typography>
 
     <Typography marginBottom={3}>
@@ -90,11 +95,9 @@ const DocsHomePage: NextPage = () => (
       still being worked on, meaning the documentation is also likely to change
       as the project is still getting off the ground. If you'd like to
       contribute or have any questions at all, feel free to reach out to us on
-      <b>
-        <ExternalLink href="https://github.com/praxis-app" leftSpace>
-          GitHub
-        </ExternalLink>
-      </b>
+      <ExternalLink href="https://github.com/praxis-app" leftSpace>
+        <b>GitHub</b>
+      </ExternalLink>
       .
     </Typography>
   </Box>
