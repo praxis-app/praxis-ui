@@ -6,10 +6,18 @@ interface Props extends LinkProps {
   children: ReactNode;
   disabled?: boolean;
   href: string;
+  leftSpace?: boolean;
   sx?: SxProps;
 }
 
-const Link = ({ href, children, sx, disabled, ...linkProps }: Props) => (
+const Link = ({
+  children,
+  disabled,
+  href,
+  leftSpace,
+  sx,
+  ...linkProps
+}: Props) => (
   <NextLink href={href} {...linkProps} passHref>
     <MuiLink
       href={href}
@@ -20,6 +28,7 @@ const Link = ({ href, children, sx, disabled, ...linkProps }: Props) => (
         ...sx,
       }}
     >
+      {leftSpace ? " " : ""}
       {children}
     </MuiLink>
   </NextLink>
