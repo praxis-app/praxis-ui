@@ -56,12 +56,45 @@ const DocsHomePage: NextPage = () => {
         be used to make decisions about anything the group wants to decide on.
       </Typography>
 
+      <Box margin="0 auto" paddingBottom={2.5} paddingTop={1} width="90%">
+        <Image
+          alt="Role Change Proposal"
+          blurDataURL="/images/role-change-proposal.png"
+          src="/images/role-change-proposal.png"
+          objectFit="contain"
+          layout="responsive"
+          loading="lazy"
+          placeholder="blur"
+          width={300}
+          height={190}
+        />
+
+        <Typography
+          color="text.secondary"
+          marginTop={isDesktop ? -0.5 : 0}
+          textAlign="center"
+        >
+          Proposal to change a group role
+        </Typography>
+      </Box>
+
       <Typography marginBottom={1.5}>
-        Praxis uses Model of Consensus as it's default voting model, drawing
-        inspiration from the principles outlined in "A Consensus Handbook" by
-        Seeds for Change. For a proposal to pass under this model, it must reach
-        a certain threshold of positive votes, with no blocks, as it only takes
-        one block to stop a proposal from passing.
+        Praxis uses
+        <DocsLink
+          href="https://seedsforchange.org.uk/consensus"
+          text="Model of Consensus"
+          external
+        />{" "}
+        as it's default voting model, drawing inspiration from the principles
+        outlined in
+        <DocsLink
+          href="https://www.seedsforchange.org.uk/handbookweb.pdf"
+          text={'"A Consensus Handbook"'}
+          external
+        />{" "}
+        by Seeds for Change. For a proposal to pass under this model, it must
+        reach a certain threshold of positive votes, with no blocks, as it only
+        takes one block to stop a proposal from passing.
       </Typography>
 
       <Typography marginBottom={1.5}>The different vote types are:</Typography>
@@ -89,28 +122,6 @@ const DocsHomePage: NextPage = () => {
           fundamental objection and that consent has been revoked. It isn't "I
           don't really like it," or "I liked the other idea better."
         </DocsDefinitionListItem>
-      </Box>
-
-      <Box margin="0 auto" paddingBottom={2.5} paddingTop={1} width="90%">
-        <Image
-          alt="Role Change Proposal"
-          blurDataURL="/images/role-change-proposal.png"
-          src="/images/role-change-proposal.png"
-          objectFit="contain"
-          layout="responsive"
-          loading="lazy"
-          placeholder="blur"
-          width={300}
-          height={190}
-        />
-
-        <Typography
-          color="text.secondary"
-          marginTop={isDesktop ? -0.5 : 0}
-          textAlign="center"
-        >
-          Proposal to change a group role
-        </Typography>
       </Box>
 
       <Typography marginBottom={3}>
