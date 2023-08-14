@@ -70,7 +70,7 @@ const DocsHomePage: NextPage = () => {
           <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
             Agreement
           </Box>{" "}
-          - I support the proposal and am willing to help implement it.
+          - You support the proposal and are willing to help implement it.
         </Box>
         <Box component="li" marginBottom={1.5}>
           <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
