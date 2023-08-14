@@ -3,6 +3,7 @@
 import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
 import Image from "next/image";
+import DocsDefinitionListItem from "../../components/Docs/DocsDefinitionListItem";
 import DocsLink from "../../components/Docs/DocsLink";
 import DocsPermissionList from "../../components/Docs/DocsPermissionList";
 import DocsSubheading from "../../components/Docs/DocsSubheading";
@@ -66,37 +67,28 @@ const DocsHomePage: NextPage = () => {
       <Typography marginBottom={1.5}>The different vote types are:</Typography>
 
       <Box component="ul" paddingLeft={3} marginBottom={1.5}>
-        <Box component="li" marginBottom={1.5}>
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            Agreement
-          </Box>{" "}
-          - You support the proposal and are willing to help implement it.
-        </Box>
-        <Box component="li" marginBottom={1.5}>
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            Agree with reservations
-          </Box>{" "}
-          - You're willing to let the proposal go ahead but want to make the
-          group aware you aren't happy with it. You may even put energy into
+        <DocsDefinitionListItem name="Agreement">
+          You support the proposal and are willing to help implement it.
+        </DocsDefinitionListItem>
+
+        <DocsDefinitionListItem name="Agree with reservations">
+          You're willing to let the proposal go ahead but want to make the group
+          aware you aren't happy with it. You may even put energy into
           implementing it once your concerns have been addressed. Reservations
           should be fully articulated.
-        </Box>
-        <Box component="li" marginBottom={1.5}>
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            Stand aside
-          </Box>{" "}
-          - You want to object, but not block the proposal. This means you won't
+        </DocsDefinitionListItem>
+
+        <DocsDefinitionListItem name="Stand aside">
+          You want to object, but not block the proposal. This means you won't
           help to implement the decision, but you are willing for the group to
           go ahead with it.
-        </Box>
-        <Box component="li">
-          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
-            Block
-          </Box>{" "}
-          - A block always stops a proposal from going ahead. It expresses a
+        </DocsDefinitionListItem>
+
+        <DocsDefinitionListItem name="Block">
+          A block always stops a proposal from going ahead. It expresses a
           fundamental objection and that consent has been revoked. It isn't "I
           don't really like it," or "I liked the other idea better."
-        </Box>
+        </DocsDefinitionListItem>
       </Box>
 
       <Box margin="0 auto" paddingBottom={2.5} paddingTop={1} width="90%">
