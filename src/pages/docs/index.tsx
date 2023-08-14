@@ -55,7 +55,7 @@ const DocsHomePage: NextPage = () => {
         be used to make decisions about anything the group wants to decide on.
       </Typography>
 
-      <Box paddingTop={1} paddingBottom={2} width="90%" margin="0 auto">
+      <Box margin="0 auto" paddingBottom={2.5} paddingTop={1} width="90%">
         <Image
           alt="Role Change Proposal"
           blurDataURL="/images/role-change-proposal.png"
@@ -67,6 +67,14 @@ const DocsHomePage: NextPage = () => {
           width={300}
           height={190}
         />
+
+        <Typography
+          color="text.secondary"
+          marginTop={isDesktop ? -0.5 : 0}
+          textAlign="center"
+        >
+          Proposal to change a group role
+        </Typography>
       </Box>
 
       <Typography marginBottom={3}>
