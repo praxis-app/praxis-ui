@@ -55,6 +55,50 @@ const DocsHomePage: NextPage = () => {
         be used to make decisions about anything the group wants to decide on.
       </Typography>
 
+      <Typography marginBottom={1.5}>
+        Praxis uses Model of Consensus as it's default voting model, drawing
+        inspiration from the principles outlined in "A Consensus Handbook" by
+        Seeds for Change. For a proposal to pass under this model, it must reach
+        a certain threshold of positive votes, with no blocks, as it only takes
+        one block to stop a proposal from passing.
+      </Typography>
+
+      <Typography marginBottom={1.5}>The different vote types are:</Typography>
+
+      <Box component="ul" paddingLeft={3} marginBottom={1.5}>
+        <Box component="li" marginBottom={1.5}>
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            Agreement
+          </Box>{" "}
+          - I support the proposal and am willing to help implement it.
+        </Box>
+        <Box component="li" marginBottom={1.5}>
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            Agree with reservations
+          </Box>{" "}
+          - You're willing to let the proposal go ahead but want to make the
+          group aware you aren't happy with it. You may even put energy into
+          implementing it once your concerns have been addressed. Reservations
+          should be fully articulated.
+        </Box>
+        <Box component="li" marginBottom={1.5}>
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            Stand aside
+          </Box>{" "}
+          - You want to object, but not block the proposal. This means you won't
+          help to implement the decision, but you are willing for the group to
+          go ahead with it.
+        </Box>
+        <Box component="li">
+          <Box component="span" sx={{ fontFamily: "Inter Bold" }}>
+            Block
+          </Box>{" "}
+          - A block always stops a proposal from going ahead. It expresses a
+          fundamental objection and that consent has been revoked. It isn't "I
+          don't really like it," or "I liked the other idea better."
+        </Box>
+      </Box>
+
       <Box margin="0 auto" paddingBottom={2.5} paddingTop={1} width="90%">
         <Image
           alt="Role Change Proposal"
