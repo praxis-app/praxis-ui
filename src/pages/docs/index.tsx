@@ -92,9 +92,9 @@ const DocsHomePage: NextPage = () => {
           text={'"A Consensus Handbook"'}
           external
         />{" "}
-        by Seeds for Change. For a proposal to pass under this model, it must
-        reach a certain threshold of positive votes, with no blocks, as it only
-        takes one block to stop a proposal from passing.
+        by Seeds for Change. For a proposal to be ratified, it must reach a
+        certain threshold of positive votes, with no blocks, as it only takes
+        one block to stop a proposal from passing.
       </Typography>
 
       <Typography marginBottom={1.5}>The different vote types are:</Typography>
