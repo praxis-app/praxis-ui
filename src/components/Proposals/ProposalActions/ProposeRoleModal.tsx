@@ -62,9 +62,15 @@ interface Props {
     field: ProposalActionFieldName,
     value: ProposalActionRoleInput
   ) => void;
+  onClose(): void;
 }
 
-const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
+const ProposeRoleModal = ({
+  groupId,
+  actionType,
+  setFieldValue,
+  onClose,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [showMembers, setShowMembers] = useState(false);
   const [showPermissions, setShowPermissions] = useState(true);
@@ -201,6 +207,7 @@ const ProposeRoleModal = ({ groupId, actionType, setFieldValue }: Props) => {
     setColor(DEFAULT_ROLE_COLOR);
     setSelectedMembers([]);
     setShowMembers(false);
+    onClose();
   };
 
   const handleSubmit = async (formValues: ProposalActionRoleInput) => {

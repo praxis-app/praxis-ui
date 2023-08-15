@@ -346,6 +346,7 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   key={`${values.action.actionType}-${values.groupId}`}
                   actionType={values.action.actionType}
                   groupId={values.groupId}
+                  onClose={() => setFieldValue("groupId", null)}
                   setFieldValue={setFieldValue}
                 />
 
