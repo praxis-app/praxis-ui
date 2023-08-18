@@ -39,7 +39,7 @@ import {
   ProposalActionFieldName,
   ProposalActionType,
 } from "../../constants/proposal.constants";
-import { redirectTo } from "../../utils/common.utils";
+import { getRandomString, redirectTo } from "../../utils/common.utils";
 import { getProposalActionTypeOptions } from "../../utils/proposal.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
@@ -62,6 +62,7 @@ interface Props extends FormikFormProps {
 
 const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
   const [clicked, setClicked] = useState(false);
+  const [selectInputsKey, setSelectInputsKey] = useState("");
   const { data } = useMeQuery();
 
   const [createProposal] = useCreateProposalMutation();
@@ -278,14 +279,15 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
             {!!(clicked || editProposal || values.body?.length) && (
               <>
                 <FormControl
-                  variant="standard"
-                  sx={{ marginBottom: 1 }}
                   error={
                     !!errors.action?.actionType && touched.action?.actionType
                   }
+                  sx={{ marginBottom: 1 }}
+                  variant="standard"
                 >
                   <InputLabel>{t("proposals.labels.action")}</InputLabel>
                   <Select
+                    key={selectInputsKey}
                     name={ProposalActionFieldName.ActionType}
                     onChange={handleChange}
                     value={values.action.actionType}
@@ -305,12 +307,13 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
 
                 {joinedGroups && !editProposal && (
                   <FormControl
-                    variant="standard"
-                    sx={{ marginBottom: values.action.actionType ? 1 : 0.25 }}
                     error={!!(errors.groupId && touched.groupId)}
+                    sx={{ marginBottom: values.action.actionType ? 1 : 0.25 }}
+                    variant="standard"
                   >
                     <InputLabel>{t("groups.labels.group")}</InputLabel>
                     <Select
+                      key={selectInputsKey}
                       name="groupId"
                       onChange={handleChange}
                       value={values.groupId || ""}
@@ -346,8 +349,12 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   key={`${values.action.actionType}-${values.groupId}`}
                   actionType={values.action.actionType}
                   groupId={values.groupId}
-                  onClose={() => setFieldValue("groupId", null)}
                   setFieldValue={setFieldValue}
+                  onClose={() => {
+                    setFieldValue("groupId", null);
+                    setFieldValue("action", action);
+                    setSelectInputsKey(getRandomString());
+                  }}
                 />
 
                 {values.action.role && (
