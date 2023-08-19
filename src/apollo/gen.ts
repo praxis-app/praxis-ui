@@ -32,6 +32,19 @@ export type ApproveGroupMemberRequestPayload = {
   groupMember: User;
 };
 
+export type Comment = {
+  __typename?: "Comment";
+  body?: Maybe<Scalars["String"]>;
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  images: Array<Image>;
+  likes: Array<Like>;
+  post?: Maybe<Post>;
+  proposal?: Maybe<Proposal>;
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
 export type CreateEventAttendeeInput = {
   eventId: Scalars["Int"];
   status: Scalars["String"];
@@ -318,6 +331,7 @@ export type GroupRolePermissionInput = {
 
 export type Image = {
   __typename?: "Image";
+  comment?: Maybe<Comment>;
   createdAt: Scalars["DateTime"];
   event?: Maybe<Event>;
   filename: Scalars["String"];
@@ -333,9 +347,10 @@ export type Image = {
 
 export type Like = {
   __typename?: "Like";
+  comment?: Maybe<Comment>;
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
-  post: Post;
+  post?: Maybe<Post>;
   updatedAt: Scalars["DateTime"];
   user: User;
 };
@@ -569,6 +584,7 @@ export type MutationUpdateVoteArgs = {
 export type Post = {
   __typename?: "Post";
   body?: Maybe<Scalars["String"]>;
+  comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   event?: Maybe<Event>;
   group?: Maybe<Group>;
@@ -585,6 +601,7 @@ export type Proposal = {
   __typename?: "Proposal";
   action: ProposalAction;
   body?: Maybe<Scalars["String"]>;
+  comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
@@ -926,6 +943,7 @@ export type UpdateVotePayload = {
 export type User = {
   __typename?: "User";
   bio?: Maybe<Scalars["String"]>;
+  comments: Array<Comment>;
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
@@ -2864,12 +2882,12 @@ export type LikePostMutation = {
     like: {
       __typename?: "Like";
       id: number;
-      post: {
+      post?: {
         __typename?: "Post";
         id: number;
         likesCount: number;
         isLikedByMe?: boolean;
-      };
+      } | null;
     };
   };
 };
