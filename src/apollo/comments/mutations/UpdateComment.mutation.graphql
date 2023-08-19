@@ -1,0 +1,8 @@
+mutation UpdateComment($commentData: UpdateCommentInput!) {
+  updateComment(commentData: $commentData) {
+    comment {
+      id
+      body
+    }
+  }
+}

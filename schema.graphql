@@ -14,6 +14,17 @@ type Comment {
   user: User!
 }
 
+input CreateCommentInput {
+  body: String
+  images: [Upload!]
+  postId: Int
+  proposalId: Int
+}
+
+type CreateCommentPayload {
+  comment: Comment!
+}
+
 input CreateEventAttendeeInput {
   eventId: Int!
   status: String!
@@ -313,6 +324,7 @@ input LoginInput {
 type Mutation {
   approveGroupMemberRequest(id: Int!): ApproveGroupMemberRequestPayload!
   cancelGroupMemberRequest(id: Int!): Boolean!
+  createComment(commentData: CreateCommentInput!): CreateCommentPayload!
   createEvent(eventData: CreateEventInput!): CreateEventPayload!
   createEventAttendee(eventAttendeeData: CreateEventAttendeeInput!): CreateEventAttendeePayload!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
@@ -324,6 +336,7 @@ type Mutation {
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createServerRole(serverRoleData: CreateServerRoleInput!): CreateServerRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
+  deleteComment(id: Int!): Boolean!
   deleteEvent(id: Int!): Boolean!
   deleteEventAttendee(eventId: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
@@ -346,6 +359,7 @@ type Mutation {
   refreshToken: Boolean!
   signUp(input: SignUpInput!): Boolean!
   unfollowUser(id: Int!): Boolean!
+  updateComment(commentData: UpdateCommentInput!): UpdateCommentPayload!
   updateEvent(eventData: UpdateEventInput!): UpdateEventPayload!
   updateEventAttendee(eventAttendeeData: UpdateEventAttendeeInput!): UpdateEventAttendeePayload!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
@@ -541,6 +555,16 @@ input SignUpInput {
   name: String!
   password: String!
   profilePicture: Upload
+}
+
+input UpdateCommentInput {
+  body: String
+  id: Int!
+  images: [Upload!]
+}
+
+type UpdateCommentPayload {
+  comment: Comment!
 }
 
 input UpdateEventAttendeeInput {
