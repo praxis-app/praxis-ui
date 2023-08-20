@@ -1,4 +1,4 @@
-import { FilledInput, FormGroup } from "@mui/material";
+import { FilledInput, FormGroup, SxProps } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
@@ -25,6 +25,13 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
 
   const initialValues: CreateCommentInput = {
     body: editComment?.body || "",
+  };
+
+  const filledInputStyles: SxProps = {
+    borderRadius: 9999,
+    marginBottom: 1.25,
+    paddingY: 0.8,
+    flex: 1,
   };
 
   const handleCreate = async (
@@ -71,6 +78,20 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     }
   };
 
+  const handleFilledInputKeyDown = (
+    e: React.KeyboardEvent,
+    submitForm: () => void
+  ) => {
+    if (e.code !== KeyCodes.Enter) {
+      return;
+    }
+    if (e.shiftKey) {
+      return;
+    }
+    e.preventDefault();
+    submitForm();
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -85,26 +106,12 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
 
             <FilledInput
               autoComplete="off"
-              placeholder={t("comments.prompts.leaveAComment")}
               name={FieldNames.Body}
               onChange={handleChange}
+              onKeyDown={(e) => handleFilledInputKeyDown(e, submitForm)}
+              placeholder={t("comments.prompts.leaveAComment")}
+              sx={filledInputStyles}
               value={values.body || ""}
-              sx={{
-                borderRadius: 9999,
-                marginBottom: 1.25,
-                paddingY: 0.8,
-                flex: 1,
-              }}
-              onKeyDown={(e) => {
-                if (e.code !== KeyCodes.Enter) {
-                  return;
-                }
-                if (e.shiftKey) {
-                  return;
-                }
-                e.preventDefault();
-                submitForm();
-              }}
               disableUnderline
               multiline
             />
