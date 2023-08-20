@@ -1040,6 +1040,12 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
+export type CommentFormFragment = {
+  __typename?: "Comment";
+  id: number;
+  body?: string | null;
+};
+
 export type CreateCommentMutationVariables = Exact<{
   commentData: CreateCommentInput;
 }>;
@@ -4738,6 +4744,12 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const CommentFormFragmentDoc = gql`
+  fragment CommentForm on Comment {
+    id
+    body
+  }
+`;
 export const EventAttendeeButtonsFragmentDoc = gql`
   fragment EventAttendeeButtons on Event {
     id

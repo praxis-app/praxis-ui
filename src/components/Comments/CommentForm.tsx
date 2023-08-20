@@ -3,6 +3,7 @@ import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
+  CommentFormFragment,
   CreateCommentInput,
   UpdateCommentInput,
   useCreateCommentMutation,
@@ -11,7 +12,7 @@ import {
 import { FieldNames, KeyCodes } from "../../constants/common.constants";
 
 interface Props extends FormikFormProps {
-  editComment?: any;
+  editComment?: CommentFormFragment;
 }
 
 const CommentForm = ({ editComment, ...formProps }: Props) => {
@@ -38,7 +39,7 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
 
   const handleUpdate = async (
     formValues: Omit<UpdateCommentInput, "id">,
-    editComment: any
+    editComment: CommentFormFragment
   ) => {
     await updateComment({
       variables: {

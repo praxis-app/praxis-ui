@@ -1,0 +1,4 @@
+fragment CommentForm on Comment {
+  id
+  body
+}
