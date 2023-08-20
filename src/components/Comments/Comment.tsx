@@ -13,7 +13,7 @@ const Comment = ({ comment: { user, body } }: Props) => {
   const userPath = getUserProfilePath(user.name);
 
   return (
-    <Flex>
+    <Flex marginBottom={1.25}>
       <UserAvatar
         sx={{ marginRight: 1, marginTop: 0.2 }}
         user={user}
