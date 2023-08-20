@@ -17,7 +17,7 @@ const Comment = ({ comment: { user, body } }: Props) => {
       <UserAvatar
         sx={{ marginRight: 1, marginTop: 0.2 }}
         user={user}
-        size={30}
+        size={35}
       />
 
       <Box

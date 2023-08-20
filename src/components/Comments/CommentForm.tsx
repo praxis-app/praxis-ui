@@ -10,6 +10,7 @@ import {
   useUpdateCommentMutation,
 } from "../../apollo/gen";
 import { FieldNames, KeyCodes } from "../../constants/common.constants";
+import UserAvatar from "../Users/UserAvatar";
 
 interface Props extends FormikFormProps {
   editComment?: CommentFormFragment;
@@ -79,7 +80,9 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     >
       {({ handleChange, values, submitForm }) => (
         <Form>
-          <FormGroup>
+          <FormGroup row>
+            <UserAvatar size={35} sx={{ marginRight: 1 }} />
+
             <FilledInput
               autoComplete="off"
               placeholder={t("comments.prompts.leaveAComment")}
@@ -89,7 +92,8 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
               sx={{
                 borderRadius: 9999,
                 marginBottom: 1.25,
-                paddingY: 1,
+                paddingY: 0.8,
+                flex: 1,
               }}
               onKeyDown={(e) => {
                 if (e.code !== KeyCodes.Enter) {
