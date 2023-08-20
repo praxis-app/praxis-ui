@@ -25,7 +25,6 @@ const Comment = ({ comment: { user, body } }: Props) => {
         borderRadius={4}
         paddingX={1.5}
         paddingY={0.5}
-        flex={1}
       >
         <Link href={userPath}>{user.name}</Link>
         <Typography lineHeight={1.2}>{body}</Typography>

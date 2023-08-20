@@ -28,7 +28,7 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
   };
 
   const filledInputStyles: SxProps = {
-    borderRadius: 9999,
+    borderRadius: 8,
     marginBottom: 1.25,
     paddingY: 0.8,
     flex: 1,
