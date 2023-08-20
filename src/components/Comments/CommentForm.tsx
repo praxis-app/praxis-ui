@@ -1,4 +1,4 @@
-import { FilledInput, FormGroup } from "@mui/material";
+import { FilledInput } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
@@ -77,22 +77,20 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
     >
       {({ handleChange, values }) => (
         <Form>
-          <FormGroup>
-            <FilledInput
-              autoComplete="off"
-              placeholder={t("comments.prompts.leaveAComment")}
-              name={FieldNames.Body}
-              onChange={handleChange}
-              value={values.body || ""}
-              sx={{
-                borderRadius: 9999,
-                marginBottom: 1.25,
-                paddingY: 1,
-              }}
-              disableUnderline
-              multiline
-            />
-          </FormGroup>
+          <FilledInput
+            autoComplete="off"
+            placeholder={t("comments.prompts.leaveAComment")}
+            name={FieldNames.Body}
+            onChange={handleChange}
+            value={values.body || ""}
+            sx={{
+              borderRadius: 9999,
+              marginBottom: 1.25,
+              paddingY: 1,
+            }}
+            disableUnderline
+            multiline
+          />
         </Form>
       )}
     </Formik>
