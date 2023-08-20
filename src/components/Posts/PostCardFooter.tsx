@@ -1,7 +1,8 @@
-// TODO: Add basic functionality for comments and sharing. Below is a WIP
+// TODO: Add basic functionality for sharing. Below is a WIP
 
 import { Comment, Favorite as LikeIcon, Reply } from "@mui/icons-material";
 import { Box, CardActions, Divider, SxProps } from "@mui/material";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   PostCardFooterFragment,
@@ -11,6 +12,7 @@ import {
 import { TypeNames } from "../../constants/common.constants";
 import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
+import CommentForm from "../Comments/CommentForm";
 import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
 import { BASE_BADGE_STYLES } from "../Votes/VoteBadge";
@@ -18,8 +20,7 @@ import { BASE_BADGE_STYLES } from "../Votes/VoteBadge";
 const ICON_STYLES: SxProps = {
   marginRight: "0.4ch",
 };
-
-const ROTATED_ICON_STYLES = {
+const ROTATED_ICON_STYLES: SxProps = {
   ...ICON_STYLES,
   transform: "rotateY(180deg)",
 };
@@ -29,8 +30,10 @@ interface Props {
 }
 
 const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
+  const [showComments, setShowComments] = useState(false);
   const [likePost, { loading: likePostLoading }] = useLikePostMutation();
   const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
+
   const { t } = useTranslation();
 
   const isLoading = likePostLoading || unlikePostLoading;
@@ -95,7 +98,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
           <LikeIcon sx={likeButtonIconStyles} />
           {t("actions.like")}
         </CardFooterButton>
-        <CardFooterButton onClick={inDevToast}>
+        <CardFooterButton onClick={() => setShowComments(true)}>
           <Comment sx={ROTATED_ICON_STYLES} />
           {t("actions.comment")}
         </CardFooterButton>
@@ -104,6 +107,13 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
           {t("actions.share")}
         </CardFooterButton>
       </CardActions>
+
+      {showComments && (
+        <Box paddingX="16px">
+          <Divider sx={{ marginBottom: 1.25 }} />
+          <CommentForm />
+        </Box>
+      )}
     </Box>
   );
 };

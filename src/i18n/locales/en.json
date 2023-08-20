@@ -131,6 +131,12 @@
     }
   },
 
+  "comments": {
+    "prompts": {
+      "leaveAComment": "Leave a comment..."
+    }
+  },
+
   "users": {
     "actions": {
       "editProfile": "Edit Profile",

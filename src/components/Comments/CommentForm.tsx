@@ -1,34 +1,22 @@
-import { Divider, FormGroup } from "@mui/material";
+import { FilledInput, FormGroup } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateCommentInput,
   UpdateCommentInput,
   useCreateCommentMutation,
-  useDeleteImageMutation,
   useUpdateCommentMutation,
 } from "../../apollo/gen";
-import { FieldNames, TypeNames } from "../../constants/common.constants";
-import { getRandomString } from "../../utils/common.utils";
-import AttachedImagePreview from "../Images/AttachedImagePreview";
-import ImageInput from "../Images/ImageInput";
-import Flex from "../Shared/Flex";
-import PrimaryActionButton from "../Shared/PrimaryActionButton";
-import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
+import { FieldNames } from "../../constants/common.constants";
 
 interface Props extends FormikFormProps {
   editComment?: any;
 }
 
 const CommentForm = ({ editComment, ...formProps }: Props) => {
-  const [imagesInputKey, setImagesInputKey] = useState("");
-  const [images, setImages] = useState<File[]>([]);
-
   const [createComment] = useCreateCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
-  const [deleteImage] = useDeleteImageMutation();
 
   const { t } = useTranslation();
 
@@ -41,11 +29,9 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
     { resetForm, setSubmitting }: FormikHelpers<CreateCommentInput>
   ) =>
     await createComment({
-      variables: { commentData: { ...formValues, images } },
+      variables: { commentData: { ...formValues } },
       onCompleted() {
         resetForm();
-        setImages([]);
-        setImagesInputKey(getRandomString());
         setSubmitting(false);
       },
     });
@@ -59,7 +45,6 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
         commentData: {
           id: editComment.id,
           ...formValues,
-          images,
         },
       },
     });
@@ -83,26 +68,6 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
     }
   };
 
-  const handleDeleteSavedImage = async (id: number) => {
-    if (!editComment) {
-      return;
-    }
-    await deleteImage({
-      variables: { id },
-      update(cache) {
-        const cacheId = cache.identify({ id, __typename: TypeNames.Image });
-        cache.evict({ id: cacheId });
-        cache.gc();
-      },
-    });
-    setImagesInputKey(getRandomString());
-  };
-
-  const handleRemoveSelectedImage = (imageName: string) => {
-    setImages(images.filter((image) => image.name !== imageName));
-    setImagesInputKey(getRandomString());
-  };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -110,44 +75,24 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
       enableReinitialize
       {...formProps}
     >
-      {({ isSubmitting, dirty, handleChange, values }) => (
+      {({ handleChange, values }) => (
         <Form>
           <FormGroup>
-            <TextFieldWithAvatar
+            <FilledInput
               autoComplete="off"
+              placeholder={t("comments.prompts.leaveAComment")}
               name={FieldNames.Body}
               onChange={handleChange}
-              placeholder={t("prompts.whatsHappening")}
-              value={values.body}
+              value={values.body || ""}
+              sx={{
+                borderRadius: 9999,
+                marginBottom: 1.25,
+                paddingY: 1,
+              }}
+              disableUnderline
               multiline
             />
-
-            <AttachedImagePreview
-              handleDelete={handleDeleteSavedImage}
-              handleRemove={handleRemoveSelectedImage}
-              savedImages={editComment?.images || []}
-              selectedImages={images}
-            />
           </FormGroup>
-
-          <Divider sx={{ marginBottom: 1.3 }} />
-
-          <Flex sx={{ justifyContent: "space-between" }}>
-            <ImageInput
-              refreshKey={imagesInputKey}
-              setImages={setImages}
-              multiple
-            />
-
-            <PrimaryActionButton
-              disabled={isSubmitting || (!dirty && !images.length)}
-              isLoading={isSubmitting}
-              sx={{ marginTop: 1.5 }}
-              type="submit"
-            >
-              {t(editComment ? "actions.save" : "actions.comment")}
-            </PrimaryActionButton>
-          </Flex>
         </Form>
       )}
     </Formik>
