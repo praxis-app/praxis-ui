@@ -1,4 +1,4 @@
-import { FilledInput } from "@mui/material";
+import { FilledInput, FormGroup } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
@@ -8,7 +8,7 @@ import {
   useCreateCommentMutation,
   useUpdateCommentMutation,
 } from "../../apollo/gen";
-import { FieldNames } from "../../constants/common.constants";
+import { FieldNames, KeyCodes } from "../../constants/common.constants";
 
 interface Props extends FormikFormProps {
   editComment?: any;
@@ -75,22 +75,34 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
       enableReinitialize
       {...formProps}
     >
-      {({ handleChange, values }) => (
+      {({ handleChange, values, submitForm }) => (
         <Form>
-          <FilledInput
-            autoComplete="off"
-            placeholder={t("comments.prompts.leaveAComment")}
-            name={FieldNames.Body}
-            onChange={handleChange}
-            value={values.body || ""}
-            sx={{
-              borderRadius: 9999,
-              marginBottom: 1.25,
-              paddingY: 1,
-            }}
-            disableUnderline
-            multiline
-          />
+          <FormGroup>
+            <FilledInput
+              autoComplete="off"
+              placeholder={t("comments.prompts.leaveAComment")}
+              name={FieldNames.Body}
+              onChange={handleChange}
+              value={values.body || ""}
+              sx={{
+                borderRadius: 9999,
+                marginBottom: 1.25,
+                paddingY: 1,
+              }}
+              onKeyDown={(e) => {
+                if (e.code !== KeyCodes.Enter) {
+                  return;
+                }
+                if (e.shiftKey) {
+                  return;
+                }
+                e.preventDefault();
+                submitForm();
+              }}
+              disableUnderline
+              multiline
+            />
+          </FormGroup>
         </Form>
       )}
     </Formik>
