@@ -13,9 +13,10 @@ import { FieldNames, KeyCodes } from "../../constants/common.constants";
 
 interface Props extends FormikFormProps {
   editComment?: CommentFormFragment;
+  postId?: number;
 }
 
-const CommentForm = ({ editComment, ...formProps }: Props) => {
+const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
   const [createComment] = useCreateCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
 
@@ -30,7 +31,7 @@ const CommentForm = ({ editComment, ...formProps }: Props) => {
     { resetForm, setSubmitting }: FormikHelpers<CreateCommentInput>
   ) =>
     await createComment({
-      variables: { commentData: { ...formValues } },
+      variables: { commentData: { postId, ...formValues } },
       onCompleted() {
         resetForm();
         setSubmitting(false);

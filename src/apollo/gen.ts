@@ -1040,6 +1040,18 @@ export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
 
+export type CommentFragment = {
+  __typename?: "Comment";
+  id: number;
+  body?: string | null;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
 export type CommentFormFragment = {
   __typename?: "Comment";
   id: number;
@@ -3075,6 +3087,29 @@ export type PostQuery = {
   };
 };
 
+export type PostCommentsQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type PostCommentsQuery = {
+  __typename?: "Query";
+  post: {
+    __typename?: "Post";
+    id: number;
+    comments: Array<{
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+};
+
 export type ProposalActionFragment = {
   __typename?: "ProposalAction";
   id: number;
@@ -4744,6 +4779,25 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const UserAvatarFragmentDoc = gql`
+  fragment UserAvatar on User {
+    id
+    name
+    profilePicture {
+      id
+    }
+  }
+`;
+export const CommentFragmentDoc = gql`
+  fragment Comment on Comment {
+    id
+    body
+    user {
+      ...UserAvatar
+    }
+  }
+  ${UserAvatarFragmentDoc}
+`;
 export const CommentFormFragmentDoc = gql`
   fragment CommentForm on Comment {
     id
@@ -4830,15 +4884,6 @@ export const GroupRoleFragmentDoc = gql`
     group {
       id
       name
-    }
-  }
-`;
-export const UserAvatarFragmentDoc = gql`
-  fragment UserAvatar on User {
-    id
-    name
-    profilePicture {
-      id
     }
   }
 `;
@@ -8519,6 +8564,68 @@ export function usePostLazyQuery(
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
+export const PostCommentsDocument = gql`
+  query PostComments($id: Int!) {
+    post(id: $id) {
+      id
+      comments {
+        ...Comment
+      }
+    }
+  }
+  ${CommentFragmentDoc}
+`;
+
+/**
+ * __usePostCommentsQuery__
+ *
+ * To run a query within a React component, call `usePostCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostCommentsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePostCommentsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    PostCommentsQuery,
+    PostCommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PostCommentsQuery, PostCommentsQueryVariables>(
+    PostCommentsDocument,
+    options
+  );
+}
+export function usePostCommentsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PostCommentsQuery,
+    PostCommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PostCommentsQuery, PostCommentsQueryVariables>(
+    PostCommentsDocument,
+    options
+  );
+}
+export type PostCommentsQueryHookResult = ReturnType<
+  typeof usePostCommentsQuery
+>;
+export type PostCommentsLazyQueryHookResult = ReturnType<
+  typeof usePostCommentsLazyQuery
+>;
+export type PostCommentsQueryResult = Apollo.QueryResult<
+  PostCommentsQuery,
+  PostCommentsQueryVariables
+>;
 export const CreateProposalDocument = gql`
   mutation CreateProposal(
     $proposalData: CreateProposalInput!

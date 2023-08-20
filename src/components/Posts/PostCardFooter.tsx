@@ -2,17 +2,18 @@
 
 import { Comment, Favorite as LikeIcon, Reply } from "@mui/icons-material";
 import { Box, CardActions, Divider, SxProps } from "@mui/material";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   PostCardFooterFragment,
   useDeleteLikeMutation,
   useLikePostMutation,
+  usePostCommentsLazyQuery,
 } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
 import { Blurple } from "../../styles/theme";
 import { inDevToast } from "../../utils/common.utils";
 import CommentForm from "../Comments/CommentForm";
+import CommentsList from "../Comments/CommentList";
 import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
 import { BASE_BADGE_STYLES } from "../Votes/VoteBadge";
@@ -30,9 +31,11 @@ interface Props {
 }
 
 const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
-  const [showComments, setShowComments] = useState(false);
   const [likePost, { loading: likePostLoading }] = useLikePostMutation();
   const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
+
+  const [getPostComments, { data: postCommentsData }] =
+    usePostCommentsLazyQuery();
 
   const { t } = useTranslation();
 
@@ -44,7 +47,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
     height: 22.5,
     marginRight: 0.9,
   };
-  const likeButtonIconStyles =
+  const likeButtonIconStyles: SxProps =
     isLikedByMe && !isLoading
       ? {
           ...ICON_STYLES,
@@ -72,6 +75,9 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
     await likePost({ variables });
   };
 
+  const handleCommentButtonClick = async () =>
+    await getPostComments({ variables: { id } });
+
   return (
     <Box marginTop={likesCount ? 1.25 : 2}>
       <Box paddingX="16px">
@@ -98,20 +104,23 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
           <LikeIcon sx={likeButtonIconStyles} />
           {t("actions.like")}
         </CardFooterButton>
-        <CardFooterButton onClick={() => setShowComments(true)}>
+
+        <CardFooterButton onClick={handleCommentButtonClick}>
           <Comment sx={ROTATED_ICON_STYLES} />
           {t("actions.comment")}
         </CardFooterButton>
+
         <CardFooterButton onClick={inDevToast}>
           <Reply sx={ROTATED_ICON_STYLES} />
           {t("actions.share")}
         </CardFooterButton>
       </CardActions>
 
-      {showComments && (
+      {postCommentsData && (
         <Box paddingX="16px">
           <Divider sx={{ marginBottom: 1.25 }} />
-          <CommentForm />
+          <CommentForm postId={id} />
+          <CommentsList comments={postCommentsData.post.comments} />
         </Box>
       )}
     </Box>
