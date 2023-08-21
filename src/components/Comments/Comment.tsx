@@ -1,16 +1,49 @@
-import { Box, Typography } from "@mui/material";
-import { CommentFragment } from "../../apollo/gen";
+import { Box, SxProps, Typography } from "@mui/material";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { CommentFragment, useDeleteCommentMutation } from "../../apollo/gen";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
+import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
 interface Props {
   comment: CommentFragment;
+  currentUserId?: number;
 }
 
-const Comment = ({ comment: { user, body } }: Props) => {
+const Comment = ({
+  comment: { id, user, body, __typename },
+  currentUserId,
+}: Props) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+  const [deleteComment] = useDeleteCommentMutation();
+  const { t } = useTranslation();
+
+  const isMe = user.id === currentUserId;
   const userPath = getUserProfilePath(user.name);
+  const deleteCommentPrompt = t("prompts.deleteItem", { itemType: "comment" });
+
+  const itemMenuStyles: SxProps = {
+    alignSelf: "center",
+    marginLeft: 0.5,
+    width: 40,
+    height: 40,
+  };
+
+  const handleDelete = async () =>
+    await deleteComment({
+      variables: { id },
+      update(cache) {
+        const cacheId = cache.identify({ __typename, id });
+        cache.evict({ id: cacheId });
+        cache.gc();
+      },
+      onCompleted() {
+        setMenuAnchorEl(null);
+      },
+    });
 
   return (
     <Flex marginBottom={1.25}>
@@ -29,6 +62,15 @@ const Comment = ({ comment: { user, body } }: Props) => {
         <Link href={userPath}>{user.name}</Link>
         <Typography lineHeight={1.2}>{body}</Typography>
       </Box>
+
+      <ItemMenu
+        anchorEl={menuAnchorEl}
+        buttonStyles={itemMenuStyles}
+        canDelete={isMe}
+        deleteItem={handleDelete}
+        deletePrompt={deleteCommentPrompt}
+        setAnchorEl={setMenuAnchorEl}
+      />
     </Flex>
   );
 };

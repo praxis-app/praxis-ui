@@ -4,12 +4,17 @@ import Comment from "./Comment";
 
 interface Props {
   comments: CommentFragment[];
+  currentUserId?: number;
 }
 
-const CommentsList = ({ comments }: Props) => (
+const CommentsList = ({ comments, currentUserId }: Props) => (
   <Box marginBottom={1.5}>
     {comments.map((comment) => (
-      <Comment key={comment.id} comment={comment} />
+      <Comment
+        key={comment.id}
+        comment={comment}
+        currentUserId={currentUserId}
+      />
     ))}
   </Box>
 );

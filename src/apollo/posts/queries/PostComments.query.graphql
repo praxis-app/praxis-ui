@@ -1,8 +1,12 @@
-query PostComments($id: Int!) {
+query PostComments($id: Int!, $isLoggedIn: Boolean!) {
   post(id: $id) {
     id
     comments {
       ...Comment
     }
+  }
+
+  me @include(if: $isLoggedIn) {
+    id
   }
 }

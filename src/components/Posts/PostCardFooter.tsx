@@ -1,8 +1,10 @@
 // TODO: Add basic functionality for sharing. Below is a WIP
 
+import { useReactiveVar } from "@apollo/client";
 import { Comment, Favorite as LikeIcon, Reply } from "@mui/icons-material";
 import { Box, CardActions, Divider, SxProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { isLoggedInVar } from "../../apollo/cache";
 import {
   PostCardFooterFragment,
   useDeleteLikeMutation,
@@ -31,6 +33,8 @@ interface Props {
 }
 
 const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
   const [likePost, { loading: likePostLoading }] = useLikePostMutation();
   const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
 
@@ -76,7 +80,7 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
   };
 
   const handleCommentButtonClick = async () =>
-    await getPostComments({ variables: { id } });
+    await getPostComments({ variables: { id, isLoggedIn } });
 
   return (
     <Box marginTop={likesCount ? 1.25 : 2}>
@@ -120,7 +124,10 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
         <Box paddingX="16px">
           <Divider sx={{ marginBottom: 1.25 }} />
           <CommentForm postId={id} />
-          <CommentsList comments={postCommentsData.post.comments} />
+          <CommentsList
+            comments={postCommentsData.post.comments}
+            currentUserId={postCommentsData.me?.id}
+          />
         </Box>
       )}
     </Box>
