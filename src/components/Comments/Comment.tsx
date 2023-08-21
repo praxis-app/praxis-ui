@@ -18,7 +18,9 @@ const Comment = ({
   currentUserId,
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+  const [showItemMenu, setShowItemMenu] = useState(false);
   const [deleteComment] = useDeleteCommentMutation();
+
   const { t } = useTranslation();
 
   const isMe = user.id === currentUserId;
@@ -46,7 +48,11 @@ const Comment = ({
     });
 
   return (
-    <Flex marginBottom={1.25}>
+    <Flex
+      marginBottom={1.25}
+      onMouseEnter={() => setShowItemMenu(true)}
+      onMouseLeave={() => setShowItemMenu(false)}
+    >
       <UserAvatar
         sx={{ marginRight: 1, marginTop: 0.2 }}
         user={user}
@@ -63,14 +69,16 @@ const Comment = ({
         <Typography lineHeight={1.2}>{body}</Typography>
       </Box>
 
-      <ItemMenu
-        anchorEl={menuAnchorEl}
-        buttonStyles={itemMenuStyles}
-        canDelete={isMe}
-        deleteItem={handleDelete}
-        deletePrompt={deleteCommentPrompt}
-        setAnchorEl={setMenuAnchorEl}
-      />
+      {showItemMenu && (
+        <ItemMenu
+          anchorEl={menuAnchorEl}
+          buttonStyles={itemMenuStyles}
+          canDelete={isMe}
+          deleteItem={handleDelete}
+          deletePrompt={deleteCommentPrompt}
+          setAnchorEl={setMenuAnchorEl}
+        />
+      )}
     </Flex>
   );
 };
