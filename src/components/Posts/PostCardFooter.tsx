@@ -123,11 +123,11 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
       {postCommentsData && (
         <Box paddingX="16px">
           <Divider sx={{ marginBottom: 1.25 }} />
-          <CommentForm postId={id} />
           <CommentsList
             comments={postCommentsData.post.comments}
             currentUserId={postCommentsData.me?.id}
           />
+          <CommentForm postId={id} />
         </Box>
       )}
     </Box>
