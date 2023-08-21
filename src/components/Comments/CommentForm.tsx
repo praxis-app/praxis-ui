@@ -9,7 +9,11 @@ import {
   useCreateCommentMutation,
   useUpdateCommentMutation,
 } from "../../apollo/gen";
-import { FieldNames, KeyCodes } from "../../constants/common.constants";
+import {
+  FieldNames,
+  KeyCodes,
+  TypeNames,
+} from "../../constants/common.constants";
 import UserAvatar from "../Users/UserAvatar";
 
 interface Props extends FormikFormProps {
@@ -40,6 +44,27 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
   ) =>
     await createComment({
       variables: { commentData: { postId, ...formValues } },
+      update(cache, { data }) {
+        if (!data) {
+          return;
+        }
+        const {
+          createComment: { comment },
+        } = data;
+
+        const cacheId = cache.identify({
+          __typename: TypeNames.Post,
+          id: postId,
+        });
+        cache.modify({
+          id: cacheId,
+          fields: {
+            comments(existingRefs, { toReference }) {
+              return [toReference(comment), ...existingRefs];
+            },
+          },
+        });
+      },
       onCompleted() {
         resetForm();
         setSubmitting(false);
