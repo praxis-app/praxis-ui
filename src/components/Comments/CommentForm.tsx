@@ -41,7 +41,10 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
   const handleCreate = async (
     formValues: CreateCommentInput,
     { resetForm, setSubmitting }: FormikHelpers<CreateCommentInput>
-  ) =>
+  ) => {
+    if (!formValues.body && !formValues.images?.length) {
+      return;
+    }
     await createComment({
       variables: { commentData: { postId, ...formValues } },
       update(cache, { data }) {
@@ -70,6 +73,7 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
         setSubmitting(false);
       },
     });
+  };
 
   const handleUpdate = async (
     formValues: Omit<UpdateCommentInput, "id">,
