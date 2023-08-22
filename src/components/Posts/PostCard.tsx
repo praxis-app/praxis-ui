@@ -86,6 +86,7 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
   };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 2.5 : 3,
+    paddingX: inModal ? 0 : undefined,
   };
 
   const handleDelete = async () => {
@@ -156,12 +157,13 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
     );
   };
 
-  const renderContent = () => (
+  const renderPost = () => (
     <>
       <CardHeader
         action={renderMenu()}
         avatar={renderAvatar()}
         title={renderTitle()}
+        sx={{ paddingX: inModal ? 0 : undefined }}
       />
 
       <CardContent sx={cardContentStyles}>
@@ -179,10 +181,10 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
   );
 
   if (inModal) {
-    return renderContent();
+    return renderPost();
   }
 
-  return <Card {...cardProps}>{renderContent()}</Card>;
+  return <Card {...cardProps}>{renderPost()}</Card>;
 };
 
 export default PostCard;

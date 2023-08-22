@@ -80,7 +80,7 @@ const PostCardFooter = ({ post, inModal }: Props) => {
 
   return (
     <Box marginTop={likesCount ? 1.25 : 2}>
-      <Box paddingX="16px">
+      <Box paddingX={inModal ? 0 : "16px"}>
         <Flex
           justifyContent={likesCount ? "space-between" : "end"}
           marginBottom={likesCount || commentCount ? 0.8 : 0}
@@ -110,7 +110,12 @@ const PostCardFooter = ({ post, inModal }: Props) => {
         <Divider />
       </Box>
 
-      <CardActions sx={{ justifyContent: "space-around" }}>
+      <CardActions
+        sx={{
+          justifyContent: "space-around",
+          paddingX: inModal ? 0 : undefined,
+        }}
+      >
         <LikeButton postId={id} isLikedByMe={!!isLikedByMe} />
 
         <CardFooterButton onClick={handleCommentButtonClick}>
@@ -125,7 +130,7 @@ const PostCardFooter = ({ post, inModal }: Props) => {
       </CardActions>
 
       {showComments && (
-        <Box paddingX="16px">
+        <Box paddingX={inModal ? 0 : "16px"}>
           <Divider sx={{ marginBottom: 2 }} />
           <CommentsList
             comments={comments || []}
