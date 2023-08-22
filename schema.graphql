@@ -374,6 +374,7 @@ type Mutation {
 
 type Post {
   body: String
+  commentCount: Int!
   comments: [Comment!]!
   createdAt: DateTime!
   event: Event

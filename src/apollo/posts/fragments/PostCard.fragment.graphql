@@ -2,6 +2,7 @@ fragment PostCard on Post {
   id
   body
   likesCount
+  commentCount
   isLikedByMe @include(if: $isLoggedIn)
   createdAt
 

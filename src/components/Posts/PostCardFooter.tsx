@@ -2,7 +2,7 @@
 
 import { useReactiveVar } from "@apollo/client";
 import { Comment, Favorite as LikeIcon, Reply } from "@mui/icons-material";
-import { Box, CardActions, Divider, SxProps } from "@mui/material";
+import { Box, CardActions, Divider, SxProps, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
@@ -55,11 +55,20 @@ const PostCardFooter = ({ post, inModal }: Props) => {
     }
   }, [inModal, post, isLoggedIn, getPostComments]);
 
-  const { id, likesCount, isLikedByMe } = post;
+  const { id, likesCount, commentCount, isLikedByMe } = post;
   const comments = postCommentsData?.post.comments;
   const me = postCommentsData?.me;
 
+  const commentCountStyles: SxProps = {
+    "&:hover": { textDecoration: "underline" },
+    transform: "translateY(3px)",
+    cursor: "pointer",
+  };
+
   const handleCommentButtonClick = async () => {
+    if (inModal) {
+      return;
+    }
     const { data } = await getPostComments({ variables: { id, isLoggedIn } });
     const comments = data?.post.comments;
     if (comments && comments.length > 1) {
@@ -72,17 +81,32 @@ const PostCardFooter = ({ post, inModal }: Props) => {
   return (
     <Box marginTop={likesCount ? 1.25 : 2}>
       <Box paddingX="16px">
-        {!!likesCount && (
-          <Flex marginBottom={0.8}>
-            <Box sx={BADGE_STYLES}>
-              <LikeIcon
-                color="primary"
-                sx={{ fontSize: 13, marginTop: 0.65 }}
-              />
-            </Box>
-            {likesCount}
-          </Flex>
-        )}
+        <Flex
+          justifyContent={likesCount ? "space-between" : "end"}
+          marginBottom={likesCount || commentCount ? 0.8 : 0}
+        >
+          {!!likesCount && (
+            <Flex>
+              <Box sx={BADGE_STYLES}>
+                <LikeIcon
+                  color="primary"
+                  sx={{ fontSize: 13, marginTop: 0.65 }}
+                />
+              </Box>
+              {likesCount}
+            </Flex>
+          )}
+
+          {!!commentCount && (
+            <Typography
+              color="text.secondary"
+              onClick={handleCommentButtonClick}
+              sx={commentCountStyles}
+            >
+              {t("comments.labels.xComments", { count: commentCount })}
+            </Typography>
+          )}
+        </Flex>
         <Divider />
       </Box>
 

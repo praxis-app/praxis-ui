@@ -134,6 +134,10 @@
   "comments": {
     "prompts": {
       "leaveAComment": "Leave a comment..."
+    },
+    "labels": {
+      "xComments_one": "{{count}} comment",
+      "xComments_other": "{{count}} comments"
     }
   },
 

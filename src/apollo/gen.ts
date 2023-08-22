@@ -611,6 +611,7 @@ export type MutationUpdateVoteArgs = {
 export type Post = {
   __typename?: "Post";
   body?: Maybe<Scalars["String"]>;
+  commentCount: Scalars["Int"];
   comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   event?: Maybe<Event>;
@@ -1335,6 +1336,7 @@ export type EventPageQuery = {
       id: number;
       body?: string | null;
       likesCount: number;
+      commentCount: number;
       isLikedByMe?: boolean;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2122,6 +2124,7 @@ export type GroupProfileQuery = {
           id: number;
           body?: string | null;
           likesCount: number;
+          commentCount: number;
           isLikedByMe?: boolean;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2475,6 +2478,7 @@ export type PublicGroupsFeedQuery = {
         id: number;
         body?: string | null;
         likesCount: number;
+        commentCount: number;
         isLikedByMe?: boolean;
         createdAt: any;
         images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2718,6 +2722,7 @@ type FeedItem_Post_Fragment = {
   id: number;
   body?: string | null;
   likesCount: number;
+  commentCount: number;
   isLikedByMe?: boolean;
   createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2848,6 +2853,7 @@ export type PostCardFragment = {
   id: number;
   body?: string | null;
   likesCount: number;
+  commentCount: number;
   isLikedByMe?: boolean;
   createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2905,6 +2911,7 @@ export type CreatePostMutation = {
       id: number;
       body?: string | null;
       likesCount: number;
+      commentCount: number;
       isLikedByMe?: boolean;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2988,6 +2995,7 @@ export type UpdatePostMutation = {
       id: number;
       body?: string | null;
       likesCount: number;
+      commentCount: number;
       isLikedByMe?: boolean;
       createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -3052,6 +3060,7 @@ export type PostQuery = {
     id: number;
     body?: string | null;
     likesCount: number;
+    commentCount: number;
     isLikedByMe?: boolean;
     createdAt: any;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -4093,6 +4102,7 @@ export type FollowUserMutation = {
             id: number;
             body?: string | null;
             likesCount: number;
+            commentCount: number;
             isLikedByMe?: boolean;
             createdAt: any;
             images: Array<{
@@ -4339,6 +4349,7 @@ export type HomeFeedQuery = {
           id: number;
           body?: string | null;
           likesCount: number;
+          commentCount: number;
           isLikedByMe?: boolean;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -4512,6 +4523,7 @@ export type UserProfileQuery = {
           id: number;
           body?: string | null;
           likesCount: number;
+          commentCount: number;
           isLikedByMe?: boolean;
           createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -5081,6 +5093,7 @@ export const PostCardFragmentDoc = gql`
     id
     body
     likesCount
+    commentCount
     isLikedByMe @include(if: $isLoggedIn)
     createdAt
     images {
