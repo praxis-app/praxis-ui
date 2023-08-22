@@ -198,7 +198,8 @@
     "labels": {
       "addImages": "Add images",
       "addPost": "Add post",
-      "posts": "Posts"
+      "posts": "Posts",
+      "usersPost": "{{name}}'s Post"
     },
     "form": {
       "body": "Body"

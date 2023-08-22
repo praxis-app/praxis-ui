@@ -1,23 +1,32 @@
+import { useTranslation } from "react-i18next";
 import { PostCardFragment } from "../../apollo/gen";
 import Modal from "../Shared/Modal";
 import PostCard from "./PostCard";
 
 interface Props {
+  post: PostCardFragment;
   open: boolean;
   onClose(): void;
-  post: PostCardFragment;
 }
 
-const PostModal = ({ open, onClose, post }: Props) => (
-  <Modal
-    onClose={onClose}
-    open={open}
-    title="User's Post"
-    maxWidth="md"
-    contentStyles={{ width: "700px" }}
-  >
-    <PostCard post={post} inModal />
-  </Modal>
-);
+const PostModal = ({ post, open, onClose }: Props) => {
+  const { t } = useTranslation();
+
+  const title = t("posts.labels.usersPost", {
+    name: post.user.name[0].toUpperCase() + post.user.name.slice(1),
+  });
+
+  return (
+    <Modal
+      contentStyles={{ width: "700px" }}
+      maxWidth="md"
+      onClose={onClose}
+      open={open}
+      title={title}
+    >
+      <PostCard post={post} inModal />
+    </Modal>
+  );
+};
 
 export default PostModal;
