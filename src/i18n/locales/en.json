@@ -133,7 +133,7 @@
 
   "comments": {
     "prompts": {
-      "leaveAComment": "Leave a comment..."
+      "writeComment": "Write a comment..."
     },
     "labels": {
       "xComments_one": "{{count}} comment",

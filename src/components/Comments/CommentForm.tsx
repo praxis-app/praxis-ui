@@ -1,5 +1,6 @@
 import { FilledInput, FormGroup, SxProps } from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
@@ -7,6 +8,7 @@ import {
   CreateCommentInput,
   UpdateCommentInput,
   useCreateCommentMutation,
+  useDeleteImageMutation,
   useUpdateCommentMutation,
 } from "../../apollo/gen";
 import {
@@ -14,6 +16,9 @@ import {
   KeyCodes,
   TypeNames,
 } from "../../constants/common.constants";
+import { getRandomString } from "../../utils/common.utils";
+import AttachedImagePreview from "../Images/AttachedImagePreview";
+import ImageInput from "../Images/ImageInput";
 import UserAvatar from "../Users/UserAvatar";
 
 interface Props extends FormikFormProps {
@@ -22,8 +27,12 @@ interface Props extends FormikFormProps {
 }
 
 const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
+  const [imagesInputKey, setImagesInputKey] = useState("");
+  const [images, setImages] = useState<File[]>([]);
+
   const [createComment] = useCreateCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
+  const [deleteImage] = useDeleteImageMutation();
 
   const { t } = useTranslation();
 
@@ -42,11 +51,17 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     formValues: CreateCommentInput,
     { resetForm, setSubmitting }: FormikHelpers<CreateCommentInput>
   ) => {
-    if (!formValues.body && !formValues.images?.length) {
+    if (!formValues.body && !images?.length) {
       return;
     }
     await createComment({
-      variables: { commentData: { postId, ...formValues } },
+      variables: {
+        commentData: {
+          ...formValues,
+          postId,
+          images,
+        },
+      },
       update(cache, { data }) {
         if (!data) {
           return;
@@ -71,6 +86,8 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
       onCompleted() {
         resetForm();
         setSubmitting(false);
+        setImages([]);
+        setImagesInputKey(getRandomString());
       },
     });
   };
@@ -121,6 +138,25 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     submitForm();
   };
 
+  const handleDeleteSavedImage = async (id: number) => {
+    if (editComment) {
+      await deleteImage({
+        variables: { id },
+        update(cache) {
+          const cacheId = cache.identify({ id, __typename: TypeNames.Image });
+          cache.evict({ id: cacheId });
+          cache.gc();
+        },
+      });
+      setImagesInputKey(getRandomString());
+    }
+  };
+
+  const handleRemoveSelectedImage = (imageName: string) => {
+    setImages(images.filter((image) => image.name !== imageName));
+    setImagesInputKey(getRandomString());
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -130,7 +166,7 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     >
       {({ handleChange, values, submitForm }) => (
         <Form>
-          <FormGroup row>
+          <FormGroup row sx={{ position: "relative" }}>
             <UserAvatar size={35} sx={{ marginRight: 1 }} />
 
             <FilledInput
@@ -138,13 +174,31 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
               name={FieldNames.Body}
               onChange={handleChange}
               onKeyDown={(e) => handleFilledInputKeyDown(e, submitForm)}
-              placeholder={t("comments.prompts.leaveAComment")}
+              placeholder={t("comments.prompts.writeComment")}
               sx={filledInputStyles}
               value={values.body || ""}
               disableUnderline
               multiline
             />
+
+            <ImageInput
+              setImages={setImages}
+              refreshKey={imagesInputKey}
+              iconStyles={{ color: "text.secondary", fontSize: 25 }}
+              position="absolute"
+              right={5}
+              bottom={7}
+              multiple
+            />
           </FormGroup>
+
+          <AttachedImagePreview
+            handleDelete={handleDeleteSavedImage}
+            handleRemove={handleRemoveSelectedImage}
+            savedImages={editComment?.images || []}
+            selectedImages={images}
+            sx={{ marginLeft: 5.5 }}
+          />
         </Form>
       )}
     </Formik>

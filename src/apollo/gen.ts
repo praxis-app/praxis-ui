@@ -1045,6 +1045,7 @@ export type CommentFragment = {
   __typename?: "Comment";
   id: number;
   body?: string | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
     id: number;
@@ -1057,6 +1058,7 @@ export type CommentFormFragment = {
   __typename?: "Comment";
   id: number;
   body?: string | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
 };
 
 export type CreateCommentMutationVariables = Exact<{
@@ -3117,6 +3119,7 @@ export type PostCommentsQuery = {
       __typename?: "Comment";
       id: number;
       body?: string | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
         id: number;
@@ -4800,6 +4803,12 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const AttachedImageFragmentDoc = gql`
+  fragment AttachedImage on Image {
+    id
+    filename
+  }
+`;
 export const UserAvatarFragmentDoc = gql`
   fragment UserAvatar on User {
     id
@@ -4813,17 +4822,25 @@ export const CommentFragmentDoc = gql`
   fragment Comment on Comment {
     id
     body
+    images {
+      ...AttachedImage
+    }
     user {
       ...UserAvatar
     }
   }
+  ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
 `;
 export const CommentFormFragmentDoc = gql`
   fragment CommentForm on Comment {
     id
     body
+    images {
+      ...AttachedImage
+    }
   }
+  ${AttachedImageFragmentDoc}
 `;
 export const EventAttendeeButtonsFragmentDoc = gql`
   fragment EventAttendeeButtons on Event {
@@ -5077,12 +5094,6 @@ export const ServerInviteCardFragmentDoc = gql`
     }
   }
   ${UserAvatarFragmentDoc}
-`;
-export const AttachedImageFragmentDoc = gql`
-  fragment AttachedImage on Image {
-    id
-    filename
-  }
 `;
 export const EventItemAvatarFragmentDoc = gql`
   fragment EventItemAvatar on Event {

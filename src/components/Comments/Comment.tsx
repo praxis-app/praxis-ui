@@ -3,7 +3,9 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CommentFragment, useDeleteCommentMutation } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
+import { useIsDesktop } from "../../hooks/common.hooks";
 import { getUserProfilePath } from "../../utils/user.utils";
+import AttachedImageList from "../Images/AttachedImageList";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
@@ -16,7 +18,7 @@ interface Props {
 }
 
 const Comment = ({
-  comment: { id, user, body, __typename },
+  comment: { id, user, body, images, __typename },
   currentUserId,
   postId,
 }: Props) => {
@@ -25,6 +27,7 @@ const Comment = ({
   const [deleteComment] = useDeleteCommentMutation();
 
   const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
 
   const isMe = user.id === currentUserId;
   const userPath = getUserProfilePath(user.name);
@@ -74,12 +77,23 @@ const Comment = ({
 
       <Box
         sx={{ backgroundColor: "#38393a" }}
+        maxWidth={isDesktop ? "calc(100% - 90px)" : undefined}
         borderRadius={4}
         paddingX={1.5}
         paddingY={0.5}
       >
         <Link href={userPath}>{user.name}</Link>
         <Typography lineHeight={1.2}>{body}</Typography>
+
+        {!!images.length && (
+          <AttachedImageList
+            images={images}
+            width={250}
+            paddingX={2}
+            paddingBottom={1}
+            paddingTop={1.5}
+          />
+        )}
       </Box>
 
       {showItemMenu && (

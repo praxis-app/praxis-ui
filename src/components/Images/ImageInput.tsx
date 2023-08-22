@@ -2,7 +2,7 @@
 // TODO: Remove unneeded refreshKey prop - use key prop instead
 
 import { Image } from "@mui/icons-material";
-import { Box, BoxProps, IconButton } from "@mui/material";
+import { Box, BoxProps, IconButton, SxProps } from "@mui/material";
 import { ChangeEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,6 +13,7 @@ interface Props extends Omit<BoxProps, "onChange"> {
   refreshKey?: string;
   setImage?: (image: File) => void;
   setImages?: (images: File[]) => void;
+  iconStyles?: SxProps;
 }
 
 const ImageInput = ({
@@ -23,6 +24,7 @@ const ImageInput = ({
   refreshKey,
   setImage,
   setImages,
+  iconStyles,
   ...boxProps
 }: Props) => {
   const imageInput = useRef<HTMLInputElement>(null);
@@ -55,7 +57,7 @@ const ImageInput = ({
         disableRipple
         edge="start"
       >
-        <Image sx={{ fontSize: 40 }} />
+        <Image sx={{ fontSize: 40, ...iconStyles }} />
       </IconButton>
     );
   };
