@@ -3,6 +3,10 @@ mutation CreateComment($commentData: CreateCommentInput!) {
     comment {
       id
       body
+      post {
+        id
+        commentCount
+      }
     }
   }
 }

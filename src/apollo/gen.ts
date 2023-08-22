@@ -1067,7 +1067,12 @@ export type CreateCommentMutation = {
   __typename?: "Mutation";
   createComment: {
     __typename?: "CreateCommentPayload";
-    comment: { __typename?: "Comment"; id: number; body?: string | null };
+    comment: {
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      post?: { __typename?: "Post"; id: number; commentCount: number } | null;
+    };
   };
 };
 
@@ -5663,6 +5668,10 @@ export const CreateCommentDocument = gql`
       comment {
         id
         body
+        post {
+          id
+          commentCount
+        }
       }
     }
   }
