@@ -127,7 +127,11 @@ const PostCardFooter = ({ post, inModal }: Props) => {
       {showComments && (
         <Box paddingX="16px">
           <Divider sx={{ marginBottom: 2 }} />
-          <CommentsList comments={comments || []} currentUserId={me?.id} />
+          <CommentsList
+            comments={comments || []}
+            currentUserId={me?.id}
+            postId={id}
+          />
           <CommentForm postId={id} />
         </Box>
       )}

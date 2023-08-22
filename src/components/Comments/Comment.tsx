@@ -2,6 +2,7 @@ import { Box, SxProps, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CommentFragment, useDeleteCommentMutation } from "../../apollo/gen";
+import { TypeNames } from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
@@ -11,11 +12,13 @@ import UserAvatar from "../Users/UserAvatar";
 interface Props {
   comment: CommentFragment;
   currentUserId?: number;
+  postId?: number;
 }
 
 const Comment = ({
   comment: { id, user, body, __typename },
   currentUserId,
+  postId,
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const [showItemMenu, setShowItemMenu] = useState(false);
@@ -38,6 +41,16 @@ const Comment = ({
     await deleteComment({
       variables: { id },
       update(cache) {
+        if (postId) {
+          cache.modify({
+            id: cache.identify({ id: postId, __typename: TypeNames.Post }),
+            fields: {
+              commentCount(existingCount: number) {
+                return existingCount - 1;
+              },
+            },
+          });
+        }
         const cacheId = cache.identify({ __typename, id });
         cache.evict({ id: cacheId });
         cache.gc();

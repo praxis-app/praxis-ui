@@ -5,9 +5,10 @@ import Comment from "./Comment";
 interface Props {
   comments: CommentFragment[];
   currentUserId?: number;
+  postId?: number;
 }
 
-const CommentsList = ({ comments, currentUserId }: Props) => {
+const CommentsList = ({ comments, currentUserId, postId }: Props) => {
   if (!comments.length) {
     return null;
   }
@@ -18,6 +19,7 @@ const CommentsList = ({ comments, currentUserId }: Props) => {
           key={comment.id}
           comment={comment}
           currentUserId={currentUserId}
+          postId={postId}
         />
       ))}
     </Box>
