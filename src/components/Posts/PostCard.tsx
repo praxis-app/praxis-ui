@@ -54,9 +54,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   post: PostCardFragment;
+  inModal?: boolean;
 }
 
-const PostCard = ({ post, ...cardProps }: Props) => {
+const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
@@ -155,8 +156,8 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     );
   };
 
-  return (
-    <Card {...cardProps}>
+  const renderContent = () => (
+    <>
       <CardHeader
         action={renderMenu()}
         avatar={renderAvatar()}
@@ -173,9 +174,15 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         )}
       </CardContent>
 
-      {me && <PostCardFooter post={post} />}
-    </Card>
+      {me && <PostCardFooter post={post} inModal={inModal} />}
+    </>
   );
+
+  if (inModal) {
+    return renderContent();
+  }
+
+  return <Card {...cardProps}>{renderContent()}</Card>;
 };
 
 export default PostCard;

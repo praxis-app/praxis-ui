@@ -3,12 +3,10 @@
 import { useReactiveVar } from "@apollo/client";
 import { Comment, Favorite as LikeIcon, Reply } from "@mui/icons-material";
 import { Box, CardActions, Divider, SxProps } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import {
-  PostCardFooterFragment,
-  usePostCommentsLazyQuery,
-} from "../../apollo/gen";
+import { PostCardFragment, usePostCommentsLazyQuery } from "../../apollo/gen";
 import { inDevToast } from "../../utils/common.utils";
 import CommentForm from "../Comments/CommentForm";
 import CommentsList from "../Comments/CommentList";
@@ -16,6 +14,7 @@ import CardFooterButton from "../Shared/CardFooterButton";
 import Flex from "../Shared/Flex";
 import { BASE_BADGE_STYLES } from "../Votes/VoteBadge";
 import LikeButton from "./LikeButton";
+import PostModal from "./PostModal";
 
 export const ICON_STYLES: SxProps = {
   marginRight: "0.4ch",
@@ -34,18 +33,41 @@ const BADGE_STYLES: SxProps = {
 };
 
 interface Props {
-  post: PostCardFooterFragment;
+  post: PostCardFragment;
+  inModal: boolean;
 }
 
-const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
+const PostCardFooter = ({ post, inModal }: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showComments, setShowComments] = useState(inModal);
+
   const [getPostComments, { data: postCommentsData }] =
     usePostCommentsLazyQuery();
 
   const { t } = useTranslation();
 
-  const handleCommentButtonClick = async () =>
-    await getPostComments({ variables: { id, isLoggedIn } });
+  useEffect(() => {
+    if (inModal) {
+      getPostComments({
+        variables: { id: post.id, isLoggedIn },
+      });
+    }
+  }, [inModal, post, isLoggedIn, getPostComments]);
+
+  const { id, likesCount, isLikedByMe } = post;
+  const comments = postCommentsData?.post.comments;
+  const me = postCommentsData?.me;
+
+  const handleCommentButtonClick = async () => {
+    const { data } = await getPostComments({ variables: { id, isLoggedIn } });
+    const comments = data?.post.comments;
+    if (comments && comments.length > 1) {
+      setIsModalOpen(true);
+    } else {
+      setShowComments(true);
+    }
+  };
 
   return (
     <Box marginTop={likesCount ? 1.25 : 2}>
@@ -78,16 +100,19 @@ const PostCardFooter = ({ post: { id, likesCount, isLikedByMe } }: Props) => {
         </CardFooterButton>
       </CardActions>
 
-      {postCommentsData && (
+      {showComments && (
         <Box paddingX="16px">
-          <Divider sx={{ marginBottom: 1.25 }} />
-          <CommentsList
-            comments={postCommentsData.post.comments}
-            currentUserId={postCommentsData.me?.id}
-          />
+          <Divider sx={{ marginBottom: 2 }} />
+          <CommentsList comments={comments || []} currentUserId={me?.id} />
           <CommentForm postId={id} />
         </Box>
       )}
+
+      <PostModal
+        post={post}
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </Box>
   );
 };

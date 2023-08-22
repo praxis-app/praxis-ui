@@ -1,5 +1,0 @@
-fragment PostCardFooter on Post {
-  id
-  likesCount
-  isLikedByMe @include(if: $isLoggedIn)
-}

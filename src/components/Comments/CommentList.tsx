@@ -7,16 +7,21 @@ interface Props {
   currentUserId?: number;
 }
 
-const CommentsList = ({ comments, currentUserId }: Props) => (
-  <Box marginBottom={1.5}>
-    {comments.map((comment) => (
-      <Comment
-        key={comment.id}
-        comment={comment}
-        currentUserId={currentUserId}
-      />
-    ))}
-  </Box>
-);
+const CommentsList = ({ comments, currentUserId }: Props) => {
+  if (!comments.length) {
+    return null;
+  }
+  return (
+    <Box marginBottom={1.5}>
+      {comments.map((comment) => (
+        <Comment
+          key={comment.id}
+          comment={comment}
+          currentUserId={currentUserId}
+        />
+      ))}
+    </Box>
+  );
+};
 
 export default CommentsList;

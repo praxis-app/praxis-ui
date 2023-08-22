@@ -1,6 +1,8 @@
 fragment PostCard on Post {
   id
   body
+  likesCount
+  isLikedByMe @include(if: $isLoggedIn)
   createdAt
 
   images {
@@ -18,6 +20,4 @@ fragment PostCard on Post {
   event {
     ...EventItemAvatar
   }
-
-  ...PostCardFooter
 }

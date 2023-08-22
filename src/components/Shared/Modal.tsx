@@ -5,6 +5,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogProps,
   IconButton,
   SxProps,
   Toolbar,
@@ -21,6 +22,7 @@ interface Props {
   children: ReactNode;
   closingAction?(): void;
   contentStyles?: SxProps;
+  maxWidth?: DialogProps["maxWidth"];
   onClose(): void;
   open: boolean;
   subtext?: string;
@@ -34,6 +36,7 @@ const Modal = ({
   children,
   closingAction,
   contentStyles,
+  maxWidth,
   onClose,
   open,
   subtext,
@@ -95,6 +98,7 @@ const Modal = ({
   return (
     <Dialog
       fullScreen={!isDesktop}
+      maxWidth={maxWidth}
       onKeyDown={handleKeyDown}
       open={open}
       sx={{ marginTop: topGap }}
