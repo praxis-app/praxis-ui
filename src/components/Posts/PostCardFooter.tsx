@@ -67,7 +67,7 @@ const PostCardFooter = ({ post, inModal, isPostPage }: Props) => {
   };
 
   const handleCommentButtonClick = async () => {
-    if (inModal) {
+    if (inModal || isPostPage) {
       return;
     }
     const { data } = await getPostComments({ variables: { id, isLoggedIn } });
