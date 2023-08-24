@@ -32,13 +32,14 @@ import UserAvatar from "../Users/UserAvatar";
 
 interface Props extends FormikFormProps {
   editComment?: CommentFormFragment;
+  inModal?: boolean;
   postId?: number;
 }
 
-const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
-  const [imagesInputKey, setImagesInputKey] = useState("");
+const CommentForm = ({ editComment, postId, inModal, ...formProps }: Props) => {
   const [images, setImages] = useState<File[]>([]);
-  const [showForm, setShowForm] = useState(false);
+  const [imagesInputKey, setImagesInputKey] = useState("");
+  const [showForm, setShowForm] = useState(inModal);
 
   const [createComment] = useCreateCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
@@ -222,9 +223,9 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
             >
               <Input
                 autoComplete="off"
-                inputRef={(input) => input && input.focus()}
                 name={FieldNames.Body}
                 onChange={handleChange}
+                inputRef={(input) => input && !inModal && input.focus()}
                 onKeyDown={(e) => handleFilledInputKeyDown(e, submitForm)}
                 placeholder={t("comments.prompts.writeComment")}
                 sx={inputStyles}

@@ -137,7 +137,7 @@ const PostCardFooter = ({ post, inModal }: Props) => {
             currentUserId={me?.id}
             postId={id}
           />
-          <CommentForm postId={id} />
+          <CommentForm postId={id} inModal={inModal} />
         </Box>
       )}
 
