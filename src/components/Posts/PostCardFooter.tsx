@@ -35,12 +35,13 @@ const BADGE_STYLES: SxProps = {
 interface Props {
   post: PostCardFragment;
   inModal: boolean;
+  isPostPage: boolean;
 }
 
-const PostCardFooter = ({ post, inModal }: Props) => {
+const PostCardFooter = ({ post, inModal, isPostPage }: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showComments, setShowComments] = useState(inModal);
+  const [showComments, setShowComments] = useState(inModal || isPostPage);
 
   const [getPostComments, { data: postCommentsData }] =
     usePostCommentsLazyQuery();
@@ -48,12 +49,12 @@ const PostCardFooter = ({ post, inModal }: Props) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (inModal) {
+    if (inModal || isPostPage) {
       getPostComments({
         variables: { id: post.id, isLoggedIn },
       });
     }
-  }, [inModal, post, isLoggedIn, getPostComments]);
+  }, [inModal, isPostPage, post, isLoggedIn, getPostComments]);
 
   const { id, likesCount, commentCount, isLikedByMe } = post;
   const comments = postCommentsData?.post.comments;
