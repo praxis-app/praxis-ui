@@ -1,4 +1,12 @@
-import { FilledInput, FormGroup, SxProps } from "@mui/material";
+import { Image as ImageIcon, Send } from "@mui/icons-material";
+import {
+  Box,
+  FilledInput,
+  FormGroup,
+  IconButton,
+  Input,
+  SxProps,
+} from "@mui/material";
 import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +27,7 @@ import {
 import { getRandomString } from "../../utils/common.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
 import ImageInput from "../Images/ImageInput";
+import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/UserAvatar";
 
 interface Props extends FormikFormProps {
@@ -29,6 +38,7 @@ interface Props extends FormikFormProps {
 const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
   const [imagesInputKey, setImagesInputKey] = useState("");
   const [images, setImages] = useState<File[]>([]);
+  const [showForm, setShowForm] = useState(false);
 
   const [createComment] = useCreateCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
@@ -40,11 +50,20 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     body: editComment?.body || "",
   };
 
+  const inputStyles: SxProps = {
+    borderRadius: 8,
+    paddingY: 0.8,
+    width: "100%",
+  };
   const filledInputStyles: SxProps = {
     borderRadius: 8,
     marginBottom: 1.25,
-    paddingY: 0.8,
     flex: 1,
+  };
+  const sendButtonStyles: SxProps = {
+    width: 40,
+    height: 40,
+    transform: "translateY(5px)",
   };
 
   const handleCreate = async (
@@ -157,6 +176,30 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     setImagesInputKey(getRandomString());
   };
 
+  if (!showForm) {
+    return (
+      <Flex position="relative">
+        <UserAvatar size={35} sx={{ marginRight: 1 }} />
+
+        <FilledInput
+          placeholder={t("comments.prompts.writeComment")}
+          sx={filledInputStyles}
+          onFocus={() => setShowForm(true)}
+          inputProps={{ sx: { paddingY: 0.8 } }}
+          disableUnderline
+        />
+        <ImageIcon
+          sx={{
+            color: "text.secondary",
+            position: "absolute",
+            right: 12,
+            top: 6,
+          }}
+        />
+      </Flex>
+    );
+  }
+
   return (
     <Formik
       initialValues={initialValues}
@@ -166,30 +209,48 @@ const CommentForm = ({ editComment, postId, ...formProps }: Props) => {
     >
       {({ handleChange, values, submitForm }) => (
         <Form>
-          <FormGroup row sx={{ position: "relative" }}>
+          <FormGroup row>
             <UserAvatar size={35} sx={{ marginRight: 1 }} />
 
-            <FilledInput
-              autoComplete="off"
-              name={FieldNames.Body}
-              onChange={handleChange}
-              onKeyDown={(e) => handleFilledInputKeyDown(e, submitForm)}
-              placeholder={t("comments.prompts.writeComment")}
-              sx={filledInputStyles}
-              value={values.body || ""}
-              disableUnderline
-              multiline
-            />
+            <Box
+              flex={1}
+              borderRadius={4}
+              paddingX={1.5}
+              paddingY={0.2}
+              // TODO: Add hex color code to theme
+              sx={{ backgroundColor: "#38393a" }}
+            >
+              <Input
+                autoComplete="off"
+                inputRef={(input) => input && input.focus()}
+                name={FieldNames.Body}
+                onChange={handleChange}
+                onKeyDown={(e) => handleFilledInputKeyDown(e, submitForm)}
+                placeholder={t("comments.prompts.writeComment")}
+                sx={inputStyles}
+                value={values.body || ""}
+                disableUnderline
+                multiline
+              />
 
-            <ImageInput
-              setImages={setImages}
-              refreshKey={imagesInputKey}
-              iconStyles={{ color: "text.secondary", fontSize: 25 }}
-              position="absolute"
-              right={5}
-              bottom={7}
-              multiple
-            />
+              <Flex justifyContent="space-between">
+                <ImageInput
+                  setImages={setImages}
+                  refreshKey={imagesInputKey}
+                  iconStyles={{ color: "text.secondary", fontSize: 25 }}
+                  multiple
+                />
+
+                <IconButton
+                  edge="end"
+                  sx={sendButtonStyles}
+                  type="submit"
+                  disableRipple
+                >
+                  <Send sx={{ fontSize: 20, color: "text.secondary" }} />
+                </IconButton>
+              </Flex>
+            </Box>
           </FormGroup>
 
           <AttachedImagePreview
