@@ -3,12 +3,18 @@ import { CommentFragment } from "../../apollo/gen";
 import Comment from "./Comment";
 
 interface Props {
+  canManageComments: boolean;
   comments: CommentFragment[];
   currentUserId?: number;
   postId?: number;
 }
 
-const CommentsList = ({ comments, currentUserId, postId }: Props) => {
+const CommentsList = ({
+  canManageComments,
+  comments,
+  currentUserId,
+  postId,
+}: Props) => {
   if (!comments.length) {
     return null;
   }
@@ -17,6 +23,7 @@ const CommentsList = ({ comments, currentUserId, postId }: Props) => {
       {comments.map((comment) => (
         <Comment
           key={comment.id}
+          canManageComments={canManageComments}
           comment={comment}
           currentUserId={currentUserId}
           postId={postId}

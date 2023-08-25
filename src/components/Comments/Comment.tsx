@@ -1,6 +1,7 @@
 import { Box, SxProps, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toastVar } from "../../apollo/cache";
 import { CommentFragment, useDeleteCommentMutation } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
@@ -12,6 +13,7 @@ import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
 
 interface Props {
+  canManageComments: boolean;
   comment: CommentFragment;
   currentUserId?: number;
   postId?: number;
@@ -19,6 +21,7 @@ interface Props {
 
 const Comment = ({
   comment: { id, user, body, images, __typename },
+  canManageComments,
   currentUserId,
   postId,
 }: Props) => {
@@ -61,6 +64,13 @@ const Comment = ({
       onCompleted() {
         setMenuAnchorEl(null);
       },
+      onError(err) {
+        toastVar({
+          status: "error",
+          title: err.message,
+        });
+        setMenuAnchorEl(null);
+      },
     });
 
   return (
@@ -100,7 +110,7 @@ const Comment = ({
         <ItemMenu
           anchorEl={menuAnchorEl}
           buttonStyles={itemMenuStyles}
-          canDelete={isMe}
+          canDelete={isMe || canManageComments}
           deleteItem={handleDelete}
           deletePrompt={deleteCommentPrompt}
           setAnchorEl={setMenuAnchorEl}

@@ -47,7 +47,6 @@ export const getPermissionText = (name: string): PermissionText => {
       return {
         displayName: _t("permissions.names.manageComments"),
         description: _t("permissions.descriptions.manageComments"),
-        inDev: true,
       };
     case "manageEvents":
       return {

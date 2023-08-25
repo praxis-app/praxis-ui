@@ -3108,6 +3108,8 @@ export type PostQuery = {
 export type PostCommentsQueryVariables = Exact<{
   id: Scalars["Int"];
   isLoggedIn: Scalars["Boolean"];
+  withGroup: Scalars["Boolean"];
+  groupId?: InputMaybe<Scalars["Int"]>;
 }>;
 
 export type PostCommentsQuery = {
@@ -3128,7 +3130,19 @@ export type PostCommentsQuery = {
       };
     }>;
   };
-  me?: { __typename?: "User"; id: number };
+  me?: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "ServerPermissions";
+      manageComments: boolean;
+    };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    myPermissions: { __typename?: "GroupPermissions"; manageComments: boolean };
+  };
 };
 
 export type ProposalActionFragment = {
@@ -8644,7 +8658,12 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostCommentsDocument = gql`
-  query PostComments($id: Int!, $isLoggedIn: Boolean!) {
+  query PostComments(
+    $id: Int!
+    $isLoggedIn: Boolean!
+    $withGroup: Boolean!
+    $groupId: Int
+  ) {
     post(id: $id) {
       id
       comments {
@@ -8653,6 +8672,15 @@ export const PostCommentsDocument = gql`
     }
     me @include(if: $isLoggedIn) {
       id
+      serverPermissions {
+        manageComments
+      }
+    }
+    group(id: $groupId) @include(if: $withGroup) {
+      id
+      myPermissions {
+        manageComments
+      }
     }
   }
   ${CommentFragmentDoc}
@@ -8672,6 +8700,8 @@ export const PostCommentsDocument = gql`
  *   variables: {
  *      id: // value for 'id'
  *      isLoggedIn: // value for 'isLoggedIn'
+ *      withGroup: // value for 'withGroup'
+ *      groupId: // value for 'groupId'
  *   },
  * });
  */

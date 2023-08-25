@@ -36,9 +36,10 @@ interface Props {
   post: PostCardFragment;
   inModal: boolean;
   isPostPage: boolean;
+  groupId?: number;
 }
 
-const PostCardFooter = ({ post, inModal, isPostPage }: Props) => {
+const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showComments, setShowComments] = useState(inModal || isPostPage);
@@ -51,14 +52,24 @@ const PostCardFooter = ({ post, inModal, isPostPage }: Props) => {
   useEffect(() => {
     if (inModal || isPostPage) {
       getPostComments({
-        variables: { id: post.id, isLoggedIn },
+        variables: {
+          id: post.id,
+          withGroup: !!groupId,
+          isLoggedIn,
+          groupId,
+        },
       });
     }
-  }, [inModal, isPostPage, post, isLoggedIn, getPostComments]);
+  }, [inModal, isPostPage, post, isLoggedIn, getPostComments, groupId]);
 
   const { id, likesCount, commentCount, isLikedByMe } = post;
   const comments = postCommentsData?.post.comments;
+  const group = postCommentsData?.group;
   const me = postCommentsData?.me;
+
+  const canManageComments = !!(
+    group?.myPermissions.manageComments || me?.serverPermissions.manageComments
+  );
 
   const commentCountStyles: SxProps = {
     "&:hover": { textDecoration: "underline" },
@@ -70,7 +81,9 @@ const PostCardFooter = ({ post, inModal, isPostPage }: Props) => {
     if (inModal || isPostPage) {
       return;
     }
-    const { data } = await getPostComments({ variables: { id, isLoggedIn } });
+    const { data } = await getPostComments({
+      variables: { id, isLoggedIn, groupId, withGroup: !!groupId },
+    });
     const comments = data?.post.comments;
     if (comments && comments.length > 1) {
       setIsModalOpen(true);
@@ -134,6 +147,7 @@ const PostCardFooter = ({ post, inModal, isPostPage }: Props) => {
         <Box paddingX={inModal ? 0 : "16px"}>
           <Divider sx={{ marginBottom: 2 }} />
           <CommentsList
+            canManageComments={canManageComments}
             comments={comments || []}
             currentUserId={me?.id}
             postId={id}

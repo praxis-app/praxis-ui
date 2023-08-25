@@ -1,4 +1,9 @@
-query PostComments($id: Int!, $isLoggedIn: Boolean!) {
+query PostComments(
+  $id: Int!
+  $isLoggedIn: Boolean!
+  $withGroup: Boolean!
+  $groupId: Int
+) {
   post(id: $id) {
     id
     comments {
@@ -8,5 +13,15 @@ query PostComments($id: Int!, $isLoggedIn: Boolean!) {
 
   me @include(if: $isLoggedIn) {
     id
+    serverPermissions {
+      manageComments
+    }
+  }
+
+  group(id: $groupId) @include(if: $withGroup) {
+    id
+    myPermissions {
+      manageComments
+    }
   }
 }

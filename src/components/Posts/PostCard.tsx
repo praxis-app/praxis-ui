@@ -177,7 +177,12 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
       </CardContent>
 
       {me && (
-        <PostCardFooter post={post} inModal={inModal} isPostPage={isPostPage} />
+        <PostCardFooter
+          groupId={group?.id}
+          inModal={inModal}
+          isPostPage={isPostPage}
+          post={post}
+        />
       )}
     </>
   );
