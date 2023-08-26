@@ -22,6 +22,7 @@ interface Props {
   children: ReactNode;
   closingAction?(): void;
   contentStyles?: SxProps;
+  footerContent?: ReactNode;
   maxWidth?: DialogProps["maxWidth"];
   onClose(): void;
   open: boolean;
@@ -36,6 +37,7 @@ const Modal = ({
   children,
   closingAction,
   contentStyles,
+  footerContent,
   maxWidth,
   onClose,
   open,
@@ -115,6 +117,7 @@ const Modal = ({
     >
       <AppBar sx={appBarStyles}>{renderAppBarContent()}</AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>
+      {footerContent}
     </Dialog>
   );
 };

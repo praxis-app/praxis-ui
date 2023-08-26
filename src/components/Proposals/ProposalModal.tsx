@@ -1,6 +1,8 @@
+import { Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ProposalCardFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
+import CommentForm from "../Comments/CommentForm";
 import Modal from "../Shared/Modal";
 import ProposalCard from "./ProposalCard";
 
@@ -20,7 +22,23 @@ const ProposalModal = ({ proposal, open, onClose }: Props) => {
 
   return (
     <Modal
-      contentStyles={{ width: isDesktop ? "700px" : "100%" }}
+      contentStyles={{
+        width: isDesktop ? "700px" : "100%",
+        paddingBottom: 0,
+        minHeight: "50vh",
+      }}
+      footerContent={
+        <Box
+          bgcolor="background.paper"
+          bottom={0}
+          left={0}
+          paddingTop="12px"
+          paddingX="16px"
+          width="100%"
+        >
+          <CommentForm proposalId={proposal.id} expanded />
+        </Box>
+      }
       maxWidth="md"
       onClose={onClose}
       open={open}

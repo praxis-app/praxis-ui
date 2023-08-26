@@ -176,12 +176,8 @@ const ProposalCardFooter = ({
             currentUserId={me?.id}
             proposalId={proposal.id}
           />
-          {(!group || group.isJoinedByMe) && (
-            <CommentForm
-              enableAutoFocus={!inModal}
-              expanded={inModal}
-              proposalId={proposal.id}
-            />
+          {!inModal && (!group || group.isJoinedByMe) && (
+            <CommentForm proposalId={proposal.id} />
           )}
           {group && !group.isJoinedByMe && !comments?.length && (
             <Typography
