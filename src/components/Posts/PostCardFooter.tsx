@@ -152,11 +152,22 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
             currentUserId={me?.id}
             postId={id}
           />
-          <CommentForm
-            enableAutoFocus={!inModal}
-            expanded={inModal}
-            postId={id}
-          />
+          {(!group || group.isJoinedByMe) && (
+            <CommentForm
+              enableAutoFocus={!inModal}
+              expanded={inModal}
+              postId={id}
+            />
+          )}
+          {group && !group.isJoinedByMe && !comments?.length && (
+            <Typography
+              color="text.secondary"
+              align="center"
+              marginBottom={1.75}
+            >
+              No comments yet. Join the group to comment.
+            </Typography>
+          )}
         </Box>
       )}
 

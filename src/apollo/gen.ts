@@ -3159,6 +3159,7 @@ export type PostCommentsQuery = {
   group?: {
     __typename?: "Group";
     id: number;
+    isJoinedByMe?: boolean;
     myPermissions: { __typename?: "GroupPermissions"; manageComments: boolean };
   };
 };
@@ -8696,6 +8697,7 @@ export const PostCommentsDocument = gql`
     }
     group(id: $groupId) @include(if: $withGroup) {
       id
+      isJoinedByMe @include(if: $isLoggedIn)
       myPermissions {
         manageComments
       }

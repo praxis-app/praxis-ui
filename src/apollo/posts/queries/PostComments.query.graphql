@@ -20,6 +20,7 @@ query PostComments(
 
   group(id: $groupId) @include(if: $withGroup) {
     id
+    isJoinedByMe @include(if: $isLoggedIn)
     myPermissions {
       manageComments
     }
