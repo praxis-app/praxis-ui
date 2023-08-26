@@ -68,7 +68,7 @@ const CommentForm = ({
   const filledInputStyles: SxProps = {
     borderRadius: 8,
     marginBottom: 1.25,
-    flex: 1,
+    width: "100%",
   };
   const sendButtonStyles: SxProps = {
     width: 40,
@@ -193,24 +193,26 @@ const CommentForm = ({
 
   if (!showForm) {
     return (
-      <Flex position="relative">
+      <Flex>
         <UserAvatar size={35} sx={{ marginRight: 1 }} />
 
-        <FilledInput
-          placeholder={t("comments.prompts.writeComment")}
-          sx={filledInputStyles}
-          onFocus={() => setShowForm(true)}
-          inputProps={{ sx: { paddingY: 0.8 } }}
-          disableUnderline
-        />
-        <ImageIcon
-          sx={{
-            color: "text.secondary",
-            position: "absolute",
-            right: 12,
-            top: 6,
-          }}
-        />
+        <Box position="relative" flex={1} onClick={() => setShowForm(true)}>
+          <FilledInput
+            placeholder={t("comments.prompts.writeComment")}
+            sx={filledInputStyles}
+            inputProps={{ sx: { paddingY: 0.8 } }}
+            disableUnderline
+          />
+          <ImageIcon
+            sx={{
+              cursor: "pointer",
+              color: "text.secondary",
+              position: "absolute",
+              right: 12,
+              top: 6,
+            }}
+          />
+        </Box>
       </Flex>
     );
   }
