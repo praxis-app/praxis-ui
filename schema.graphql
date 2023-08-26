@@ -2,6 +2,29 @@ type ApproveGroupMemberRequestPayload {
   groupMember: User!
 }
 
+type Comment {
+  body: String
+  createdAt: DateTime!
+  id: Int!
+  images: [Image!]!
+  likes: [Like!]!
+  post: Post
+  proposal: Proposal
+  updatedAt: DateTime!
+  user: User!
+}
+
+input CreateCommentInput {
+  body: String
+  images: [Upload!]
+  postId: Int
+  proposalId: Int
+}
+
+type CreateCommentPayload {
+  comment: Comment!
+}
+
 input CreateEventAttendeeInput {
   eventId: Int!
   status: String!
@@ -270,6 +293,7 @@ input GroupRolePermissionInput {
 }
 
 type Image {
+  comment: Comment
   createdAt: DateTime!
   event: Event
   filename: String!
@@ -284,9 +308,10 @@ type Image {
 }
 
 type Like {
+  comment: Comment
   createdAt: DateTime!
   id: Int!
-  post: Post!
+  post: Post
   updatedAt: DateTime!
   user: User!
 }
@@ -299,6 +324,7 @@ input LoginInput {
 type Mutation {
   approveGroupMemberRequest(id: Int!): ApproveGroupMemberRequestPayload!
   cancelGroupMemberRequest(id: Int!): Boolean!
+  createComment(commentData: CreateCommentInput!): CreateCommentPayload!
   createEvent(eventData: CreateEventInput!): CreateEventPayload!
   createEventAttendee(eventAttendeeData: CreateEventAttendeeInput!): CreateEventAttendeePayload!
   createGroup(groupData: CreateGroupInput!): CreateGroupPayload!
@@ -310,6 +336,7 @@ type Mutation {
   createServerInvite(serverInviteData: CreateServerInviteInput!): CreateServerInvitePayload!
   createServerRole(serverRoleData: CreateServerRoleInput!): CreateServerRolePayload!
   createVote(voteData: CreateVoteInput!): CreateVotePayload!
+  deleteComment(id: Int!): Boolean!
   deleteEvent(id: Int!): Boolean!
   deleteEventAttendee(eventId: Int!): Boolean!
   deleteGroup(id: Int!): Boolean!
@@ -332,6 +359,7 @@ type Mutation {
   refreshToken: Boolean!
   signUp(input: SignUpInput!): Boolean!
   unfollowUser(id: Int!): Boolean!
+  updateComment(commentData: UpdateCommentInput!): UpdateCommentPayload!
   updateEvent(eventData: UpdateEventInput!): UpdateEventPayload!
   updateEventAttendee(eventAttendeeData: UpdateEventAttendeeInput!): UpdateEventAttendeePayload!
   updateGroup(groupData: UpdateGroupInput!): UpdateGroupPayload!
@@ -346,6 +374,8 @@ type Mutation {
 
 type Post {
   body: String
+  commentCount: Int!
+  comments: [Comment!]!
   createdAt: DateTime!
   event: Event
   group: Group
@@ -361,6 +391,7 @@ type Post {
 type Proposal {
   action: ProposalAction!
   body: String
+  comments: [Comment!]!
   createdAt: DateTime!
   group: Group
   id: Int!
@@ -527,6 +558,16 @@ input SignUpInput {
   profilePicture: Upload
 }
 
+input UpdateCommentInput {
+  body: String
+  id: Int!
+  images: [Upload!]
+}
+
+type UpdateCommentPayload {
+  comment: Comment!
+}
+
 input UpdateEventAttendeeInput {
   eventId: Int!
   status: String!
@@ -640,6 +681,7 @@ scalar Upload
 
 type User {
   bio: String
+  comments: [Comment!]!
   coverPhoto: Image
   createdAt: DateTime!
   email: String!

@@ -131,6 +131,17 @@
     }
   },
 
+  "comments": {
+    "prompts": {
+      "writeComment": "Write a comment...",
+      "joinToComment": "No comments yet. Join the group to comment."
+    },
+    "labels": {
+      "xComments_one": "{{count}} comment",
+      "xComments_other": "{{count}} comments"
+    }
+  },
+
   "users": {
     "actions": {
       "editProfile": "Edit Profile",
@@ -192,7 +203,8 @@
     "labels": {
       "addImages": "Add images",
       "addPost": "Add post",
-      "posts": "Posts"
+      "posts": "Posts",
+      "usersPost": "{{name}}'s Post"
     },
     "form": {
       "body": "Body"

@@ -1,0 +1,28 @@
+query PostComments(
+  $id: Int!
+  $isLoggedIn: Boolean!
+  $withGroup: Boolean!
+  $groupId: Int
+) {
+  post(id: $id) {
+    id
+    comments {
+      ...Comment
+    }
+  }
+
+  me @include(if: $isLoggedIn) {
+    id
+    serverPermissions {
+      manageComments
+    }
+  }
+
+  group(id: $groupId) @include(if: $withGroup) {
+    id
+    isJoinedByMe @include(if: $isLoggedIn)
+    myPermissions {
+      manageComments
+    }
+  }
+}

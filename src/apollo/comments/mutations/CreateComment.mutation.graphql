@@ -1,0 +1,12 @@
+mutation CreateComment($commentData: CreateCommentInput!) {
+  createComment(commentData: $commentData) {
+    comment {
+      ...Comment
+
+      post {
+        id
+        commentCount
+      }
+    }
+  }
+}

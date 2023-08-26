@@ -3,7 +3,9 @@ mutation LikePost($likeData: CreateLikeInput!, $isLoggedIn: Boolean = true) {
     like {
       id
       post {
-        ...PostCardFooter
+        id
+        likesCount
+        isLikedByMe @include(if: $isLoggedIn)
       }
     }
   }

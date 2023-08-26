@@ -32,6 +32,31 @@ export type ApproveGroupMemberRequestPayload = {
   groupMember: User;
 };
 
+export type Comment = {
+  __typename?: "Comment";
+  body?: Maybe<Scalars["String"]>;
+  createdAt: Scalars["DateTime"];
+  id: Scalars["Int"];
+  images: Array<Image>;
+  likes: Array<Like>;
+  post?: Maybe<Post>;
+  proposal?: Maybe<Proposal>;
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
+export type CreateCommentInput = {
+  body?: InputMaybe<Scalars["String"]>;
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
+  postId?: InputMaybe<Scalars["Int"]>;
+  proposalId?: InputMaybe<Scalars["Int"]>;
+};
+
+export type CreateCommentPayload = {
+  __typename?: "CreateCommentPayload";
+  comment: Comment;
+};
+
 export type CreateEventAttendeeInput = {
   eventId: Scalars["Int"];
   status: Scalars["String"];
@@ -318,6 +343,7 @@ export type GroupRolePermissionInput = {
 
 export type Image = {
   __typename?: "Image";
+  comment?: Maybe<Comment>;
   createdAt: Scalars["DateTime"];
   event?: Maybe<Event>;
   filename: Scalars["String"];
@@ -333,9 +359,10 @@ export type Image = {
 
 export type Like = {
   __typename?: "Like";
+  comment?: Maybe<Comment>;
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
-  post: Post;
+  post?: Maybe<Post>;
   updatedAt: Scalars["DateTime"];
   user: User;
 };
@@ -349,6 +376,7 @@ export type Mutation = {
   __typename?: "Mutation";
   approveGroupMemberRequest: ApproveGroupMemberRequestPayload;
   cancelGroupMemberRequest: Scalars["Boolean"];
+  createComment: CreateCommentPayload;
   createEvent: CreateEventPayload;
   createEventAttendee: CreateEventAttendeePayload;
   createGroup: CreateGroupPayload;
@@ -360,6 +388,7 @@ export type Mutation = {
   createServerInvite: CreateServerInvitePayload;
   createServerRole: CreateServerRolePayload;
   createVote: CreateVotePayload;
+  deleteComment: Scalars["Boolean"];
   deleteEvent: Scalars["Boolean"];
   deleteEventAttendee: Scalars["Boolean"];
   deleteGroup: Scalars["Boolean"];
@@ -382,6 +411,7 @@ export type Mutation = {
   refreshToken: Scalars["Boolean"];
   signUp: Scalars["Boolean"];
   unfollowUser: Scalars["Boolean"];
+  updateComment: UpdateCommentPayload;
   updateEvent: UpdateEventPayload;
   updateEventAttendee: UpdateEventAttendeePayload;
   updateGroup: UpdateGroupPayload;
@@ -400,6 +430,10 @@ export type MutationApproveGroupMemberRequestArgs = {
 
 export type MutationCancelGroupMemberRequestArgs = {
   id: Scalars["Int"];
+};
+
+export type MutationCreateCommentArgs = {
+  commentData: CreateCommentInput;
 };
 
 export type MutationCreateEventArgs = {
@@ -444,6 +478,10 @@ export type MutationCreateServerRoleArgs = {
 
 export type MutationCreateVoteArgs = {
   voteData: CreateVoteInput;
+};
+
+export type MutationDeleteCommentArgs = {
+  id: Scalars["Int"];
 };
 
 export type MutationDeleteEventArgs = {
@@ -526,6 +564,10 @@ export type MutationUnfollowUserArgs = {
   id: Scalars["Int"];
 };
 
+export type MutationUpdateCommentArgs = {
+  commentData: UpdateCommentInput;
+};
+
 export type MutationUpdateEventArgs = {
   eventData: UpdateEventInput;
 };
@@ -569,6 +611,8 @@ export type MutationUpdateVoteArgs = {
 export type Post = {
   __typename?: "Post";
   body?: Maybe<Scalars["String"]>;
+  commentCount: Scalars["Int"];
+  comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   event?: Maybe<Event>;
   group?: Maybe<Group>;
@@ -585,6 +629,7 @@ export type Proposal = {
   __typename?: "Proposal";
   action: ProposalAction;
   body?: Maybe<Scalars["String"]>;
+  comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
   id: Scalars["Int"];
@@ -806,6 +851,17 @@ export type SignUpInput = {
   profilePicture?: InputMaybe<Scalars["Upload"]>;
 };
 
+export type UpdateCommentInput = {
+  body?: InputMaybe<Scalars["String"]>;
+  id: Scalars["Int"];
+  images?: InputMaybe<Array<Scalars["Upload"]>>;
+};
+
+export type UpdateCommentPayload = {
+  __typename?: "UpdateCommentPayload";
+  comment: Comment;
+};
+
 export type UpdateEventAttendeeInput = {
   eventId: Scalars["Int"];
   status: Scalars["String"];
@@ -926,6 +982,7 @@ export type UpdateVotePayload = {
 export type User = {
   __typename?: "User";
   bio?: Maybe<Scalars["String"]>;
+  comments: Array<Comment>;
   coverPhoto?: Maybe<Image>;
   createdAt: Scalars["DateTime"];
   email: Scalars["String"];
@@ -983,6 +1040,82 @@ export type SignUpMutation = { __typename?: "Mutation"; signUp: boolean };
 export type AuthCheckQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AuthCheckQuery = { __typename?: "Query"; authCheck: boolean };
+
+export type CommentFragment = {
+  __typename?: "Comment";
+  id: number;
+  body?: string | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+  user: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+};
+
+export type CommentFormFragment = {
+  __typename?: "Comment";
+  id: number;
+  body?: string | null;
+  images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+};
+
+export type CreateCommentMutationVariables = Exact<{
+  commentData: CreateCommentInput;
+}>;
+
+export type CreateCommentMutation = {
+  __typename?: "Mutation";
+  createComment: {
+    __typename?: "CreateCommentPayload";
+    comment: {
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      post?: { __typename?: "Post"; id: number; commentCount: number } | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    };
+  };
+};
+
+export type DeleteCommentMutationVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type DeleteCommentMutation = {
+  __typename?: "Mutation";
+  deleteComment: boolean;
+};
+
+export type UpdateCommentMutationVariables = Exact<{
+  commentData: UpdateCommentInput;
+}>;
+
+export type UpdateCommentMutation = {
+  __typename?: "Mutation";
+  updateComment: {
+    __typename?: "UpdateCommentPayload";
+    comment: {
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    };
+  };
+};
 
 export type EventAttendeeButtonsFragment = {
   __typename?: "Event";
@@ -1227,9 +1360,10 @@ export type EventPageQuery = {
       __typename?: "Post";
       id: number;
       body?: string | null;
-      createdAt: any;
       likesCount: number;
+      commentCount: number;
       isLikedByMe?: boolean;
+      createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -2014,9 +2148,10 @@ export type GroupProfileQuery = {
           __typename?: "Post";
           id: number;
           body?: string | null;
-          createdAt: any;
           likesCount: number;
+          commentCount: number;
           isLikedByMe?: boolean;
+          createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -2367,9 +2502,10 @@ export type PublicGroupsFeedQuery = {
         __typename?: "Post";
         id: number;
         body?: string | null;
-        createdAt: any;
         likesCount: number;
+        commentCount: number;
         isLikedByMe?: boolean;
+        createdAt: any;
         images: Array<{ __typename?: "Image"; id: number; filename: string }>;
         user: {
           __typename?: "User";
@@ -2610,9 +2746,10 @@ type FeedItem_Post_Fragment = {
   __typename?: "Post";
   id: number;
   body?: string | null;
-  createdAt: any;
   likesCount: number;
+  commentCount: number;
   isLikedByMe?: boolean;
+  createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -2740,9 +2877,10 @@ export type PostCardFragment = {
   __typename?: "Post";
   id: number;
   body?: string | null;
-  createdAt: any;
   likesCount: number;
+  commentCount: number;
   isLikedByMe?: boolean;
+  createdAt: any;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
   user: {
     __typename?: "User";
@@ -2777,13 +2915,6 @@ export type PostCardFragment = {
   } | null;
 };
 
-export type PostCardFooterFragment = {
-  __typename?: "Post";
-  id: number;
-  likesCount: number;
-  isLikedByMe?: boolean;
-};
-
 export type PostFormFragment = {
   __typename?: "Post";
   id: number;
@@ -2804,9 +2935,10 @@ export type CreatePostMutation = {
       __typename?: "Post";
       id: number;
       body?: string | null;
-      createdAt: any;
       likesCount: number;
+      commentCount: number;
       isLikedByMe?: boolean;
+      createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -2864,12 +2996,12 @@ export type LikePostMutation = {
     like: {
       __typename?: "Like";
       id: number;
-      post: {
+      post?: {
         __typename?: "Post";
         id: number;
         likesCount: number;
         isLikedByMe?: boolean;
-      };
+      } | null;
     };
   };
 };
@@ -2887,9 +3019,10 @@ export type UpdatePostMutation = {
       __typename?: "Post";
       id: number;
       body?: string | null;
-      createdAt: any;
       likesCount: number;
+      commentCount: number;
       isLikedByMe?: boolean;
+      createdAt: any;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -2951,9 +3084,10 @@ export type PostQuery = {
     __typename?: "Post";
     id: number;
     body?: string | null;
-    createdAt: any;
     likesCount: number;
+    commentCount: number;
     isLikedByMe?: boolean;
+    createdAt: any;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
     user: {
       __typename?: "User";
@@ -2986,6 +3120,47 @@ export type PostQuery = {
       name: string;
       coverPhoto: { __typename?: "Image"; id: number };
     } | null;
+  };
+};
+
+export type PostCommentsQueryVariables = Exact<{
+  id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
+  withGroup: Scalars["Boolean"];
+  groupId?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type PostCommentsQuery = {
+  __typename?: "Query";
+  post: {
+    __typename?: "Post";
+    id: number;
+    comments: Array<{
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+  me?: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "ServerPermissions";
+      manageComments: boolean;
+    };
+  };
+  group?: {
+    __typename?: "Group";
+    id: number;
+    isJoinedByMe?: boolean;
+    myPermissions: { __typename?: "GroupPermissions"; manageComments: boolean };
   };
 };
 
@@ -3967,9 +4142,10 @@ export type FollowUserMutation = {
             __typename?: "Post";
             id: number;
             body?: string | null;
-            createdAt: any;
             likesCount: number;
+            commentCount: number;
             isLikedByMe?: boolean;
+            createdAt: any;
             images: Array<{
               __typename?: "Image";
               id: number;
@@ -4213,9 +4389,10 @@ export type HomeFeedQuery = {
           __typename?: "Post";
           id: number;
           body?: string | null;
-          createdAt: any;
           likesCount: number;
+          commentCount: number;
           isLikedByMe?: boolean;
+          createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -4386,9 +4563,10 @@ export type UserProfileQuery = {
           __typename?: "Post";
           id: number;
           body?: string | null;
-          createdAt: any;
           likesCount: number;
+          commentCount: number;
           isLikedByMe?: boolean;
+          createdAt: any;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
           user: {
             __typename?: "User";
@@ -4658,6 +4836,45 @@ export type UpdateVoteMutation = {
   };
 };
 
+export const AttachedImageFragmentDoc = gql`
+  fragment AttachedImage on Image {
+    id
+    filename
+  }
+`;
+export const UserAvatarFragmentDoc = gql`
+  fragment UserAvatar on User {
+    id
+    name
+    profilePicture {
+      id
+    }
+  }
+`;
+export const CommentFragmentDoc = gql`
+  fragment Comment on Comment {
+    id
+    body
+    images {
+      ...AttachedImage
+    }
+    user {
+      ...UserAvatar
+    }
+  }
+  ${AttachedImageFragmentDoc}
+  ${UserAvatarFragmentDoc}
+`;
+export const CommentFormFragmentDoc = gql`
+  fragment CommentForm on Comment {
+    id
+    body
+    images {
+      ...AttachedImage
+    }
+  }
+  ${AttachedImageFragmentDoc}
+`;
 export const EventAttendeeButtonsFragmentDoc = gql`
   fragment EventAttendeeButtons on Event {
     id
@@ -4738,15 +4955,6 @@ export const GroupRoleFragmentDoc = gql`
     group {
       id
       name
-    }
-  }
-`;
-export const UserAvatarFragmentDoc = gql`
-  fragment UserAvatar on User {
-    id
-    name
-    profilePicture {
-      id
     }
   }
 `;
@@ -4920,12 +5128,6 @@ export const ServerInviteCardFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const AttachedImageFragmentDoc = gql`
-  fragment AttachedImage on Image {
-    id
-    filename
-  }
-`;
 export const EventItemAvatarFragmentDoc = gql`
   fragment EventItemAvatar on Event {
     id
@@ -4935,17 +5137,13 @@ export const EventItemAvatarFragmentDoc = gql`
     }
   }
 `;
-export const PostCardFooterFragmentDoc = gql`
-  fragment PostCardFooter on Post {
-    id
-    likesCount
-    isLikedByMe @include(if: $isLoggedIn)
-  }
-`;
 export const PostCardFragmentDoc = gql`
   fragment PostCard on Post {
     id
     body
+    likesCount
+    commentCount
+    isLikedByMe @include(if: $isLoggedIn)
     createdAt
     images {
       ...AttachedImage
@@ -4962,14 +5160,12 @@ export const PostCardFragmentDoc = gql`
     event {
       ...EventItemAvatar
     }
-    ...PostCardFooter
   }
   ${AttachedImageFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
   ${GroupPermissionsFragmentDoc}
   ${EventItemAvatarFragmentDoc}
-  ${PostCardFooterFragmentDoc}
 `;
 export const ProposalActionPermissionFragmentDoc = gql`
   fragment ProposalActionPermission on ProposalActionPermission {
@@ -5509,6 +5705,164 @@ export type AuthCheckLazyQueryHookResult = ReturnType<
 export type AuthCheckQueryResult = Apollo.QueryResult<
   AuthCheckQuery,
   AuthCheckQueryVariables
+>;
+export const CreateCommentDocument = gql`
+  mutation CreateComment($commentData: CreateCommentInput!) {
+    createComment(commentData: $commentData) {
+      comment {
+        ...Comment
+        post {
+          id
+          commentCount
+        }
+      }
+    }
+  }
+  ${CommentFragmentDoc}
+`;
+export type CreateCommentMutationFn = Apollo.MutationFunction<
+  CreateCommentMutation,
+  CreateCommentMutationVariables
+>;
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      commentData: // value for 'commentData'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCommentMutation,
+    CreateCommentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateCommentMutation,
+    CreateCommentMutationVariables
+  >(CreateCommentDocument, options);
+}
+export type CreateCommentMutationHookResult = ReturnType<
+  typeof useCreateCommentMutation
+>;
+export type CreateCommentMutationResult =
+  Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
+  CreateCommentMutation,
+  CreateCommentMutationVariables
+>;
+export const DeleteCommentDocument = gql`
+  mutation DeleteComment($id: Int!) {
+    deleteComment(id: $id)
+  }
+`;
+export type DeleteCommentMutationFn = Apollo.MutationFunction<
+  DeleteCommentMutation,
+  DeleteCommentMutationVariables
+>;
+
+/**
+ * __useDeleteCommentMutation__
+ *
+ * To run a mutation, you first call `useDeleteCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCommentMutation, { data, loading, error }] = useDeleteCommentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteCommentMutation,
+    DeleteCommentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteCommentMutation,
+    DeleteCommentMutationVariables
+  >(DeleteCommentDocument, options);
+}
+export type DeleteCommentMutationHookResult = ReturnType<
+  typeof useDeleteCommentMutation
+>;
+export type DeleteCommentMutationResult =
+  Apollo.MutationResult<DeleteCommentMutation>;
+export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCommentMutation,
+  DeleteCommentMutationVariables
+>;
+export const UpdateCommentDocument = gql`
+  mutation UpdateComment($commentData: UpdateCommentInput!) {
+    updateComment(commentData: $commentData) {
+      comment {
+        ...Comment
+      }
+    }
+  }
+  ${CommentFragmentDoc}
+`;
+export type UpdateCommentMutationFn = Apollo.MutationFunction<
+  UpdateCommentMutation,
+  UpdateCommentMutationVariables
+>;
+
+/**
+ * __useUpdateCommentMutation__
+ *
+ * To run a mutation, you first call `useUpdateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCommentMutation, { data, loading, error }] = useUpdateCommentMutation({
+ *   variables: {
+ *      commentData: // value for 'commentData'
+ *   },
+ * });
+ */
+export function useUpdateCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCommentMutation,
+    UpdateCommentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCommentMutation,
+    UpdateCommentMutationVariables
+  >(UpdateCommentDocument, options);
+}
+export type UpdateCommentMutationHookResult = ReturnType<
+  typeof useUpdateCommentMutation
+>;
+export type UpdateCommentMutationResult =
+  Apollo.MutationResult<UpdateCommentMutation>;
+export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCommentMutation,
+  UpdateCommentMutationVariables
 >;
 export const CreateEventDocument = gql`
   mutation CreateEvent(
@@ -8118,12 +8472,13 @@ export const LikePostDocument = gql`
       like {
         id
         post {
-          ...PostCardFooter
+          id
+          likesCount
+          isLikedByMe @include(if: $isLoggedIn)
         }
       }
     }
   }
-  ${PostCardFooterFragmentDoc}
 `;
 export type LikePostMutationFn = Apollo.MutationFunction<
   LikePostMutation,
@@ -8321,6 +8676,89 @@ export function usePostLazyQuery(
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
+export const PostCommentsDocument = gql`
+  query PostComments(
+    $id: Int!
+    $isLoggedIn: Boolean!
+    $withGroup: Boolean!
+    $groupId: Int
+  ) {
+    post(id: $id) {
+      id
+      comments {
+        ...Comment
+      }
+    }
+    me @include(if: $isLoggedIn) {
+      id
+      serverPermissions {
+        manageComments
+      }
+    }
+    group(id: $groupId) @include(if: $withGroup) {
+      id
+      isJoinedByMe @include(if: $isLoggedIn)
+      myPermissions {
+        manageComments
+      }
+    }
+  }
+  ${CommentFragmentDoc}
+`;
+
+/**
+ * __usePostCommentsQuery__
+ *
+ * To run a query within a React component, call `usePostCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostCommentsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *      withGroup: // value for 'withGroup'
+ *      groupId: // value for 'groupId'
+ *   },
+ * });
+ */
+export function usePostCommentsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    PostCommentsQuery,
+    PostCommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PostCommentsQuery, PostCommentsQueryVariables>(
+    PostCommentsDocument,
+    options
+  );
+}
+export function usePostCommentsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PostCommentsQuery,
+    PostCommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PostCommentsQuery, PostCommentsQueryVariables>(
+    PostCommentsDocument,
+    options
+  );
+}
+export type PostCommentsQueryHookResult = ReturnType<
+  typeof usePostCommentsQuery
+>;
+export type PostCommentsLazyQueryHookResult = ReturnType<
+  typeof usePostCommentsLazyQuery
+>;
+export type PostCommentsQueryResult = Apollo.QueryResult<
+  PostCommentsQuery,
+  PostCommentsQueryVariables
+>;
 export const CreateProposalDocument = gql`
   mutation CreateProposal(
     $proposalData: CreateProposalInput!

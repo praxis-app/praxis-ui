@@ -54,9 +54,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   post: PostCardFragment;
+  inModal?: boolean;
 }
 
-const PostCard = ({ post, ...cardProps }: Props) => {
+const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
@@ -85,6 +86,7 @@ const PostCard = ({ post, ...cardProps }: Props) => {
   };
   const cardContentStyles: SxProps = {
     paddingTop: images.length && !body ? 2.5 : 3,
+    paddingX: inModal ? 0 : undefined,
   };
 
   const handleDelete = async () => {
@@ -155,12 +157,13 @@ const PostCard = ({ post, ...cardProps }: Props) => {
     );
   };
 
-  return (
-    <Card {...cardProps}>
+  const renderPost = () => (
+    <>
       <CardHeader
         action={renderMenu()}
         avatar={renderAvatar()}
         title={renderTitle()}
+        sx={{ paddingX: inModal ? 0 : undefined }}
       />
 
       <CardContent sx={cardContentStyles}>
@@ -173,9 +176,22 @@ const PostCard = ({ post, ...cardProps }: Props) => {
         )}
       </CardContent>
 
-      {me && <PostCardFooter post={post} />}
-    </Card>
+      {me && (
+        <PostCardFooter
+          groupId={group?.id}
+          inModal={inModal}
+          isPostPage={isPostPage}
+          post={post}
+        />
+      )}
+    </>
   );
+
+  if (inModal) {
+    return renderPost();
+  }
+
+  return <Card {...cardProps}>{renderPost()}</Card>;
 };
 
 export default PostCard;

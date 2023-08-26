@@ -14,6 +14,7 @@ interface Props {
   deleteItem?: () => void;
   deletePrompt?: string;
   editPath?: string;
+  onEditButtonClick?: () => void;
   prependChildren?: boolean;
   setAnchorEl: (el: HTMLElement | null) => void;
   variant?: "ghost" | "default";
@@ -28,6 +29,7 @@ const ItemMenu = ({
   deleteItem,
   deletePrompt,
   editPath,
+  onEditButtonClick,
   prependChildren,
   setAnchorEl,
   variant,
@@ -37,7 +39,7 @@ const ItemMenu = ({
   if (!canUpdate && !canDelete && !children) {
     return null;
   }
-  const showEditButton = canUpdate && editPath;
+  const showEditButton = canUpdate && (editPath || onEditButtonClick);
   const showDeleteButton = canDelete && deleteItem && deletePrompt;
   const Button = variant === "ghost" ? GhostButton : IconButton;
 
@@ -56,6 +58,17 @@ const ItemMenu = ({
     setAnchorEl(event.currentTarget);
 
   const handleClose = () => setAnchorEl(null);
+
+  const handleEditButtonClick = () => {
+    if (onEditButtonClick) {
+      onEditButtonClick();
+      return;
+    }
+    if (!editPath) {
+      return;
+    }
+    redirectTo(editPath);
+  };
 
   const handleDelete = () => {
     if (!deleteItem) {
@@ -98,7 +111,7 @@ const ItemMenu = ({
         {prependChildren && children}
 
         {showEditButton && (
-          <MenuItem onClick={() => redirectTo(editPath)}>
+          <MenuItem onClick={handleEditButtonClick}>
             <Edit fontSize="small" sx={editIconStyles} />
             {t("actions.edit")}
           </MenuItem>

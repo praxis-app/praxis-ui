@@ -5,15 +5,16 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogProps,
   IconButton,
   SxProps,
   Toolbar,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { KeyboardEvent, ReactNode } from "react";
 import { KeyCodes } from "../../constants/common.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
-import { Blurple } from "../../styles/theme";
 
 interface Props {
   actionLabel?: string;
@@ -21,6 +22,7 @@ interface Props {
   children: ReactNode;
   closingAction?(): void;
   contentStyles?: SxProps;
+  maxWidth?: DialogProps["maxWidth"];
   onClose(): void;
   open: boolean;
   subtext?: string;
@@ -34,6 +36,7 @@ const Modal = ({
   children,
   closingAction,
   contentStyles,
+  maxWidth,
   onClose,
   open,
   subtext,
@@ -41,15 +44,17 @@ const Modal = ({
   topGap,
 }: Props) => {
   const isDesktop = useIsDesktop();
+  const theme = useTheme();
 
   const titleBoxStyles: SxProps = {
     flex: 1,
     marginLeft: 1.25,
     marginTop: subtext ? 0.6 : 0,
   };
-  const subtextStyles: SxProps = {
-    fontSize: 14,
-    marginLeft: 0.2,
+  const appBarStyles: SxProps = {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    boxShadow: "none",
+    position: "relative",
   };
   const dialogContentStyles: SxProps = isDesktop
     ? {
@@ -85,7 +90,11 @@ const Modal = ({
             {title}
           </Typography>
 
-          {subtext && <Typography sx={subtextStyles}>{subtext}</Typography>}
+          {subtext && (
+            <Typography sx={{ fontSize: 14, marginLeft: 0.2 }}>
+              {subtext}
+            </Typography>
+          )}
         </Box>
         {actionLabel && <Button onClick={closingAction}>{actionLabel}</Button>}
       </Toolbar>
@@ -95,6 +104,7 @@ const Modal = ({
   return (
     <Dialog
       fullScreen={!isDesktop}
+      maxWidth={maxWidth}
       onKeyDown={handleKeyDown}
       open={open}
       sx={{ marginTop: topGap }}
@@ -103,9 +113,7 @@ const Modal = ({
       // Required for desktop
       onClose={onClose}
     >
-      <AppBar sx={{ position: "relative", backgroundColor: Blurple.Marina }}>
-        {renderAppBarContent()}
-      </AppBar>
+      <AppBar sx={appBarStyles}>{renderAppBarContent()}</AppBar>
       <DialogContent sx={dialogContentStyles}>{children}</DialogContent>
     </Dialog>
   );

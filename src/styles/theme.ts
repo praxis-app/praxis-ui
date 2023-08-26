@@ -100,6 +100,15 @@ const theme = createTheme(initialTheme, {
       },
     },
 
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          paddingRight: 16,
+          paddingLeft: 16,
+        },
+      },
+    },
+
     MuiButton: {
       styleOverrides: {
         startIcon: {
