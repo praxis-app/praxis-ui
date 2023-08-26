@@ -109,7 +109,9 @@ const Comment = ({
         paddingX={1.5}
         paddingY={0.5}
       >
-        <Link href={userPath}>{user.name}</Link>
+        <Link href={userPath} sx={{ fontFamily: "Inter Medium" }}>
+          {user.name}
+        </Link>
         <Typography lineHeight={1.2}>{body}</Typography>
 
         {!!images.length && (
