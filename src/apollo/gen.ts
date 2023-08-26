@@ -1102,7 +1102,18 @@ export type UpdateCommentMutation = {
   __typename?: "Mutation";
   updateComment: {
     __typename?: "UpdateCommentPayload";
-    comment: { __typename?: "Comment"; id: number; body?: string | null };
+    comment: {
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    };
   };
 };
 
@@ -5803,11 +5814,11 @@ export const UpdateCommentDocument = gql`
   mutation UpdateComment($commentData: UpdateCommentInput!) {
     updateComment(commentData: $commentData) {
       comment {
-        id
-        body
+        ...Comment
       }
     }
   }
+  ${CommentFragmentDoc}
 `;
 export type UpdateCommentMutationFn = Apollo.MutationFunction<
   UpdateCommentMutation,
