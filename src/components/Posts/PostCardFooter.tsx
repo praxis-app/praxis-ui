@@ -165,7 +165,7 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
               align="center"
               marginBottom={1.75}
             >
-              No comments yet. Join the group to comment.
+              {t("comments.prompts.joinToComment")}
             </Typography>
           )}
         </Box>

@@ -133,7 +133,8 @@
 
   "comments": {
     "prompts": {
-      "writeComment": "Write a comment..."
+      "writeComment": "Write a comment...",
+      "joinToComment": "No comments yet. Join the group to comment."
     },
     "labels": {
       "xComments_one": "{{count}} comment",
