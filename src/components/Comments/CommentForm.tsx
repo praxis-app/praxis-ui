@@ -232,8 +232,7 @@ const CommentForm = ({
               borderRadius={4}
               paddingX={1.5}
               paddingY={0.2}
-              // TODO: Add hex color code to theme
-              sx={{ backgroundColor: "#38393a" }}
+              sx={{ backgroundColor: "background.secondary" }}
             >
               <Input
                 autoComplete="off"
