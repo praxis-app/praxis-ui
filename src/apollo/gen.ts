@@ -1075,6 +1075,11 @@ export type CreateCommentMutation = {
       id: number;
       body?: string | null;
       post?: { __typename?: "Post"; id: number; commentCount: number } | null;
+      proposal?: {
+        __typename?: "Proposal";
+        id: number;
+        commentCount: number;
+      } | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -5771,6 +5776,10 @@ export const CreateCommentDocument = gql`
       comment {
         ...Comment
         post {
+          id
+          commentCount
+        }
+        proposal {
           id
           commentCount
         }
