@@ -60,14 +60,14 @@ const ItemMenu = ({
   const handleClose = () => setAnchorEl(null);
 
   const handleEditButtonClick = () => {
-    if (editPath) {
-      redirectTo(editPath);
+    if (onEditButtonClick) {
+      onEditButtonClick();
       return;
     }
-    if (!onEditButtonClick) {
+    if (!editPath) {
       return;
     }
-    onEditButtonClick();
+    redirectTo(editPath);
   };
 
   const handleDelete = () => {
