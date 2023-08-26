@@ -107,7 +107,7 @@ const CommentForm = ({
           id: cacheId,
           fields: {
             comments(existingRefs, { toReference }) {
-              return [toReference(comment), ...existingRefs];
+              return [...existingRefs, toReference(comment)];
             },
           },
         });

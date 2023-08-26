@@ -1074,6 +1074,13 @@ export type CreateCommentMutation = {
       id: number;
       body?: string | null;
       post?: { __typename?: "Post"; id: number; commentCount: number } | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
     };
   };
 };
@@ -5691,8 +5698,7 @@ export const CreateCommentDocument = gql`
   mutation CreateComment($commentData: CreateCommentInput!) {
     createComment(commentData: $commentData) {
       comment {
-        id
-        body
+        ...Comment
         post {
           id
           commentCount
@@ -5700,6 +5706,7 @@ export const CreateCommentDocument = gql`
       }
     }
   }
+  ${CommentFragmentDoc}
 `;
 export type CreateCommentMutationFn = Apollo.MutationFunction<
   CreateCommentMutation,
