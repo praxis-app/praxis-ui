@@ -129,7 +129,7 @@ const ProposalCardFooter = ({
     <>
       <Flex
         justifyContent={voteCount ? "space-between" : "end"}
-        paddingX="16px"
+        paddingX={inModal ? 0 : "16px"}
       >
         {!!voteCount && <VoteBadges proposal={proposal} />}
 
@@ -144,7 +144,7 @@ const ProposalCardFooter = ({
         )}
       </Flex>
 
-      <Divider sx={{ margin: "0 16px" }} />
+      <Divider sx={{ margin: inModal ? 0 : "0 16px" }} />
 
       <CardActions sx={{ justifyContent: "space-around" }}>
         <CardFooterButton

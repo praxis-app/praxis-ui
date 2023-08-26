@@ -95,6 +95,7 @@ const ProposalCard = ({ proposal, inModal, ...cardProps }: Props) => {
   };
   const cardContentStyles = {
     paddingTop: images.length && !body ? 2.5 : 3,
+    paddingX: inModal ? 0 : undefined,
   };
 
   const handleDelete = async () => {
@@ -186,6 +187,10 @@ const ProposalCard = ({ proposal, inModal, ...cardProps }: Props) => {
         action={renderMenu()}
         avatar={renderAvatar()}
         title={renderTitle()}
+        sx={{
+          paddingX: inModal ? 0 : undefined,
+          paddingTop: inModal ? 0 : undefined,
+        }}
       />
 
       <CardContent sx={cardContentStyles}>
