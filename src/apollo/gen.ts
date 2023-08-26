@@ -629,6 +629,7 @@ export type Proposal = {
   __typename?: "Proposal";
   action: ProposalAction;
   body?: Maybe<Scalars["String"]>;
+  commentCount: Scalars["Int"];
   comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
@@ -2191,6 +2192,7 @@ export type GroupProfileQuery = {
           body?: string | null;
           stage: string;
           voteCount: number;
+          commentCount: number;
           createdAt: any;
           action: {
             __typename?: "ProposalAction";
@@ -2549,6 +2551,7 @@ export type PublicGroupsFeedQuery = {
         body?: string | null;
         stage: string;
         voteCount: number;
+        commentCount: number;
         createdAt: any;
         action: {
           __typename?: "ProposalAction";
@@ -2798,6 +2801,7 @@ type FeedItem_Proposal_Fragment = {
   body?: string | null;
   stage: string;
   voteCount: number;
+  commentCount: number;
   createdAt: any;
   action: {
     __typename?: "ProposalAction";
@@ -3301,6 +3305,7 @@ export type ProposalCardFragment = {
   body?: string | null;
   stage: string;
   voteCount: number;
+  commentCount: number;
   createdAt: any;
   action: {
     __typename?: "ProposalAction";
@@ -3419,6 +3424,7 @@ export type CreateProposalMutation = {
       body?: string | null;
       stage: string;
       voteCount: number;
+      commentCount: number;
       createdAt: any;
       action: {
         __typename?: "ProposalAction";
@@ -3528,6 +3534,7 @@ export type UpdateProposalMutation = {
       body?: string | null;
       stage: string;
       voteCount: number;
+      commentCount: number;
       createdAt: any;
       action: {
         __typename?: "ProposalAction";
@@ -3653,6 +3660,7 @@ export type ProposalQuery = {
     body?: string | null;
     stage: string;
     voteCount: number;
+    commentCount: number;
     createdAt: any;
     action: {
       __typename?: "ProposalAction";
@@ -4231,6 +4239,7 @@ export type FollowUserMutation = {
             body?: string | null;
             stage: string;
             voteCount: number;
+            commentCount: number;
             createdAt: any;
             action: {
               __typename?: "ProposalAction";
@@ -4478,6 +4487,7 @@ export type HomeFeedQuery = {
           body?: string | null;
           stage: string;
           voteCount: number;
+          commentCount: number;
           createdAt: any;
           action: {
             __typename?: "ProposalAction";
@@ -4656,6 +4666,7 @@ export type UserProfileQuery = {
           body?: string | null;
           stage: string;
           voteCount: number;
+          commentCount: number;
           createdAt: any;
           action: {
             __typename?: "ProposalAction";
@@ -5333,6 +5344,7 @@ export const ProposalCardFragmentDoc = gql`
     body
     stage
     voteCount
+    commentCount
     createdAt
     action {
       ...ProposalAction

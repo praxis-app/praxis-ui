@@ -209,6 +209,7 @@ const ProposalCard = ({ proposal, inModal, ...cardProps }: Props) => {
           groupId={group?.id}
           isProposalPage={isProposalPage}
           proposal={proposal}
+          inModal={inModal}
         />
       )}
     </>

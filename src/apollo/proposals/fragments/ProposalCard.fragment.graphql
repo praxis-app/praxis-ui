@@ -3,6 +3,7 @@ fragment ProposalCard on Proposal {
   body
   stage
   voteCount
+  commentCount
   createdAt
 
   action {

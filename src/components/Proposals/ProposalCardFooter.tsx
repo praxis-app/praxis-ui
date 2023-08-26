@@ -16,6 +16,7 @@ import { inDevToast } from "../../utils/common.utils";
 import CommentForm from "../Comments/CommentForm";
 import CommentsList from "../Comments/CommentList";
 import CardFooterButton from "../Shared/CardFooterButton";
+import Flex from "../Shared/Flex";
 import VoteBadges from "../Votes/VoteBadges";
 import VoteMenu from "../Votes/VoteMenu";
 import ProposalModal from "./ProposalModal";
@@ -71,17 +72,15 @@ const ProposalCardFooter = ({
     proposal,
   ]);
 
-  const { stage, voteCount, votes, group } = proposal;
-  const isDisabled = !!group && !group.isJoinedByMe;
-  const isRatified = stage === ProposalStage.Ratified;
-
   const me = data?.me;
   const comments = data?.proposal?.comments;
+  const { stage, voteCount, votes, commentCount, group } = proposal;
+  const isDisabled = !!group && !group.isJoinedByMe;
+  const isRatified = stage === ProposalStage.Ratified;
 
   const canManageComments = !!(
     group?.myPermissions?.manageComments || me?.serverPermissions.manageComments
   );
-
   const voteByCurrentUser = votes.find(
     (vote) => vote.user.id === currentUserId
   );
@@ -89,6 +88,12 @@ const ProposalCardFooter = ({
   const voteButtonLabel = isRatified
     ? t("proposals.labels.ratified")
     : t("proposals.actions.vote");
+
+  const commentCountStyles: SxProps = {
+    "&:hover": { textDecoration: "underline" },
+    transform: "translateY(3px)",
+    cursor: "pointer",
+  };
 
   const handleVoteButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -122,7 +127,22 @@ const ProposalCardFooter = ({
 
   return (
     <>
-      {!!voteCount && <VoteBadges proposal={proposal} />}
+      <Flex
+        justifyContent={voteCount ? "space-between" : "end"}
+        paddingX="16px"
+      >
+        {!!voteCount && <VoteBadges proposal={proposal} />}
+
+        {!!commentCount && (
+          <Typography
+            color="text.secondary"
+            onClick={handleCommentButtonClick}
+            sx={commentCountStyles}
+          >
+            {t("comments.labels.xComments", { count: commentCount })}
+          </Typography>
+        )}
+      </Flex>
 
       <Divider sx={{ margin: "0 16px" }} />
 

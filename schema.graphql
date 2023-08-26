@@ -391,6 +391,7 @@ type Post {
 type Proposal {
   action: ProposalAction!
   body: String
+  commentCount: Int!
   comments: [Comment!]!
   createdAt: DateTime!
   group: Group
