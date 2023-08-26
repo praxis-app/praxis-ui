@@ -11,6 +11,7 @@ import Flex from "../Shared/Flex";
 import ItemMenu from "../Shared/ItemMenu";
 import Link from "../Shared/Link";
 import UserAvatar from "../Users/UserAvatar";
+import CommentForm from "./CommentForm";
 
 interface Props {
   canManageComments: boolean;
@@ -20,18 +21,20 @@ interface Props {
 }
 
 const Comment = ({
-  comment: { id, user, body, images, __typename },
+  comment,
   canManageComments,
   currentUserId,
   postId,
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const [showItemMenu, setShowItemMenu] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
   const [deleteComment] = useDeleteCommentMutation();
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
 
+  const { id, user, body, images, __typename } = comment;
   const isMe = user.id === currentUserId;
   const userPath = getUserProfilePath(user.name);
   const deleteCommentPrompt = t("prompts.deleteItem", { itemType: "comment" });
@@ -73,6 +76,20 @@ const Comment = ({
       },
     });
 
+  if (showEditForm) {
+    return (
+      <CommentForm
+        editComment={comment}
+        onSubmit={() => {
+          setShowEditForm(false);
+          setMenuAnchorEl(null);
+        }}
+        enableAutoFocus
+        expanded
+      />
+    );
+  }
+
   return (
     <Flex
       marginBottom={1.25}
@@ -111,8 +128,10 @@ const Comment = ({
           anchorEl={menuAnchorEl}
           buttonStyles={itemMenuStyles}
           canDelete={isMe || canManageComments}
+          canUpdate={isMe}
           deleteItem={handleDelete}
           deletePrompt={deleteCommentPrompt}
+          onEditButtonClick={() => setShowEditForm(true)}
           setAnchorEl={setMenuAnchorEl}
         />
       )}

@@ -32,14 +32,23 @@ import UserAvatar from "../Users/UserAvatar";
 
 interface Props extends FormikFormProps {
   editComment?: CommentFormFragment;
-  inModal?: boolean;
+  enableAutoFocus?: boolean;
+  expanded?: boolean;
+  onSubmit?: () => void;
   postId?: number;
 }
 
-const CommentForm = ({ editComment, postId, inModal, ...formProps }: Props) => {
+const CommentForm = ({
+  editComment,
+  enableAutoFocus,
+  expanded,
+  onSubmit,
+  postId,
+  ...formProps
+}: Props) => {
   const [images, setImages] = useState<File[]>([]);
   const [imagesInputKey, setImagesInputKey] = useState("");
-  const [showForm, setShowForm] = useState(inModal);
+  const [showForm, setShowForm] = useState(expanded);
 
   const [createComment] = useCreateCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
@@ -122,6 +131,11 @@ const CommentForm = ({ editComment, postId, inModal, ...formProps }: Props) => {
           id: editComment.id,
           ...formValues,
         },
+      },
+      onCompleted() {
+        if (onSubmit) {
+          onSubmit();
+        }
       },
     });
   };
@@ -225,7 +239,7 @@ const CommentForm = ({ editComment, postId, inModal, ...formProps }: Props) => {
                 autoComplete="off"
                 name={FieldNames.Body}
                 onChange={handleChange}
-                inputRef={(input) => input && !inModal && input.focus()}
+                inputRef={(input) => input && enableAutoFocus && input.focus()}
                 onKeyDown={(e) => handleFilledInputKeyDown(e, submitForm)}
                 placeholder={t("comments.prompts.writeComment")}
                 sx={inputStyles}
