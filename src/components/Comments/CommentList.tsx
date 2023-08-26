@@ -7,12 +7,14 @@ interface Props {
   comments: CommentFragment[];
   currentUserId?: number;
   postId?: number;
+  proposalId?: number;
 }
 
 const CommentsList = ({
   canManageComments,
   comments,
   currentUserId,
+  proposalId,
   postId,
 }: Props) => {
   if (!comments.length) {
@@ -26,6 +28,7 @@ const CommentsList = ({
           canManageComments={canManageComments}
           comment={comment}
           currentUserId={currentUserId}
+          proposalId={proposalId}
           postId={postId}
         />
       ))}

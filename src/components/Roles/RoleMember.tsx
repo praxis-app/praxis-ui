@@ -60,7 +60,7 @@ const RoleMember = ({ roleMember, roleId }: Props) => {
           return availableUsersToAdd.map((user) => toReference(user));
         },
         memberCount(existingCount: number) {
-          return existingCount - 1;
+          return Math.max(0, existingCount - 1);
         },
       },
     });

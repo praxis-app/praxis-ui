@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateVoteMutation,
-  ProposalCardFooterFragment,
+  ProposalCardFragment,
   UpdateVoteMutation,
   useCreateVoteMutation,
   useDeleteVoteMutation,
@@ -32,7 +32,7 @@ interface Props {
   anchorEl: null | HTMLElement;
   currentUserId: number;
   onClose(): void;
-  proposal: ProposalCardFooterFragment;
+  proposal: ProposalCardFragment;
 }
 
 const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
@@ -159,7 +159,7 @@ const VoteMenu = ({ anchorEl, onClose, currentUserId, proposal }: Props) => {
               );
             },
             voteCount(existingCount: number) {
-              return existingCount - 1;
+              return Math.max(0, existingCount - 1);
             },
           },
         });

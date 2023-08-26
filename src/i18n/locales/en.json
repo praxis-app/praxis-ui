@@ -103,7 +103,8 @@
       "proposedRole": "Proposed role",
       "proposedRoleChange": "Role change",
       "ratified": "Ratified",
-      "selectRoleToChange": "Choose a role"
+      "selectRoleToChange": "Choose a role",
+      "usersProposal": "{{name}}'s Proposal"
     },
     "toasts": {
       "noVotingAfterRatification": "This proposal has been ratified and can no longer be voted on.",

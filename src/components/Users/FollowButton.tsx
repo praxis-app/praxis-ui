@@ -63,7 +63,7 @@ const FollowButton = ({
                 );
               },
               followerCount(existingCount: number) {
-                return existingCount - 1;
+                return Math.max(0, existingCount - 1);
               },
               isFollowedByMe: () => false,
             },
@@ -72,7 +72,7 @@ const FollowButton = ({
             id: cache.identify({ id: currentUserId, __typename }),
             fields: {
               followingCount(existingCount: number) {
-                return existingCount - 1;
+                return Math.max(0, existingCount - 1);
               },
             },
           });
