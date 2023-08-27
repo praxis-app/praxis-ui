@@ -129,6 +129,7 @@ const ProposalCardFooter = ({
     <>
       <Flex
         justifyContent={voteCount ? "space-between" : "end"}
+        paddingBottom={voteCount || commentCount ? 0.8 : 0}
         paddingX={inModal ? 0 : "16px"}
       >
         {!!voteCount && <VoteBadges proposal={proposal} />}

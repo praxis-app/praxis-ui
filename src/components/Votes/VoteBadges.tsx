@@ -60,7 +60,7 @@ const VoteBadges = ({ proposal: { votes, voteCount } }: Props) => {
 
   return (
     <>
-      <Flex sx={{ cursor: "pointer", paddingBottom: 1 }} onClick={handleClick}>
+      <Flex sx={{ cursor: "pointer" }} onClick={handleClick}>
         <Flex paddingRight={1}>
           {badges.map((badge, index) => (
             <VoteBadge
