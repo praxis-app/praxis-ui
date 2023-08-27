@@ -177,7 +177,7 @@ const ProposalCardFooter = ({
             proposalId={proposal.id}
           />
           {!inModal && (!group || group.isJoinedByMe) && (
-            <CommentForm proposalId={proposal.id} />
+            <CommentForm proposalId={proposal.id} enableAutoFocus />
           )}
           {group && !group.isJoinedByMe && !comments?.length && (
             <Typography
