@@ -75,6 +75,8 @@ const SignUpForm = () => {
       variables: {
         input: {
           ...formValues,
+          name: formValues.name.trim(),
+          email: formValues.email.trim(),
           profilePicture,
         },
       },
