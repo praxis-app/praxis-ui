@@ -220,7 +220,7 @@ const ProposeRoleModal = ({
   };
 
   return (
-    <Modal open={open} onClose={handleClose} title={title}>
+    <Modal open={open} onClose={handleClose} title={title} centeredTitle>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ isSubmitting, values, handleChange, setFieldValue }) => (
           <Form>
