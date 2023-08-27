@@ -99,6 +99,13 @@ const ProposalCardFooter = ({
   const handleVoteButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
+    if (isDisabled) {
+      toastVar({
+        status: "info",
+        title: t("proposals.prompts.joinGroupToVote"),
+      });
+      return;
+    }
     if (isRatified) {
       toastVar({
         status: "info",
@@ -152,7 +159,6 @@ const ProposalCardFooter = ({
         <CardFooterButton
           onClick={handleVoteButtonClick}
           sx={voteByCurrentUser ? { color: Blurple.Marina } : {}}
-          disabled={isDisabled}
         >
           <HowToVote sx={ICON_STYLES} />
           {voteButtonLabel}
@@ -163,7 +169,7 @@ const ProposalCardFooter = ({
           {t("actions.comment")}
         </CardFooterButton>
 
-        <CardFooterButton onClick={inDevToast} disabled={isDisabled}>
+        <CardFooterButton onClick={inDevToast}>
           <Reply sx={ROTATED_ICON_STYLES} />
           {t("actions.share")}
         </CardFooterButton>
