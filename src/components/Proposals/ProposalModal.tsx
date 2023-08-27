@@ -59,6 +59,7 @@ const ProposalModal = ({ proposal, open, onClose }: Props) => {
       onClose={onClose}
       open={open}
       title={title}
+      centeredTitle
     >
       <ProposalCard proposal={proposal} inModal />
       <Box ref={ref} />

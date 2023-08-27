@@ -19,6 +19,7 @@ import { useIsDesktop } from "../../hooks/common.hooks";
 interface Props {
   actionLabel?: string;
   appBarContent?: ReactNode;
+  centeredTitle?: boolean;
   children: ReactNode;
   closingAction?(): void;
   contentStyles?: SxProps;
@@ -34,6 +35,7 @@ interface Props {
 const Modal = ({
   actionLabel,
   appBarContent,
+  centeredTitle,
   children,
   closingAction,
   contentStyles,
@@ -77,6 +79,25 @@ const Modal = ({
     if (appBarContent) {
       return appBarContent;
     }
+    if (centeredTitle) {
+      return (
+        <Toolbar>
+          <Box sx={titleBoxStyles}>
+            <Typography variant="h6" align="center" lineHeight={1.6}>
+              {title}
+            </Typography>
+          </Box>
+          <IconButton
+            aria-label="close"
+            color="primary"
+            edge="start"
+            onClick={onClose}
+          >
+            <Close />
+          </IconButton>
+        </Toolbar>
+      );
+    }
     return (
       <Toolbar>
         <IconButton
@@ -88,7 +109,7 @@ const Modal = ({
           <Close />
         </IconButton>
         <Box sx={titleBoxStyles}>
-          <Typography variant="h6" sx={{ lineHeight: subtext ? 0.9 : 1.6 }}>
+          <Typography variant="h6" lineHeight={subtext ? 0.9 : 1.6}>
             {title}
           </Typography>
 

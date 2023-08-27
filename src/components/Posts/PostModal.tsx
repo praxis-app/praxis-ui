@@ -59,6 +59,7 @@ const PostModal = ({ post, open, onClose }: Props) => {
       onClose={onClose}
       open={open}
       title={title}
+      centeredTitle
     >
       <PostCard post={post} inModal />
       <Box ref={ref} />
