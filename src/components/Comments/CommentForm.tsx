@@ -120,6 +120,10 @@ const CommentForm = ({
         setSubmitting(false);
         setImages([]);
         setImagesInputKey(getRandomString());
+
+        if (onSubmit) {
+          onSubmit();
+        }
       },
     });
   };
@@ -135,6 +139,11 @@ const CommentForm = ({
           ...formValues,
         },
       },
+      onCompleted() {
+        if (onSubmit) {
+          onSubmit();
+        }
+      },
     });
   };
 
@@ -148,10 +157,6 @@ const CommentForm = ({
         return;
       }
       await handleCreate(formValues, formikHelpers);
-
-      if (onSubmit) {
-        onSubmit();
-      }
     } catch (err) {
       toastVar({
         status: "error",
