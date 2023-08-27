@@ -1,4 +1,5 @@
 import { Box, SxProps } from "@mui/material";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { ProposalCardFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
@@ -13,8 +14,14 @@ interface Props {
 }
 
 const ProposalModal = ({ proposal, open, onClose }: Props) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
+
+  useEffect(() => {
+    ref.current?.scrollIntoView();
+  }, [proposal.commentCount]);
 
   const title = t("proposals.labels.usersProposal", {
     name: proposal.user.name[0].toUpperCase() + proposal.user.name.slice(1),
@@ -54,6 +61,7 @@ const ProposalModal = ({ proposal, open, onClose }: Props) => {
       title={title}
     >
       <ProposalCard proposal={proposal} inModal />
+      <Box ref={ref} />
     </Modal>
   );
 };
