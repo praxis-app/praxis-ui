@@ -93,6 +93,7 @@ const ProposalCardFooter = ({
     "&:hover": { textDecoration: "underline" },
     transform: "translateY(3px)",
     cursor: "pointer",
+    height: "24px",
   };
 
   const handleVoteButtonClick = (
