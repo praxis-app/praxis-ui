@@ -152,12 +152,8 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
             currentUserId={me?.id}
             postId={id}
           />
-          {(!group || group.isJoinedByMe) && (
-            <CommentForm
-              enableAutoFocus={!inModal}
-              expanded={inModal}
-              postId={id}
-            />
+          {!inModal && (!group || group.isJoinedByMe) && (
+            <CommentForm postId={id} enableAutoFocus />
           )}
           {group && !group.isJoinedByMe && !comments?.length && (
             <Typography

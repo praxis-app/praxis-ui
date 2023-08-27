@@ -1379,6 +1379,7 @@ export type EventPageQuery = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe?: boolean;
         id: number;
         name: string;
         myPermissions?: {
@@ -2167,6 +2168,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe?: boolean;
             id: number;
             name: string;
             myPermissions?: {
@@ -2526,6 +2528,7 @@ export type PublicGroupsFeedQuery = {
         };
         group?: {
           __typename?: "Group";
+          isJoinedByMe?: boolean;
           id: number;
           name: string;
           myPermissions?: {
@@ -2775,6 +2778,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
     myPermissions?: {
@@ -2911,6 +2915,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
     myPermissions?: {
@@ -2969,6 +2974,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe?: boolean;
         id: number;
         name: string;
         myPermissions?: {
@@ -3053,6 +3059,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe?: boolean;
         id: number;
         name: string;
         myPermissions?: {
@@ -3118,6 +3125,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
+      isJoinedByMe?: boolean;
       id: number;
       name: string;
       myPermissions?: {
@@ -4214,6 +4222,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
+              isJoinedByMe?: boolean;
               id: number;
               name: string;
               myPermissions?: {
@@ -4462,6 +4471,7 @@ export type HomeFeedQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe?: boolean;
             id: number;
             name: string;
             myPermissions?: {
@@ -4641,6 +4651,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe?: boolean;
             id: number;
             name: string;
             myPermissions?: {
@@ -5226,6 +5237,7 @@ export const PostCardFragmentDoc = gql`
       myPermissions @include(if: $isLoggedIn) {
         ...GroupPermissions
       }
+      isJoinedByMe @include(if: $isLoggedIn)
     }
     event {
       ...EventItemAvatar
