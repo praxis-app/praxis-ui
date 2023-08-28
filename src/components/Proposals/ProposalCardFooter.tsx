@@ -189,6 +189,7 @@ const ProposalCardFooter = ({
             canManageComments={canManageComments}
             comments={comments || []}
             currentUserId={me?.id}
+            marginBottom={inModal && !isLoggedIn ? 2.5 : undefined}
             proposalId={proposal.id}
           />
           {!inModal && (!group || group.isJoinedByMe) && (
