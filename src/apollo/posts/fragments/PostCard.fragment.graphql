@@ -21,5 +21,9 @@ fragment PostCard on Post {
   }
   event {
     ...EventItemAvatar
+    group @include(if: $isLoggedIn) {
+      id
+      isJoinedByMe
+    }
   }
 }

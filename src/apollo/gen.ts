@@ -1401,6 +1401,11 @@ export type EventPageQuery = {
         __typename?: "Event";
         id: number;
         name: string;
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+        } | null;
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     }>;
@@ -2190,6 +2195,11 @@ export type GroupProfileQuery = {
             __typename?: "Event";
             id: number;
             name: string;
+            group?: {
+              __typename?: "Group";
+              id: number;
+              isJoinedByMe: boolean;
+            } | null;
             coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
@@ -2550,6 +2560,11 @@ export type PublicGroupsFeedQuery = {
           __typename?: "Event";
           id: number;
           name: string;
+          group?: {
+            __typename?: "Group";
+            id: number;
+            isJoinedByMe: boolean;
+          } | null;
           coverPhoto: { __typename?: "Image"; id: number };
         } | null;
       }
@@ -2800,6 +2815,7 @@ type FeedItem_Post_Fragment = {
     __typename?: "Event";
     id: number;
     name: string;
+    group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   } | null;
 };
@@ -2937,6 +2953,7 @@ export type PostCardFragment = {
     __typename?: "Event";
     id: number;
     name: string;
+    group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   } | null;
 };
@@ -2996,6 +3013,11 @@ export type CreatePostMutation = {
         __typename?: "Event";
         id: number;
         name: string;
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+        } | null;
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     };
@@ -3081,6 +3103,11 @@ export type UpdatePostMutation = {
         __typename?: "Event";
         id: number;
         name: string;
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+        } | null;
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     };
@@ -3147,6 +3174,11 @@ export type PostQuery = {
       __typename?: "Event";
       id: number;
       name: string;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        isJoinedByMe: boolean;
+      } | null;
       coverPhoto: { __typename?: "Image"; id: number };
     } | null;
   };
@@ -3157,6 +3189,8 @@ export type PostCommentsQueryVariables = Exact<{
   isLoggedIn: Scalars["Boolean"];
   withGroup: Scalars["Boolean"];
   groupId?: InputMaybe<Scalars["Int"]>;
+  withEvent: Scalars["Boolean"];
+  eventId?: InputMaybe<Scalars["Int"]>;
 }>;
 
 export type PostCommentsQuery = {
@@ -3193,6 +3227,19 @@ export type PostCommentsQuery = {
       __typename?: "GroupPermissions";
       manageComments: boolean;
     };
+  };
+  event?: {
+    __typename?: "Event";
+    id: number;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      isJoinedByMe?: boolean;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageComments: boolean;
+      };
+    } | null;
   };
 };
 
@@ -4247,6 +4294,11 @@ export type FollowUserMutation = {
               __typename?: "Event";
               id: number;
               name: string;
+              group?: {
+                __typename?: "Group";
+                id: number;
+                isJoinedByMe: boolean;
+              } | null;
               coverPhoto: { __typename?: "Image"; id: number };
             } | null;
           }
@@ -4496,6 +4548,11 @@ export type HomeFeedQuery = {
             __typename?: "Event";
             id: number;
             name: string;
+            group?: {
+              __typename?: "Group";
+              id: number;
+              isJoinedByMe: boolean;
+            } | null;
             coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
@@ -4676,6 +4733,11 @@ export type UserProfileQuery = {
             __typename?: "Event";
             id: number;
             name: string;
+            group?: {
+              __typename?: "Group";
+              id: number;
+              isJoinedByMe: boolean;
+            } | null;
             coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
@@ -5244,6 +5306,10 @@ export const PostCardFragmentDoc = gql`
     }
     event {
       ...EventItemAvatar
+      group @include(if: $isLoggedIn) {
+        id
+        isJoinedByMe
+      }
     }
   }
   ${AttachedImageFragmentDoc}
@@ -8765,6 +8831,8 @@ export const PostCommentsDocument = gql`
     $isLoggedIn: Boolean!
     $withGroup: Boolean!
     $groupId: Int
+    $withEvent: Boolean!
+    $eventId: Int
   ) {
     post(id: $id) {
       id
@@ -8783,6 +8851,16 @@ export const PostCommentsDocument = gql`
       isJoinedByMe @include(if: $isLoggedIn)
       myPermissions @include(if: $isLoggedIn) {
         manageComments
+      }
+    }
+    event(id: $eventId) @include(if: $withEvent) {
+      id
+      group {
+        id
+        isJoinedByMe @include(if: $isLoggedIn)
+        myPermissions @include(if: $isLoggedIn) {
+          manageComments
+        }
       }
     }
   }
@@ -8805,6 +8883,8 @@ export const PostCommentsDocument = gql`
  *      isLoggedIn: // value for 'isLoggedIn'
  *      withGroup: // value for 'withGroup'
  *      groupId: // value for 'groupId'
+ *      withEvent: // value for 'withEvent'
+ *      eventId: // value for 'eventId'
  *   },
  * });
  */

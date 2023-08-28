@@ -180,6 +180,7 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
       </CardContent>
 
       <PostCardFooter
+        eventId={event?.id}
         groupId={group?.id}
         inModal={inModal}
         isPostPage={isPostPage}

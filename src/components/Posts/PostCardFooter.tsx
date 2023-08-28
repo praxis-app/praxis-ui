@@ -37,9 +37,16 @@ interface Props {
   inModal: boolean;
   isPostPage: boolean;
   groupId?: number;
+  eventId?: number;
 }
 
-const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
+const PostCardFooter = ({
+  post,
+  inModal,
+  isPostPage,
+  groupId,
+  eventId,
+}: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showComments, setShowComments] = useState(inModal || isPostPage);
@@ -54,24 +61,33 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
       getPostComments({
         variables: {
           id: post.id,
+          withEvent: !!eventId,
           withGroup: !!groupId,
-          isLoggedIn,
+          eventId,
           groupId,
+          isLoggedIn,
         },
       });
     }
-  }, [inModal, isPostPage, post, isLoggedIn, getPostComments, groupId]);
+  }, [
+    eventId,
+    getPostComments,
+    groupId,
+    inModal,
+    isLoggedIn,
+    isPostPage,
+    post,
+  ]);
 
   const { id, likesCount, commentCount, isLikedByMe } = post;
   const comments = postCommentsData?.post.comments;
   const group = postCommentsData?.group;
+  const event = postCommentsData?.event;
   const me = postCommentsData?.me;
 
   const canManageComments = !!(
     group?.myPermissions?.manageComments || me?.serverPermissions.manageComments
   );
-  const showCommentForm =
-    isLoggedIn && !inModal && (!group || group.isJoinedByMe);
 
   const commentCountStyles: SxProps = {
     "&:hover": { textDecoration: "underline" },
@@ -84,7 +100,14 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
       return;
     }
     const { data } = await getPostComments({
-      variables: { id, isLoggedIn, groupId, withGroup: !!groupId },
+      variables: {
+        id,
+        eventId,
+        groupId,
+        isLoggedIn,
+        withEvent: !!eventId,
+        withGroup: !!groupId,
+      },
     });
     const comments = data?.post.comments;
     if (comments && comments.length > 1) {
@@ -92,6 +115,19 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
     } else {
       setShowComments(true);
     }
+  };
+
+  const renderCommentForm = () => {
+    if (!isLoggedIn || inModal) {
+      return null;
+    }
+    if (group && !group.isJoinedByMe) {
+      return null;
+    }
+    if (event && !event.group?.isJoinedByMe) {
+      return null;
+    }
+    return <CommentForm postId={id} enableAutoFocus />;
   };
 
   return (
@@ -156,7 +192,7 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
             marginBottom={inModal && !isLoggedIn ? 2.5 : undefined}
             postId={id}
           />
-          {showCommentForm && <CommentForm postId={id} enableAutoFocus />}
+          {renderCommentForm()}
 
           {group && !group.isJoinedByMe && !comments?.length && (
             <Typography

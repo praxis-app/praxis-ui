@@ -37,6 +37,9 @@ const PostModal = ({ post, open, onClose }: Props) => {
     if (post.group && !post.group.isJoinedByMe) {
       return null;
     }
+    if (post.event && !post.event.group?.isJoinedByMe) {
+      return null;
+    }
     return (
       <Box
         bgcolor="background.paper"
