@@ -36,6 +36,7 @@ interface Props extends FormikFormProps {
   expanded?: boolean;
   onSubmit?: () => void;
   postId?: number;
+  proposalId?: number;
 }
 
 const CommentForm = ({
@@ -44,6 +45,7 @@ const CommentForm = ({
   expanded,
   onSubmit,
   postId,
+  proposalId,
   ...formProps
 }: Props) => {
   const [images, setImages] = useState<File[]>([]);
@@ -87,6 +89,7 @@ const CommentForm = ({
       variables: {
         commentData: {
           ...formValues,
+          proposalId,
           postId,
           images,
         },
@@ -100,8 +103,8 @@ const CommentForm = ({
         } = data;
 
         const cacheId = cache.identify({
-          __typename: TypeNames.Post,
-          id: postId,
+          __typename: postId ? TypeNames.Post : TypeNames.Proposal,
+          id: postId || proposalId,
         });
         cache.modify({
           id: cacheId,
@@ -117,6 +120,10 @@ const CommentForm = ({
         setSubmitting(false);
         setImages([]);
         setImagesInputKey(getRandomString());
+
+        if (onSubmit) {
+          onSubmit();
+        }
       },
     });
   };

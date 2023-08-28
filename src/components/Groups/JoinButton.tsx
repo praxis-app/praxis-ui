@@ -132,7 +132,7 @@ const JoinButton = ({ groupId, currentUserId, isGroupMember }: Props) => {
               );
             },
             memberCount(existingCount: number) {
-              return existingCount - 1;
+              return Math.max(0, existingCount - 1);
             },
           },
         });

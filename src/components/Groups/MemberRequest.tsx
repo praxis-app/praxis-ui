@@ -59,7 +59,7 @@ const MemberRequest = ({
               return [toReference(groupMember), ...existingMemberRefs];
             },
             memberRequestCount(existingCount: number) {
-              return existingCount - 1;
+              return Math.max(0, existingCount - 1);
             },
             memberCount(existingCount: number) {
               return existingCount + 1;
@@ -78,7 +78,7 @@ const MemberRequest = ({
           id: cache.identify(group),
           fields: {
             memberRequestCount(existingCount: number) {
-              return existingCount - 1;
+              return Math.max(0, existingCount - 1);
             },
           },
         });

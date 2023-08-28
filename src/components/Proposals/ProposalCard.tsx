@@ -55,9 +55,10 @@ const CardContent = styled(MuiCardContent)(() => ({
 
 interface Props extends CardProps {
   proposal: ProposalCardFragment;
+  inModal?: boolean;
 }
 
-const ProposalCard = ({ proposal, ...cardProps }: Props) => {
+const ProposalCard = ({ proposal, inModal, ...cardProps }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
@@ -94,6 +95,7 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
   };
   const cardContentStyles = {
     paddingTop: images.length && !body ? 2.5 : 3,
+    paddingX: inModal ? 0 : undefined,
   };
 
   const handleDelete = async () => {
@@ -179,12 +181,16 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
     );
   };
 
-  return (
-    <Card {...cardProps}>
+  const renderProposal = () => (
+    <>
       <CardHeader
         action={renderMenu()}
         avatar={renderAvatar()}
         title={renderTitle()}
+        sx={{
+          paddingX: inModal ? 0 : undefined,
+          paddingTop: inModal ? 0 : undefined,
+        }}
       />
 
       <CardContent sx={cardContentStyles}>
@@ -202,9 +208,21 @@ const ProposalCard = ({ proposal, ...cardProps }: Props) => {
         </Link>
       </CardContent>
 
-      {me && <ProposalCardFooter currentUserId={me.id} proposal={proposal} />}
-    </Card>
+      <ProposalCardFooter
+        currentUserId={me?.id}
+        groupId={group?.id}
+        isProposalPage={isProposalPage}
+        proposal={proposal}
+        inModal={inModal}
+      />
+    </>
   );
+
+  if (inModal) {
+    return renderProposal();
+  }
+
+  return <Card {...cardProps}>{renderProposal()}</Card>;
 };
 
 export default ProposalCard;

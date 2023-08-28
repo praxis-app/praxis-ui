@@ -17,8 +17,13 @@ fragment PostCard on Post {
     myPermissions @include(if: $isLoggedIn) {
       ...GroupPermissions
     }
+    isJoinedByMe @include(if: $isLoggedIn)
   }
   event {
     ...EventItemAvatar
+    group @include(if: $isLoggedIn) {
+      id
+      isJoinedByMe
+    }
   }
 }

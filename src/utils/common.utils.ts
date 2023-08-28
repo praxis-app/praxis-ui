@@ -35,6 +35,8 @@ export const initAxe = () => {
   }
 };
 
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 export const waitFor = (conditionFn: () => boolean, ms = 250) => {
   const poll = (resolve: (_?: unknown) => void) => {
     if (conditionFn()) {

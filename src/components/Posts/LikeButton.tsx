@@ -1,6 +1,8 @@
+import { useReactiveVar } from "@apollo/client";
 import { Favorite as LikeIcon } from "@mui/icons-material";
 import { SxProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { isLoggedInVar, toastVar } from "../../apollo/cache";
 import { useDeleteLikeMutation, useLikePostMutation } from "../../apollo/gen";
 import { TypeNames } from "../../constants/common.constants";
 import { Blurple } from "../../styles/theme";
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const LikeButton = ({ postId, isLikedByMe }: Props) => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [likePost, { loading: likePostLoading }] = useLikePostMutation();
   const [unlikePost, { loading: unlikePostLoading }] = useDeleteLikeMutation();
 
@@ -29,6 +32,13 @@ const LikeButton = ({ postId, isLikedByMe }: Props) => {
       : ICON_STYLES;
 
   const handleLikeButtonClick = async () => {
+    if (!isLoggedIn) {
+      toastVar({
+        title: t("posts.prompts.loginToLike"),
+        status: "info",
+      });
+      return;
+    }
     const variables = { likeData: { postId } };
     if (isLikedByMe) {
       unlikePost({

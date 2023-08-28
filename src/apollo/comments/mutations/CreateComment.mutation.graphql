@@ -7,6 +7,10 @@ mutation CreateComment($commentData: CreateCommentInput!) {
         id
         commentCount
       }
+      proposal {
+        id
+        commentCount
+      }
     }
   }
 }

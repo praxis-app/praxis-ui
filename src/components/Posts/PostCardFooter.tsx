@@ -37,9 +37,16 @@ interface Props {
   inModal: boolean;
   isPostPage: boolean;
   groupId?: number;
+  eventId?: number;
 }
 
-const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
+const PostCardFooter = ({
+  post,
+  inModal,
+  isPostPage,
+  groupId,
+  eventId,
+}: Props) => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showComments, setShowComments] = useState(inModal || isPostPage);
@@ -54,21 +61,34 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
       getPostComments({
         variables: {
           id: post.id,
+          withEvent: !!eventId,
           withGroup: !!groupId,
-          isLoggedIn,
+          eventId,
           groupId,
+          isLoggedIn,
         },
       });
     }
-  }, [inModal, isPostPage, post, isLoggedIn, getPostComments, groupId]);
+  }, [
+    eventId,
+    getPostComments,
+    groupId,
+    inModal,
+    isLoggedIn,
+    isPostPage,
+    post,
+  ]);
 
   const { id, likesCount, commentCount, isLikedByMe } = post;
   const comments = postCommentsData?.post.comments;
   const group = postCommentsData?.group;
+  const event = postCommentsData?.event;
   const me = postCommentsData?.me;
 
   const canManageComments = !!(
-    group?.myPermissions.manageComments || me?.serverPermissions.manageComments
+    event?.group?.myPermissions?.manageComments ||
+    group?.myPermissions?.manageComments ||
+    me?.serverPermissions.manageComments
   );
 
   const commentCountStyles: SxProps = {
@@ -82,7 +102,14 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
       return;
     }
     const { data } = await getPostComments({
-      variables: { id, isLoggedIn, groupId, withGroup: !!groupId },
+      variables: {
+        id,
+        eventId,
+        groupId,
+        isLoggedIn,
+        withEvent: !!eventId,
+        withGroup: !!groupId,
+      },
     });
     const comments = data?.post.comments;
     if (comments && comments.length > 1) {
@@ -90,6 +117,19 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
     } else {
       setShowComments(true);
     }
+  };
+
+  const renderCommentForm = () => {
+    if (!isLoggedIn || inModal) {
+      return null;
+    }
+    if (group && !group.isJoinedByMe) {
+      return null;
+    }
+    if (event && !event.group?.isJoinedByMe) {
+      return null;
+    }
+    return <CommentForm postId={id} enableAutoFocus />;
   };
 
   return (
@@ -146,19 +186,16 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
       {showComments && (
         <Box paddingX={inModal ? 0 : "16px"}>
           <Divider sx={{ marginBottom: 2 }} />
+
           <CommentsList
             canManageComments={canManageComments}
             comments={comments || []}
             currentUserId={me?.id}
+            marginBottom={inModal && !isLoggedIn ? 2.5 : undefined}
             postId={id}
           />
-          {(!group || group.isJoinedByMe) && (
-            <CommentForm
-              enableAutoFocus={!inModal}
-              expanded={inModal}
-              postId={id}
-            />
-          )}
+          {renderCommentForm()}
+
           {group && !group.isJoinedByMe && !comments?.length && (
             <Typography
               color="text.secondary"

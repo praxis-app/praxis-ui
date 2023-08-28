@@ -163,7 +163,10 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
         action={renderMenu()}
         avatar={renderAvatar()}
         title={renderTitle()}
-        sx={{ paddingX: inModal ? 0 : undefined }}
+        sx={{
+          paddingX: inModal ? 0 : undefined,
+          paddingTop: inModal ? 0 : undefined,
+        }}
       />
 
       <CardContent sx={cardContentStyles}>
@@ -176,14 +179,13 @@ const PostCard = ({ post, inModal = false, ...cardProps }: Props) => {
         )}
       </CardContent>
 
-      {me && (
-        <PostCardFooter
-          groupId={group?.id}
-          inModal={inModal}
-          isPostPage={isPostPage}
-          post={post}
-        />
-      )}
+      <PostCardFooter
+        eventId={event?.id}
+        groupId={group?.id}
+        inModal={inModal}
+        isPostPage={isPostPage}
+        post={post}
+      />
     </>
   );
 

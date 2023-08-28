@@ -4,7 +4,7 @@ import {
   ThumbsUpDown as ReservationsIcon,
   ThumbUp as AgreementIcon,
 } from "@mui/icons-material";
-import { SxProps, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import { VoteBadgesFragment } from "../../apollo/gen";
 import { VoteTypes } from "../../constants/vote.constants";
@@ -12,12 +12,6 @@ import { filterVotesByType } from "../../utils/vote.utils";
 import Flex from "../Shared/Flex";
 import VoteBadge from "./VoteBadge";
 import VotesModal from "./VotesModal";
-
-const BADGES_CONTAINER_STYLES: SxProps = {
-  cursor: "pointer",
-  paddingBottom: 1,
-  paddingLeft: "16px",
-};
 
 interface Props {
   proposal: VoteBadgesFragment;
@@ -66,7 +60,7 @@ const VoteBadges = ({ proposal: { votes, voteCount } }: Props) => {
 
   return (
     <>
-      <Flex sx={BADGES_CONTAINER_STYLES} onClick={handleClick}>
+      <Flex sx={{ cursor: "pointer", height: "24px" }} onClick={handleClick}>
         <Flex paddingRight={1}>
           {badges.map((badge, index) => (
             <VoteBadge

@@ -629,6 +629,7 @@ export type Proposal = {
   __typename?: "Proposal";
   action: ProposalAction;
   body?: Maybe<Scalars["String"]>;
+  commentCount: Scalars["Int"];
   comments: Array<Comment>;
   createdAt: Scalars["DateTime"];
   group?: Maybe<Group>;
@@ -1074,6 +1075,11 @@ export type CreateCommentMutation = {
       id: number;
       body?: string | null;
       post?: { __typename?: "Post"; id: number; commentCount: number } | null;
+      proposal?: {
+        __typename?: "Proposal";
+        id: number;
+        commentCount: number;
+      } | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
       user: {
         __typename?: "User";
@@ -1373,6 +1379,7 @@ export type EventPageQuery = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe?: boolean;
         id: number;
         name: string;
         myPermissions?: {
@@ -1394,6 +1401,11 @@ export type EventPageQuery = {
         __typename?: "Event";
         id: number;
         name: string;
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+        } | null;
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     }>;
@@ -2161,6 +2173,7 @@ export type GroupProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe?: boolean;
             id: number;
             name: string;
             myPermissions?: {
@@ -2182,6 +2195,11 @@ export type GroupProfileQuery = {
             __typename?: "Event";
             id: number;
             name: string;
+            group?: {
+              __typename?: "Group";
+              id: number;
+              isJoinedByMe: boolean;
+            } | null;
             coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
@@ -2191,6 +2209,7 @@ export type GroupProfileQuery = {
           body?: string | null;
           stage: string;
           voteCount: number;
+          commentCount: number;
           createdAt: any;
           action: {
             __typename?: "ProposalAction";
@@ -2254,6 +2273,10 @@ export type GroupProfileQuery = {
             id: number;
             isJoinedByMe?: boolean;
             name: string;
+            myPermissions?: {
+              __typename?: "GroupPermissions";
+              manageComments: boolean;
+            };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2515,6 +2538,7 @@ export type PublicGroupsFeedQuery = {
         };
         group?: {
           __typename?: "Group";
+          isJoinedByMe?: boolean;
           id: number;
           name: string;
           myPermissions?: {
@@ -2536,6 +2560,11 @@ export type PublicGroupsFeedQuery = {
           __typename?: "Event";
           id: number;
           name: string;
+          group?: {
+            __typename?: "Group";
+            id: number;
+            isJoinedByMe: boolean;
+          } | null;
           coverPhoto: { __typename?: "Image"; id: number };
         } | null;
       }
@@ -2545,6 +2574,7 @@ export type PublicGroupsFeedQuery = {
         body?: string | null;
         stage: string;
         voteCount: number;
+        commentCount: number;
         createdAt: any;
         action: {
           __typename?: "ProposalAction";
@@ -2608,6 +2638,10 @@ export type PublicGroupsFeedQuery = {
           id: number;
           isJoinedByMe?: boolean;
           name: string;
+          myPermissions?: {
+            __typename?: "GroupPermissions";
+            manageComments: boolean;
+          };
           coverPhoto?: { __typename?: "Image"; id: number } | null;
         } | null;
         images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2759,6 +2793,7 @@ type FeedItem_Post_Fragment = {
   };
   group?: {
     __typename?: "Group";
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
     myPermissions?: {
@@ -2780,6 +2815,7 @@ type FeedItem_Post_Fragment = {
     __typename?: "Event";
     id: number;
     name: string;
+    group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   } | null;
 };
@@ -2790,6 +2826,7 @@ type FeedItem_Proposal_Fragment = {
   body?: string | null;
   stage: string;
   voteCount: number;
+  commentCount: number;
   createdAt: any;
   action: {
     __typename?: "ProposalAction";
@@ -2853,6 +2890,10 @@ type FeedItem_Proposal_Fragment = {
     id: number;
     isJoinedByMe?: boolean;
     name: string;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      manageComments: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -2890,6 +2931,7 @@ export type PostCardFragment = {
   };
   group?: {
     __typename?: "Group";
+    isJoinedByMe?: boolean;
     id: number;
     name: string;
     myPermissions?: {
@@ -2911,6 +2953,7 @@ export type PostCardFragment = {
     __typename?: "Event";
     id: number;
     name: string;
+    group?: { __typename?: "Group"; id: number; isJoinedByMe: boolean } | null;
     coverPhoto: { __typename?: "Image"; id: number };
   } | null;
 };
@@ -2948,6 +2991,7 @@ export type CreatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe?: boolean;
         id: number;
         name: string;
         myPermissions?: {
@@ -2969,6 +3013,11 @@ export type CreatePostMutation = {
         __typename?: "Event";
         id: number;
         name: string;
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+        } | null;
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     };
@@ -3032,6 +3081,7 @@ export type UpdatePostMutation = {
       };
       group?: {
         __typename?: "Group";
+        isJoinedByMe?: boolean;
         id: number;
         name: string;
         myPermissions?: {
@@ -3053,6 +3103,11 @@ export type UpdatePostMutation = {
         __typename?: "Event";
         id: number;
         name: string;
+        group?: {
+          __typename?: "Group";
+          id: number;
+          isJoinedByMe: boolean;
+        } | null;
         coverPhoto: { __typename?: "Image"; id: number };
       } | null;
     };
@@ -3097,6 +3152,7 @@ export type PostQuery = {
     };
     group?: {
       __typename?: "Group";
+      isJoinedByMe?: boolean;
       id: number;
       name: string;
       myPermissions?: {
@@ -3118,6 +3174,11 @@ export type PostQuery = {
       __typename?: "Event";
       id: number;
       name: string;
+      group?: {
+        __typename?: "Group";
+        id: number;
+        isJoinedByMe: boolean;
+      } | null;
       coverPhoto: { __typename?: "Image"; id: number };
     } | null;
   };
@@ -3128,6 +3189,8 @@ export type PostCommentsQueryVariables = Exact<{
   isLoggedIn: Scalars["Boolean"];
   withGroup: Scalars["Boolean"];
   groupId?: InputMaybe<Scalars["Int"]>;
+  withEvent: Scalars["Boolean"];
+  eventId?: InputMaybe<Scalars["Int"]>;
 }>;
 
 export type PostCommentsQuery = {
@@ -3160,7 +3223,23 @@ export type PostCommentsQuery = {
     __typename?: "Group";
     id: number;
     isJoinedByMe?: boolean;
-    myPermissions: { __typename?: "GroupPermissions"; manageComments: boolean };
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      manageComments: boolean;
+    };
+  };
+  event?: {
+    __typename?: "Event";
+    id: number;
+    group?: {
+      __typename?: "Group";
+      id: number;
+      isJoinedByMe?: boolean;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageComments: boolean;
+      };
+    } | null;
   };
 };
 
@@ -3289,6 +3368,7 @@ export type ProposalCardFragment = {
   body?: string | null;
   stage: string;
   voteCount: number;
+  commentCount: number;
   createdAt: any;
   action: {
     __typename?: "ProposalAction";
@@ -3352,6 +3432,10 @@ export type ProposalCardFragment = {
     id: number;
     isJoinedByMe?: boolean;
     name: string;
+    myPermissions?: {
+      __typename?: "GroupPermissions";
+      manageComments: boolean;
+    };
     coverPhoto?: { __typename?: "Image"; id: number } | null;
   } | null;
   images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -3366,25 +3450,6 @@ export type ProposalCardFragment = {
       profilePicture: { __typename?: "Image"; id: number };
     };
   }>;
-};
-
-export type ProposalCardFooterFragment = {
-  __typename?: "Proposal";
-  id: number;
-  stage: string;
-  voteCount: number;
-  votes: Array<{
-    __typename?: "Vote";
-    id: number;
-    voteType: string;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
-  }>;
-  group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
 };
 
 export type ProposalFormFragment = {
@@ -3422,6 +3487,7 @@ export type CreateProposalMutation = {
       body?: string | null;
       stage: string;
       voteCount: number;
+      commentCount: number;
       createdAt: any;
       action: {
         __typename?: "ProposalAction";
@@ -3485,6 +3551,10 @@ export type CreateProposalMutation = {
         id: number;
         isJoinedByMe?: boolean;
         name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          manageComments: boolean;
+        };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -3527,6 +3597,7 @@ export type UpdateProposalMutation = {
       body?: string | null;
       stage: string;
       voteCount: number;
+      commentCount: number;
       createdAt: any;
       action: {
         __typename?: "ProposalAction";
@@ -3590,6 +3661,10 @@ export type UpdateProposalMutation = {
         id: number;
         isJoinedByMe?: boolean;
         name: string;
+        myPermissions?: {
+          __typename?: "GroupPermissions";
+          manageComments: boolean;
+        };
         coverPhoto?: { __typename?: "Image"; id: number } | null;
       } | null;
       images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -3648,6 +3723,7 @@ export type ProposalQuery = {
     body?: string | null;
     stage: string;
     voteCount: number;
+    commentCount: number;
     createdAt: any;
     action: {
       __typename?: "ProposalAction";
@@ -3711,6 +3787,10 @@ export type ProposalQuery = {
       id: number;
       isJoinedByMe?: boolean;
       name: string;
+      myPermissions?: {
+        __typename?: "GroupPermissions";
+        manageComments: boolean;
+      };
       coverPhoto?: { __typename?: "Image"; id: number } | null;
     } | null;
     images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -3725,6 +3805,39 @@ export type ProposalQuery = {
         profilePicture: { __typename?: "Image"; id: number };
       };
     }>;
+  };
+};
+
+export type ProposalCommentsQueryVariables = Exact<{
+  id: Scalars["Int"];
+  isLoggedIn: Scalars["Boolean"];
+}>;
+
+export type ProposalCommentsQuery = {
+  __typename?: "Query";
+  proposal: {
+    __typename?: "Proposal";
+    id: number;
+    comments: Array<{
+      __typename?: "Comment";
+      id: number;
+      body?: string | null;
+      images: Array<{ __typename?: "Image"; id: number; filename: string }>;
+      user: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+    }>;
+  };
+  me?: {
+    __typename?: "User";
+    id: number;
+    serverPermissions: {
+      __typename?: "ServerPermissions";
+      manageComments: boolean;
+    };
   };
 };
 
@@ -4159,6 +4272,7 @@ export type FollowUserMutation = {
             };
             group?: {
               __typename?: "Group";
+              isJoinedByMe?: boolean;
               id: number;
               name: string;
               myPermissions?: {
@@ -4180,6 +4294,11 @@ export type FollowUserMutation = {
               __typename?: "Event";
               id: number;
               name: string;
+              group?: {
+                __typename?: "Group";
+                id: number;
+                isJoinedByMe: boolean;
+              } | null;
               coverPhoto: { __typename?: "Image"; id: number };
             } | null;
           }
@@ -4189,6 +4308,7 @@ export type FollowUserMutation = {
             body?: string | null;
             stage: string;
             voteCount: number;
+            commentCount: number;
             createdAt: any;
             action: {
               __typename?: "ProposalAction";
@@ -4252,6 +4372,10 @@ export type FollowUserMutation = {
               id: number;
               isJoinedByMe?: boolean;
               name: string;
+              myPermissions?: {
+                __typename?: "GroupPermissions";
+                manageComments: boolean;
+              };
               coverPhoto?: { __typename?: "Image"; id: number } | null;
             } | null;
             images: Array<{
@@ -4402,6 +4526,7 @@ export type HomeFeedQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe?: boolean;
             id: number;
             name: string;
             myPermissions?: {
@@ -4423,6 +4548,11 @@ export type HomeFeedQuery = {
             __typename?: "Event";
             id: number;
             name: string;
+            group?: {
+              __typename?: "Group";
+              id: number;
+              isJoinedByMe: boolean;
+            } | null;
             coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
@@ -4432,6 +4562,7 @@ export type HomeFeedQuery = {
           body?: string | null;
           stage: string;
           voteCount: number;
+          commentCount: number;
           createdAt: any;
           action: {
             __typename?: "ProposalAction";
@@ -4495,6 +4626,10 @@ export type HomeFeedQuery = {
             id: number;
             isJoinedByMe?: boolean;
             name: string;
+            myPermissions?: {
+              __typename?: "GroupPermissions";
+              manageComments: boolean;
+            };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -4576,6 +4711,7 @@ export type UserProfileQuery = {
           };
           group?: {
             __typename?: "Group";
+            isJoinedByMe?: boolean;
             id: number;
             name: string;
             myPermissions?: {
@@ -4597,6 +4733,11 @@ export type UserProfileQuery = {
             __typename?: "Event";
             id: number;
             name: string;
+            group?: {
+              __typename?: "Group";
+              id: number;
+              isJoinedByMe: boolean;
+            } | null;
             coverPhoto: { __typename?: "Image"; id: number };
           } | null;
         }
@@ -4606,6 +4747,7 @@ export type UserProfileQuery = {
           body?: string | null;
           stage: string;
           voteCount: number;
+          commentCount: number;
           createdAt: any;
           action: {
             __typename?: "ProposalAction";
@@ -4669,6 +4811,10 @@ export type UserProfileQuery = {
             id: number;
             isJoinedByMe?: boolean;
             name: string;
+            myPermissions?: {
+              __typename?: "GroupPermissions";
+              manageComments: boolean;
+            };
             coverPhoto?: { __typename?: "Image"; id: number } | null;
           } | null;
           images: Array<{ __typename?: "Image"; id: number; filename: string }>;
@@ -5156,9 +5302,14 @@ export const PostCardFragmentDoc = gql`
       myPermissions @include(if: $isLoggedIn) {
         ...GroupPermissions
       }
+      isJoinedByMe @include(if: $isLoggedIn)
     }
     event {
       ...EventItemAvatar
+      group @include(if: $isLoggedIn) {
+        id
+        isJoinedByMe
+      }
     }
   }
   ${AttachedImageFragmentDoc}
@@ -5273,31 +5424,13 @@ export const VoteBadgesFragmentDoc = gql`
   ${VoteFragmentDoc}
   ${VoteBadgeFragmentDoc}
 `;
-export const ProposalCardFooterFragmentDoc = gql`
-  fragment ProposalCardFooter on Proposal {
-    id
-    stage
-    votes {
-      user {
-        id
-      }
-    }
-    group {
-      id
-      isJoinedByMe @include(if: $isLoggedIn)
-    }
-    ...VoteMenu
-    ...VoteBadges
-  }
-  ${VoteMenuFragmentDoc}
-  ${VoteBadgesFragmentDoc}
-`;
 export const ProposalCardFragmentDoc = gql`
   fragment ProposalCard on Proposal {
     id
     body
     stage
     voteCount
+    commentCount
     createdAt
     action {
       ...ProposalAction
@@ -5306,18 +5439,30 @@ export const ProposalCardFragmentDoc = gql`
       ...UserAvatar
     }
     group {
+      id
+      isJoinedByMe @include(if: $isLoggedIn)
+      myPermissions @include(if: $isLoggedIn) {
+        manageComments
+      }
       ...GroupAvatar
     }
     images {
       ...AttachedImage
     }
-    ...ProposalCardFooter
+    votes {
+      user {
+        id
+      }
+    }
+    ...VoteMenu
+    ...VoteBadges
   }
   ${ProposalActionFragmentDoc}
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
   ${AttachedImageFragmentDoc}
-  ${ProposalCardFooterFragmentDoc}
+  ${VoteMenuFragmentDoc}
+  ${VoteBadgesFragmentDoc}
 `;
 export const FeedItemFragmentDoc = gql`
   fragment FeedItem on FeedItem {
@@ -5712,6 +5857,10 @@ export const CreateCommentDocument = gql`
       comment {
         ...Comment
         post {
+          id
+          commentCount
+        }
+        proposal {
           id
           commentCount
         }
@@ -8682,6 +8831,8 @@ export const PostCommentsDocument = gql`
     $isLoggedIn: Boolean!
     $withGroup: Boolean!
     $groupId: Int
+    $withEvent: Boolean!
+    $eventId: Int
   ) {
     post(id: $id) {
       id
@@ -8698,8 +8849,18 @@ export const PostCommentsDocument = gql`
     group(id: $groupId) @include(if: $withGroup) {
       id
       isJoinedByMe @include(if: $isLoggedIn)
-      myPermissions {
+      myPermissions @include(if: $isLoggedIn) {
         manageComments
+      }
+    }
+    event(id: $eventId) @include(if: $withEvent) {
+      id
+      group {
+        id
+        isJoinedByMe @include(if: $isLoggedIn)
+        myPermissions @include(if: $isLoggedIn) {
+          manageComments
+        }
       }
     }
   }
@@ -8722,6 +8883,8 @@ export const PostCommentsDocument = gql`
  *      isLoggedIn: // value for 'isLoggedIn'
  *      withGroup: // value for 'withGroup'
  *      groupId: // value for 'groupId'
+ *      withEvent: // value for 'withEvent'
+ *      eventId: // value for 'eventId'
  *   },
  * });
  */
@@ -9034,6 +9197,75 @@ export type ProposalLazyQueryHookResult = ReturnType<
 export type ProposalQueryResult = Apollo.QueryResult<
   ProposalQuery,
   ProposalQueryVariables
+>;
+export const ProposalCommentsDocument = gql`
+  query ProposalComments($id: Int!, $isLoggedIn: Boolean!) {
+    proposal(id: $id) {
+      id
+      comments {
+        ...Comment
+      }
+    }
+    me @include(if: $isLoggedIn) {
+      id
+      serverPermissions {
+        manageComments
+      }
+    }
+  }
+  ${CommentFragmentDoc}
+`;
+
+/**
+ * __useProposalCommentsQuery__
+ *
+ * To run a query within a React component, call `useProposalCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProposalCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProposalCommentsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      isLoggedIn: // value for 'isLoggedIn'
+ *   },
+ * });
+ */
+export function useProposalCommentsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ProposalCommentsQuery,
+    ProposalCommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProposalCommentsQuery, ProposalCommentsQueryVariables>(
+    ProposalCommentsDocument,
+    options
+  );
+}
+export function useProposalCommentsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProposalCommentsQuery,
+    ProposalCommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    ProposalCommentsQuery,
+    ProposalCommentsQueryVariables
+  >(ProposalCommentsDocument, options);
+}
+export type ProposalCommentsQueryHookResult = ReturnType<
+  typeof useProposalCommentsQuery
+>;
+export type ProposalCommentsLazyQueryHookResult = ReturnType<
+  typeof useProposalCommentsLazyQuery
+>;
+export type ProposalCommentsQueryResult = Apollo.QueryResult<
+  ProposalCommentsQuery,
+  ProposalCommentsQueryVariables
 >;
 export const CreateServerRoleDocument = gql`
   mutation CreateServerRole($serverRoleData: CreateServerRoleInput!) {

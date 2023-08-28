@@ -18,6 +18,7 @@ interface Props {
   comment: CommentFragment;
   currentUserId?: number;
   postId?: number;
+  proposalId?: number;
 }
 
 const Comment = ({
@@ -25,6 +26,7 @@ const Comment = ({
   canManageComments,
   currentUserId,
   postId,
+  proposalId,
 }: Props) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const [showItemMenu, setShowItemMenu] = useState(false);
@@ -55,7 +57,20 @@ const Comment = ({
             id: cache.identify({ id: postId, __typename: TypeNames.Post }),
             fields: {
               commentCount(existingCount: number) {
-                return existingCount - 1;
+                return Math.max(0, existingCount - 1);
+              },
+            },
+          });
+        }
+        if (proposalId) {
+          cache.modify({
+            id: cache.identify({
+              id: proposalId,
+              __typename: TypeNames.Proposal,
+            }),
+            fields: {
+              commentCount(existingCount: number) {
+                return Math.max(0, existingCount - 1);
               },
             },
           });
@@ -100,6 +115,7 @@ const Comment = ({
         sx={{ marginRight: 1, marginTop: 0.2 }}
         user={user}
         size={35}
+        withLink
       />
 
       <Box

@@ -62,7 +62,7 @@
 
   "about": {
     "welcomeCard": {
-      "projectDescription": "Praxis is an open source social networking site. Proposals are the main focus and come with a wide variety of voting features, with consensus as the default. Create a group and set it to no-admin, allowing group members to create proposals and democratically decide on settings, name, theme, or planning of real world events.",
+      "projectDescription": "Praxis is an open source social network with features for collaborative decision making. Proposals are the main focus and come with a wide variety of voting features, with consensus as the default. Create a group and set it to no-admin, allowing group members to create proposals and democratically decide on settings, name, theme, or planning of real world events.",
       "inDev": "This project is still in development and is not yet intended for serious use outside of testing or research purposes."
     }
   },
@@ -70,7 +70,8 @@
   "proposals": {
     "prompts": {
       "createProposal": "Create a proposal...",
-      "joinGroupToVote": "You need to be a group member to interact with this proposal.",
+      "joinGroupToVote": "You need to be a group member to vote on this proposal.",
+      "loginToVote": "You need to be logged in to vote on this proposal.",
       "cannotEditProposedRoles": "Editing of proposed roles is still in development.",
       "emptyPermsAndMembers": "No proposed permissions or role members."
     },
@@ -103,7 +104,8 @@
       "proposedRole": "Proposed role",
       "proposedRoleChange": "Role change",
       "ratified": "Ratified",
-      "selectRoleToChange": "Choose a role"
+      "selectRoleToChange": "Choose a role",
+      "usersProposal": "{{name}}'s Proposal"
     },
     "toasts": {
       "noVotingAfterRatification": "This proposal has been ratified and can no longer be voted on.",
@@ -205,6 +207,9 @@
       "addPost": "Add post",
       "posts": "Posts",
       "usersPost": "{{name}}'s Post"
+    },
+    "prompts": {
+      "loginToLike": "You need to be logged in to like this post."
     },
     "form": {
       "body": "Body"

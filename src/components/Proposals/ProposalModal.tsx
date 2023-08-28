@@ -1,19 +1,19 @@
 import { Box, SxProps } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { PostCardFragment } from "../../apollo/gen";
+import { ProposalCardFragment } from "../../apollo/gen";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import CommentForm from "../Comments/CommentForm";
 import Modal from "../Shared/Modal";
-import PostCard from "./PostCard";
+import ProposalCard from "./ProposalCard";
 
 interface Props {
-  post: PostCardFragment;
+  proposal: ProposalCardFragment;
   open: boolean;
   onClose(): void;
 }
 
-const PostModal = ({ post, open, onClose }: Props) => {
+const ProposalModal = ({ proposal, open, onClose }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
@@ -21,10 +21,10 @@ const PostModal = ({ post, open, onClose }: Props) => {
 
   useEffect(() => {
     ref.current?.scrollIntoView();
-  }, [post.commentCount]);
+  }, [proposal.commentCount]);
 
-  const title = t("posts.labels.usersPost", {
-    name: post.user.name[0].toUpperCase() + post.user.name.slice(1),
+  const title = t("proposals.labels.usersProposal", {
+    name: proposal.user.name[0].toUpperCase() + proposal.user.name.slice(1),
   });
 
   const contentStyles: SxProps = {
@@ -34,10 +34,7 @@ const PostModal = ({ post, open, onClose }: Props) => {
   };
 
   const renderCommentForm = () => {
-    if (post.group && !post.group.isJoinedByMe) {
-      return null;
-    }
-    if (post.event && !post.event.group?.isJoinedByMe) {
+    if (proposal.group && !proposal.group.isJoinedByMe) {
       return null;
     }
     return (
@@ -49,7 +46,7 @@ const PostModal = ({ post, open, onClose }: Props) => {
         paddingX="16px"
         width="100%"
       >
-        <CommentForm postId={post.id} expanded />
+        <CommentForm proposalId={proposal.id} expanded />
       </Box>
     );
   };
@@ -64,10 +61,10 @@ const PostModal = ({ post, open, onClose }: Props) => {
       title={title}
       centeredTitle
     >
-      <PostCard post={post} inModal />
+      <ProposalCard proposal={proposal} inModal />
       <Box ref={ref} />
     </Modal>
   );
 };
 
-export default PostModal;
+export default ProposalModal;

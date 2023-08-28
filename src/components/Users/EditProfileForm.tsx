@@ -41,8 +41,9 @@ const EditProfileForm = ({ user, submitButtonText }: Props) => {
     await updateUser({
       variables: {
         userData: {
-          id: user.id,
           ...formValues,
+          id: user.id,
+          name: formValues.name.trim(),
           profilePicture,
           coverPhoto,
         },
