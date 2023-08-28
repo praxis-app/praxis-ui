@@ -208,6 +208,9 @@
       "posts": "Posts",
       "usersPost": "{{name}}'s Post"
     },
+    "prompts": {
+      "loginToLike": "You need to be logged in to like this post."
+    },
     "form": {
       "body": "Body"
     }
