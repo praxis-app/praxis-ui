@@ -68,8 +68,10 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
   const me = postCommentsData?.me;
 
   const canManageComments = !!(
-    group?.myPermissions.manageComments || me?.serverPermissions.manageComments
+    group?.myPermissions?.manageComments || me?.serverPermissions.manageComments
   );
+  const showCommentForm =
+    isLoggedIn && !inModal && (!group || group.isJoinedByMe);
 
   const commentCountStyles: SxProps = {
     "&:hover": { textDecoration: "underline" },
@@ -146,15 +148,16 @@ const PostCardFooter = ({ post, inModal, isPostPage, groupId }: Props) => {
       {showComments && (
         <Box paddingX={inModal ? 0 : "16px"}>
           <Divider sx={{ marginBottom: 2 }} />
+
           <CommentsList
             canManageComments={canManageComments}
             comments={comments || []}
             currentUserId={me?.id}
+            marginBottom={inModal && !isLoggedIn ? 2.5 : undefined}
             postId={id}
           />
-          {!inModal && (!group || group.isJoinedByMe) && (
-            <CommentForm postId={id} enableAutoFocus />
-          )}
+          {showCommentForm && <CommentForm postId={id} enableAutoFocus />}
+
           {group && !group.isJoinedByMe && !comments?.length && (
             <Typography
               color="text.secondary"
