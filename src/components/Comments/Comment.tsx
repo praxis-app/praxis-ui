@@ -115,6 +115,7 @@ const Comment = ({
         sx={{ marginRight: 1, marginTop: 0.2 }}
         user={user}
         size={35}
+        withLink
       />
 
       <Box
