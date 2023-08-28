@@ -208,15 +208,13 @@ const ProposalCard = ({ proposal, inModal, ...cardProps }: Props) => {
         </Link>
       </CardContent>
 
-      {me && (
-        <ProposalCardFooter
-          currentUserId={me.id}
-          groupId={group?.id}
-          isProposalPage={isProposalPage}
-          proposal={proposal}
-          inModal={inModal}
-        />
-      )}
+      <ProposalCardFooter
+        currentUserId={me?.id}
+        groupId={group?.id}
+        isProposalPage={isProposalPage}
+        proposal={proposal}
+        inModal={inModal}
+      />
     </>
   );
 

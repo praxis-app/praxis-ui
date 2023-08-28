@@ -71,6 +71,7 @@
     "prompts": {
       "createProposal": "Create a proposal...",
       "joinGroupToVote": "You need to be a group member to vote on this proposal.",
+      "loginToVote": "You need to be logged in to vote on this proposal.",
       "cannotEditProposedRoles": "Editing of proposed roles is still in development.",
       "emptyPermsAndMembers": "No proposed permissions or role members."
     },

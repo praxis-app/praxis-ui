@@ -21,7 +21,7 @@ const CommentsList = ({
     return null;
   }
   return (
-    <Box marginBottom={1.5}>
+    <Box marginBottom={currentUserId ? 1.5 : 2.5}>
       {comments.map((comment) => (
         <Comment
           key={comment.id}

@@ -31,7 +31,7 @@ const ROTATED_ICON_STYLES = {
 };
 
 interface Props {
-  currentUserId: number;
+  currentUserId?: number;
   proposal: ProposalCardFragment;
   inModal?: boolean;
   groupId?: number;
@@ -99,6 +99,13 @@ const ProposalCardFooter = ({
   const handleVoteButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
+    if (!isLoggedIn) {
+      toastVar({
+        status: "info",
+        title: t("proposals.prompts.loginToVote"),
+      });
+      return;
+    }
     if (isDisabled) {
       toastVar({
         status: "info",
@@ -205,12 +212,14 @@ const ProposalCardFooter = ({
         onClose={() => setIsModalOpen(false)}
       />
 
-      <VoteMenu
-        anchorEl={menuAnchorEl}
-        currentUserId={currentUserId}
-        onClose={handleVoteMenuClose}
-        proposal={proposal}
-      />
+      {currentUserId && (
+        <VoteMenu
+          anchorEl={menuAnchorEl}
+          currentUserId={currentUserId}
+          onClose={handleVoteMenuClose}
+          proposal={proposal}
+        />
+      )}
     </>
   );
 };
