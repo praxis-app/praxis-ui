@@ -86,7 +86,9 @@ const PostCardFooter = ({
   const me = postCommentsData?.me;
 
   const canManageComments = !!(
-    group?.myPermissions?.manageComments || me?.serverPermissions.manageComments
+    event?.group?.myPermissions?.manageComments ||
+    group?.myPermissions?.manageComments ||
+    me?.serverPermissions.manageComments
   );
 
   const commentCountStyles: SxProps = {
