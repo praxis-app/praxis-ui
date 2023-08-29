@@ -39,6 +39,7 @@ const Toast = () => {
       anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
       autoHideDuration={AUTO_HIDE_DURATION}
       onClose={handleClose}
+      sx={{ bottom: 80 }}
       open={open}
     >
       <Alert
