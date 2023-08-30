@@ -17,6 +17,7 @@ export enum ProposalStage {
 
 export enum ProposalActionFieldName {
   ActionType = "action.actionType",
+  Event = "action.event",
   GroupCoverPhoto = "action.groupCoverPhoto",
   GroupDescription = "action.groupDescription",
   GroupName = "action.groupName",
