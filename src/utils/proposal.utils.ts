@@ -5,6 +5,10 @@ export const getProposalActionTypeOptions = (
   t: TFunction<Namespace<"ns1">, undefined>
 ) => [
   {
+    message: t("proposals.actionTypes.planEvent"),
+    value: ProposalActionType.PlanEvent,
+  },
+  {
     message: t("proposals.actionTypes.changeName"),
     value: ProposalActionType.ChangeName,
   },
@@ -32,11 +36,7 @@ export const getProposalActionTypeOptions = (
   // TODO: Uncomment after adding support for remaining action types
   // {
   //   message: t("proposals.actionTypes.changeSettings"),
-  //   value: ProposalActionTypes.ChangeSettings,
-  // },
-  // {
-  //   message: t("proposals.actionTypes.planEvent"),
-  //   value: ProposalActionTypes.PlanEvent,
+  //   value: ProposalActionType.ChangeSettings,
   // },
 ];
 
