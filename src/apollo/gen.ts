@@ -353,6 +353,7 @@ export type Image = {
   post?: Maybe<Post>;
   proposal?: Maybe<Proposal>;
   proposalAction?: Maybe<ProposalAction>;
+  proposalActionEvent?: Maybe<ProposalActionEvent>;
   updatedAt: Scalars["DateTime"];
   user?: Maybe<User>;
 };
@@ -646,6 +647,7 @@ export type ProposalAction = {
   __typename?: "ProposalAction";
   actionType: Scalars["String"];
   createdAt: Scalars["DateTime"];
+  event?: Maybe<ProposalActionEvent>;
   groupCoverPhoto?: Maybe<Image>;
   groupDescription?: Maybe<Scalars["String"]>;
   groupName?: Maybe<Scalars["String"]>;
@@ -655,8 +657,45 @@ export type ProposalAction = {
   updatedAt: Scalars["DateTime"];
 };
 
+export type ProposalActionEvent = {
+  __typename?: "ProposalActionEvent";
+  coverPhoto?: Maybe<Image>;
+  description: Scalars["String"];
+  endsAt?: Maybe<Scalars["DateTime"]>;
+  externalLink?: Maybe<Scalars["String"]>;
+  host: ProposalActionEventHost;
+  hosts: Array<ProposalActionEventHost>;
+  id: Scalars["Int"];
+  location?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online: Scalars["Boolean"];
+  proposalAction: ProposalAction;
+  startsAt: Scalars["DateTime"];
+};
+
+export type ProposalActionEventHost = {
+  __typename?: "ProposalActionEventHost";
+  createdAt: Scalars["DateTime"];
+  event: ProposalActionEvent;
+  id: Scalars["Int"];
+  status: Scalars["String"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
+export type ProposalActionEventInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
+  description: Scalars["String"];
+  externalLink?: InputMaybe<Scalars["String"]>;
+  hostUserId: Scalars["Int"];
+  location?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online: Scalars["Boolean"];
+};
+
 export type ProposalActionInput = {
   actionType: Scalars["String"];
+  event?: InputMaybe<ProposalActionEventInput>;
   groupCoverPhoto?: InputMaybe<Scalars["Upload"]>;
   groupDescription?: InputMaybe<Scalars["String"]>;
   groupName?: InputMaybe<Scalars["String"]>;

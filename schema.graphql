@@ -303,6 +303,7 @@ type Image {
   post: Post
   proposal: Proposal
   proposalAction: ProposalAction
+  proposalActionEvent: ProposalActionEvent
   updatedAt: DateTime!
   user: User
 }
@@ -407,6 +408,7 @@ type Proposal {
 type ProposalAction {
   actionType: String!
   createdAt: DateTime!
+  event: ProposalActionEvent
   groupCoverPhoto: Image
   groupDescription: String
   groupName: String
@@ -416,8 +418,43 @@ type ProposalAction {
   updatedAt: DateTime!
 }
 
+type ProposalActionEvent {
+  coverPhoto: Image
+  description: String!
+  endsAt: DateTime
+  externalLink: String
+  host: ProposalActionEventHost!
+  hosts: [ProposalActionEventHost!]!
+  id: Int!
+  location: String
+  name: String!
+  online: Boolean!
+  proposalAction: ProposalAction!
+  startsAt: DateTime!
+}
+
+type ProposalActionEventHost {
+  createdAt: DateTime!
+  event: ProposalActionEvent!
+  id: Int!
+  status: String!
+  updatedAt: DateTime!
+  user: User!
+}
+
+input ProposalActionEventInput {
+  coverPhoto: Upload
+  description: String!
+  externalLink: String
+  hostUserId: Int!
+  location: String
+  name: String!
+  online: Boolean!
+}
+
 input ProposalActionInput {
   actionType: String!
+  event: ProposalActionEventInput
   groupCoverPhoto: Upload
   groupDescription: String
   groupName: String
