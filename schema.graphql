@@ -445,11 +445,13 @@ type ProposalActionEventHost {
 input ProposalActionEventInput {
   coverPhoto: Upload
   description: String!
+  endsAt: DateTime
   externalLink: String
   hostUserId: Int!
   location: String
   name: String!
   online: Boolean!
+  startsAt: DateTime!
 }
 
 input ProposalActionInput {

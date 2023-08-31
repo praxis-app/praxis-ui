@@ -1,4 +1,6 @@
-import { FormGroup } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Button, FormGroup } from "@mui/material";
+import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,9 +9,16 @@ import {
   ProposalActionFieldName,
   ProposalActionType,
 } from "../../../constants/proposal.constants";
+import { startOfNextHour } from "../../../utils/time.utils";
+import {
+  EventFormFieldName,
+  SHOW_ENDS_AT_BUTTON_STYLES,
+} from "../../Events/EventForm";
+import DateTimePicker from "../../Shared/DateTimePicker";
 import Flex from "../../Shared/Flex";
 import Modal from "../../Shared/Modal";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
+import { TextField } from "../../Shared/TextField";
 
 interface Props {
   actionType?: string;
@@ -30,6 +39,8 @@ const ProposeEventModal = ({
   setFieldValue,
 }: Props) => {
   const [open, setOpen] = useState(false);
+  const [showEndsAt, setShowEndsAt] = useState(false);
+
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -44,6 +55,8 @@ const ProposeEventModal = ({
     location: "",
     online: false,
     hostUserId: currentUserId,
+    startsAt: startOfNextHour(),
+    endsAt: null,
   };
 
   const handleClose = () => {
@@ -56,6 +69,36 @@ const ProposeEventModal = ({
     setOpen(false);
   };
 
+  const handleStartsAtChange =
+    (setFieldValue: (field: string, value: Dayjs | null) => void) =>
+    (value: Dayjs | null) => {
+      setFieldValue(EventFormFieldName.StartsAt, value);
+
+      if (showEndsAt) {
+        setFieldValue(
+          EventFormFieldName.EndsAt,
+          dayjs(value).add(1, "hour").startOf("hour")
+        );
+      }
+    };
+
+  const handleShowEndsAtButtonClick =
+    (
+      values: ProposalActionEventInput,
+      setFieldValue: (field: string, value: Dayjs | null) => void
+    ) =>
+    () => {
+      if (!showEndsAt) {
+        setFieldValue(
+          EventFormFieldName.EndsAt,
+          dayjs(values.startsAt).add(1, "hour").startOf("hour")
+        );
+      } else {
+        setFieldValue(EventFormFieldName.EndsAt, null);
+      }
+      setShowEndsAt(!showEndsAt);
+    };
+
   return (
     <Modal
       open={open}
@@ -64,9 +107,42 @@ const ProposeEventModal = ({
       centeredTitle
     >
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setFieldValue }) => (
           <Form>
-            <FormGroup></FormGroup>
+            <FormGroup>
+              <TextField
+                autoComplete="off"
+                label={t("events.form.name")}
+                name={EventFormFieldName.Name}
+              />
+              <TextField
+                autoComplete="off"
+                label={t("events.form.description")}
+                name={EventFormFieldName.Description}
+                multiline
+              />
+              <DateTimePicker
+                label={t("events.form.startDateAndTime")}
+                onChange={handleStartsAtChange(setFieldValue)}
+                value={values.startsAt}
+              />
+              {showEndsAt && (
+                <DateTimePicker
+                  label={t("events.form.endDateAndTime")}
+                  onChange={(value: Dayjs | null) =>
+                    setFieldValue(EventFormFieldName.EndsAt, value)
+                  }
+                  value={values.endsAt}
+                />
+              )}
+              <Button
+                onClick={handleShowEndsAtButtonClick(values, setFieldValue)}
+                sx={SHOW_ENDS_AT_BUTTON_STYLES}
+                startIcon={<Add />}
+              >
+                {t("events.form.endDateAndTime")}
+              </Button>
+            </FormGroup>
 
             <Flex justifyContent="end">
               <PrimaryActionButton

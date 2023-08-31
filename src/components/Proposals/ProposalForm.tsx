@@ -375,6 +375,8 @@ const ProposalForm = ({
                   setFieldValue={setFieldValue}
                 />
 
+                {JSON.stringify(values.action.event)}
+
                 {values.action.role && (
                   <ProposalActionRole
                     actionType={values.action.actionType as ProposalActionType}

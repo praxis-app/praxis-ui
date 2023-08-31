@@ -686,11 +686,13 @@ export type ProposalActionEventHost = {
 export type ProposalActionEventInput = {
   coverPhoto?: InputMaybe<Scalars["Upload"]>;
   description: Scalars["String"];
+  endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
   hostUserId: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   online: Scalars["Boolean"];
+  startsAt: Scalars["DateTime"];
 };
 
 export type ProposalActionInput = {

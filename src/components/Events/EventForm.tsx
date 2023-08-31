@@ -45,6 +45,18 @@ export enum EventFormFieldName {
   Online = "online",
 }
 
+export const SHOW_ENDS_AT_BUTTON_STYLES: SxProps = {
+  color: Blurple.SkyDancer,
+  padding: 0,
+  textTransform: "none",
+  width: "fit-content",
+  "&.MuiButtonBase-root:hover": {
+    bgcolor: "transparent",
+    textDecoration: "underline",
+  },
+  marginBottom: 0.8,
+};
+
 interface Props {
   editEvent?: EventFormFragment;
   groupId?: number;
@@ -68,18 +80,6 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     location: editEvent ? editEvent.location : "",
     online: editEvent ? editEvent.online : null,
     externalLink: editEvent ? editEvent.externalLink : "",
-  };
-
-  const showEndsAtButtonStyles: SxProps = {
-    color: Blurple.SkyDancer,
-    padding: 0,
-    textTransform: "none",
-    width: "fit-content",
-    "&.MuiButtonBase-root:hover": {
-      bgcolor: "transparent",
-      textDecoration: "underline",
-    },
-    marginBottom: 0.8,
   };
 
   const handleCreate = async (formValues: CreateEventInput) =>
@@ -258,7 +258,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
             )}
             <Button
               onClick={handleShowEndsAtButtonClick(values, setFieldValue)}
-              sx={showEndsAtButtonStyles}
+              sx={SHOW_ENDS_AT_BUTTON_STYLES}
               startIcon={<Add />}
             >
               {t("events.form.endDateAndTime")}
