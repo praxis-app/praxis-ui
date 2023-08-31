@@ -1,8 +1,12 @@
 import { FormGroup } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProposalActionFieldName } from "../../../constants/proposal.constants";
+import { ProposalActionEventInput } from "../../../apollo/gen";
+import {
+  ProposalActionFieldName,
+  ProposalActionType,
+} from "../../../constants/proposal.constants";
 import Flex from "../../Shared/Flex";
 import Modal from "../../Shared/Modal";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
@@ -10,18 +14,37 @@ import PrimaryActionButton from "../../Shared/PrimaryActionButton";
 interface Props {
   actionType?: string;
   groupId?: number | null;
-  setFieldValue: (field: any, value: any) => void;
+  currentUserId: number;
+  setFieldValue: (
+    field: ProposalActionFieldName,
+    value: ProposalActionEventInput
+  ) => void;
   onClose(): void;
 }
 
-const ProposeEventModal = ({ setFieldValue, onClose }: Props) => {
+const ProposeEventModal = ({
+  actionType,
+  currentUserId,
+  groupId,
+  onClose,
+  setFieldValue,
+}: Props) => {
   const [open, setOpen] = useState(false);
 
   const { t } = useTranslation();
 
-  const initialValues: any = {
+  useEffect(() => {
+    if (groupId && actionType === ProposalActionType.PlanEvent) {
+      setOpen(true);
+    }
+  }, [groupId, actionType]);
+
+  const initialValues: ProposalActionEventInput = {
     name: "",
-    permissions: {},
+    description: "",
+    location: "",
+    online: false,
+    hostUserId: currentUserId,
   };
 
   const handleClose = () => {
@@ -29,7 +52,7 @@ const ProposeEventModal = ({ setFieldValue, onClose }: Props) => {
     onClose();
   };
 
-  const handleSubmit = async (formValues: any) => {
+  const handleSubmit = async (formValues: ProposalActionEventInput) => {
     setFieldValue(ProposalActionFieldName.Event, formValues);
     setOpen(false);
   };

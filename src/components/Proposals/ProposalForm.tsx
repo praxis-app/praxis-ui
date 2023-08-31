@@ -48,6 +48,7 @@ import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
 import ProposalActionFields from "./ProposalActions/ProposalActionFields";
 import ProposalActionRole from "./ProposalActions/ProposalActionRole";
+import ProposeEventModal from "./ProposalActions/ProposeEventModal";
 import ProposeRoleModal from "./ProposalActions/ProposeRoleModal";
 
 type ProposalFormErrors = {
@@ -56,11 +57,17 @@ type ProposalFormErrors = {
 };
 
 interface Props extends FormikFormProps {
+  currentUserId: number;
   editProposal?: ProposalFormFragment;
   groupId?: number;
 }
 
-const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
+const ProposalForm = ({
+  currentUserId,
+  editProposal,
+  groupId,
+  ...formProps
+}: Props) => {
   const [clicked, setClicked] = useState(false);
   const [selectInputsKey, setSelectInputsKey] = useState("");
   const { data } = useMeQuery();
@@ -355,6 +362,17 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                     setFieldValue("action", action);
                     setSelectInputsKey(getRandomString());
                   }}
+                />
+                <ProposeEventModal
+                  actionType={values.action.actionType}
+                  currentUserId={currentUserId}
+                  groupId={values.groupId}
+                  onClose={() => {
+                    setFieldValue("groupId", null);
+                    setFieldValue("action", action);
+                    setSelectInputsKey(getRandomString());
+                  }}
+                  setFieldValue={setFieldValue}
                 />
 
                 {values.action.role && (
