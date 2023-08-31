@@ -30,7 +30,6 @@ const ProposeEventModal = ({
   setFieldValue,
 }: Props) => {
   const [open, setOpen] = useState(false);
-
   const { t } = useTranslation();
 
   useEffect(() => {
