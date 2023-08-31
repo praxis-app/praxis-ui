@@ -450,7 +450,7 @@ input ProposalActionEventInput {
   hostUserId: Int!
   location: String
   name: String!
-  online: Boolean!
+  online: Boolean
   startsAt: DateTime!
 }
 

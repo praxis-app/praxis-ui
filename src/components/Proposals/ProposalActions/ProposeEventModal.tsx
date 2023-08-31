@@ -1,5 +1,13 @@
 import { Add } from "@mui/icons-material";
-import { Button, FormGroup } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
@@ -9,11 +17,14 @@ import {
   ProposalActionFieldName,
   ProposalActionType,
 } from "../../../constants/proposal.constants";
+import { getRandomString } from "../../../utils/common.utils";
 import { startOfNextHour } from "../../../utils/time.utils";
 import {
   EventFormFieldName,
   SHOW_ENDS_AT_BUTTON_STYLES,
 } from "../../Events/EventForm";
+import AttachedImagePreview from "../../Images/AttachedImagePreview";
+import ImageInput from "../../Images/ImageInput";
 import DateTimePicker from "../../Shared/DateTimePicker";
 import Flex from "../../Shared/Flex";
 import Modal from "../../Shared/Modal";
@@ -38,8 +49,10 @@ const ProposeEventModal = ({
   onClose,
   setFieldValue,
 }: Props) => {
-  const [open, setOpen] = useState(false);
+  const [coverPhoto, setCoverPhoto] = useState<File>();
+  const [imageInputKey, setImageInputKey] = useState("");
   const [showEndsAt, setShowEndsAt] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -53,19 +66,23 @@ const ProposeEventModal = ({
     name: "",
     description: "",
     location: "",
-    online: false,
+    online: null,
     hostUserId: currentUserId,
     startsAt: startOfNextHour(),
     endsAt: null,
   };
 
   const handleClose = () => {
+    setCoverPhoto(undefined);
     setOpen(false);
     onClose();
   };
 
   const handleSubmit = async (formValues: ProposalActionEventInput) => {
-    setFieldValue(ProposalActionFieldName.Event, formValues);
+    setFieldValue(ProposalActionFieldName.Event, {
+      ...formValues,
+      coverPhoto,
+    });
     setOpen(false);
   };
 
@@ -99,6 +116,11 @@ const ProposeEventModal = ({
       setShowEndsAt(!showEndsAt);
     };
 
+  const handleRemoveSelectedImage = () => {
+    setCoverPhoto(undefined);
+    setImageInputKey(getRandomString());
+  };
+
   return (
     <Modal
       open={open}
@@ -107,7 +129,7 @@ const ProposeEventModal = ({
       centeredTitle
     >
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ isSubmitting, values, setFieldValue }) => (
+        {({ isSubmitting, values, setFieldValue, submitCount, errors }) => (
           <Form>
             <FormGroup>
               <TextField
@@ -121,6 +143,7 @@ const ProposeEventModal = ({
                 name={EventFormFieldName.Description}
                 multiline
               />
+
               <DateTimePicker
                 label={t("events.form.startDateAndTime")}
                 onChange={handleStartsAtChange(setFieldValue)}
@@ -142,9 +165,56 @@ const ProposeEventModal = ({
               >
                 {t("events.form.endDateAndTime")}
               </Button>
+
+              <FormControl
+                error={!!errors.online && !!submitCount}
+                sx={{ marginBottom: 1 }}
+                variant="standard"
+              >
+                <InputLabel>{t("events.form.inPersonOrVirtual")}</InputLabel>
+                <Select
+                  value={values.online === null ? "" : Number(!!values.online)}
+                  name={EventFormFieldName.Online}
+                  onChange={(e) =>
+                    setFieldValue(EventFormFieldName.Online, !!e.target.value)
+                  }
+                >
+                  <MenuItem value={0}>{t("events.form.inPerson")}</MenuItem>
+                  <MenuItem value={1}>{t("events.form.virtual")}</MenuItem>
+                </Select>
+                {!!(errors.online && submitCount) && (
+                  <Typography color="error" fontSize="small" marginTop={0.5}>
+                    {errors.online}
+                  </Typography>
+                )}
+              </FormControl>
+
+              {values.online !== null && !values.online && (
+                <TextField
+                  autoComplete="off"
+                  label={t("events.form.location")}
+                  name={EventFormFieldName.Location}
+                  placeholder={t("events.form.includeLocation")}
+                />
+              )}
+              {!!values.online && (
+                <TextField
+                  autoComplete="off"
+                  label={t("events.form.externalLink")}
+                  name={EventFormFieldName.ExternalLink}
+                />
+              )}
+
+              {coverPhoto && (
+                <AttachedImagePreview
+                  handleRemove={handleRemoveSelectedImage}
+                  selectedImages={[coverPhoto]}
+                />
+              )}
             </FormGroup>
 
-            <Flex justifyContent="end">
+            <Flex justifyContent="space-between">
+              <ImageInput refreshKey={imageInputKey} setImage={setCoverPhoto} />
               <PrimaryActionButton
                 isLoading={isSubmitting}
                 sx={{ marginTop: 1.5 }}
