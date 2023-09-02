@@ -1,0 +1,18 @@
+fragment ProposalActionEvent on ProposalActionEvent {
+  id
+  name
+  description
+  location
+  online
+
+  coverPhoto {
+    id
+  }
+
+  host {
+    id
+    user {
+      ...UserAvatar
+    }
+  }
+}

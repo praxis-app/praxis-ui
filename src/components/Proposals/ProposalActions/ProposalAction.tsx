@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ProposalActionFragment } from "../../../apollo/gen";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import AttachedImage from "../../Images/AttachedImage";
+import ProposalActionEvent from "./ProposalActionEvent";
 import ProposalActionRole from "./ProposalActionRole";
 
 interface Props {
@@ -11,10 +12,24 @@ interface Props {
 }
 
 const ProposalAction = ({
-  action: { actionType, groupDescription, groupName, groupCoverPhoto, role },
+  action: {
+    event,
+    actionType,
+    groupCoverPhoto,
+    groupDescription,
+    groupName,
+    role,
+  },
   ratified,
 }: Props) => {
   const { t } = useTranslation();
+
+  if (actionType === ProposalActionType.PlanEvent) {
+    if (!event) {
+      return <Typography>{t("errors.somethingWentWrong")}</Typography>;
+    }
+    return <ProposalActionEvent event={event} />;
+  }
 
   if (actionType === ProposalActionType.ChangeName) {
     return (
