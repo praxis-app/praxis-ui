@@ -2077,7 +2077,6 @@ export type GroupEventsTabQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
-    name: string;
     futureEvents: Array<{
       __typename?: "Event";
       id: number;
@@ -7663,7 +7662,6 @@ export type EditGroupRoleQueryResult = Apollo.QueryResult<
 export const GroupEventsTabDocument = gql`
   query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
     group(id: $groupId) {
-      name
       futureEvents {
         ...EventCompact
       }

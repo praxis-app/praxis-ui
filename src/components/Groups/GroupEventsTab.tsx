@@ -41,7 +41,7 @@ const GroupEventsTab = ({ groupId }: Props) => {
   }
 
   const {
-    group: { name, futureEvents, pastEvents, myPermissions },
+    group: { futureEvents, pastEvents, myPermissions },
   } = data;
 
   const showCreateEventButton =
@@ -50,10 +50,10 @@ const GroupEventsTab = ({ groupId }: Props) => {
   return (
     <>
       <Modal
-        subtext={name}
         title={t("events.actions.createEvent")}
         onClose={handleCloseModal}
         open={isModalOpen}
+        centeredTitle
       >
         <EventForm groupId={groupId} />
       </Modal>
