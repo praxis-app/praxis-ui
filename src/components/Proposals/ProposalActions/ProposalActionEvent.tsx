@@ -4,7 +4,10 @@ import dayjs from "dayjs";
 import humanizeDuration from "humanize-duration";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProposalActionEventFragment } from "../../../apollo/gen";
+import {
+  ProposalActionEventFragment,
+  ProposalActionEventInput,
+} from "../../../apollo/gen";
 import { useAboveBreakpoint, useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupEventsTabPath } from "../../../utils/group.utils";
 import { formatDateTime } from "../../../utils/time.utils";
@@ -18,11 +21,13 @@ import ExternalLink from "../../Shared/ExternalLink";
 import Link from "../../Shared/Link";
 
 interface Props {
-  event: ProposalActionEventFragment;
+  event: ProposalActionEventFragment | ProposalActionEventInput;
+  coverPhotoFile?: File;
+  preview?: boolean;
 }
 
-const ProposalActionEvent = ({ event }: Props) => {
-  const [showEvent, setShowEvent] = useState(false);
+const ProposalActionEvent = ({ event, coverPhotoFile, preview }: Props) => {
+  const [showEvent, setShowEvent] = useState(!!preview);
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
@@ -36,13 +41,11 @@ const ProposalActionEvent = ({ event }: Props) => {
     online,
     endsAt,
     startsAt,
-    proposalAction,
     coverPhoto,
   } = event;
 
-  const {
-    proposal: { group },
-  } = proposalAction;
+  const group =
+    "proposalAction" in event ? event.proposalAction.proposal.group : undefined;
 
   const groupEventsTabPath = getGroupEventsTabPath(group?.name || "");
 
@@ -84,7 +87,7 @@ const ProposalActionEvent = ({ event }: Props) => {
   };
 
   return (
-    <Box marginBottom={2.5}>
+    <Box marginBottom={preview ? 0 : 2.5} marginTop={preview ? 2 : 0}>
       <Accordion
         expanded={showEvent}
         onChange={() => setShowEvent(!showEvent)}
@@ -94,16 +97,21 @@ const ProposalActionEvent = ({ event }: Props) => {
           <Typography marginRight="0.5ch" fontFamily="Inter Bold">
             {t("proposals.labels.eventProposal")}:
           </Typography>
-          <EventAvatar event={event} size={15} sx={eventAvatarStyles} />
+          {"id" in event && (
+            <EventAvatar event={event} size={15} sx={eventAvatarStyles} />
+          )}
           {name}
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2.5 : 3 }}>
-          <CoverPhoto
-            imageId={coverPhoto?.id}
-            sx={{ marginBottom: 2.1, height: 125 }}
-            rounded
-          />
+          {(coverPhoto || coverPhotoFile) && (
+            <CoverPhoto
+              imageId={coverPhoto?.id}
+              imageFile={coverPhotoFile}
+              sx={{ marginBottom: 2.1, height: 125 }}
+              rounded
+            />
+          )}
 
           <Typography
             color="#dd3f4f"

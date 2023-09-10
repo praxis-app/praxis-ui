@@ -46,6 +46,7 @@ import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
+import ProposalActionEvent from "./ProposalActions/ProposalActionEvent";
 import ProposalActionFields from "./ProposalActions/ProposalActionFields";
 import ProposalActionRole from "./ProposalActions/ProposalActionRole";
 import ProposeEventModal from "./ProposalActions/ProposeEventModal";
@@ -375,13 +376,19 @@ const ProposalForm = ({
                   setFieldValue={setFieldValue}
                 />
 
-                {JSON.stringify(values.action.event)}
-
                 {values.action.role && (
                   <ProposalActionRole
                     actionType={values.action.actionType as ProposalActionType}
                     role={values.action.role}
                     marginTop={3}
+                    preview
+                  />
+                )}
+
+                {values.action.event && (
+                  <ProposalActionEvent
+                    coverPhotoFile={values.action.event.coverPhoto}
+                    event={values.action.event}
                     preview
                   />
                 )}
