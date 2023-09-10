@@ -2264,6 +2264,9 @@ export type GroupProfileQuery = {
               description: string;
               location?: string | null;
               online: boolean;
+              startsAt: any;
+              endsAt?: any | null;
+              externalLink?: string | null;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
               host: {
                 __typename?: "ProposalActionEventHost";
@@ -2273,6 +2276,19 @@ export type GroupProfileQuery = {
                   id: number;
                   name: string;
                   profilePicture: { __typename?: "Image"; id: number };
+                };
+              };
+              proposalAction: {
+                __typename?: "ProposalAction";
+                id: number;
+                proposal: {
+                  __typename?: "Proposal";
+                  id: number;
+                  group?: {
+                    __typename?: "Group";
+                    id: number;
+                    name: string;
+                  } | null;
                 };
               };
             } | null;
@@ -2648,6 +2664,9 @@ export type PublicGroupsFeedQuery = {
             description: string;
             location?: string | null;
             online: boolean;
+            startsAt: any;
+            endsAt?: any | null;
+            externalLink?: string | null;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
             host: {
               __typename?: "ProposalActionEventHost";
@@ -2657,6 +2676,19 @@ export type PublicGroupsFeedQuery = {
                 id: number;
                 name: string;
                 profilePicture: { __typename?: "Image"; id: number };
+              };
+            };
+            proposalAction: {
+              __typename?: "ProposalAction";
+              id: number;
+              proposal: {
+                __typename?: "Proposal";
+                id: number;
+                group?: {
+                  __typename?: "Group";
+                  id: number;
+                  name: string;
+                } | null;
               };
             };
           } | null;
@@ -2919,6 +2951,9 @@ type FeedItem_Proposal_Fragment = {
       description: string;
       location?: string | null;
       online: boolean;
+      startsAt: any;
+      endsAt?: any | null;
+      externalLink?: string | null;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       host: {
         __typename?: "ProposalActionEventHost";
@@ -2928,6 +2963,15 @@ type FeedItem_Proposal_Fragment = {
           id: number;
           name: string;
           profilePicture: { __typename?: "Image"; id: number };
+        };
+      };
+      proposalAction: {
+        __typename?: "ProposalAction";
+        id: number;
+        proposal: {
+          __typename?: "Proposal";
+          id: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
         };
       };
     } | null;
@@ -3353,6 +3397,9 @@ export type ProposalActionFragment = {
     description: string;
     location?: string | null;
     online: boolean;
+    startsAt: any;
+    endsAt?: any | null;
+    externalLink?: string | null;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     host: {
       __typename?: "ProposalActionEventHost";
@@ -3362,6 +3409,15 @@ export type ProposalActionFragment = {
         id: number;
         name: string;
         profilePicture: { __typename?: "Image"; id: number };
+      };
+    };
+    proposalAction: {
+      __typename?: "ProposalAction";
+      id: number;
+      proposal: {
+        __typename?: "Proposal";
+        id: number;
+        group?: { __typename?: "Group"; id: number; name: string } | null;
       };
     };
   } | null;
@@ -3418,6 +3474,9 @@ export type ProposalActionEventFragment = {
   description: string;
   location?: string | null;
   online: boolean;
+  startsAt: any;
+  endsAt?: any | null;
+  externalLink?: string | null;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   host: {
     __typename?: "ProposalActionEventHost";
@@ -3427,6 +3486,15 @@ export type ProposalActionEventFragment = {
       id: number;
       name: string;
       profilePicture: { __typename?: "Image"; id: number };
+    };
+  };
+  proposalAction: {
+    __typename?: "ProposalAction";
+    id: number;
+    proposal: {
+      __typename?: "Proposal";
+      id: number;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
     };
   };
 };
@@ -3519,6 +3587,9 @@ export type ProposalCardFragment = {
       description: string;
       location?: string | null;
       online: boolean;
+      startsAt: any;
+      endsAt?: any | null;
+      externalLink?: string | null;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       host: {
         __typename?: "ProposalActionEventHost";
@@ -3528,6 +3599,15 @@ export type ProposalCardFragment = {
           id: number;
           name: string;
           profilePicture: { __typename?: "Image"; id: number };
+        };
+      };
+      proposalAction: {
+        __typename?: "ProposalAction";
+        id: number;
+        proposal: {
+          __typename?: "Proposal";
+          id: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
         };
       };
     } | null;
@@ -3657,6 +3737,9 @@ export type CreateProposalMutation = {
           description: string;
           location?: string | null;
           online: boolean;
+          startsAt: any;
+          endsAt?: any | null;
+          externalLink?: string | null;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
           host: {
             __typename?: "ProposalActionEventHost";
@@ -3666,6 +3749,15 @@ export type CreateProposalMutation = {
               id: number;
               name: string;
               profilePicture: { __typename?: "Image"; id: number };
+            };
+          };
+          proposalAction: {
+            __typename?: "ProposalAction";
+            id: number;
+            proposal: {
+              __typename?: "Proposal";
+              id: number;
+              group?: { __typename?: "Group"; id: number; name: string } | null;
             };
           };
         } | null;
@@ -3786,6 +3878,9 @@ export type UpdateProposalMutation = {
           description: string;
           location?: string | null;
           online: boolean;
+          startsAt: any;
+          endsAt?: any | null;
+          externalLink?: string | null;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
           host: {
             __typename?: "ProposalActionEventHost";
@@ -3795,6 +3890,15 @@ export type UpdateProposalMutation = {
               id: number;
               name: string;
               profilePicture: { __typename?: "Image"; id: number };
+            };
+          };
+          proposalAction: {
+            __typename?: "ProposalAction";
+            id: number;
+            proposal: {
+              __typename?: "Proposal";
+              id: number;
+              group?: { __typename?: "Group"; id: number; name: string } | null;
             };
           };
         } | null;
@@ -3931,6 +4035,9 @@ export type ProposalQuery = {
         description: string;
         location?: string | null;
         online: boolean;
+        startsAt: any;
+        endsAt?: any | null;
+        externalLink?: string | null;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
         host: {
           __typename?: "ProposalActionEventHost";
@@ -3940,6 +4047,15 @@ export type ProposalQuery = {
             id: number;
             name: string;
             profilePicture: { __typename?: "Image"; id: number };
+          };
+        };
+        proposalAction: {
+          __typename?: "ProposalAction";
+          id: number;
+          proposal: {
+            __typename?: "Proposal";
+            id: number;
+            group?: { __typename?: "Group"; id: number; name: string } | null;
           };
         };
       } | null;
@@ -4535,6 +4651,9 @@ export type FollowUserMutation = {
                 description: string;
                 location?: string | null;
                 online: boolean;
+                startsAt: any;
+                endsAt?: any | null;
+                externalLink?: string | null;
                 coverPhoto?: { __typename?: "Image"; id: number } | null;
                 host: {
                   __typename?: "ProposalActionEventHost";
@@ -4544,6 +4663,19 @@ export type FollowUserMutation = {
                     id: number;
                     name: string;
                     profilePicture: { __typename?: "Image"; id: number };
+                  };
+                };
+                proposalAction: {
+                  __typename?: "ProposalAction";
+                  id: number;
+                  proposal: {
+                    __typename?: "Proposal";
+                    id: number;
+                    group?: {
+                      __typename?: "Group";
+                      id: number;
+                      name: string;
+                    } | null;
                   };
                 };
               } | null;
@@ -4808,6 +4940,9 @@ export type HomeFeedQuery = {
               description: string;
               location?: string | null;
               online: boolean;
+              startsAt: any;
+              endsAt?: any | null;
+              externalLink?: string | null;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
               host: {
                 __typename?: "ProposalActionEventHost";
@@ -4817,6 +4952,19 @@ export type HomeFeedQuery = {
                   id: number;
                   name: string;
                   profilePicture: { __typename?: "Image"; id: number };
+                };
+              };
+              proposalAction: {
+                __typename?: "ProposalAction";
+                id: number;
+                proposal: {
+                  __typename?: "Proposal";
+                  id: number;
+                  group?: {
+                    __typename?: "Group";
+                    id: number;
+                    name: string;
+                  } | null;
                 };
               };
             } | null;
@@ -5012,6 +5160,9 @@ export type UserProfileQuery = {
               description: string;
               location?: string | null;
               online: boolean;
+              startsAt: any;
+              endsAt?: any | null;
+              externalLink?: string | null;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
               host: {
                 __typename?: "ProposalActionEventHost";
@@ -5021,6 +5172,19 @@ export type UserProfileQuery = {
                   id: number;
                   name: string;
                   profilePicture: { __typename?: "Image"; id: number };
+                };
+              };
+              proposalAction: {
+                __typename?: "ProposalAction";
+                id: number;
+                proposal: {
+                  __typename?: "Proposal";
+                  id: number;
+                  group?: {
+                    __typename?: "Group";
+                    id: number;
+                    name: string;
+                  } | null;
                 };
               };
             } | null;
@@ -5594,6 +5758,9 @@ export const ProposalActionEventFragmentDoc = gql`
     description
     location
     online
+    startsAt
+    endsAt
+    externalLink
     coverPhoto {
       id
     }
@@ -5601,6 +5768,16 @@ export const ProposalActionEventFragmentDoc = gql`
       id
       user {
         ...UserAvatar
+      }
+    }
+    proposalAction {
+      id
+      proposal {
+        id
+        group {
+          id
+          name
+        }
       }
     }
   }
