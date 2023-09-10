@@ -2,6 +2,7 @@ import { Flag, Language, Place, Timer } from "@mui/icons-material";
 import { Box, Divider, SxProps, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import humanizeDuration from "humanize-duration";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -27,7 +28,9 @@ interface Props {
 }
 
 const ProposalActionEvent = ({ event, coverPhotoFile, preview }: Props) => {
-  const [showEvent, setShowEvent] = useState(!!preview);
+  const { asPath } = useRouter();
+  const isProposalPage = asPath.includes("/proposals/");
+  const [showEvent, setShowEvent] = useState(!!preview || isProposalPage);
 
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
