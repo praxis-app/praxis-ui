@@ -3499,6 +3499,13 @@ export type ProposalActionEventFragment = {
   };
 };
 
+export type ProposalActionEventAvatarFragment = {
+  __typename?: "ProposalActionEvent";
+  id: number;
+  name: string;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
+};
+
 export type ProposalActionPermissionFragment = {
   __typename?: "ProposalActionPermission";
   id: number;
@@ -5954,6 +5961,15 @@ export const PostFormFragmentDoc = gql`
     }
   }
   ${AttachedImageFragmentDoc}
+`;
+export const ProposalActionEventAvatarFragmentDoc = gql`
+  fragment ProposalActionEventAvatar on ProposalActionEvent {
+    id
+    name
+    coverPhoto {
+      id
+    }
+  }
 `;
 export const ProposalFormFragmentDoc = gql`
   fragment ProposalForm on Proposal {

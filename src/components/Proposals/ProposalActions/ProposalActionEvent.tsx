@@ -8,6 +8,7 @@ import { ProposalActionEventFragment } from "../../../apollo/gen";
 import { useAboveBreakpoint, useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupEventsTabPath } from "../../../utils/group.utils";
 import { formatDateTime } from "../../../utils/time.utils";
+import EventAvatar from "../../Events/EventAvatar";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -19,8 +20,14 @@ interface Props {
   event: ProposalActionEventFragment;
 }
 
-const ProposalActionEvent = ({
-  event: {
+const ProposalActionEvent = ({ event }: Props) => {
+  const [showEvent, setShowEvent] = useState(false);
+
+  const { t } = useTranslation();
+  const isDesktop = useIsDesktop();
+  const isAboveSmall = useAboveBreakpoint("sm");
+
+  const {
     name,
     description,
     externalLink,
@@ -29,13 +36,7 @@ const ProposalActionEvent = ({
     endsAt,
     startsAt,
     proposalAction,
-  },
-}: Props) => {
-  const [showEvent, setShowEvent] = useState(false);
-
-  const { t } = useTranslation();
-  const isDesktop = useIsDesktop();
-  const isAboveSmall = useAboveBreakpoint("sm");
+  } = event;
 
   const {
     proposal: { group },
@@ -64,6 +65,11 @@ const ProposalActionEvent = ({
     marginBottom: "-0.3ch",
     marginRight: "0.8ch",
   };
+  const eventAvatarStyles: SxProps = {
+    marginTop: 0.6,
+    marginRight: 0.7,
+    marginLeft: 0.2,
+  };
 
   const getNameTextWidth = () => {
     if (isDesktop) {
@@ -86,6 +92,7 @@ const ProposalActionEvent = ({
           <Typography marginRight="0.5ch" fontFamily="Inter Bold">
             Proposed event:
           </Typography>
+          <EventAvatar event={event} size={15} sx={eventAvatarStyles} />
           {name}
         </AccordionSummary>
 

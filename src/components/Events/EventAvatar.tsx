@@ -1,11 +1,14 @@
 import { Avatar, AvatarProps, useTheme } from "@mui/material";
-import { EventAvatarFragment } from "../../apollo/gen";
+import {
+  EventAvatarFragment,
+  ProposalActionEventAvatarFragment,
+} from "../../apollo/gen";
 import { getEventPath } from "../../utils/event.utils";
 import { getImagePath } from "../../utils/image.utils";
 import Link from "../Shared/Link";
 
 interface Props extends AvatarProps {
-  event: EventAvatarFragment;
+  event: EventAvatarFragment | ProposalActionEventAvatarFragment;
   withLink?: boolean;
   size?: number;
 }
