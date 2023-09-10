@@ -101,8 +101,9 @@
       "proposedGroupCoverPhoto": "Proposed group cover photo",
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
-      "proposedRole": "Proposed role",
-      "proposedRoleChange": "Role change",
+      "roleProposal": "Role proposal",
+      "eventProposal": "Event proposal",
+      "roleChangeProposal": "Role change proposal",
       "ratified": "Ratified",
       "selectRoleToChange": "Choose a role",
       "usersProposal": "{{name}}'s Proposal"

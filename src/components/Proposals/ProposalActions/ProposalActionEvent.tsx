@@ -92,7 +92,7 @@ const ProposalActionEvent = ({ event }: Props) => {
       >
         <AccordionSummary>
           <Typography marginRight="0.5ch" fontFamily="Inter Bold">
-            Proposed event:
+            {t("proposals.labels.eventProposal")}:
           </Typography>
           <EventAvatar event={event} size={15} sx={eventAvatarStyles} />
           {name}
