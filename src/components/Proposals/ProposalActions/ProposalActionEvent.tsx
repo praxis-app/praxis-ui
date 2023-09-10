@@ -9,6 +9,7 @@ import { useAboveBreakpoint, useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupEventsTabPath } from "../../../utils/group.utils";
 import { formatDateTime } from "../../../utils/time.utils";
 import EventAvatar from "../../Events/EventAvatar";
+import CoverPhoto from "../../Images/CoverPhoto";
 import Accordion, {
   AccordionDetails,
   AccordionSummary,
@@ -36,6 +37,7 @@ const ProposalActionEvent = ({ event }: Props) => {
     endsAt,
     startsAt,
     proposalAction,
+    coverPhoto,
   } = event;
 
   const {
@@ -97,6 +99,12 @@ const ProposalActionEvent = ({ event }: Props) => {
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2.5 : 3 }}>
+          <CoverPhoto
+            imageId={coverPhoto?.id}
+            sx={{ marginBottom: 2.1, height: 125 }}
+            rounded
+          />
+
           <Typography
             color="#dd3f4f"
             fontSize="14px"
