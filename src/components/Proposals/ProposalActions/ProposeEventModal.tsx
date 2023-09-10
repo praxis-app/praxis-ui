@@ -66,6 +66,7 @@ const ProposeEventModal = ({
     name: "",
     description: "",
     location: "",
+    externalLink: "",
     online: null,
     hostUserId: currentUserId,
     startsAt: startOfNextHour(),
