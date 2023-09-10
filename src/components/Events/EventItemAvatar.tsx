@@ -1,22 +1,15 @@
-import { Avatar, Box, SxProps, useTheme } from "@mui/material";
-import { EventItemAvatarFragment, UserAvatarFragment } from "../../apollo/gen";
-import { getEventPath } from "../../utils/event.utils";
-import { getImagePath } from "../../utils/image.utils";
-import Link from "../Shared/Link";
+import { Box, SxProps, useTheme } from "@mui/material";
+import { EventAvatarFragment, UserAvatarFragment } from "../../apollo/gen";
 import UserAvatar from "../Users/UserAvatar";
+import EventAvatar from "./EventAvatar";
 
 interface Props {
-  event: EventItemAvatarFragment;
+  event: EventAvatarFragment;
   user: UserAvatarFragment;
 }
 
 const EventItemAvatar = ({ user, event }: Props) => {
   const theme = useTheme();
-
-  const eventPagePath = getEventPath(event.id);
-  const imagePath = event.coverPhoto
-    ? getImagePath(event.coverPhoto.id)
-    : undefined;
 
   const avatarStyles: SxProps = {
     border: `2px solid ${theme.palette.background.paper}`,
@@ -27,9 +20,7 @@ const EventItemAvatar = ({ user, event }: Props) => {
 
   return (
     <Box position="relative" marginRight={0.25}>
-      <Link href={eventPagePath}>
-        <Avatar src={imagePath} alt={event.name} />
-      </Link>
+      <EventAvatar event={event} withLink />
       <UserAvatar sx={avatarStyles} size={24} user={user} withLink />
     </Box>
   );

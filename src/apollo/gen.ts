@@ -1171,6 +1171,13 @@ export type EventAttendeeButtonsFragment = {
   group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
 };
 
+export type EventAvatarFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  coverPhoto: { __typename?: "Image"; id: number };
+};
+
 export type EventCompactFragment = {
   __typename?: "Event";
   id: number;
@@ -1201,13 +1208,6 @@ export type EventFormFragment = {
   location?: string | null;
   online: boolean;
   externalLink?: string | null;
-};
-
-export type EventItemAvatarFragment = {
-  __typename?: "Event";
-  id: number;
-  name: string;
-  coverPhoto: { __typename?: "Image"; id: number };
 };
 
 export type EventPageCardFragment = {
@@ -5707,8 +5707,8 @@ export const ServerInviteCardFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const EventItemAvatarFragmentDoc = gql`
-  fragment EventItemAvatar on Event {
+export const EventAvatarFragmentDoc = gql`
+  fragment EventAvatar on Event {
     id
     name
     coverPhoto {
@@ -5738,7 +5738,7 @@ export const PostCardFragmentDoc = gql`
       isJoinedByMe @include(if: $isLoggedIn)
     }
     event {
-      ...EventItemAvatar
+      ...EventAvatar
       group @include(if: $isLoggedIn) {
         id
         isJoinedByMe
@@ -5749,7 +5749,7 @@ export const PostCardFragmentDoc = gql`
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
   ${GroupPermissionsFragmentDoc}
-  ${EventItemAvatarFragmentDoc}
+  ${EventAvatarFragmentDoc}
 `;
 export const ProposalActionEventFragmentDoc = gql`
   fragment ProposalActionEvent on ProposalActionEvent {

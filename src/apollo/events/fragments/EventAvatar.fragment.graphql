@@ -1,4 +1,4 @@
-fragment EventItemAvatar on Event {
+fragment EventAvatar on Event {
   id
   name
   coverPhoto {
