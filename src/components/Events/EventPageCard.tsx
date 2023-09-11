@@ -1,5 +1,12 @@
 import { useReactiveVar } from "@apollo/client";
-import { Flag, Group, Language, Place, Timer } from "@mui/icons-material";
+import {
+  Flag,
+  Group,
+  Language,
+  Person,
+  Place,
+  Timer,
+} from "@mui/icons-material";
 import {
   Card,
   CardContent as MuiCardContent,
@@ -31,6 +38,7 @@ import { redirectTo } from "../../utils/common.utils";
 import { getEventPath } from "../../utils/event.utils";
 import { getGroupEventsTabPath } from "../../utils/group.utils";
 import { formatDateTime } from "../../utils/time.utils";
+import { getUserProfilePath } from "../../utils/user.utils";
 import CoverPhoto from "../Images/CoverPhoto";
 import ExternalLink from "../Shared/ExternalLink";
 import ItemMenu from "../Shared/ItemMenu";
@@ -97,6 +105,7 @@ const EventPageCard = ({
     interestedCount,
     goingCount,
     group,
+    host,
     location,
   } = event;
 
@@ -107,6 +116,7 @@ const EventPageCard = ({
   const editEventPath = `${eventPagePath}/edit`;
   const groupEventsTabPath = getGroupEventsTabPath(group?.name || "");
   const discussionTabPath = `${eventPagePath}${TAB_QUERY_PARAM}${EventPageTabs.Discussion}`;
+  const hostPath = getUserProfilePath(host.name);
 
   const startsAtFormatted = formatDateTime(startsAt);
   const endsAtFormatted = dayjs(endsAt).format(" [-] h:mm a");
@@ -236,6 +246,14 @@ const EventPageCard = ({
             </Link>
           </Typography>
         )}
+
+        <Typography color="text.secondary" gutterBottom>
+          <Person sx={iconStyles} />
+          {t("events.labels.host")}:
+          <Link href={hostPath} sx={{ marginLeft: "0.4ch" }}>
+            {host.name}
+          </Link>
+        </Typography>
 
         {location && (
           <Typography color="text.secondary" gutterBottom>

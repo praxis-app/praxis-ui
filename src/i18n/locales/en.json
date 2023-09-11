@@ -305,16 +305,17 @@
     },
     "labels": {
       "duration": "Duration: {{duration}}",
-      "onlineWithColon": "Online:",
       "eventBy": "Event by",
       "going": "Going",
+      "host": "Host",
       "interested": "Interested",
       "online": "Online",
       "onlineEvent": "Online Event",
+      "onlineWithColon": "Online:",
       "past": "Past",
+      "selectHost": "Select a host",
       "thisWeek": "This Week",
-      "upcoming": "Upcoming",
-      "selectHost": "Select a host"
+      "upcoming": "Upcoming"
     },
     "actions": {
       "createEvent": "Create Event",

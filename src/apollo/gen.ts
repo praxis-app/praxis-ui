@@ -1220,13 +1220,14 @@ export type EventPageCardFragment = {
   name: string;
   description: string;
   location?: string | null;
-  startsAt: any;
-  endsAt?: any | null;
   online: boolean;
   externalLink?: string | null;
   interestedCount: number;
   goingCount: number;
+  startsAt: any;
+  endsAt?: any | null;
   attendingStatus?: string | null;
+  host: { __typename?: "User"; id: number; name: string };
   coverPhoto: { __typename?: "Image"; id: number };
   group?: {
     __typename?: "Group";
@@ -1322,13 +1323,14 @@ export type UpdateEventMutation = {
       name: string;
       description: string;
       location?: string | null;
-      startsAt: any;
-      endsAt?: any | null;
       online: boolean;
       externalLink?: string | null;
       interestedCount: number;
       goingCount: number;
+      startsAt: any;
+      endsAt?: any | null;
       attendingStatus?: string | null;
+      host: { __typename?: "User"; id: number; name: string };
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
         __typename?: "Group";
@@ -1401,12 +1403,12 @@ export type EventPageQuery = {
     name: string;
     description: string;
     location?: string | null;
-    startsAt: any;
-    endsAt?: any | null;
     online: boolean;
     externalLink?: string | null;
     interestedCount: number;
     goingCount: number;
+    startsAt: any;
+    endsAt?: any | null;
     attendingStatus?: string | null;
     posts: Array<{
       __typename?: "Post";
@@ -1465,6 +1467,7 @@ export type EventPageQuery = {
         manageEvents: boolean;
       };
     } | null;
+    host: { __typename?: "User"; id: number; name: string };
     coverPhoto: { __typename?: "Image"; id: number };
   };
   me?: {
@@ -5520,13 +5523,17 @@ export const EventPageCardFragmentDoc = gql`
     name
     description
     location
-    startsAt
-    endsAt
     online
     externalLink
     interestedCount
     goingCount
+    startsAt
+    endsAt
     ...EventAttendeeButtons @include(if: $isLoggedIn)
+    host {
+      id
+      name
+    }
     coverPhoto {
       id
     }
