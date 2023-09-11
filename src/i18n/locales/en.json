@@ -313,7 +313,8 @@
       "onlineEvent": "Online Event",
       "past": "Past",
       "thisWeek": "This Week",
-      "upcoming": "Upcoming"
+      "upcoming": "Upcoming",
+      "selectHost": "Select a host"
     },
     "actions": {
       "createEvent": "Create Event",

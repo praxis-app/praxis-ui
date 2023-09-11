@@ -73,6 +73,7 @@ export type CreateEventInput = {
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
+  hostId: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   online?: InputMaybe<Scalars["Boolean"]>;
@@ -210,6 +211,7 @@ export type Event = {
   externalLink?: Maybe<Scalars["String"]>;
   goingCount: Scalars["Int"];
   group?: Maybe<Group>;
+  host: User;
   id: Scalars["Int"];
   images: Array<Image>;
   interestedCount: Scalars["Int"];
@@ -919,6 +921,7 @@ export type UpdateEventInput = {
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
+  hostId?: InputMaybe<Scalars["Int"]>;
   id: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
@@ -1208,6 +1211,7 @@ export type EventFormFragment = {
   location?: string | null;
   online: boolean;
   externalLink?: string | null;
+  host: { __typename?: "User"; id: number };
 };
 
 export type EventPageCardFragment = {
@@ -1380,6 +1384,7 @@ export type EditEventQuery = {
       name: string;
       myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
     } | null;
+    host: { __typename?: "User"; id: number };
   };
 };
 
@@ -5504,6 +5509,9 @@ export const EventFormFragmentDoc = gql`
     location
     online
     externalLink
+    host {
+      id
+    }
   }
 `;
 export const EventPageCardFragmentDoc = gql`

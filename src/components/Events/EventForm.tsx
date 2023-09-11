@@ -22,6 +22,7 @@ import {
   GroupEventsTabQuery,
   UpdateEventInput,
   useCreateEventMutation,
+  useGroupMembersByGroupIdQuery,
   useUpdateEventMutation,
 } from "../../apollo/gen";
 import { Blurple } from "../../styles/theme";
@@ -33,6 +34,7 @@ import ImageInput from "../Images/ImageInput";
 import DateTimePicker from "../Shared/DateTimePicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import ProgressBar from "../Shared/ProgressBar";
 import { TextField } from "../Shared/TextField";
 
 export enum EventFormFieldName {
@@ -67,6 +69,10 @@ const EventForm = ({ editEvent, groupId }: Props) => {
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [showEndsAt, setShowEndsAt] = useState(!!editEvent?.endsAt);
 
+  const { data, loading } = useGroupMembersByGroupIdQuery({
+    variables: { groupId: groupId! },
+    skip: !groupId,
+  });
   const [createEvent] = useCreateEventMutation();
   const [updateEvent] = useUpdateEventMutation();
 
@@ -80,6 +86,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     location: editEvent ? editEvent.location : "",
     online: editEvent ? editEvent.online : null,
     externalLink: editEvent ? editEvent.externalLink : "",
+    hostId: editEvent ? editEvent.host.id : 0,
   };
 
   const handleCreate = async (formValues: CreateEventInput) =>
@@ -223,6 +230,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
       {({
         dirty,
         errors,
+        handleChange,
         isSubmitting,
         setFieldValue,
         submitCount,
@@ -263,6 +271,25 @@ const EventForm = ({ editEvent, groupId }: Props) => {
             >
               {t("events.form.endDateAndTime")}
             </Button>
+
+            {data && (
+              <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+                <InputLabel>{t("events.labels.selectHost")}</InputLabel>
+                <Select
+                  name="hostId"
+                  onChange={handleChange}
+                  value={values.hostId || ""}
+                >
+                  {data.group.members.map(({ id, name }) => (
+                    <MenuItem value={id} key={id}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+
+            {loading && <ProgressBar />}
 
             <FormControl
               error={!!errors.online && !!submitCount}

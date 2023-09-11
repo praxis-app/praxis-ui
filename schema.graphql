@@ -40,6 +40,7 @@ input CreateEventInput {
   endsAt: DateTime
   externalLink: String
   groupId: Int
+  hostId: Int!
   location: String
   name: String!
   online: Boolean
@@ -169,6 +170,7 @@ type Event {
   externalLink: String
   goingCount: Int!
   group: Group
+  host: User!
   id: Int!
   images: [Image!]!
   interestedCount: Int!
@@ -622,6 +624,7 @@ input UpdateEventInput {
   description: String!
   endsAt: DateTime
   externalLink: String
+  hostId: Int
   id: Int!
   location: String
   name: String!
