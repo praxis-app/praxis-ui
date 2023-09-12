@@ -332,7 +332,8 @@
       "missingHost": "Event must have a host",
       "missingLocation": "Location cannot be empty for in person events",
       "missingName": "Event name cannot be empty",
-      "onlineOrOffline": "Event must be either virtual or in person"
+      "onlineOrOffline": "Event must be either virtual or in person",
+      "invalidLink": "External link must be a valid URL"
     },
     "tabs": {
       "about": "About",

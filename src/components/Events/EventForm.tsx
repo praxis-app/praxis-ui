@@ -26,7 +26,11 @@ import {
   useUpdateEventMutation,
 } from "../../apollo/gen";
 import { Blurple } from "../../styles/theme";
-import { getRandomString, redirectTo } from "../../utils/common.utils";
+import {
+  getRandomString,
+  isValidUrl,
+  redirectTo,
+} from "../../utils/common.utils";
 import { getEventPath } from "../../utils/event.utils";
 import { startOfNextHour } from "../../utils/time.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
@@ -202,10 +206,11 @@ const EventForm = ({ editEvent, groupId }: Props) => {
 
   const validate = ({
     description,
+    externalLink,
+    hostId,
     location,
     name,
     online,
-    hostId,
   }: CreateEventInput) => {
     const errors: FormikErrors<CreateEventInput> = {};
     if (!name) {
@@ -222,6 +227,9 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     }
     if (!hostId) {
       errors.hostId = t("events.errors.missingHost");
+    }
+    if (externalLink && !isValidUrl(externalLink)) {
+      errors.externalLink = t("events.errors.invalidLink");
     }
     return errors;
   };

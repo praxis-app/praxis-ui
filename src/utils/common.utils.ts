@@ -24,6 +24,16 @@ export const isRenderable = (node: ReactNode): boolean => {
   }
 };
 
+export const isValidUrl = (str: string) => {
+  let url;
+  try {
+    url = new URL(str);
+  } catch {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+};
+
 export const initAxe = () => {
   if (
     typeof window !== "undefined" &&
