@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikErrors } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -134,6 +134,32 @@ const ProposeEventModal = ({
     setImageInputKey(getRandomString());
   };
 
+  const validate = ({
+    description,
+    location,
+    name,
+    online,
+    hostId,
+  }: ProposalActionEventInput) => {
+    const errors: FormikErrors<ProposalActionEventInput> = {};
+    if (!name) {
+      errors.name = t("events.errors.missingName");
+    }
+    if (!description) {
+      errors.description = t("events.errors.missingDetails");
+    }
+    if (online === null) {
+      errors.online = t("events.errors.onlineOrOffline");
+    }
+    if (online === false && !location) {
+      errors.location = t("events.errors.missingLocation");
+    }
+    if (!hostId) {
+      errors.hostId = t("events.errors.missingHost");
+    }
+    return errors;
+  };
+
   return (
     <Modal
       open={open}
@@ -141,7 +167,11 @@ const ProposeEventModal = ({
       title={t("proposals.actionTypes.planEvent")}
       centeredTitle
     >
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validate={validate}
+      >
         {({
           errors,
           handleChange,
@@ -187,10 +217,14 @@ const ProposeEventModal = ({
               </Button>
 
               {data && (
-                <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+                <FormControl
+                  error={!!errors.hostId && !!submitCount}
+                  sx={{ marginBottom: 1 }}
+                  variant="standard"
+                >
                   <InputLabel>{t("events.labels.selectHost")}</InputLabel>
                   <Select
-                    name="hostId"
+                    name={EventFormFieldName.HostId}
                     onChange={handleChange}
                     value={values.hostId || ""}
                   >
@@ -200,6 +234,11 @@ const ProposeEventModal = ({
                       </MenuItem>
                     ))}
                   </Select>
+                  {!!(errors.hostId && submitCount) && (
+                    <Typography color="error" fontSize="small" marginTop={0.5}>
+                      {errors.hostId}
+                    </Typography>
+                  )}
                 </FormControl>
               )}
 

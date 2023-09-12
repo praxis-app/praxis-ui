@@ -45,6 +45,7 @@ export enum EventFormFieldName {
   StartsAt = "startsAt",
   EndsAt = "endsAt",
   Online = "online",
+  HostId = "hostId",
 }
 
 export const SHOW_ENDS_AT_BUTTON_STYLES: SxProps = {
@@ -277,10 +278,14 @@ const EventForm = ({ editEvent, groupId }: Props) => {
             </Button>
 
             {data && (
-              <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+              <FormControl
+                error={!!errors.hostId && !!submitCount}
+                sx={{ marginBottom: 1 }}
+                variant="standard"
+              >
                 <InputLabel>{t("events.labels.selectHost")}</InputLabel>
                 <Select
-                  name="hostId"
+                  name={EventFormFieldName.HostId}
                   onChange={handleChange}
                   value={values.hostId || ""}
                 >
