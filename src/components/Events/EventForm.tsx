@@ -204,6 +204,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     location,
     name,
     online,
+    hostId,
   }: CreateEventInput) => {
     const errors: FormikErrors<CreateEventInput> = {};
     if (!name) {
@@ -217,6 +218,9 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     }
     if (online === false && !location) {
       errors.location = t("events.errors.missingLocation");
+    }
+    if (!hostId) {
+      errors.hostId = t("events.errors.missingHost");
     }
     return errors;
   };
@@ -286,6 +290,11 @@ const EventForm = ({ editEvent, groupId }: Props) => {
                     </MenuItem>
                   ))}
                 </Select>
+                {!!(errors.hostId && submitCount) && (
+                  <Typography color="error" fontSize="small" marginTop={0.5}>
+                    {errors.hostId}
+                  </Typography>
+                )}
               </FormControl>
             )}
 
