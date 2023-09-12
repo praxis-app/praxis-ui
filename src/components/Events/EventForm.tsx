@@ -225,11 +225,11 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     if (online === false && !location) {
       errors.location = t("events.errors.missingLocation");
     }
-    if (!hostId) {
-      errors.hostId = t("events.errors.missingHost");
-    }
     if (externalLink && !isValidUrl(externalLink)) {
       errors.externalLink = t("events.errors.invalidLink");
+    }
+    if (!hostId) {
+      errors.hostId = t("events.errors.missingHost");
     }
     return errors;
   };

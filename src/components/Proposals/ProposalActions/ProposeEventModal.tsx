@@ -20,7 +20,7 @@ import {
   ProposalActionFieldName,
   ProposalActionType,
 } from "../../../constants/proposal.constants";
-import { getRandomString } from "../../../utils/common.utils";
+import { getRandomString, isValidUrl } from "../../../utils/common.utils";
 import { startOfNextHour } from "../../../utils/time.utils";
 import {
   EventFormFieldName,
@@ -136,10 +136,11 @@ const ProposeEventModal = ({
 
   const validate = ({
     description,
+    externalLink,
+    hostId,
     location,
     name,
     online,
-    hostId,
   }: ProposalActionEventInput) => {
     const errors: FormikErrors<ProposalActionEventInput> = {};
     if (!name) {
@@ -153,6 +154,9 @@ const ProposeEventModal = ({
     }
     if (online === false && !location) {
       errors.location = t("events.errors.missingLocation");
+    }
+    if (externalLink && !isValidUrl(externalLink)) {
+      errors.externalLink = t("events.errors.invalidLink");
     }
     if (!hostId) {
       errors.hostId = t("events.errors.missingHost");
