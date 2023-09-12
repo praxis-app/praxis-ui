@@ -12,7 +12,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ProposalActionEventInput } from "../../../apollo/gen";
+import {
+  ProposalActionEventInput,
+  useGroupMembersByGroupIdLazyQuery,
+} from "../../../apollo/gen";
 import {
   ProposalActionFieldName,
   ProposalActionType,
@@ -29,6 +32,7 @@ import DateTimePicker from "../../Shared/DateTimePicker";
 import Flex from "../../Shared/Flex";
 import Modal from "../../Shared/Modal";
 import PrimaryActionButton from "../../Shared/PrimaryActionButton";
+import ProgressBar from "../../Shared/ProgressBar";
 import { TextField } from "../../Shared/TextField";
 
 interface Props {
@@ -44,7 +48,6 @@ interface Props {
 
 const ProposeEventModal = ({
   actionType,
-  currentUserId,
   groupId,
   onClose,
   setFieldValue,
@@ -54,7 +57,16 @@ const ProposeEventModal = ({
   const [showEndsAt, setShowEndsAt] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const [getGroupMembers, { data, loading }] =
+    useGroupMembersByGroupIdLazyQuery();
+
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (groupId) {
+      getGroupMembers({ variables: { groupId } });
+    }
+  }, [groupId, getGroupMembers]);
 
   useEffect(() => {
     if (groupId && actionType === ProposalActionType.PlanEvent) {
@@ -68,7 +80,7 @@ const ProposeEventModal = ({
     location: "",
     externalLink: "",
     online: null,
-    hostUserId: currentUserId,
+    hostId: 0,
     startsAt: startOfNextHour(),
     endsAt: null,
   };
@@ -130,7 +142,14 @@ const ProposeEventModal = ({
       centeredTitle
     >
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ isSubmitting, values, setFieldValue, submitCount, errors }) => (
+        {({
+          errors,
+          handleChange,
+          isSubmitting,
+          setFieldValue,
+          submitCount,
+          values,
+        }) => (
           <Form>
             <FormGroup>
               <TextField
@@ -166,6 +185,25 @@ const ProposeEventModal = ({
               >
                 {t("events.form.endDateAndTime")}
               </Button>
+
+              {data && (
+                <FormControl variant="standard" sx={{ marginBottom: 1 }}>
+                  <InputLabel>{t("events.labels.selectHost")}</InputLabel>
+                  <Select
+                    name="hostId"
+                    onChange={handleChange}
+                    value={values.hostId || ""}
+                  >
+                    {data.group.members.map(({ id, name }) => (
+                      <MenuItem value={id} key={id}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+
+              {loading && <ProgressBar />}
 
               <FormControl
                 error={!!errors.online && !!submitCount}

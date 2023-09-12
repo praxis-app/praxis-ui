@@ -13,10 +13,7 @@ fragment ProposalActionEvent on ProposalActionEvent {
   }
 
   host {
-    id
-    user {
-      ...UserAvatar
-    }
+    ...UserAvatar
   }
 
   proposalAction {

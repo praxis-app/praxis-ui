@@ -425,7 +425,7 @@ type ProposalActionEvent {
   description: String!
   endsAt: DateTime
   externalLink: String
-  host: ProposalActionEventHost!
+  host: User!
   hosts: [ProposalActionEventHost!]!
   id: Int!
   location: String
@@ -449,7 +449,7 @@ input ProposalActionEventInput {
   description: String!
   endsAt: DateTime
   externalLink: String
-  hostUserId: Int!
+  hostId: Int!
   location: String
   name: String!
   online: Boolean

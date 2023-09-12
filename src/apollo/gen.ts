@@ -665,7 +665,7 @@ export type ProposalActionEvent = {
   description: Scalars["String"];
   endsAt?: Maybe<Scalars["DateTime"]>;
   externalLink?: Maybe<Scalars["String"]>;
-  host: ProposalActionEventHost;
+  host: User;
   hosts: Array<ProposalActionEventHost>;
   id: Scalars["Int"];
   location?: Maybe<Scalars["String"]>;
@@ -690,7 +690,7 @@ export type ProposalActionEventInput = {
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
-  hostUserId: Scalars["Int"];
+  hostId: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   online?: InputMaybe<Scalars["Boolean"]>;
@@ -2277,14 +2277,10 @@ export type GroupProfileQuery = {
               externalLink?: string | null;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
               host: {
-                __typename?: "ProposalActionEventHost";
+                __typename?: "User";
                 id: number;
-                user: {
-                  __typename?: "User";
-                  id: number;
-                  name: string;
-                  profilePicture: { __typename?: "Image"; id: number };
-                };
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
               };
               proposalAction: {
                 __typename?: "ProposalAction";
@@ -2677,14 +2673,10 @@ export type PublicGroupsFeedQuery = {
             externalLink?: string | null;
             coverPhoto?: { __typename?: "Image"; id: number } | null;
             host: {
-              __typename?: "ProposalActionEventHost";
+              __typename?: "User";
               id: number;
-              user: {
-                __typename?: "User";
-                id: number;
-                name: string;
-                profilePicture: { __typename?: "Image"; id: number };
-              };
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
             };
             proposalAction: {
               __typename?: "ProposalAction";
@@ -2964,14 +2956,10 @@ type FeedItem_Proposal_Fragment = {
       externalLink?: string | null;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       host: {
-        __typename?: "ProposalActionEventHost";
+        __typename?: "User";
         id: number;
-        user: {
-          __typename?: "User";
-          id: number;
-          name: string;
-          profilePicture: { __typename?: "Image"; id: number };
-        };
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
       };
       proposalAction: {
         __typename?: "ProposalAction";
@@ -3410,14 +3398,10 @@ export type ProposalActionFragment = {
     externalLink?: string | null;
     coverPhoto?: { __typename?: "Image"; id: number } | null;
     host: {
-      __typename?: "ProposalActionEventHost";
+      __typename?: "User";
       id: number;
-      user: {
-        __typename?: "User";
-        id: number;
-        name: string;
-        profilePicture: { __typename?: "Image"; id: number };
-      };
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
     };
     proposalAction: {
       __typename?: "ProposalAction";
@@ -3487,14 +3471,10 @@ export type ProposalActionEventFragment = {
   externalLink?: string | null;
   coverPhoto?: { __typename?: "Image"; id: number } | null;
   host: {
-    __typename?: "ProposalActionEventHost";
+    __typename?: "User";
     id: number;
-    user: {
-      __typename?: "User";
-      id: number;
-      name: string;
-      profilePicture: { __typename?: "Image"; id: number };
-    };
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
   };
   proposalAction: {
     __typename?: "ProposalAction";
@@ -3607,14 +3587,10 @@ export type ProposalCardFragment = {
       externalLink?: string | null;
       coverPhoto?: { __typename?: "Image"; id: number } | null;
       host: {
-        __typename?: "ProposalActionEventHost";
+        __typename?: "User";
         id: number;
-        user: {
-          __typename?: "User";
-          id: number;
-          name: string;
-          profilePicture: { __typename?: "Image"; id: number };
-        };
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
       };
       proposalAction: {
         __typename?: "ProposalAction";
@@ -3757,14 +3733,10 @@ export type CreateProposalMutation = {
           externalLink?: string | null;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
           host: {
-            __typename?: "ProposalActionEventHost";
+            __typename?: "User";
             id: number;
-            user: {
-              __typename?: "User";
-              id: number;
-              name: string;
-              profilePicture: { __typename?: "Image"; id: number };
-            };
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
           };
           proposalAction: {
             __typename?: "ProposalAction";
@@ -3898,14 +3870,10 @@ export type UpdateProposalMutation = {
           externalLink?: string | null;
           coverPhoto?: { __typename?: "Image"; id: number } | null;
           host: {
-            __typename?: "ProposalActionEventHost";
+            __typename?: "User";
             id: number;
-            user: {
-              __typename?: "User";
-              id: number;
-              name: string;
-              profilePicture: { __typename?: "Image"; id: number };
-            };
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
           };
           proposalAction: {
             __typename?: "ProposalAction";
@@ -4055,14 +4023,10 @@ export type ProposalQuery = {
         externalLink?: string | null;
         coverPhoto?: { __typename?: "Image"; id: number } | null;
         host: {
-          __typename?: "ProposalActionEventHost";
+          __typename?: "User";
           id: number;
-          user: {
-            __typename?: "User";
-            id: number;
-            name: string;
-            profilePicture: { __typename?: "Image"; id: number };
-          };
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
         };
         proposalAction: {
           __typename?: "ProposalAction";
@@ -4671,14 +4635,10 @@ export type FollowUserMutation = {
                 externalLink?: string | null;
                 coverPhoto?: { __typename?: "Image"; id: number } | null;
                 host: {
-                  __typename?: "ProposalActionEventHost";
+                  __typename?: "User";
                   id: number;
-                  user: {
-                    __typename?: "User";
-                    id: number;
-                    name: string;
-                    profilePicture: { __typename?: "Image"; id: number };
-                  };
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
                 };
                 proposalAction: {
                   __typename?: "ProposalAction";
@@ -4960,14 +4920,10 @@ export type HomeFeedQuery = {
               externalLink?: string | null;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
               host: {
-                __typename?: "ProposalActionEventHost";
+                __typename?: "User";
                 id: number;
-                user: {
-                  __typename?: "User";
-                  id: number;
-                  name: string;
-                  profilePicture: { __typename?: "Image"; id: number };
-                };
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
               };
               proposalAction: {
                 __typename?: "ProposalAction";
@@ -5090,6 +5046,15 @@ export type MeQuery = {
   };
 };
 
+export type UserByUserIdQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type UserByUserIdQuery = {
+  __typename?: "Query";
+  user: { __typename?: "User"; id: number; name: string };
+};
+
 export type UserProfileQueryVariables = Exact<{
   name?: InputMaybe<Scalars["String"]>;
   isLoggedIn?: InputMaybe<Scalars["Boolean"]>;
@@ -5180,14 +5145,10 @@ export type UserProfileQuery = {
               externalLink?: string | null;
               coverPhoto?: { __typename?: "Image"; id: number } | null;
               host: {
-                __typename?: "ProposalActionEventHost";
+                __typename?: "User";
                 id: number;
-                user: {
-                  __typename?: "User";
-                  id: number;
-                  name: string;
-                  profilePicture: { __typename?: "Image"; id: number };
-                };
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
               };
               proposalAction: {
                 __typename?: "ProposalAction";
@@ -5787,10 +5748,7 @@ export const ProposalActionEventFragmentDoc = gql`
       id
     }
     host {
-      id
-      user {
-        ...UserAvatar
-      }
+      ...UserAvatar
     }
     proposalAction {
       id
@@ -10708,6 +10666,65 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const UserByUserIdDocument = gql`
+  query UserByUserId($id: Int!) {
+    user(id: $id) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useUserByUserIdQuery__
+ *
+ * To run a query within a React component, call `useUserByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserByUserIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserByUserIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UserByUserIdQuery,
+    UserByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserByUserIdQuery, UserByUserIdQueryVariables>(
+    UserByUserIdDocument,
+    options
+  );
+}
+export function useUserByUserIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserByUserIdQuery,
+    UserByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserByUserIdQuery, UserByUserIdQueryVariables>(
+    UserByUserIdDocument,
+    options
+  );
+}
+export type UserByUserIdQueryHookResult = ReturnType<
+  typeof useUserByUserIdQuery
+>;
+export type UserByUserIdLazyQueryHookResult = ReturnType<
+  typeof useUserByUserIdLazyQuery
+>;
+export type UserByUserIdQueryResult = Apollo.QueryResult<
+  UserByUserIdQuery,
+  UserByUserIdQueryVariables
+>;
 export const UserProfileDocument = gql`
   query UserProfile($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {

@@ -1,17 +1,19 @@
-import { Flag, Language, Place, Timer } from "@mui/icons-material";
+import { Flag, Language, Person, Place, Timer } from "@mui/icons-material";
 import { Box, Divider, SxProps, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import humanizeDuration from "humanize-duration";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ProposalActionEventFragment,
   ProposalActionEventInput,
+  useUserByUserIdLazyQuery,
 } from "../../../apollo/gen";
 import { useAboveBreakpoint, useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupEventsTabPath } from "../../../utils/group.utils";
 import { formatDateTime } from "../../../utils/time.utils";
+import { getUserProfilePath } from "../../../utils/user.utils";
 import EventAvatar from "../../Events/EventAvatar";
 import CoverPhoto from "../../Images/CoverPhoto";
 import Accordion, {
@@ -32,6 +34,18 @@ const ProposalActionEvent = ({ event, coverPhotoFile, preview }: Props) => {
   const isProposalPage = asPath.includes("/proposals/");
   const [showEvent, setShowEvent] = useState(!!preview || isProposalPage);
 
+  const [getUserByUserId, { data }] = useUserByUserIdLazyQuery();
+
+  // Fetch user data required for preview
+  useEffect(() => {
+    if (!preview || "id" in event) {
+      return;
+    }
+    getUserByUserId({
+      variables: { id: event.hostId },
+    });
+  }, [preview, event, getUserByUserId]);
+
   const { t } = useTranslation();
   const isDesktop = useIsDesktop();
   const isAboveSmall = useAboveBreakpoint("sm");
@@ -49,8 +63,10 @@ const ProposalActionEvent = ({ event, coverPhotoFile, preview }: Props) => {
 
   const group =
     "proposalAction" in event ? event.proposalAction.proposal.group : undefined;
+  const host = "id" in event ? event.host : data?.user;
 
   const groupEventsTabPath = getGroupEventsTabPath(group?.name || "");
+  const hostPath = getUserProfilePath(host?.name || "");
 
   const startsAtFormatted = formatDateTime(startsAt);
   const endsAtFormatted = dayjs(endsAt).format(" [-] h:mm a");
@@ -141,6 +157,16 @@ const ProposalActionEvent = ({ event, coverPhotoFile, preview }: Props) => {
               {t("events.labels.eventBy")}
               <Link href={groupEventsTabPath} sx={{ marginLeft: "0.4ch" }}>
                 {group.name}
+              </Link>
+            </Typography>
+          )}
+
+          {host && (
+            <Typography color="text.secondary" gutterBottom>
+              <Person sx={iconStyles} />
+              {t("events.labels.host")}:
+              <Link href={hostPath} sx={{ marginLeft: "0.4ch" }}>
+                {host.name}
               </Link>
             </Typography>
           )}
