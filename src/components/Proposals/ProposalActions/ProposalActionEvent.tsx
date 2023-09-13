@@ -119,7 +119,15 @@ const ProposalActionEvent = ({ event, coverPhotoFile, preview }: Props) => {
           {"id" in event && (
             <EventAvatar event={event} size={15} sx={eventAvatarStyles} />
           )}
-          {name}
+          <Typography
+            display="inline-block"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            width={isDesktop ? undefined : "120px"}
+          >
+            {name}
+          </Typography>
         </AccordionSummary>
 
         <AccordionDetails sx={{ marginBottom: isDesktop ? 2.5 : 3 }}>
