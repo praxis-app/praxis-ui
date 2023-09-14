@@ -134,6 +134,9 @@ const JoinButton = ({ groupId, currentUserId, isGroupMember }: Props) => {
             memberCount(existingCount: number) {
               return Math.max(0, existingCount - 1);
             },
+            isJoinedByMe() {
+              return false;
+            },
           },
         });
       },
