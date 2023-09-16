@@ -7,7 +7,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
 
   generates: {
-    "./src/apollo/gen.ts": {
+    "src/apollo/gen.ts": {
       plugins: [
         {
           add: {
@@ -18,14 +18,31 @@ const config: CodegenConfig = {
           },
         },
         "typescript",
+      ],
+    },
+
+    "src/apollo/": {
+      preset: "near-operation-file",
+      presetConfig: {
+        baseTypesPath: "gen.ts",
+        extension: ".generated.ts",
+      },
+      plugins: [
+        {
+          add: {
+            content: `
+              // THIS FILE IS GENERATED, DO NOT EDIT
+              /* eslint-disable */
+            `,
+          },
+        },
         "typescript-operations",
         "typescript-react-apollo",
       ],
-      config: {
-        withHooks: true,
-      },
+      config: { withHooks: true },
     },
-    "./schema.graphql": {
+
+    "schema.graphql": {
       plugins: ["schema-ast"],
     },
   },
