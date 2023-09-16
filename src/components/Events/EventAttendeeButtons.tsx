@@ -3,12 +3,10 @@ import { CheckCircle, Star } from "@mui/icons-material";
 import { ButtonProps, Stack, StackProps, styled } from "@mui/material";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  EventAttendeeButtonsFragment,
-  useCreateEventAttendeeMutation,
-  useDeleteEventAttendeeMutation,
-  useUpdateEventAttendeeMutation,
-} from "../../apollo/gen";
+import { useCreateEventAttendeeMutation } from "../../apollo/events/generated/CreateEventAttendee.mutation";
+import { useDeleteEventAttendeeMutation } from "../../apollo/events/generated/DeleteEventAttendee.mutation";
+import { EventAttendeeButtonsFragment } from "../../apollo/events/generated/EventAttendeeButtons.fragment";
+import { useUpdateEventAttendeeMutation } from "../../apollo/events/generated/UpdateEventAttendee.mutation";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import { Blurple } from "../../styles/theme";
 import GhostButton from "../Shared/GhostButton";

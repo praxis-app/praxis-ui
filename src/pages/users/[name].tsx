@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
-import { useUserProfileQuery } from "../../apollo/gen";
+import { useUserProfileQuery } from "../../apollo/users/generated/UserProfile.query";
 import Feed from "../../components/Shared/Feed";
 import Link from "../../components/Shared/Link";
 import ProgressBar from "../../components/Shared/ProgressBar";

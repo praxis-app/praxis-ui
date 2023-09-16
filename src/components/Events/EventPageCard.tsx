@@ -24,10 +24,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar, toastVar } from "../../apollo/cache";
-import {
-  EventPageCardFragment,
-  useDeleteEventMutation,
-} from "../../apollo/gen";
+import { useDeleteEventMutation } from "../../apollo/events/generated/DeleteEvent.mutation";
+import { EventPageCardFragment } from "../../apollo/events/generated/EventPageCard.fragment";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

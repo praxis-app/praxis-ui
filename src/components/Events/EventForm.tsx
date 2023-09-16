@@ -15,16 +15,15 @@ import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { useCreateEventMutation } from "../../apollo/events/generated/CreateEvent.mutation";
+import { EventFormFragment } from "../../apollo/events/generated/EventForm.fragment";
+import { useUpdateEventMutation } from "../../apollo/events/generated/UpdateEvent.mutation";
+import { CreateEventInput, UpdateEventInput } from "../../apollo/gen";
 import {
-  CreateEventInput,
-  EventFormFragment,
   GroupEventsTabDocument,
   GroupEventsTabQuery,
-  UpdateEventInput,
-  useCreateEventMutation,
-  useGroupMembersByGroupIdQuery,
-  useUpdateEventMutation,
-} from "../../apollo/gen";
+} from "../../apollo/groups/generated/GroupEventsTab.query";
+import { useGroupMembersByGroupIdQuery } from "../../apollo/groups/generated/GroupMembersByGroupId.query";
 import { Blurple } from "../../styles/theme";
 import {
   getRandomString,
