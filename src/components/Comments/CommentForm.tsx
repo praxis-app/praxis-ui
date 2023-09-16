@@ -11,14 +11,11 @@ import { Form, Formik, FormikFormProps, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import {
-  CommentFormFragment,
-  CreateCommentInput,
-  UpdateCommentInput,
-  useCreateCommentMutation,
-  useDeleteImageMutation,
-  useUpdateCommentMutation,
-} from "../../apollo/gen";
+import { CommentFormFragment } from "../../apollo/comments/fragments/gen/CommentForm.fragment";
+import { useCreateCommentMutation } from "../../apollo/comments/mutations/gen/CreateComment.mutation";
+import { useUpdateCommentMutation } from "../../apollo/comments/mutations/gen/UpdateComment.mutation";
+import { CreateCommentInput, UpdateCommentInput } from "../../apollo/gen";
+import { useDeleteImageMutation } from "../../apollo/images/mutations/gen/DeleteImage.mutation";
 import {
   FieldNames,
   KeyCodes,

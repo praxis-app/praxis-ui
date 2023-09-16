@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import { useEventPageQuery } from "../../apollo/gen";
+import { useEventPageQuery } from "../../apollo/events/queries/gen/EventPage.query";
 import EventPageCard from "../../components/Events/EventPageCard";
 import PostForm from "../../components/Posts/PostForm";
 import Breadcrumbs from "../../components/Shared/Breadcrumbs";
