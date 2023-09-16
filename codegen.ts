@@ -7,7 +7,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
 
   generates: {
-    "src/apollo/gen.ts": {
+    "src/apollo/generated/index.ts": {
       plugins: [
         {
           add: {
@@ -24,9 +24,9 @@ const config: CodegenConfig = {
     "src/apollo/": {
       preset: "near-operation-file",
       presetConfig: {
-        baseTypesPath: "gen.ts",
+        baseTypesPath: "generated/index.ts",
+        folder: "../../generated",
         extension: ".ts",
-        folder: "gen",
       },
       plugins: [
         {
