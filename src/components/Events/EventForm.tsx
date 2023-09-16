@@ -285,6 +285,8 @@ const EventForm = ({ editEvent, groupId }: Props) => {
               {t("events.form.endDateAndTime")}
             </Button>
 
+            {loading && <ProgressBar />}
+
             {data && (
               <FormControl
                 error={!!errors.hostId && !!submitCount}
@@ -310,8 +312,6 @@ const EventForm = ({ editEvent, groupId }: Props) => {
                 )}
               </FormControl>
             )}
-
-            {loading && <ProgressBar />}
 
             <FormControl
               error={!!errors.online && !!submitCount}

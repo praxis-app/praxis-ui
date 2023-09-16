@@ -220,6 +220,8 @@ const ProposeEventModal = ({
                 {t("events.form.endDateAndTime")}
               </Button>
 
+              {loading && <ProgressBar />}
+
               {data && (
                 <FormControl
                   error={!!errors.hostId && !!submitCount}
@@ -245,8 +247,6 @@ const ProposeEventModal = ({
                   )}
                 </FormControl>
               )}
-
-              {loading && <ProgressBar />}
 
               <FormControl
                 error={!!errors.online && !!submitCount}
