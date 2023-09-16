@@ -3,11 +3,9 @@ import { Box, MenuItem, SxProps, TableRow } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import {
-  ServerInviteCardFragment,
-  ServerInvitesQuery,
-  useDeleteServerInviteMutation,
-} from "../../apollo/gen";
+import { useDeleteServerInviteMutation } from "../../apollo/invites/generated/DeleteServerInvite.mutation";
+import { ServerInviteCardFragment } from "../../apollo/invites/generated/ServerInviteCard.fragment";
+import { ServerInvitesQuery } from "../../apollo/invites/generated/ServerInvites.query";
 import { copyInviteLink } from "../../utils/server-invite.utils";
 import { timeFromNow } from "../../utils/time.utils";
 import { getUserProfilePath } from "../../utils/user.utils";
