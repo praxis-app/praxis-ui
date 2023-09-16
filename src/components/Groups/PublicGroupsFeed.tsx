@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { usePublicGroupsFeedQuery } from "../../apollo/gen";
+import { usePublicGroupsFeedQuery } from "../../apollo/generated/PublicGroupsFeed.query";
 import { isDeniedAccess } from "../../utils/error.utils";
 import WelcomeCard from "../About/WelcomeCard";
 import Feed from "../Shared/Feed";

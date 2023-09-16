@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
-import { useIsFirstUserQuery } from "../../apollo/gen";
+import { useIsFirstUserQuery } from "../../apollo/generated/IsFirstUser.query";
 import { NavigationPaths } from "../../constants/common.constants";
 import Link from "../Shared/Link";
 

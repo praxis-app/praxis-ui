@@ -6,16 +6,15 @@ import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { CreatePostInput, UpdatePostInput } from "../../apollo/generated";
+import { useCreatePostMutation } from "../../apollo/generated/CreatePost.mutation";
+import { useDeleteImageMutation } from "../../apollo/generated/DeleteImage.mutation";
 import {
-  CreatePostInput,
   HomeFeedDocument,
   HomeFeedQuery,
-  PostFormFragment,
-  UpdatePostInput,
-  useCreatePostMutation,
-  useDeleteImageMutation,
-  useUpdatePostMutation,
-} from "../../apollo/gen";
+} from "../../apollo/generated/HomeFeed.query";
+import { PostFormFragment } from "../../apollo/generated/PostForm.fragment";
+import { useUpdatePostMutation } from "../../apollo/generated/UpdatePost.mutation";
 import {
   FieldNames,
   NavigationPaths,

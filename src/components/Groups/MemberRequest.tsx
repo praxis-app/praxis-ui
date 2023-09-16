@@ -4,14 +4,14 @@ import { ApolloCache, Reference } from "@apollo/client";
 import { Box, Button, styled, Typography } from "@mui/material";
 import produce from "immer";
 import { useTranslation } from "react-i18next";
+import { useApproveGroupMemberRequestMutation } from "../../apollo/generated/ApproveGroupMemberRequest.mutation";
+import { useDenyGroupMemberRequestMutation } from "../../apollo/generated/DenyGroupMemberRequest.mutation";
+import { MemberRequestFragment } from "../../apollo/generated/MemberRequest.fragment";
 import {
-  MemberRequestFragment,
   MemberRequestsDocument,
   MemberRequestsQuery,
   MemberRequestsQueryVariables,
-  useApproveGroupMemberRequestMutation,
-  useDenyGroupMemberRequestMutation,
-} from "../../apollo/gen";
+} from "../../apollo/generated/MemberRequests.query";
 import { TypeNames } from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import SharedFlex from "../Shared/Flex";
