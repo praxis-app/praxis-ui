@@ -353,28 +353,6 @@ const ProposalForm = ({
                   touched={touched}
                   values={values}
                 />
-                <ProposeRoleModal
-                  key={`${values.action.actionType}-${values.groupId}`}
-                  actionType={values.action.actionType}
-                  groupId={values.groupId}
-                  setFieldValue={setFieldValue}
-                  onClose={() => {
-                    setFieldValue("groupId", null);
-                    setFieldValue("action", action);
-                    setSelectInputsKey(getRandomString());
-                  }}
-                />
-                <ProposeEventModal
-                  actionType={values.action.actionType}
-                  currentUserId={currentUserId}
-                  groupId={values.groupId}
-                  onClose={() => {
-                    setFieldValue("groupId", null);
-                    setFieldValue("action", action);
-                    setSelectInputsKey(getRandomString());
-                  }}
-                  setFieldValue={setFieldValue}
-                />
 
                 {values.action.role && (
                   <ProposalActionRole
@@ -443,6 +421,29 @@ const ProposalForm = ({
                 : t("proposals.actions.createProposal")}
             </PrimaryActionButton>
           </Flex>
+
+          <ProposeRoleModal
+            key={`${values.action.actionType}-${values.groupId}`}
+            actionType={values.action.actionType}
+            groupId={values.groupId}
+            setFieldValue={setFieldValue}
+            onClose={() => {
+              setFieldValue("groupId", null);
+              setFieldValue("action", action);
+              setSelectInputsKey(getRandomString());
+            }}
+          />
+          <ProposeEventModal
+            actionType={values.action.actionType}
+            currentUserId={currentUserId}
+            groupId={values.groupId}
+            onClose={() => {
+              setFieldValue("groupId", null);
+              setFieldValue("action", action);
+              setSelectInputsKey(getRandomString());
+            }}
+            setFieldValue={setFieldValue}
+          />
         </Form>
       )}
     </Formik>
