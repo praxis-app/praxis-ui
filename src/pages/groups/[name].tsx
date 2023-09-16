@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import { useGroupProfileQuery } from "../../apollo/gen";
+import { useGroupProfileQuery } from "../../apollo/groups/queries/gen/GroupProfile.query";
 import GroupEventsTab from "../../components/Groups/GroupEventsTab";
 import GroupProfileCard from "../../components/Groups/GroupProfileCard";
 import Feed from "../../components/Shared/Feed";

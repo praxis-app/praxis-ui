@@ -10,7 +10,7 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useMemberRequestsQuery } from "../../../apollo/gen";
+import { useMemberRequestsQuery } from "../../../apollo/groups/queries/gen/MemberRequests.query";
 import MemberRequest from "../../../components/Groups/MemberRequest";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";

@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditServerRoleQuery } from "../../../apollo/gen";
+import { useEditServerRoleQuery } from "../../../apollo/roles/queries/gen/EditServerRole.query";
 import EditRoleTabs from "../../../components/Roles/EditRoleTabs";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
