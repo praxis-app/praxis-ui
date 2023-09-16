@@ -25,8 +25,8 @@ const config: CodegenConfig = {
       preset: "near-operation-file",
       presetConfig: {
         baseTypesPath: "gen.ts",
-        extension: ".generated.ts",
-        folder: "generated",
+        extension: ".ts",
+        folder: "gen",
       },
       plugins: [
         {
