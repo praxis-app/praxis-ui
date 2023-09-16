@@ -12,7 +12,7 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik, FormikErrors } from "formik";
 import produce from "immer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import { useCreateEventMutation } from "../../apollo/events/generated/CreateEvent.mutation";
@@ -23,7 +23,7 @@ import {
   GroupEventsTabDocument,
   GroupEventsTabQuery,
 } from "../../apollo/groups/generated/GroupEventsTab.query";
-import { useGroupMembersByGroupIdQuery } from "../../apollo/groups/generated/GroupMembersByGroupId.query";
+import { useGroupMembersByGroupIdLazyQuery } from "../../apollo/groups/generated/GroupMembersByGroupId.query";
 import { Blurple } from "../../styles/theme";
 import {
   getRandomString,
@@ -73,14 +73,24 @@ const EventForm = ({ editEvent, groupId }: Props) => {
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [showEndsAt, setShowEndsAt] = useState(!!editEvent?.endsAt);
 
-  const { data, loading } = useGroupMembersByGroupIdQuery({
-    variables: { groupId: groupId! },
-    skip: !groupId,
-  });
+  const [getGroupMembers, { data, loading }] =
+    useGroupMembersByGroupIdLazyQuery();
+
   const [createEvent] = useCreateEventMutation();
   const [updateEvent] = useUpdateEventMutation();
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!groupId) {
+      return;
+    }
+    getGroupMembers({
+      variables: {
+        groupId,
+      },
+    });
+  }, [groupId, getGroupMembers]);
 
   const initialValues = {
     name: editEvent ? editEvent.name : "",
