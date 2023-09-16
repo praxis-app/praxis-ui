@@ -81,16 +81,6 @@ $ yarn generate
 
 Read more about [GraphQL Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started).
 
-## Testing
-
-```bash
-# Unit tests
-$ yarn test
-
-# Test coverage
-$ yarn test --coverage
-```
-
 ## Accessibility
 
 Install the following Chrome extension provided by Deque Systems: [axe DevTools - Web Accessibility Testing](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd?hl=en-US)

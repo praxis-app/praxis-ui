@@ -16,12 +16,10 @@ We use github to host code, to track issues and feature requests, as well as acc
 
 Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
-1. Fork the repo and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes.
-5. Make sure your code lints.
-6. Issue that pull request!
+1. Create your branch from `main`.
+2. If you've changed APIs, update the documentation.
+3. Make sure your code lints and is formatted with Prettier.
+4. Issue that pull request!
 
 ## Any contributions you make will be under the GNU General Public License
 
