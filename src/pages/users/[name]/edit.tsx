@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditUserQuery } from "../../../apollo/gen";
+import { useEditUserQuery } from "../../../apollo/users/queries/gen/EditUser.query";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import EditProfileForm from "../../../components/Users/EditProfileForm";
 

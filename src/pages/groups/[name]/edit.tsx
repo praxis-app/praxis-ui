@@ -3,7 +3,7 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditGroupQuery } from "../../../apollo/gen";
+import { useEditGroupQuery } from "../../../apollo/groups/queries/gen/EditGroup.query";
 import GroupForm from "../../../components/Groups/GroupForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";

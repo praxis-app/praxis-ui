@@ -8,7 +8,7 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useFollowersQuery } from "../../../apollo/gen";
+import { useFollowersQuery } from "../../../apollo/users/queries/gen/Followers.query";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 import Follow from "../../../components/Users/Follow";

@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import { useProposalQuery } from "../../apollo/gen";
+import { useProposalQuery } from "../../apollo/proposals/queries/gen/Proposal.query";
 import ProposalCard from "../../components/Proposals/ProposalCard";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { isDeniedAccess } from "../../utils/error.utils";

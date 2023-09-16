@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditPostQuery } from "../../../apollo/gen";
+import { useEditPostQuery } from "../../../apollo/posts/queries/gen/EditPost.query";
 import DeletePostButton from "../../../components/Posts/DeletePostButton";
 import PostForm from "../../../components/Posts/PostForm";
 import Card from "../../../components/Shared/Card";
