@@ -1,7 +1,5 @@
-import {
-  GroupRolePermissionInput,
-  GroupRolePermissionsFragment,
-} from "../../../apollo/gen";
+import { GroupRolePermissionInput } from "../../../apollo/gen";
+import { GroupRolePermissionsFragment } from "../../../apollo/groups/generated/GroupRolePermissions.fragment";
 import PermissionToggle from "../../Roles/PermissionToggle";
 
 interface Props {

@@ -2,7 +2,8 @@ import { CropOriginal } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 import { FormikErrors, FormikTouched } from "formik";
 import { t } from "i18next";
-import { CreateProposalInput, ProposalFormFragment } from "../../../apollo/gen";
+import { CreateProposalInput } from "../../../apollo/gen";
+import { ProposalFormFragment } from "../../../apollo/proposals/generated/ProposalForm.fragment";
 import {
   ProposalActionFieldName,
   ProposalActionType,

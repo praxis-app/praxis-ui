@@ -1,8 +1,6 @@
-import {
-  ProposalActionRoleMemberInput,
-  RoleMemberFragment,
-  UserAvatarFragment,
-} from "../../../apollo/gen";
+import { ProposalActionRoleMemberInput } from "../../../apollo/gen";
+import { RoleMemberFragment } from "../../../apollo/roles/generated/RoleMember.fragment";
+import { UserAvatarFragment } from "../../../apollo/users/generated/UserAvatar.fragment";
 import { ChangeType } from "../../../constants/common.constants";
 import RoleMemberOption from "../../Roles/RoleMemberOption";
 

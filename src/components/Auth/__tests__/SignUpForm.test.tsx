@@ -1,8 +1,8 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import SignUpForm from "../SignUpForm";
-import { useSignUpMutation } from "../../../apollo/gen";
 import { MockedProvider } from "@apollo/client/testing";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { useSignUpMutation } from "../../../apollo/auth/generated/SignUp.mutation";
 import { INVITE_TOKEN } from "../../../constants/server-invite.constants";
+import SignUpForm from "../SignUpForm";
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({

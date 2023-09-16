@@ -2,11 +2,11 @@ import { Box, Switch, Typography } from "@mui/material";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
 import {
-  GroupPermissionsFragment,
   GroupRolePermission,
   GroupRolePermissionInput,
   ProposalActionRoleInput,
 } from "../../../apollo/gen";
+import { GroupPermissionsFragment } from "../../../apollo/groups/generated/GroupPermissions.fragment";
 import theme from "../../../styles/theme";
 import { getPermissionText } from "../../../utils/role.utils";
 import Flex from "../../Shared/Flex";

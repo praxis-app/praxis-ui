@@ -11,7 +11,8 @@ import {
   isRefreshingTokenVar,
 } from "../../cache";
 import client from "../../client";
-import { LogOutDocument, RefreshTokenDocument } from "../../gen";
+import { LogOutDocument } from "../generated/LogOut.mutation";
+import { RefreshTokenDocument } from "../generated/RefreshToken.mutation";
 
 type Callback = (arg: unknown) => void;
 

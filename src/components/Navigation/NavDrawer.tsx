@@ -21,16 +21,14 @@ import { styled, SxProps } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLogOutMutation } from "../../apollo/auth/generated/LogOut.mutation";
 import {
   inviteTokenVar,
   isLoggedInVar,
   isNavDrawerOpenVar,
 } from "../../apollo/cache";
-import {
-  useIsFirstUserQuery,
-  useLogOutMutation,
-  useMeQuery,
-} from "../../apollo/gen";
+import { useIsFirstUserQuery } from "../../apollo/users/generated/IsFirstUser.query";
+import { useMeQuery } from "../../apollo/users/generated/Me.query";
 import { NavigationPaths } from "../../constants/common.constants";
 import { redirectTo as commonRedirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";

@@ -1,11 +1,9 @@
 import { FormikHelpers } from "formik";
 import { useState } from "react";
 import { toastVar } from "../../../apollo/cache";
-import {
-  GroupRoleFragment,
-  useCreateGroupRoleMutation,
-  useUpdateGroupRoleMutation,
-} from "../../../apollo/gen";
+import { useCreateGroupRoleMutation } from "../../../apollo/groups/generated/CreateGroupRole.mutation";
+import { GroupRoleFragment } from "../../../apollo/groups/generated/GroupRole.fragment";
+import { useUpdateGroupRoleMutation } from "../../../apollo/groups/generated/UpdateGroupRole.mutation";
 import { DEFAULT_ROLE_COLOR } from "../../../constants/role.constants";
 import { getRandomString } from "../../../utils/common.utils";
 import RoleForm from "../../Roles/RoleForm";
