@@ -66,7 +66,6 @@ const ImageInput = ({
     <Box marginTop={0.35} {...boxProps}>
       <input
         accept="image/*"
-        data-testid="image-input"
         key={refreshKey}
         multiple={multiple}
         name={name}

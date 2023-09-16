@@ -16,12 +16,10 @@ We use github to host code, to track issues and feature requests, as well as acc
 
 Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
-1. Fork the repo and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes.
-5. Make sure your code lints.
-6. Issue that pull request!
+1. Create your branch from `main`.
+2. If you've changed APIs, update the documentation.
+3. Make sure your code lints and is formatted with Prettier.
+4. Issue that pull request!
 
 ## Any contributions you make will be under the GNU General Public License
 
@@ -44,21 +42,6 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 - What you expected would happen
 - What actually happens
 - Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
-
-## Adding Unit Tests
-
-We use a combination of Jest and React Testing Library to test our components. The idea behind RTL is that we want to test behavior and not implementation, or returned results instead of internal variables.
-
-For instance, we might do the following:
-
-```
-it('should add a user to database', () => {
-  userManager.addUser('james', 'password');
-  expect(userManager.login('james', 'password')).toBe(true);
-});
-```
-
-Here's a [tutorial by Robin Wieruch](https://www.robinwieruch.de/react-testing-library) to help you get started. We also recommend taking a look at [John Au-Yeung's article](https://javascript.plainenglish.io/javascript-unit-test-best-practices-testing-behavior-4d1fd46ae03d) on unit test best practices.
 
 ## Use a Consistent Coding Style
 
