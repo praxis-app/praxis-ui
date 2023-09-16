@@ -26,6 +26,7 @@ const config: CodegenConfig = {
       presetConfig: {
         baseTypesPath: "gen.ts",
         extension: ".generated.ts",
+        folder: "generated",
       },
       plugins: [
         {
