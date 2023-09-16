@@ -1,5 +1,5 @@
 import { styled, Typography } from "@mui/material";
-import { FollowFragment } from "../../apollo/gen";
+import { FollowFragment } from "../../apollo/users/generated/Follow.fragment";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";
 import Link from "../Shared/Link";

@@ -4,15 +4,17 @@ import { Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { ProposalCardFragment } from "../../apollo/proposals/generated/ProposalCard.fragment";
+import { useRolesByGroupIdLazyQuery } from "../../apollo/roles/generated/RolesByGroupId.query";
 import {
   CreateVoteMutation,
-  ProposalCardFragment,
-  UpdateVoteMutation,
   useCreateVoteMutation,
-  useDeleteVoteMutation,
-  useRolesByGroupIdLazyQuery,
+} from "../../apollo/votes/generated/CreateVote.mutation";
+import { useDeleteVoteMutation } from "../../apollo/votes/generated/DeleteVote.mutation";
+import {
+  UpdateVoteMutation,
   useUpdateVoteMutation,
-} from "../../apollo/gen";
+} from "../../apollo/votes/generated/UpdateVote.mutation";
 import { NavigationPaths } from "../../constants/common.constants";
 import {
   ProposalActionType,

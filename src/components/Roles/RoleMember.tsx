@@ -6,12 +6,12 @@ import { IconButton, styled, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { useDeleteGroupRoleMemberMutation } from "../../apollo/groups/generated/DeleteGroupRoleMember.mutation";
 import {
   DeleteServerRoleMemberMutation,
-  RoleMemberFragment,
-  useDeleteGroupRoleMemberMutation,
   useDeleteServerRoleMemberMutation,
-} from "../../apollo/gen";
+} from "../../apollo/roles/generated/DeleteServerRoleMember.mutation";
+import { RoleMemberFragment } from "../../apollo/roles/generated/RoleMember.fragment";
 import { FORBIDDEN, NavigationPaths } from "../../constants/common.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";

@@ -1,7 +1,10 @@
 import { ApolloCache, FetchResult } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import { DeletePostMutation, useDeletePostMutation } from "../../apollo/gen";
+import {
+  DeletePostMutation,
+  useDeletePostMutation,
+} from "../../apollo/posts/generated/DeletePost.mutation";
 import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 import DeleteButton from "../Shared/DeleteButton";

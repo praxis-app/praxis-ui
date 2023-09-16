@@ -3,11 +3,9 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import {
-  EditProfileFormFragment,
-  UpdateUserInput,
-  useUpdateUserMutation,
-} from "../../apollo/gen";
+import { UpdateUserInput } from "../../apollo/gen";
+import { EditProfileFormFragment } from "../../apollo/users/generated/EditProfileForm.fragment";
+import { useUpdateUserMutation } from "../../apollo/users/generated/UpdateUser.mutation";
 import { UserFieldNames } from "../../constants/user.constants";
 import { redirectTo } from "../../utils/common.utils";
 import { getUserProfilePath } from "../../utils/user.utils";

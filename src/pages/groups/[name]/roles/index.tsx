@@ -3,7 +3,7 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useGroupRolesQuery } from "../../../../apollo/gen";
+import { useGroupRolesQuery } from "../../../../apollo/groups/generated/GroupRoles.query";
 import GroupRoleForm from "../../../../components/Groups/GroupRoles/GroupRoleForm";
 import RoleList from "../../../../components/Roles/RoleList";
 import Breadcrumbs from "../../../../components/Shared/Breadcrumbs";

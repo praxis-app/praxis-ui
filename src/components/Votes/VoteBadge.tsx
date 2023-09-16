@@ -1,7 +1,7 @@
 import { SvgIconComponent } from "@mui/icons-material";
 import { SxProps, useTheme } from "@mui/material";
 import { useState } from "react";
-import { VoteFragment } from "../../apollo/gen";
+import { VoteFragment } from "../../apollo/votes/generated/Vote.fragment";
 import { VoteTypes } from "../../constants/vote.constants";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import { Blurple } from "../../styles/theme";

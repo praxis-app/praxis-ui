@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ToggleFormsFragment } from "../../apollo/gen";
+import { ToggleFormsFragment } from "../../apollo/users/generated/ToggleForms.fragment";
 import { DarkMode } from "../../styles/theme";
 import PostForm from "../Posts/PostForm";
 import ProposalForm from "../Proposals/ProposalForm";
