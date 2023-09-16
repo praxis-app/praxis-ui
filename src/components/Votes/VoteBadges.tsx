@@ -6,7 +6,7 @@ import {
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { useMemo, useState } from "react";
-import { VoteBadgesFragment } from "../../apollo/gen";
+import { VoteBadgesFragment } from "../../apollo/votes/generated/VoteBadges.fragment";
 import { VoteTypes } from "../../constants/vote.constants";
 import { filterVotesByType } from "../../utils/vote.utils";
 import Flex from "../Shared/Flex";

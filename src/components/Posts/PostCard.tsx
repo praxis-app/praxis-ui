@@ -13,11 +13,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import {
-  PostCardFragment,
-  useDeletePostMutation,
-  useMeQuery,
-} from "../../apollo/gen";
+import { useDeletePostMutation } from "../../apollo/posts/generated/DeletePost.mutation";
+import { PostCardFragment } from "../../apollo/posts/generated/PostCard.fragment";
+import { useMeQuery } from "../../apollo/users/generated/Me.query";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

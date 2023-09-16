@@ -12,10 +12,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { Form, Formik, FormikErrors } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ProposalActionEventInput,
-  useGroupMembersByGroupIdLazyQuery,
-} from "../../../apollo/gen";
+import { ProposalActionEventInput } from "../../../apollo/gen";
+import { useGroupMembersByGroupIdLazyQuery } from "../../../apollo/groups/generated/GroupMembersByGroupId.query";
 import {
   ProposalActionFieldName,
   ProposalActionType,

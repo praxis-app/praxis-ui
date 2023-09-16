@@ -8,7 +8,8 @@ import {
   TableRow,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { ServerInviteCardFragment, ServerInvitesQuery } from "../../apollo/gen";
+import { ServerInviteCardFragment } from "../../apollo/invites/generated/ServerInviteCard.fragment";
+import { ServerInvitesQuery } from "../../apollo/invites/generated/ServerInvites.query";
 import ServerInviteRow from "../../components/ServerInvites/ServerInviteRow";
 
 export const TableCell = styled(MuiTableCell)(({ theme }) => ({

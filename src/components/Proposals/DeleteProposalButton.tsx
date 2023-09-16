@@ -2,7 +2,7 @@ import { ApolloCache } from "@apollo/client";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
-import { useDeleteProposalMutation } from "../../apollo/gen";
+import { useDeleteProposalMutation } from "../../apollo/proposals/generated/DeleteProposal.mutation";
 import { NavigationPaths, TypeNames } from "../../constants/common.constants";
 import { redirectTo } from "../../utils/common.utils";
 

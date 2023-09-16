@@ -1,31 +1,41 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 require("dotenv").config();
 
+const DO_NOT_EDIT_PLUGIN = {
+  add: {
+    content: `
+      // THIS FILE IS GENERATED, DO NOT EDIT
+      /* eslint-disable */
+    `,
+  },
+};
+
 const config: CodegenConfig = {
   schema: `${process.env.API_URL}/graphql`,
   documents: ["src/apollo/**/*.graphql"],
   ignoreNoDocuments: true,
 
   generates: {
-    "./src/apollo/gen.ts": {
+    "src/apollo/gen.ts": {
+      plugins: [DO_NOT_EDIT_PLUGIN, "typescript"],
+    },
+
+    "src/apollo/": {
+      preset: "near-operation-file",
+      presetConfig: {
+        baseTypesPath: "gen.ts",
+        folder: "../generated",
+        extension: ".ts",
+      },
       plugins: [
-        {
-          add: {
-            content: `
-              // THIS FILE IS GENERATED, DO NOT EDIT
-              /* eslint-disable */
-            `,
-          },
-        },
-        "typescript",
+        DO_NOT_EDIT_PLUGIN,
         "typescript-operations",
         "typescript-react-apollo",
       ],
-      config: {
-        withHooks: true,
-      },
+      config: { withHooks: true },
     },
-    "./schema.graphql": {
+
+    "schema.graphql": {
       plugins: ["schema-ast"],
     },
   },

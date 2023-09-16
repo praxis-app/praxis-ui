@@ -4,16 +4,18 @@ import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { useCancelGroupMemberRequestMutation } from "../../apollo/groups/generated/CancelGroupMemberRequest.mutation";
+import { useCreateGroupMemberRequestMutation } from "../../apollo/groups/generated/CreateGroupMemberRequest.mutation";
 import {
   GroupMemberRequestDocument,
   GroupMemberRequestQuery,
+  useGroupMemberRequestQuery,
+} from "../../apollo/groups/generated/GroupMemberRequest.query";
+import { useLeaveGroupMutation } from "../../apollo/groups/generated/LeaveGroup.mutation";
+import {
   MemberRequestsDocument,
   MemberRequestsQuery,
-  useCancelGroupMemberRequestMutation,
-  useCreateGroupMemberRequestMutation,
-  useGroupMemberRequestQuery,
-  useLeaveGroupMutation,
-} from "../../apollo/gen";
+} from "../../apollo/groups/generated/MemberRequests.query";
 import { TypeNames } from "../../constants/common.constants";
 import GhostButton from "../Shared/GhostButton";
 

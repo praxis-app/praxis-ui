@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { FeedItemFragment } from "../../apollo/gen";
+import { FeedItemFragment } from "../../apollo/posts/generated/FeedItem.fragment";
 import PostCard from "../Posts/PostCard";
 import ProposalCard from "../Proposals/ProposalCard";
 

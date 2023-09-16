@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { inviteTokenVar, isLoggedInVar } from "../../apollo/cache";
-import { useServerInviteQuery } from "../../apollo/gen";
+import { useServerInviteQuery } from "../../apollo/invites/generated/ServerInvite.query";
 import PublicGroupsFeed from "../../components/Groups/PublicGroupsFeed";
 import ProgressBar from "../../components/Shared/ProgressBar";
 import { NavigationPaths } from "../../constants/common.constants";

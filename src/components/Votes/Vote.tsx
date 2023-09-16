@@ -6,7 +6,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { VoteFragment } from "../../apollo/gen";
+import { VoteFragment } from "../../apollo/votes/generated/Vote.fragment";
 import { VoteTypes } from "../../constants/vote.constants";
 import { getUserProfilePath } from "../../utils/user.utils";
 import Flex from "../Shared/Flex";

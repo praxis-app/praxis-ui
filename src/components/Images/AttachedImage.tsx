@@ -1,4 +1,4 @@
-import { AttachedImageFragment } from "../../apollo/gen";
+import { AttachedImageFragment } from "../../apollo/images/generated/AttachedImage.fragment";
 import { getImagePath } from "../../utils/image.utils";
 
 interface Props {

@@ -4,18 +4,18 @@ import { Form, Formik, FormikErrors } from "formik";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSignUpMutation } from "../../apollo/auth/generated/SignUp.mutation";
 import {
   inviteTokenVar,
   isLoggedInVar,
   isNavDrawerOpenVar,
   toastVar,
 } from "../../apollo/cache";
+import { SignUpInput } from "../../apollo/gen";
 import {
   IsFirstUserDocument,
   IsFirstUserQuery,
-  SignUpInput,
-  useSignUpMutation,
-} from "../../apollo/gen";
+} from "../../apollo/users/generated/IsFirstUser.query";
 import AttachedImagePreview from "../../components/Images/AttachedImagePreview";
 import ImageInput from "../../components/Images/ImageInput";
 import Flex from "../../components/Shared/Flex";

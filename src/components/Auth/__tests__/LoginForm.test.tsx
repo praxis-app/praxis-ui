@@ -1,6 +1,6 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { useLoginMutation } from "../../../apollo/gen";
+import { useLoginMutation } from "../../../apollo/auth/generated/Login.mutation";
 import LoginForm from "../LoginForm";
 
 jest.mock("react-i18next", () => ({

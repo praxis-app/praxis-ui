@@ -14,12 +14,12 @@ import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { useDeleteServerInviteMutation } from "../../apollo/invites/generated/DeleteServerInvite.mutation";
+import { ServerInviteCardFragment } from "../../apollo/invites/generated/ServerInviteCard.fragment";
 import {
-  ServerInviteCardFragment,
   ServerInvitesDocument,
   ServerInvitesQuery,
-  useDeleteServerInviteMutation,
-} from "../../apollo/gen";
+} from "../../apollo/invites/generated/ServerInvites.query";
 import { TypeNames } from "../../constants/common.constants";
 import { copyInviteLink } from "../../utils/server-invite.utils";
 import { timeFromNow } from "../../utils/time.utils";

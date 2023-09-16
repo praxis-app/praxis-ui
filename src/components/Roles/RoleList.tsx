@@ -1,5 +1,6 @@
 import { Card, CardContent as MuiCardContent, styled } from "@mui/material";
-import { GroupRoleFragment, ServerRoleFragment } from "../../apollo/gen";
+import { GroupRoleFragment } from "../../apollo/groups/generated/GroupRole.fragment";
+import { ServerRoleFragment } from "../../apollo/roles/generated/ServerRole.fragment";
 import Role from "../../components/Roles/Role";
 
 const CardContent = styled(MuiCardContent)(() => ({

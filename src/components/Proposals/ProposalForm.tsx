@@ -20,16 +20,18 @@ import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
 import {
   CreateProposalInput,
+  ProposalActionInput,
+  UpdateProposalInput,
+} from "../../apollo/gen";
+import { useDeleteImageMutation } from "../../apollo/images/generated/DeleteImage.mutation";
+import { useCreateProposalMutation } from "../../apollo/proposals/generated/CreateProposal.mutation";
+import { ProposalFormFragment } from "../../apollo/proposals/generated/ProposalForm.fragment";
+import { useUpdateProposalMutation } from "../../apollo/proposals/generated/UpdateProposal.mutation";
+import {
   HomeFeedDocument,
   HomeFeedQuery,
-  ProposalActionInput,
-  ProposalFormFragment,
-  UpdateProposalInput,
-  useCreateProposalMutation,
-  useDeleteImageMutation,
-  useMeQuery,
-  useUpdateProposalMutation,
-} from "../../apollo/gen";
+} from "../../apollo/users/generated/HomeFeed.query";
+import { useMeQuery } from "../../apollo/users/generated/Me.query";
 import {
   FieldNames,
   NavigationPaths,

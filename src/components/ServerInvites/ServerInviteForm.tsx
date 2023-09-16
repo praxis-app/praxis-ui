@@ -12,11 +12,11 @@ import { Form, Formik, FormikHelpers } from "formik";
 import produce from "immer";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { useCreateServerInviteMutation } from "../../apollo/invites/generated/CreateServerInvite.mutation";
 import {
   ServerInvitesDocument,
   ServerInvitesQuery,
-  useCreateServerInviteMutation,
-} from "../../apollo/gen";
+} from "../../apollo/invites/generated/ServerInvites.query";
 import { Time } from "../../constants/common.constants";
 import {
   MAX_USES_OPTIONS,

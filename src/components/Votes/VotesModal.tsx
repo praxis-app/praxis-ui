@@ -8,7 +8,7 @@ import {
 import { Box, styled, Tab as MuiTab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { VoteFragment } from "../../apollo/gen";
+import { VoteFragment } from "../../apollo/votes/generated/Vote.fragment";
 import { useIsDesktop } from "../../hooks/common.hooks";
 import { DarkMode } from "../../styles/theme";
 import Modal from "../Shared/Modal";

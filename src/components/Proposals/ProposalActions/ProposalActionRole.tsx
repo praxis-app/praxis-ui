@@ -12,12 +12,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ProposalActionRoleFragment,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
-  useGroupRoleByRoleIdLazyQuery,
-  useUsersByIdsLazyQuery,
 } from "../../../apollo/gen";
+import { useGroupRoleByRoleIdLazyQuery } from "../../../apollo/groups/generated/GroupRoleByRoleId.query";
+import { ProposalActionRoleFragment } from "../../../apollo/proposals/generated/ProposalActionRole.fragment";
+import { useUsersByIdsLazyQuery } from "../../../apollo/users/generated/UsersByIds.query";
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { useIsDesktop } from "../../../hooks/common.hooks";

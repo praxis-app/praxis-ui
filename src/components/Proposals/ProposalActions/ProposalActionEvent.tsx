@@ -5,11 +5,9 @@ import humanizeDuration from "humanize-duration";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ProposalActionEventFragment,
-  ProposalActionEventInput,
-  useUserByUserIdLazyQuery,
-} from "../../../apollo/gen";
+import { ProposalActionEventInput } from "../../../apollo/gen";
+import { ProposalActionEventFragment } from "../../../apollo/proposals/generated/ProposalActionEvent.fragment";
+import { useUserByUserIdLazyQuery } from "../../../apollo/users/generated/UserByUserId.query";
 import { useAboveBreakpoint, useIsDesktop } from "../../../hooks/common.hooks";
 import { getGroupEventsTabPath } from "../../../utils/group.utils";
 import { formatDateTime } from "../../../utils/time.utils";

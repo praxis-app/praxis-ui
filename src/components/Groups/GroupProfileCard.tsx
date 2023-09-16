@@ -20,10 +20,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isLoggedInVar } from "../../apollo/cache";
-import {
-  GroupProfileCardFragment,
-  useDeleteGroupMutation,
-} from "../../apollo/gen";
+import { useDeleteGroupMutation } from "../../apollo/groups/generated/DeleteGroup.mutation";
+import { GroupProfileCardFragment } from "../../apollo/groups/generated/GroupProfileCard.fragment";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

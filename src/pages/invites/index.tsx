@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useTranslation } from "react-i18next";
-import { useServerInvitesQuery } from "../../apollo/gen";
+import { useServerInvitesQuery } from "../../apollo/invites/generated/ServerInvites.query";
 import ServerInviteCard from "../../components/ServerInvites/ServerInviteCard";
 import ServerInviteForm from "../../components/ServerInvites/ServerInviteForm";
 import ServerInviteTable from "../../components/ServerInvites/ServerInviteTable";

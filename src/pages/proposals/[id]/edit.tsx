@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditProposalQuery } from "../../../apollo/gen";
+import { useEditProposalQuery } from "../../../apollo/proposals/generated/EditProposal.query";
 import ProgressBar from "../../../components/Shared/ProgressBar";
 
 const EditProposalPage: NextPage = () => {

@@ -5,7 +5,7 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
-import { UserAvatarFragment } from "../../apollo/gen";
+import { UserAvatarFragment } from "../../apollo/users/generated/UserAvatar.fragment";
 import Flex from "../Shared/Flex";
 import UserAvatar from "../Users/UserAvatar";
 

@@ -8,7 +8,8 @@ import {
 import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { ColorResult } from "react-color";
 import { useTranslation } from "react-i18next";
-import { GroupRoleFragment, ServerRoleFragment } from "../../apollo/gen";
+import { GroupRoleFragment } from "../../apollo/groups/generated/GroupRole.fragment";
+import { ServerRoleFragment } from "../../apollo/roles/generated/ServerRole.fragment";
 import { FieldNames } from "../../constants/common.constants";
 import ColorPicker from "../Shared/ColorPicker";
 import Flex from "../Shared/Flex";

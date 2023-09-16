@@ -10,15 +10,14 @@ import produce from "immer";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toastVar } from "../../apollo/cache";
+import { CreateGroupInput, UpdateGroupInput } from "../../apollo/gen";
+import { useCreateGroupMutation } from "../../apollo/groups/generated/CreateGroup.mutation";
+import { GroupFormFragment } from "../../apollo/groups/generated/GroupForm.fragment";
 import {
-  CreateGroupInput,
-  GroupFormFragment,
   GroupsDocument,
   GroupsQuery,
-  UpdateGroupInput,
-  useCreateGroupMutation,
-  useUpdateGroupMutation,
-} from "../../apollo/gen";
+} from "../../apollo/groups/generated/Groups.query";
+import { useUpdateGroupMutation } from "../../apollo/groups/generated/UpdateGroup.mutation";
 import { FieldNames } from "../../constants/common.constants";
 import { getRandomString, redirectTo } from "../../utils/common.utils";
 import { getGroupPath } from "../../utils/group.utils";

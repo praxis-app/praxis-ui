@@ -9,13 +9,11 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  AddGroupRoleMemberTabFragment,
-  AddServerRoleMemberTabFragment,
-  UserAvatarFragment,
-  useUpdateGroupRoleMutation,
-  useUpdateServerRoleMutation,
-} from "../../apollo/gen";
+import { AddGroupRoleMemberTabFragment } from "../../apollo/groups/generated/AddGroupRoleMemberTab.fragment";
+import { useUpdateGroupRoleMutation } from "../../apollo/groups/generated/UpdateGroupRole.mutation";
+import { AddServerRoleMemberTabFragment } from "../../apollo/roles/generated/AddServerRoleMemberTab.fragment";
+import { useUpdateServerRoleMutation } from "../../apollo/roles/generated/UpdateServerRole.mutation";
+import { UserAvatarFragment } from "../../apollo/users/generated/UserAvatar.fragment";
 import { NavigationPaths } from "../../constants/common.constants";
 import Flex from "../Shared/Flex";
 import Modal from "../Shared/Modal";

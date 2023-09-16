@@ -21,10 +21,10 @@ import {
   GroupRolePermissionInput,
   ProposalActionRoleInput,
   ProposalActionRoleMemberInput,
-  useGroupMembersByGroupIdLazyQuery,
-  useGroupRoleByRoleIdLazyQuery,
-  useGroupRolesByGroupIdLazyQuery,
 } from "../../../apollo/gen";
+import { useGroupMembersByGroupIdLazyQuery } from "../../../apollo/groups/generated/GroupMembersByGroupId.query";
+import { useGroupRoleByRoleIdLazyQuery } from "../../../apollo/groups/generated/GroupRoleByRoleId.query";
+import { useGroupRolesByGroupIdLazyQuery } from "../../../apollo/groups/generated/GroupRolesByGroupId.query";
 import { FieldNames } from "../../../constants/common.constants";
 import {
   ProposalActionFieldName,

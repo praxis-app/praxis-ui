@@ -1,9 +1,7 @@
 import { SxProps, Typography, useTheme } from "@mui/material";
-import {
-  ProposalActionRoleMemberFragment,
-  ProposalActionRoleMemberInput,
-  UserAvatarFragment,
-} from "../../../apollo/gen";
+import { ProposalActionRoleMemberInput } from "../../../apollo/gen";
+import { ProposalActionRoleMemberFragment } from "../../../apollo/proposals/generated/ProposalActionRoleMember.fragment";
+import { UserAvatarFragment } from "../../../apollo/users/generated/UserAvatar.fragment";
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { getUserProfilePath } from "../../../utils/user.utils";

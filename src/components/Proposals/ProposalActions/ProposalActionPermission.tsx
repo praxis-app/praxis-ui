@@ -1,9 +1,7 @@
 import { CheckBox } from "@mui/icons-material";
 import { SxProps, Typography, useTheme } from "@mui/material";
-import {
-  GroupRolePermissionInput,
-  ProposalActionPermissionFragment,
-} from "../../../apollo/gen";
+import { GroupRolePermissionInput } from "../../../apollo/gen";
+import { ProposalActionPermissionFragment } from "../../../apollo/proposals/generated/ProposalActionPermission.fragment";
 import { ChangeType } from "../../../constants/common.constants";
 import { ProposalActionType } from "../../../constants/proposal.constants";
 import { getPermissionText } from "../../../utils/role.utils";

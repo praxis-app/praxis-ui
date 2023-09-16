@@ -16,11 +16,13 @@ import { useTranslation } from "react-i18next";
 import { isLoggedInVar, toastVar } from "../../apollo/cache";
 import {
   DeleteGroupMutation,
-  GroupCardFragment,
+  useDeleteGroupMutation,
+} from "../../apollo/groups/generated/DeleteGroup.mutation";
+import { GroupCardFragment } from "../../apollo/groups/generated/GroupCard.fragment";
+import {
   GroupsDocument,
   GroupsQuery,
-  useDeleteGroupMutation,
-} from "../../apollo/gen";
+} from "../../apollo/groups/generated/Groups.query";
 import {
   MIDDOT_WITH_SPACES,
   NavigationPaths,

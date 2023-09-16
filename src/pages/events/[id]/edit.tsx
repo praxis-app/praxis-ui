@@ -3,7 +3,7 @@ import { truncate } from "lodash";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEditEventQuery } from "../../../apollo/gen";
+import { useEditEventQuery } from "../../../apollo/events/generated/EditEvent.query";
 import EventForm from "../../../components/Events/EventForm";
 import Breadcrumbs from "../../../components/Shared/Breadcrumbs";
 import Card from "../../../components/Shared/Card";

@@ -2,10 +2,8 @@ import { Card, Tab, Tabs } from "@mui/material";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  EditGroupRoleTabsFragment,
-  EditServerRoleTabsFragment,
-} from "../../apollo/gen";
+import { EditGroupRoleTabsFragment } from "../../apollo/groups/generated/EditGroupRoleTabs.fragment";
+import { EditServerRoleTabsFragment } from "../../apollo/roles/generated/EditServerRoleTabs.fragment";
 import { EditRoleTabNames } from "../../constants/role.constants";
 import { useAboveBreakpoint } from "../../hooks/common.hooks";
 import DeleteGroupRoleButton from "../Groups/GroupRoles/DeleteGroupRoleButton";
