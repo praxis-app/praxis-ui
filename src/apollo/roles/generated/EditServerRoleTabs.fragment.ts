@@ -1,3 +1,5 @@
+import * as Types from "../../gen";
+
 import { gql } from "@apollo/client";
 import { ServerRoleFragmentDoc } from "./ServerRole.fragment";
 import { AddServerRoleMemberTabFragmentDoc } from "./AddServerRoleMemberTab.fragment";

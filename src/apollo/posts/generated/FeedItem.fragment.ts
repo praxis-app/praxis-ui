@@ -1,3 +1,5 @@
+import * as Types from "../../gen";
+
 import { gql } from "@apollo/client";
 import { PostCardFragmentDoc } from "./PostCard.fragment";
 import { ProposalCardFragmentDoc } from "../../proposals/generated/ProposalCard.fragment";

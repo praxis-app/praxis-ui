@@ -1,3 +1,5 @@
+import * as Types from "../../gen";
+
 import { gql } from "@apollo/client";
 import { VoteFragmentDoc } from "./Vote.fragment";
 import { VoteBadgeFragmentDoc } from "./VoteBadge.fragment";

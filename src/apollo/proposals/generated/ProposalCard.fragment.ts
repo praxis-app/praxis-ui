@@ -1,3 +1,5 @@
+import * as Types from "../../gen";
+
 import { gql } from "@apollo/client";
 import { ProposalActionFragmentDoc } from "./ProposalAction.fragment";
 import { UserAvatarFragmentDoc } from "../../users/generated/UserAvatar.fragment";

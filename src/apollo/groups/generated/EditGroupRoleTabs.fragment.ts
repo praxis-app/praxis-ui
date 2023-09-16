@@ -1,3 +1,5 @@
+import * as Types from "../../gen";
+
 import { gql } from "@apollo/client";
 import { GroupRoleFragmentDoc } from "./GroupRole.fragment";
 import { AddGroupRoleMemberTabFragmentDoc } from "./AddGroupRoleMemberTab.fragment";

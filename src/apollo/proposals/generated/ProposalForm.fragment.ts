@@ -1,3 +1,5 @@
+import * as Types from "../../gen";
+
 import { gql } from "@apollo/client";
 import { AttachedImageFragmentDoc } from "../../images/generated/AttachedImage.fragment";
 
