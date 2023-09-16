@@ -73,6 +73,7 @@ export type CreateEventInput = {
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
   groupId?: InputMaybe<Scalars["Int"]>;
+  hostId: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
   online?: InputMaybe<Scalars["Boolean"]>;
@@ -210,6 +211,7 @@ export type Event = {
   externalLink?: Maybe<Scalars["String"]>;
   goingCount: Scalars["Int"];
   group?: Maybe<Group>;
+  host: User;
   id: Scalars["Int"];
   images: Array<Image>;
   interestedCount: Scalars["Int"];
@@ -353,6 +355,7 @@ export type Image = {
   post?: Maybe<Post>;
   proposal?: Maybe<Proposal>;
   proposalAction?: Maybe<ProposalAction>;
+  proposalActionEvent?: Maybe<ProposalActionEvent>;
   updatedAt: Scalars["DateTime"];
   user?: Maybe<User>;
 };
@@ -646,6 +649,7 @@ export type ProposalAction = {
   __typename?: "ProposalAction";
   actionType: Scalars["String"];
   createdAt: Scalars["DateTime"];
+  event?: Maybe<ProposalActionEvent>;
   groupCoverPhoto?: Maybe<Image>;
   groupDescription?: Maybe<Scalars["String"]>;
   groupName?: Maybe<Scalars["String"]>;
@@ -655,8 +659,47 @@ export type ProposalAction = {
   updatedAt: Scalars["DateTime"];
 };
 
+export type ProposalActionEvent = {
+  __typename?: "ProposalActionEvent";
+  coverPhoto?: Maybe<Image>;
+  description: Scalars["String"];
+  endsAt?: Maybe<Scalars["DateTime"]>;
+  externalLink?: Maybe<Scalars["String"]>;
+  host: User;
+  hosts: Array<ProposalActionEventHost>;
+  id: Scalars["Int"];
+  location?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online: Scalars["Boolean"];
+  proposalAction: ProposalAction;
+  startsAt: Scalars["DateTime"];
+};
+
+export type ProposalActionEventHost = {
+  __typename?: "ProposalActionEventHost";
+  createdAt: Scalars["DateTime"];
+  event: ProposalActionEvent;
+  id: Scalars["Int"];
+  status: Scalars["String"];
+  updatedAt: Scalars["DateTime"];
+  user: User;
+};
+
+export type ProposalActionEventInput = {
+  coverPhoto?: InputMaybe<Scalars["Upload"]>;
+  description: Scalars["String"];
+  endsAt?: InputMaybe<Scalars["DateTime"]>;
+  externalLink?: InputMaybe<Scalars["String"]>;
+  hostId: Scalars["Int"];
+  location?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
+  online?: InputMaybe<Scalars["Boolean"]>;
+  startsAt: Scalars["DateTime"];
+};
+
 export type ProposalActionInput = {
   actionType: Scalars["String"];
+  event?: InputMaybe<ProposalActionEventInput>;
   groupCoverPhoto?: InputMaybe<Scalars["Upload"]>;
   groupDescription?: InputMaybe<Scalars["String"]>;
   groupName?: InputMaybe<Scalars["String"]>;
@@ -878,6 +921,7 @@ export type UpdateEventInput = {
   description: Scalars["String"];
   endsAt?: InputMaybe<Scalars["DateTime"]>;
   externalLink?: InputMaybe<Scalars["String"]>;
+  hostId?: InputMaybe<Scalars["Int"]>;
   id: Scalars["Int"];
   location?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
@@ -1130,6 +1174,13 @@ export type EventAttendeeButtonsFragment = {
   group?: { __typename?: "Group"; id: number; isJoinedByMe?: boolean } | null;
 };
 
+export type EventAvatarFragment = {
+  __typename?: "Event";
+  id: number;
+  name: string;
+  coverPhoto: { __typename?: "Image"; id: number };
+};
+
 export type EventCompactFragment = {
   __typename?: "Event";
   id: number;
@@ -1160,13 +1211,7 @@ export type EventFormFragment = {
   location?: string | null;
   online: boolean;
   externalLink?: string | null;
-};
-
-export type EventItemAvatarFragment = {
-  __typename?: "Event";
-  id: number;
-  name: string;
-  coverPhoto: { __typename?: "Image"; id: number };
+  host: { __typename?: "User"; id: number };
 };
 
 export type EventPageCardFragment = {
@@ -1175,13 +1220,14 @@ export type EventPageCardFragment = {
   name: string;
   description: string;
   location?: string | null;
-  startsAt: any;
-  endsAt?: any | null;
   online: boolean;
   externalLink?: string | null;
   interestedCount: number;
   goingCount: number;
+  startsAt: any;
+  endsAt?: any | null;
   attendingStatus?: string | null;
+  host: { __typename?: "User"; id: number; name: string };
   coverPhoto: { __typename?: "Image"; id: number };
   group?: {
     __typename?: "Group";
@@ -1277,13 +1323,14 @@ export type UpdateEventMutation = {
       name: string;
       description: string;
       location?: string | null;
-      startsAt: any;
-      endsAt?: any | null;
       online: boolean;
       externalLink?: string | null;
       interestedCount: number;
       goingCount: number;
+      startsAt: any;
+      endsAt?: any | null;
       attendingStatus?: string | null;
+      host: { __typename?: "User"; id: number; name: string };
       coverPhoto: { __typename?: "Image"; id: number };
       group?: {
         __typename?: "Group";
@@ -1339,6 +1386,7 @@ export type EditEventQuery = {
       name: string;
       myPermissions: { __typename?: "GroupPermissions"; manageEvents: boolean };
     } | null;
+    host: { __typename?: "User"; id: number };
   };
 };
 
@@ -1355,12 +1403,12 @@ export type EventPageQuery = {
     name: string;
     description: string;
     location?: string | null;
-    startsAt: any;
-    endsAt?: any | null;
     online: boolean;
     externalLink?: string | null;
     interestedCount: number;
     goingCount: number;
+    startsAt: any;
+    endsAt?: any | null;
     attendingStatus?: string | null;
     posts: Array<{
       __typename?: "Post";
@@ -1419,6 +1467,7 @@ export type EventPageQuery = {
         manageEvents: boolean;
       };
     } | null;
+    host: { __typename?: "User"; id: number; name: string };
     coverPhoto: { __typename?: "Image"; id: number };
   };
   me?: {
@@ -2036,7 +2085,6 @@ export type GroupEventsTabQuery = {
   __typename?: "Query";
   group: {
     __typename?: "Group";
-    name: string;
     futureEvents: Array<{
       __typename?: "Event";
       id: number;
@@ -2217,10 +2265,36 @@ export type GroupProfileQuery = {
             actionType: string;
             groupDescription?: string | null;
             groupName?: string | null;
-            groupCoverPhoto?: {
-              __typename?: "Image";
+            event?: {
+              __typename?: "ProposalActionEvent";
               id: number;
-              filename: string;
+              name: string;
+              description: string;
+              location?: string | null;
+              online: boolean;
+              startsAt: any;
+              endsAt?: any | null;
+              externalLink?: string | null;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+              host: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+              proposalAction: {
+                __typename?: "ProposalAction";
+                id: number;
+                proposal: {
+                  __typename?: "Proposal";
+                  id: number;
+                  group?: {
+                    __typename?: "Group";
+                    id: number;
+                    name: string;
+                  } | null;
+                };
+              };
             } | null;
             role?: {
               __typename?: "ProposalActionRole";
@@ -2260,6 +2334,11 @@ export type GroupProfileQuery = {
                 name: string;
                 color: string;
               } | null;
+            } | null;
+            groupCoverPhoto?: {
+              __typename?: "Image";
+              id: number;
+              filename: string;
             } | null;
           };
           user: {
@@ -2582,10 +2661,36 @@ export type PublicGroupsFeedQuery = {
           actionType: string;
           groupDescription?: string | null;
           groupName?: string | null;
-          groupCoverPhoto?: {
-            __typename?: "Image";
+          event?: {
+            __typename?: "ProposalActionEvent";
             id: number;
-            filename: string;
+            name: string;
+            description: string;
+            location?: string | null;
+            online: boolean;
+            startsAt: any;
+            endsAt?: any | null;
+            externalLink?: string | null;
+            coverPhoto?: { __typename?: "Image"; id: number } | null;
+            host: {
+              __typename?: "User";
+              id: number;
+              name: string;
+              profilePicture: { __typename?: "Image"; id: number };
+            };
+            proposalAction: {
+              __typename?: "ProposalAction";
+              id: number;
+              proposal: {
+                __typename?: "Proposal";
+                id: number;
+                group?: {
+                  __typename?: "Group";
+                  id: number;
+                  name: string;
+                } | null;
+              };
+            };
           } | null;
           role?: {
             __typename?: "ProposalActionRole";
@@ -2625,6 +2730,11 @@ export type PublicGroupsFeedQuery = {
               name: string;
               color: string;
             } | null;
+          } | null;
+          groupCoverPhoto?: {
+            __typename?: "Image";
+            id: number;
+            filename: string;
           } | null;
         };
         user: {
@@ -2834,10 +2944,32 @@ type FeedItem_Proposal_Fragment = {
     actionType: string;
     groupDescription?: string | null;
     groupName?: string | null;
-    groupCoverPhoto?: {
-      __typename?: "Image";
+    event?: {
+      __typename?: "ProposalActionEvent";
       id: number;
-      filename: string;
+      name: string;
+      description: string;
+      location?: string | null;
+      online: boolean;
+      startsAt: any;
+      endsAt?: any | null;
+      externalLink?: string | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      host: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      proposalAction: {
+        __typename?: "ProposalAction";
+        id: number;
+        proposal: {
+          __typename?: "Proposal";
+          id: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
+        };
+      };
     } | null;
     role?: {
       __typename?: "ProposalActionRole";
@@ -2877,6 +3009,11 @@ type FeedItem_Proposal_Fragment = {
         name: string;
         color: string;
       } | null;
+    } | null;
+    groupCoverPhoto?: {
+      __typename?: "Image";
+      id: number;
+      filename: string;
     } | null;
   };
   user: {
@@ -3249,10 +3386,32 @@ export type ProposalActionFragment = {
   actionType: string;
   groupDescription?: string | null;
   groupName?: string | null;
-  groupCoverPhoto?: {
-    __typename?: "Image";
+  event?: {
+    __typename?: "ProposalActionEvent";
     id: number;
-    filename: string;
+    name: string;
+    description: string;
+    location?: string | null;
+    online: boolean;
+    startsAt: any;
+    endsAt?: any | null;
+    externalLink?: string | null;
+    coverPhoto?: { __typename?: "Image"; id: number } | null;
+    host: {
+      __typename?: "User";
+      id: number;
+      name: string;
+      profilePicture: { __typename?: "Image"; id: number };
+    };
+    proposalAction: {
+      __typename?: "ProposalAction";
+      id: number;
+      proposal: {
+        __typename?: "Proposal";
+        id: number;
+        group?: { __typename?: "Group"; id: number; name: string } | null;
+      };
+    };
   } | null;
   role?: {
     __typename?: "ProposalActionRole";
@@ -3293,6 +3452,46 @@ export type ProposalActionFragment = {
       color: string;
     } | null;
   } | null;
+  groupCoverPhoto?: {
+    __typename?: "Image";
+    id: number;
+    filename: string;
+  } | null;
+};
+
+export type ProposalActionEventFragment = {
+  __typename?: "ProposalActionEvent";
+  id: number;
+  name: string;
+  description: string;
+  location?: string | null;
+  online: boolean;
+  startsAt: any;
+  endsAt?: any | null;
+  externalLink?: string | null;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
+  host: {
+    __typename?: "User";
+    id: number;
+    name: string;
+    profilePicture: { __typename?: "Image"; id: number };
+  };
+  proposalAction: {
+    __typename?: "ProposalAction";
+    id: number;
+    proposal: {
+      __typename?: "Proposal";
+      id: number;
+      group?: { __typename?: "Group"; id: number; name: string } | null;
+    };
+  };
+};
+
+export type ProposalActionEventAvatarFragment = {
+  __typename?: "ProposalActionEvent";
+  id: number;
+  name: string;
+  coverPhoto?: { __typename?: "Image"; id: number } | null;
 };
 
 export type ProposalActionPermissionFragment = {
@@ -3376,10 +3575,32 @@ export type ProposalCardFragment = {
     actionType: string;
     groupDescription?: string | null;
     groupName?: string | null;
-    groupCoverPhoto?: {
-      __typename?: "Image";
+    event?: {
+      __typename?: "ProposalActionEvent";
       id: number;
-      filename: string;
+      name: string;
+      description: string;
+      location?: string | null;
+      online: boolean;
+      startsAt: any;
+      endsAt?: any | null;
+      externalLink?: string | null;
+      coverPhoto?: { __typename?: "Image"; id: number } | null;
+      host: {
+        __typename?: "User";
+        id: number;
+        name: string;
+        profilePicture: { __typename?: "Image"; id: number };
+      };
+      proposalAction: {
+        __typename?: "ProposalAction";
+        id: number;
+        proposal: {
+          __typename?: "Proposal";
+          id: number;
+          group?: { __typename?: "Group"; id: number; name: string } | null;
+        };
+      };
     } | null;
     role?: {
       __typename?: "ProposalActionRole";
@@ -3419,6 +3640,11 @@ export type ProposalCardFragment = {
         name: string;
         color: string;
       } | null;
+    } | null;
+    groupCoverPhoto?: {
+      __typename?: "Image";
+      id: number;
+      filename: string;
     } | null;
   };
   user: {
@@ -3495,10 +3721,32 @@ export type CreateProposalMutation = {
         actionType: string;
         groupDescription?: string | null;
         groupName?: string | null;
-        groupCoverPhoto?: {
-          __typename?: "Image";
+        event?: {
+          __typename?: "ProposalActionEvent";
           id: number;
-          filename: string;
+          name: string;
+          description: string;
+          location?: string | null;
+          online: boolean;
+          startsAt: any;
+          endsAt?: any | null;
+          externalLink?: string | null;
+          coverPhoto?: { __typename?: "Image"; id: number } | null;
+          host: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          proposalAction: {
+            __typename?: "ProposalAction";
+            id: number;
+            proposal: {
+              __typename?: "Proposal";
+              id: number;
+              group?: { __typename?: "Group"; id: number; name: string } | null;
+            };
+          };
         } | null;
         role?: {
           __typename?: "ProposalActionRole";
@@ -3538,6 +3786,11 @@ export type CreateProposalMutation = {
             name: string;
             color: string;
           } | null;
+        } | null;
+        groupCoverPhoto?: {
+          __typename?: "Image";
+          id: number;
+          filename: string;
         } | null;
       };
       user: {
@@ -3605,10 +3858,32 @@ export type UpdateProposalMutation = {
         actionType: string;
         groupDescription?: string | null;
         groupName?: string | null;
-        groupCoverPhoto?: {
-          __typename?: "Image";
+        event?: {
+          __typename?: "ProposalActionEvent";
           id: number;
-          filename: string;
+          name: string;
+          description: string;
+          location?: string | null;
+          online: boolean;
+          startsAt: any;
+          endsAt?: any | null;
+          externalLink?: string | null;
+          coverPhoto?: { __typename?: "Image"; id: number } | null;
+          host: {
+            __typename?: "User";
+            id: number;
+            name: string;
+            profilePicture: { __typename?: "Image"; id: number };
+          };
+          proposalAction: {
+            __typename?: "ProposalAction";
+            id: number;
+            proposal: {
+              __typename?: "Proposal";
+              id: number;
+              group?: { __typename?: "Group"; id: number; name: string } | null;
+            };
+          };
         } | null;
         role?: {
           __typename?: "ProposalActionRole";
@@ -3648,6 +3923,11 @@ export type UpdateProposalMutation = {
             name: string;
             color: string;
           } | null;
+        } | null;
+        groupCoverPhoto?: {
+          __typename?: "Image";
+          id: number;
+          filename: string;
         } | null;
       };
       user: {
@@ -3731,10 +4011,32 @@ export type ProposalQuery = {
       actionType: string;
       groupDescription?: string | null;
       groupName?: string | null;
-      groupCoverPhoto?: {
-        __typename?: "Image";
+      event?: {
+        __typename?: "ProposalActionEvent";
         id: number;
-        filename: string;
+        name: string;
+        description: string;
+        location?: string | null;
+        online: boolean;
+        startsAt: any;
+        endsAt?: any | null;
+        externalLink?: string | null;
+        coverPhoto?: { __typename?: "Image"; id: number } | null;
+        host: {
+          __typename?: "User";
+          id: number;
+          name: string;
+          profilePicture: { __typename?: "Image"; id: number };
+        };
+        proposalAction: {
+          __typename?: "ProposalAction";
+          id: number;
+          proposal: {
+            __typename?: "Proposal";
+            id: number;
+            group?: { __typename?: "Group"; id: number; name: string } | null;
+          };
+        };
       } | null;
       role?: {
         __typename?: "ProposalActionRole";
@@ -3774,6 +4076,11 @@ export type ProposalQuery = {
           name: string;
           color: string;
         } | null;
+      } | null;
+      groupCoverPhoto?: {
+        __typename?: "Image";
+        id: number;
+        filename: string;
       } | null;
     };
     user: {
@@ -4316,10 +4623,36 @@ export type FollowUserMutation = {
               actionType: string;
               groupDescription?: string | null;
               groupName?: string | null;
-              groupCoverPhoto?: {
-                __typename?: "Image";
+              event?: {
+                __typename?: "ProposalActionEvent";
                 id: number;
-                filename: string;
+                name: string;
+                description: string;
+                location?: string | null;
+                online: boolean;
+                startsAt: any;
+                endsAt?: any | null;
+                externalLink?: string | null;
+                coverPhoto?: { __typename?: "Image"; id: number } | null;
+                host: {
+                  __typename?: "User";
+                  id: number;
+                  name: string;
+                  profilePicture: { __typename?: "Image"; id: number };
+                };
+                proposalAction: {
+                  __typename?: "ProposalAction";
+                  id: number;
+                  proposal: {
+                    __typename?: "Proposal";
+                    id: number;
+                    group?: {
+                      __typename?: "Group";
+                      id: number;
+                      name: string;
+                    } | null;
+                  };
+                };
               } | null;
               role?: {
                 __typename?: "ProposalActionRole";
@@ -4359,6 +4692,11 @@ export type FollowUserMutation = {
                   name: string;
                   color: string;
                 } | null;
+              } | null;
+              groupCoverPhoto?: {
+                __typename?: "Image";
+                id: number;
+                filename: string;
               } | null;
             };
             user: {
@@ -4570,10 +4908,36 @@ export type HomeFeedQuery = {
             actionType: string;
             groupDescription?: string | null;
             groupName?: string | null;
-            groupCoverPhoto?: {
-              __typename?: "Image";
+            event?: {
+              __typename?: "ProposalActionEvent";
               id: number;
-              filename: string;
+              name: string;
+              description: string;
+              location?: string | null;
+              online: boolean;
+              startsAt: any;
+              endsAt?: any | null;
+              externalLink?: string | null;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+              host: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+              proposalAction: {
+                __typename?: "ProposalAction";
+                id: number;
+                proposal: {
+                  __typename?: "Proposal";
+                  id: number;
+                  group?: {
+                    __typename?: "Group";
+                    id: number;
+                    name: string;
+                  } | null;
+                };
+              };
             } | null;
             role?: {
               __typename?: "ProposalActionRole";
@@ -4613,6 +4977,11 @@ export type HomeFeedQuery = {
                 name: string;
                 color: string;
               } | null;
+            } | null;
+            groupCoverPhoto?: {
+              __typename?: "Image";
+              id: number;
+              filename: string;
             } | null;
           };
           user: {
@@ -4675,6 +5044,15 @@ export type MeQuery = {
     joinedGroups: Array<{ __typename?: "Group"; id: number; name: string }>;
     profilePicture: { __typename?: "Image"; id: number };
   };
+};
+
+export type UserByUserIdQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type UserByUserIdQuery = {
+  __typename?: "Query";
+  user: { __typename?: "User"; id: number; name: string };
 };
 
 export type UserProfileQueryVariables = Exact<{
@@ -4755,10 +5133,36 @@ export type UserProfileQuery = {
             actionType: string;
             groupDescription?: string | null;
             groupName?: string | null;
-            groupCoverPhoto?: {
-              __typename?: "Image";
+            event?: {
+              __typename?: "ProposalActionEvent";
               id: number;
-              filename: string;
+              name: string;
+              description: string;
+              location?: string | null;
+              online: boolean;
+              startsAt: any;
+              endsAt?: any | null;
+              externalLink?: string | null;
+              coverPhoto?: { __typename?: "Image"; id: number } | null;
+              host: {
+                __typename?: "User";
+                id: number;
+                name: string;
+                profilePicture: { __typename?: "Image"; id: number };
+              };
+              proposalAction: {
+                __typename?: "ProposalAction";
+                id: number;
+                proposal: {
+                  __typename?: "Proposal";
+                  id: number;
+                  group?: {
+                    __typename?: "Group";
+                    id: number;
+                    name: string;
+                  } | null;
+                };
+              };
             } | null;
             role?: {
               __typename?: "ProposalActionRole";
@@ -4798,6 +5202,11 @@ export type UserProfileQuery = {
                 name: string;
                 color: string;
               } | null;
+            } | null;
+            groupCoverPhoto?: {
+              __typename?: "Image";
+              id: number;
+              filename: string;
             } | null;
           };
           user: {
@@ -5064,6 +5473,9 @@ export const EventFormFragmentDoc = gql`
     location
     online
     externalLink
+    host {
+      id
+    }
   }
 `;
 export const EventPageCardFragmentDoc = gql`
@@ -5072,13 +5484,17 @@ export const EventPageCardFragmentDoc = gql`
     name
     description
     location
-    startsAt
-    endsAt
     online
     externalLink
     interestedCount
     goingCount
+    startsAt
+    endsAt
     ...EventAttendeeButtons @include(if: $isLoggedIn)
+    host {
+      id
+      name
+    }
     coverPhoto {
       id
     }
@@ -5274,8 +5690,8 @@ export const ServerInviteCardFragmentDoc = gql`
   }
   ${UserAvatarFragmentDoc}
 `;
-export const EventItemAvatarFragmentDoc = gql`
-  fragment EventItemAvatar on Event {
+export const EventAvatarFragmentDoc = gql`
+  fragment EventAvatar on Event {
     id
     name
     coverPhoto {
@@ -5305,7 +5721,7 @@ export const PostCardFragmentDoc = gql`
       isJoinedByMe @include(if: $isLoggedIn)
     }
     event {
-      ...EventItemAvatar
+      ...EventAvatar
       group @include(if: $isLoggedIn) {
         id
         isJoinedByMe
@@ -5316,7 +5732,36 @@ export const PostCardFragmentDoc = gql`
   ${UserAvatarFragmentDoc}
   ${GroupAvatarFragmentDoc}
   ${GroupPermissionsFragmentDoc}
-  ${EventItemAvatarFragmentDoc}
+  ${EventAvatarFragmentDoc}
+`;
+export const ProposalActionEventFragmentDoc = gql`
+  fragment ProposalActionEvent on ProposalActionEvent {
+    id
+    name
+    description
+    location
+    online
+    startsAt
+    endsAt
+    externalLink
+    coverPhoto {
+      id
+    }
+    host {
+      ...UserAvatar
+    }
+    proposalAction {
+      id
+      proposal {
+        id
+        group {
+          id
+          name
+        }
+      }
+    }
+  }
+  ${UserAvatarFragmentDoc}
 `;
 export const ProposalActionPermissionFragmentDoc = gql`
   fragment ProposalActionPermission on ProposalActionPermission {
@@ -5371,15 +5816,19 @@ export const ProposalActionFragmentDoc = gql`
     actionType
     groupDescription
     groupName
-    groupCoverPhoto {
-      ...AttachedImage
+    event {
+      ...ProposalActionEvent
     }
     role {
       ...ProposalActionRole
     }
+    groupCoverPhoto {
+      ...AttachedImage
+    }
   }
-  ${AttachedImageFragmentDoc}
+  ${ProposalActionEventFragmentDoc}
   ${ProposalActionRoleFragmentDoc}
+  ${AttachedImageFragmentDoc}
 `;
 export const VoteMenuFragmentDoc = gql`
   fragment VoteMenu on Proposal {
@@ -5485,6 +5934,15 @@ export const PostFormFragmentDoc = gql`
     }
   }
   ${AttachedImageFragmentDoc}
+`;
+export const ProposalActionEventAvatarFragmentDoc = gql`
+  fragment ProposalActionEventAvatar on ProposalActionEvent {
+    id
+    name
+    coverPhoto {
+      id
+    }
+  }
 `;
 export const ProposalFormFragmentDoc = gql`
   fragment ProposalForm on Proposal {
@@ -7370,7 +7828,6 @@ export type EditGroupRoleQueryResult = Apollo.QueryResult<
 export const GroupEventsTabDocument = gql`
   query GroupEventsTab($groupId: Int!, $isLoggedIn: Boolean!) {
     group(id: $groupId) {
-      name
       futureEvents {
         ...EventCompact
       }
@@ -10209,6 +10666,65 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const UserByUserIdDocument = gql`
+  query UserByUserId($id: Int!) {
+    user(id: $id) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useUserByUserIdQuery__
+ *
+ * To run a query within a React component, call `useUserByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserByUserIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserByUserIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UserByUserIdQuery,
+    UserByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserByUserIdQuery, UserByUserIdQueryVariables>(
+    UserByUserIdDocument,
+    options
+  );
+}
+export function useUserByUserIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserByUserIdQuery,
+    UserByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserByUserIdQuery, UserByUserIdQueryVariables>(
+    UserByUserIdDocument,
+    options
+  );
+}
+export type UserByUserIdQueryHookResult = ReturnType<
+  typeof useUserByUserIdQuery
+>;
+export type UserByUserIdLazyQueryHookResult = ReturnType<
+  typeof useUserByUserIdLazyQuery
+>;
+export type UserByUserIdQueryResult = Apollo.QueryResult<
+  UserByUserIdQuery,
+  UserByUserIdQueryVariables
+>;
 export const UserProfileDocument = gql`
   query UserProfile($name: String, $isLoggedIn: Boolean = true) {
     user(name: $name) {

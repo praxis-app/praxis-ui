@@ -3,15 +3,19 @@ fragment EventPageCard on Event {
   name
   description
   location
-  startsAt
-  endsAt
   online
   externalLink
   interestedCount
   goingCount
+  startsAt
+  endsAt
 
   ...EventAttendeeButtons @include(if: $isLoggedIn)
 
+  host {
+    id
+    name
+  }
   coverPhoto {
     id
   }

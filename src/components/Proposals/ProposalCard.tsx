@@ -79,9 +79,10 @@ const ProposalCard = ({ proposal, inModal, ...cardProps }: Props) => {
   const isProposalPage = asPath.includes(NavigationPaths.Proposals);
 
   const hasMedia =
-    action.groupName ||
-    action.groupDescription ||
+    action.event ||
     action.groupCoverPhoto ||
+    action.groupDescription ||
+    action.groupName ||
     action.role ||
     images.length;
 

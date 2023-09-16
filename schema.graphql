@@ -40,6 +40,7 @@ input CreateEventInput {
   endsAt: DateTime
   externalLink: String
   groupId: Int
+  hostId: Int!
   location: String
   name: String!
   online: Boolean
@@ -169,6 +170,7 @@ type Event {
   externalLink: String
   goingCount: Int!
   group: Group
+  host: User!
   id: Int!
   images: [Image!]!
   interestedCount: Int!
@@ -303,6 +305,7 @@ type Image {
   post: Post
   proposal: Proposal
   proposalAction: ProposalAction
+  proposalActionEvent: ProposalActionEvent
   updatedAt: DateTime!
   user: User
 }
@@ -407,6 +410,7 @@ type Proposal {
 type ProposalAction {
   actionType: String!
   createdAt: DateTime!
+  event: ProposalActionEvent
   groupCoverPhoto: Image
   groupDescription: String
   groupName: String
@@ -416,8 +420,45 @@ type ProposalAction {
   updatedAt: DateTime!
 }
 
+type ProposalActionEvent {
+  coverPhoto: Image
+  description: String!
+  endsAt: DateTime
+  externalLink: String
+  host: User!
+  hosts: [ProposalActionEventHost!]!
+  id: Int!
+  location: String
+  name: String!
+  online: Boolean!
+  proposalAction: ProposalAction!
+  startsAt: DateTime!
+}
+
+type ProposalActionEventHost {
+  createdAt: DateTime!
+  event: ProposalActionEvent!
+  id: Int!
+  status: String!
+  updatedAt: DateTime!
+  user: User!
+}
+
+input ProposalActionEventInput {
+  coverPhoto: Upload
+  description: String!
+  endsAt: DateTime
+  externalLink: String
+  hostId: Int!
+  location: String
+  name: String!
+  online: Boolean
+  startsAt: DateTime!
+}
+
 input ProposalActionInput {
   actionType: String!
+  event: ProposalActionEventInput
   groupCoverPhoto: Upload
   groupDescription: String
   groupName: String
@@ -583,6 +624,7 @@ input UpdateEventInput {
   description: String!
   endsAt: DateTime
   externalLink: String
+  hostId: Int
   id: Int!
   location: String
   name: String!

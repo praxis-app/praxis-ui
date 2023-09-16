@@ -22,10 +22,15 @@ import {
   GroupEventsTabQuery,
   UpdateEventInput,
   useCreateEventMutation,
+  useGroupMembersByGroupIdQuery,
   useUpdateEventMutation,
 } from "../../apollo/gen";
 import { Blurple } from "../../styles/theme";
-import { getRandomString, redirectTo } from "../../utils/common.utils";
+import {
+  getRandomString,
+  isValidUrl,
+  redirectTo,
+} from "../../utils/common.utils";
 import { getEventPath } from "../../utils/event.utils";
 import { startOfNextHour } from "../../utils/time.utils";
 import AttachedImagePreview from "../Images/AttachedImagePreview";
@@ -33,6 +38,7 @@ import ImageInput from "../Images/ImageInput";
 import DateTimePicker from "../Shared/DateTimePicker";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
+import ProgressBar from "../Shared/ProgressBar";
 import { TextField } from "../Shared/TextField";
 
 export enum EventFormFieldName {
@@ -43,7 +49,20 @@ export enum EventFormFieldName {
   StartsAt = "startsAt",
   EndsAt = "endsAt",
   Online = "online",
+  HostId = "hostId",
 }
+
+export const SHOW_ENDS_AT_BUTTON_STYLES: SxProps = {
+  color: Blurple.SkyDancer,
+  padding: 0,
+  textTransform: "none",
+  width: "fit-content",
+  "&.MuiButtonBase-root:hover": {
+    bgcolor: "transparent",
+    textDecoration: "underline",
+  },
+  marginBottom: 0.8,
+};
 
 interface Props {
   editEvent?: EventFormFragment;
@@ -55,6 +74,10 @@ const EventForm = ({ editEvent, groupId }: Props) => {
   const [coverPhoto, setCoverPhoto] = useState<File>();
   const [showEndsAt, setShowEndsAt] = useState(!!editEvent?.endsAt);
 
+  const { data, loading } = useGroupMembersByGroupIdQuery({
+    variables: { groupId: groupId! },
+    skip: !groupId,
+  });
   const [createEvent] = useCreateEventMutation();
   const [updateEvent] = useUpdateEventMutation();
 
@@ -68,18 +91,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     location: editEvent ? editEvent.location : "",
     online: editEvent ? editEvent.online : null,
     externalLink: editEvent ? editEvent.externalLink : "",
-  };
-
-  const showEndsAtButtonStyles: SxProps = {
-    color: Blurple.SkyDancer,
-    padding: 0,
-    textTransform: "none",
-    width: "fit-content",
-    "&.MuiButtonBase-root:hover": {
-      bgcolor: "transparent",
-      textDecoration: "underline",
-    },
-    marginBottom: 0.8,
+    hostId: editEvent ? editEvent.host.id : 0,
   };
 
   const handleCreate = async (formValues: CreateEventInput) =>
@@ -194,6 +206,8 @@ const EventForm = ({ editEvent, groupId }: Props) => {
 
   const validate = ({
     description,
+    externalLink,
+    hostId,
     location,
     name,
     online,
@@ -211,6 +225,12 @@ const EventForm = ({ editEvent, groupId }: Props) => {
     if (online === false && !location) {
       errors.location = t("events.errors.missingLocation");
     }
+    if (externalLink && !isValidUrl(externalLink)) {
+      errors.externalLink = t("events.errors.invalidLink");
+    }
+    if (!hostId) {
+      errors.hostId = t("events.errors.missingHost");
+    }
     return errors;
   };
 
@@ -223,6 +243,7 @@ const EventForm = ({ editEvent, groupId }: Props) => {
       {({
         dirty,
         errors,
+        handleChange,
         isSubmitting,
         setFieldValue,
         submitCount,
@@ -258,11 +279,39 @@ const EventForm = ({ editEvent, groupId }: Props) => {
             )}
             <Button
               onClick={handleShowEndsAtButtonClick(values, setFieldValue)}
-              sx={showEndsAtButtonStyles}
+              sx={SHOW_ENDS_AT_BUTTON_STYLES}
               startIcon={<Add />}
             >
               {t("events.form.endDateAndTime")}
             </Button>
+
+            {loading && <ProgressBar />}
+
+            {data && (
+              <FormControl
+                error={!!errors.hostId && !!submitCount}
+                sx={{ marginBottom: 1 }}
+                variant="standard"
+              >
+                <InputLabel>{t("events.labels.selectHost")}</InputLabel>
+                <Select
+                  name={EventFormFieldName.HostId}
+                  onChange={handleChange}
+                  value={values.hostId || ""}
+                >
+                  {data.group.members.map(({ id, name }) => (
+                    <MenuItem value={id} key={id}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {!!(errors.hostId && submitCount) && (
+                  <Typography color="error" fontSize="small" marginTop={0.5}>
+                    {errors.hostId}
+                  </Typography>
+                )}
+              </FormControl>
+            )}
 
             <FormControl
               error={!!errors.online && !!submitCount}

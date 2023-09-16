@@ -20,7 +20,7 @@ fragment PostCard on Post {
     isJoinedByMe @include(if: $isLoggedIn)
   }
   event {
-    ...EventItemAvatar
+    ...EventAvatar
     group @include(if: $isLoggedIn) {
       id
       isJoinedByMe

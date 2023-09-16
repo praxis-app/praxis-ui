@@ -118,8 +118,8 @@ const ProposalActionRole = ({
 
   const accordionSummary =
     actionType === ProposalActionType.CreateRole
-      ? t("proposals.labels.proposedRole")
-      : t("proposals.labels.proposedRoleChange");
+      ? t("proposals.labels.roleProposal")
+      : t("proposals.labels.roleChangeProposal");
 
   const accordionStyles: SxProps = {
     backgroundColor: "rgb(0, 0, 0, 0.1)",

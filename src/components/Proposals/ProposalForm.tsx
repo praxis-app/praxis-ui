@@ -46,8 +46,10 @@ import ImageInput from "../Images/ImageInput";
 import Flex from "../Shared/Flex";
 import PrimaryActionButton from "../Shared/PrimaryActionButton";
 import TextFieldWithAvatar from "../Shared/TextFieldWithAvatar";
+import ProposalActionEvent from "./ProposalActions/ProposalActionEvent";
 import ProposalActionFields from "./ProposalActions/ProposalActionFields";
 import ProposalActionRole from "./ProposalActions/ProposalActionRole";
+import ProposeEventModal from "./ProposalActions/ProposeEventModal";
 import ProposeRoleModal from "./ProposalActions/ProposeRoleModal";
 
 type ProposalFormErrors = {
@@ -56,11 +58,17 @@ type ProposalFormErrors = {
 };
 
 interface Props extends FormikFormProps {
+  currentUserId: number;
   editProposal?: ProposalFormFragment;
   groupId?: number;
 }
 
-const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
+const ProposalForm = ({
+  currentUserId,
+  editProposal,
+  groupId,
+  ...formProps
+}: Props) => {
   const [clicked, setClicked] = useState(false);
   const [selectInputsKey, setSelectInputsKey] = useState("");
   const { data } = useMeQuery();
@@ -345,23 +353,20 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                   touched={touched}
                   values={values}
                 />
-                <ProposeRoleModal
-                  key={`${values.action.actionType}-${values.groupId}`}
-                  actionType={values.action.actionType}
-                  groupId={values.groupId}
-                  setFieldValue={setFieldValue}
-                  onClose={() => {
-                    setFieldValue("groupId", null);
-                    setFieldValue("action", action);
-                    setSelectInputsKey(getRandomString());
-                  }}
-                />
 
                 {values.action.role && (
                   <ProposalActionRole
                     actionType={values.action.actionType as ProposalActionType}
                     role={values.action.role}
                     marginTop={3}
+                    preview
+                  />
+                )}
+
+                {values.action.event && (
+                  <ProposalActionEvent
+                    coverPhotoFile={values.action.event.coverPhoto}
+                    event={values.action.event}
                     preview
                   />
                 )}
@@ -416,6 +421,29 @@ const ProposalForm = ({ editProposal, groupId, ...formProps }: Props) => {
                 : t("proposals.actions.createProposal")}
             </PrimaryActionButton>
           </Flex>
+
+          <ProposeRoleModal
+            key={`${values.action.actionType}-${values.groupId}`}
+            actionType={values.action.actionType}
+            groupId={values.groupId}
+            setFieldValue={setFieldValue}
+            onClose={() => {
+              setFieldValue("groupId", null);
+              setFieldValue("action", action);
+              setSelectInputsKey(getRandomString());
+            }}
+          />
+          <ProposeEventModal
+            actionType={values.action.actionType}
+            currentUserId={currentUserId}
+            groupId={values.groupId}
+            onClose={() => {
+              setFieldValue("groupId", null);
+              setFieldValue("action", action);
+              setSelectInputsKey(getRandomString());
+            }}
+            setFieldValue={setFieldValue}
+          />
         </Form>
       )}
     </Formik>

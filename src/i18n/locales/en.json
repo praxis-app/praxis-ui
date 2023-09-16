@@ -101,8 +101,9 @@
       "proposedGroupCoverPhoto": "Proposed group cover photo",
       "proposedGroupDescription": "Proposed group description",
       "proposedGroupName": "Proposed group name",
-      "proposedRole": "Proposed role",
-      "proposedRoleChange": "Role change",
+      "roleProposal": "Role proposal",
+      "eventProposal": "Event proposal",
+      "roleChangeProposal": "Role change proposal",
       "ratified": "Ratified",
       "selectRoleToChange": "Choose a role",
       "usersProposal": "{{name}}'s Proposal"
@@ -304,13 +305,15 @@
     },
     "labels": {
       "duration": "Duration: {{duration}}",
-      "onlineWithColon": "Online:",
       "eventBy": "Event by",
       "going": "Going",
+      "host": "Host",
       "interested": "Interested",
       "online": "Online",
       "onlineEvent": "Online Event",
+      "onlineWithColon": "Online:",
       "past": "Past",
+      "selectHost": "Choose a host",
       "thisWeek": "This Week",
       "upcoming": "Upcoming"
     },
@@ -325,10 +328,12 @@
     "errors": {
       "couldNotCreate": "Event could not be created",
       "couldNotUpdate": "Event could not be updated",
-      "missingName": "Event name cannot be empty",
       "missingDetails": "Event details cannot be empty",
+      "missingHost": "Event must have a host",
+      "missingLocation": "Location cannot be empty for in person events",
+      "missingName": "Event name cannot be empty",
       "onlineOrOffline": "Event must be either virtual or in person",
-      "missingLocation": "Location cannot be empty for in person events"
+      "invalidLink": "External link must be a valid URL"
     },
     "tabs": {
       "about": "About",

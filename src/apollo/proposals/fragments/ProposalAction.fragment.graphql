@@ -4,11 +4,15 @@ fragment ProposalAction on ProposalAction {
   groupDescription
   groupName
 
-  groupCoverPhoto {
-    ...AttachedImage
+  event {
+    ...ProposalActionEvent
   }
 
   role {
     ...ProposalActionRole
+  }
+
+  groupCoverPhoto {
+    ...AttachedImage
   }
 }
